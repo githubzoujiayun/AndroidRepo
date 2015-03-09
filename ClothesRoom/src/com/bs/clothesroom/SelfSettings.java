@@ -21,6 +21,19 @@ public class SelfSettings extends GeneralFragment{
 	private String mPassword;
 
 	private LoginListener mLoginListener;
+    private TextView mUser;
+    private TextView mAge;
+    private TextView mSex;
+    private TextView mEmail;
+    private TextView mWork;
+    private TextView mWeight;
+    private TextView mHeight;
+    private TextView mBust;
+    private TextView mWaist;
+    private TextView mHips;
+    private LinearLayout mBtns;
+    private Button mLogin;
+    private Button mRegister;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +54,7 @@ public class SelfSettings extends GeneralFragment{
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		showUserInfo();
 	}
 
 	@Override
@@ -52,31 +65,42 @@ public class SelfSettings extends GeneralFragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.self_settings, container,false);
-		showUserInfo(v);
-		return v;
+		View parent = inflater.inflate(R.layout.self_settings, container,false);
+		
+		mUser = (TextView) parent.findViewById(R.id.username);
+        mAge = (TextView) parent.findViewById(R.id.age);
+        mSex = (TextView) parent.findViewById(R.id.sex);
+        mEmail = (TextView) parent.findViewById(R.id.email);
+        mWork = (TextView) parent.findViewById(R.id.work);
+        mWeight = (TextView) parent.findViewById(R.id.weight);
+        mHeight = (TextView) parent.findViewById(R.id.height);
+        mBust = (TextView) parent.findViewById(R.id.bust);
+        mWaist = (TextView) parent.findViewById(R.id.waist);
+        mHips = (TextView) parent.findViewById(R.id.hips);
+        mBtns = (LinearLayout) parent.findViewById(R.id.btns);
+        mLogin = (Button) parent.findViewById(R.id.login);
+        mRegister = (Button) parent.findViewById(R.id.register);
+        mLogin.setOnClickListener(mLoginListener);
+        mRegister.setOnClickListener(mLoginListener);
+		return parent;
 	}
 	
-	private void showUserInfo(View parent) {
-		TextView username = (TextView) parent.findViewById(R.id.username);
-		TextView age = (TextView) parent.findViewById(R.id.age);
-		TextView sex = (TextView) parent.findViewById(R.id.sex);
-		TextView email = (TextView) parent.findViewById(R.id.email);
-		TextView work = (TextView) parent.findViewById(R.id.work);
-		LinearLayout btns = (LinearLayout) parent.findViewById(R.id.btns);
+	private void showUserInfo() {
+		
 		if (isLogin()) {
-			btns.setVisibility(View.GONE);
+		    mBtns.setVisibility(View.GONE);
 		} else {
-			btns.setVisibility(View.VISIBLE);
-			Button login = (Button) parent.findViewById(R.id.login);
-			Button register = (Button) parent.findViewById(R.id.register);
-			login.setOnClickListener(mLoginListener);
-			register.setOnClickListener(mLoginListener);
-			username.setText(formateString(R.string.self_label_username, ""));
-			sex.setText(formateString(R.string.self_label_sex, ""));
-			age.setText(formateString(R.string.self_label_age, ""));
-			email.setText(formateString(R.string.self_label_email, ""));
-			work.setText(formateString(R.string.self_label_work, ""));
+		    mBtns.setVisibility(View.VISIBLE);
+			mUser.setText(formateString(R.string.self_label_username, ""));
+			mSex.setText(formateString(R.string.self_label_sex, ""));
+			mAge.setText(formateString(R.string.self_label_age, ""));
+			mEmail.setText(formateString(R.string.self_label_email, ""));
+			mWork.setText(formateString(R.string.self_label_work, ""));
+			mWeight.setText(formateString(R.string.self_label_weight, ""));
+			mHeight.setText(formateString(R.string.self_label_height, ""));
+			mBust.setText(formateString(R.string.self_label_bust, ""));
+			mWaist.setText(formateString(R.string.self_label_waist, ""));
+			mHips.setText(formateString(R.string.self_label_hips, ""));
 		}
 	}
 	
@@ -114,15 +138,6 @@ public class SelfSettings extends GeneralFragment{
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-	}
-	
-	public void setTitle(int id) {
-		final String title = getResources().getString(id);
-		getActivity().setTitle(title);
-	}
-	
-	public void setTitle(CharSequence title) {
-		getActivity().setTitle(title);
 	}
 
 	private boolean isLogin() {

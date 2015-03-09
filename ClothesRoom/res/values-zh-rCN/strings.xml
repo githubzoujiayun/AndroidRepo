@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">试衣间</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="hint_username">用户名</string>
+    <string name="hint_password">密码</string>
+    <string name="hint_sex">性别</string>
+    <string name="hint_age">年龄</string>
+    <string name="hint_email">请输入您的密码</string>
+    <string name="hint_height">请输入您的身高</string>
+    <string name="hint_working">您的工作是什么</string>
+    <string name="hint_middle">腰围</string>
+    <string name="hint_bust">胸围</string>
+    <string name="age_prompt">选择年龄</string>
+    <string name="sex_prompt">选择性别</string>
+	<string name="login">登陆</string>
+	<string name="register">注册</string>
+	<string name="unlogin">未登陆</string>
+	<string name="label_username">用户名 :</string>
+	<string name="label_sex">性别 :</string>
+	<string name="label_age">年龄 :</string>
+	<string name="label_email">电子邮件 :</string>
+	<string name="label_working">工作 :</string>
+	<string name="self_label_work">工作\t\t:\t %1$s</string>
+	<string name="self_label_email">电子邮件\t\t:\t %1$s</string>
+	<string name="self_label_age">年龄\t\t:\t %1$s</string>
+	<string name="self_label_sex">性别\t\t:\t %1$s</string>
+	<string name="self_label_username">用户名\t\t:\t %1$s</string>
+	<string name="self_label_weight">体重\t\t:\t %1$s</string>
+	<string name="self_label_height">身高\t\t:\t %1$s</string>
+	<string name="self_label_bust">胸围\t\t:\t %1$s</string>
+	<string name="self_label_waist">腰围\t\t:\t %1$s</string>
+	<string name="self_label_hips">臂围\t\t:\t %1$s</string>
+	<string name="self_label_breadth">肩宽:\t\t:\t %1$s</string>
+	<string name="tab_home_page">主页</string>
+	<string name="tab_rack">我的衣架</string>
+	<string name="tab_collocation">搭配推荐</string>
+	<string name="tab_self">我</string>
+</resources>

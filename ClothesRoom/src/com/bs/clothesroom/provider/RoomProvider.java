@@ -23,14 +23,14 @@ public class RoomProvider extends ContentProvider{
     private static final int USERS = 1;
     private static final int USERS_ID = 2;
     private static final int MEDIA_FILES = 3;
-    private static final int MEDIA_FILE_ID = 4;
+    private static final int MEDIA_FILES_ID = 4;
     
     private static final UriMatcher mUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
         mUriMatcher.addURI(PROVIDER_NAME, "/users", USERS);
         mUriMatcher.addURI(PROVIDER_NAME, "/users/#", USERS_ID);
         mUriMatcher.addURI(PROVIDER_NAME, "/medias", MEDIA_FILES);
-        mUriMatcher.addURI(PROVIDER_NAME, "/medias/#", MEDIA_FILE_ID);
+        mUriMatcher.addURI(PROVIDER_NAME, "/medias/#", MEDIA_FILES_ID);
     }
     
     private DatabaseHelper mHelper = null;
@@ -136,7 +136,7 @@ public class RoomProvider extends ContentProvider{
                 
                 break;
             }
-            case MEDIA_FILE_ID:{
+            case MEDIA_FILES_ID:{
                 _id = uri.getPathSegments().get(1);
                 c = mDb.query(TABLE_NAME_USERS, projection, selection, selectionArgs, null, null, orderBy);
                 break;

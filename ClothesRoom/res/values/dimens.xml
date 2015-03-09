@@ -2,4 +2,5 @@
 <resources>
     <dimen name="dimen_self_label">18sp</dimen>
     <dimen name="dimen_self_margin_top">10dp</dimen>
+    <dimen name="dimen_self_margin_left">10dp</dimen>
 </resources>

@@ -13,17 +13,15 @@ public class Main extends GeneralActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		setupTabHost();
-//		setContentView(mTabHost);
 	}
 
 	private void setupTabHost() {
 		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-//		mTabHost = new FragmentTabHost(this);
 		mTabHost.setup(this,getSupportFragmentManager(),R.id.realtabcontent);
-		mTabHost.addTab(mTabHost.newTabSpec("HomePage").setIndicator("HomePage"),HomePage.class,new Bundle());
-		mTabHost.addTab(mTabHost.newTabSpec("rack").setIndicator("rack"),Rack.class,null);
-		mTabHost.addTab(mTabHost.newTabSpec("Collocation").setIndicator("Collocation"),Collocation.class,null);
-		mTabHost.addTab(mTabHost.newTabSpec("Self").setIndicator("Self"),SelfSettings.class,null);
+		mTabHost.addTab(mTabHost.newTabSpec("HomePage").setIndicator(getString(R.string.tab_home_page)),HomePage.class,new Bundle());
+		mTabHost.addTab(mTabHost.newTabSpec("Rack").setIndicator(getString(R.string.tab_rack)),Rack.class,null);
+		mTabHost.addTab(mTabHost.newTabSpec("Collocation").setIndicator(getString(R.string.tab_collocation)),Collocation.class,null);
+		mTabHost.addTab(mTabHost.newTabSpec("Self").setIndicator(getString(R.string.tab_self)),SelfSettings.class,null);
 	}
 
 	@Override
