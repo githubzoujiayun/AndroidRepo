@@ -26,6 +26,10 @@
         <activity
             android:name="com.bs.clothesroom.GeneralActivity"
             />
+        <provider android:name="com.bs.clothesroom.provider.RoomProvider"
+            android:authorities="com.bs.clothesroom.RoomProvider"
+            android:exported="false">
+        </provider>
     </application>
 
 </manifest>

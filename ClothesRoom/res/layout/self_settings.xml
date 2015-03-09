@@ -13,7 +13,7 @@
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/dimen_self_margin_top"
             android:text="@string/self_label_username"
             android:textSize="@dimen/dimen_self_label" />
 
@@ -21,7 +21,7 @@
             android:id="@+id/sex"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/dimen_self_margin_top"
             android:text="@string/self_label_sex"
             android:textSize="@dimen/dimen_self_label" />
 
@@ -29,7 +29,7 @@
             android:id="@+id/age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/dimen_self_margin_top"
             android:text="@string/self_label_age"
             android:textSize="@dimen/dimen_self_label" />
 
@@ -37,7 +37,7 @@
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/dimen_self_margin_top"
             android:text="@string/self_label_email"
             android:textSize="@dimen/dimen_self_label" />
 
@@ -45,11 +45,49 @@
             android:id="@+id/work"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/dimen_self_margin_top"
             android:text="@string/self_label_work"
             android:textSize="@dimen/dimen_self_label" />
         
+        <TextView
+            android:id="@+id/weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_self_margin_top"
+            android:text="@string/self_label_weight"
+            android:textSize="@dimen/dimen_self_label" />
         
+        <TextView
+            android:id="@+id/height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_self_margin_top"
+            android:text="@string/self_label_height"
+            android:textSize="@dimen/dimen_self_label" />
+        
+        <TextView
+            android:id="@+id/bust"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_self_margin_top"
+            android:text="@string/self_label_bust"
+            android:textSize="@dimen/dimen_self_label" />
+        
+        <TextView
+            android:id="@+id/waist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_self_margin_top"
+            android:text="@string/self_label_waist"
+            android:textSize="@dimen/dimen_self_label" />
+        
+        <TextView
+            android:id="@+id/hips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_self_margin_top"
+            android:text="@string/self_label_hips"
+            android:textSize="@dimen/dimen_self_label" />
         
         <LinearLayout
             android:id="@+id/btns"
@@ -58,6 +96,7 @@
             android:layout_marginTop="50dp"
             android:weightSum="2"
             android:orientation="horizontal"
+            android:visibility="gone"
             >
             <Button 
                 android:id="@+id/login"
@@ -74,9 +113,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/register"
                 />
-            
         </LinearLayout>
-
     </LinearLayout>
-
 </ScrollView>

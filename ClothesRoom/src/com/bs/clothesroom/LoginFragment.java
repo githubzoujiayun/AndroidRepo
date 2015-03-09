@@ -1,5 +1,10 @@
 package com.bs.clothesroom;
 
+import com.bs.clothesroom.provider.RoomProvider;
+
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -37,7 +42,10 @@ public class LoginFragment extends GeneralFragment implements OnClickListener {
 			GeneralActivity.startRegister(getActivity());
 			getActivity().finish(); 
 		} else if (id == R.id.login) {
-			
+		    ContentValues v = new ContentValues();
+		    v.put("hehe", "heihei");
+		    Uri uri = Uri.parse(RoomProvider.CONTENT_URI.toString()+"/users");
+			getActivity().getContentResolver().insert(uri, v);
 		}
 	}
 

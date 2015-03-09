@@ -21,10 +21,16 @@
 	<string name="label_sex">Sex :</string>
 	<string name="label_age">Age :</string>
 	<string name="label_email">Email :</string>
-	<string name="label_working">Work :</string>
-	<string name="self_label_work">Work\t\t: %1$s</string>
-	<string name="self_label_email">Email\t\t: %1$s</string>
-	<string name="self_label_age">Age\t\t: %1$s</string>
-	<string name="self_label_sex">Sex\t\t: %1$s</string>
-	<string name="self_label_username">Username\t\t: %1$s</string>
+	<string name="label_working">Job :</string>
+	<string name="self_label_work">Job\t\t:\t %1$s</string>
+	<string name="self_label_email">Email\t\t:\t %1$s</string>
+	<string name="self_label_age">Age\t\t:\t %1$s</string>
+	<string name="self_label_sex">Sex\t\t:\t %1$s</string>
+	<string name="self_label_username">Username\t\t:\t %1$s</string>
+	<string name="self_label_weight">Weight\t\t:\t %1$s</string>
+	<string name="self_label_height">Height\t\t:\t %1$s</string>
+	<string name="self_label_bust">Bust\t\t:\t %1$s</string>
+	<string name="self_label_waist">Waist\t\t:\t %1$s</string>
+	<string name="self_label_hips">Hips\t\t:\t %1$s</string>
+	<string name="self_label_breadth">Shoulder Breadth:\t\t:\t %1$s</string>
 </resources>
