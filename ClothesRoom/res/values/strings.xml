@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ClothesRoom</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="hint_username">User Name</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_sex">Sex</string>
+    <string name="hint_age">Age</string>
+    <string name="hint_email">Enter Your Email</string>
+    <string name="hint_height">Enter Your Height</string>
+    <string name="hint_working">What do you do</string>
+    <string name="hint_middle">腰围</string>
+    <string name="hint_bust">胸围</string>
+    <string name="age_prompt">Select Your Age :</string>
+    <string name="sex_prompt">Select Your Sex :</string>
+	<string name="login">Login</string>
+	<string name="register">Register</string>
+	<string name="unlogin">Unlogin</string>
+	<string name="label_username">User Name :</string>
+	<string name="label_sex">Sex :</string>
+	<string name="label_age">Age :</string>
+	<string name="label_email">Email :</string>
+	<string name="label_working">Work :</string>
+	<string name="self_label_work">Work\t\t: %1$s</string>
+	<string name="self_label_email">Email\t\t: %1$s</string>
+	<string name="self_label_age">Age\t\t: %1$s</string>
+	<string name="self_label_sex">Sex\t\t: %1$s</string>
+	<string name="self_label_username">Username\t\t: %1$s</string>
+</resources>
