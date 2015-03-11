@@ -1,5 +1,14 @@
 package com.bs.clothesroom;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import com.bs.clothesroom.controller.PostController;
+import com.bs.clothesroom.controller.UserInfo;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class RegisterFragment extends GeneralFragment implements OnClickListener {
 
@@ -18,6 +28,7 @@ public class RegisterFragment extends GeneralFragment implements OnClickListener
 	private Spinner mSex, mAge;
 	private EditText mWorking;
 	private EditText mEmail;
+	private EditText mPhone;
 	private Button mRegister,mLogin;
 
 	@Override
@@ -31,6 +42,7 @@ public class RegisterFragment extends GeneralFragment implements OnClickListener
 		mAge = (Spinner) v.findViewById(R.id.age);
 		mEmail = (EditText) v.findViewById(R.id.email);
 		mWorking = (EditText) v.findViewById(R.id.work);
+		mPhone = (EditText) v.findViewById(R.id.phone);
 
 		mSex.setAdapter(new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_list_item_1, new String[] { "男", "女" }));
@@ -60,7 +72,15 @@ public class RegisterFragment extends GeneralFragment implements OnClickListener
 			GeneralActivity.startLogin(getActivity());
 			getActivity().finish();
 		} else if (id == R.id.register) {
-			
+		    String username = mUserName.getText().toString().trim();
+		    String password = mPassword.getText().toString().trim();
+		    String sex = ((TextView)mSex.getSelectedItem()).getText().toString().trim();
+		    String age = ((TextView)mAge.getSelectedItem()).getText().toString().trim();
+		    String email = mEmail.getText().toString().trim();
+		    String work = mWorking.getText().toString().trim();
+		    String phone = mWorking.getText().toString().trim();
+		    UserInfo info = new UserInfo(username,password,sex,age,phone,email,work);
+			mPostController.register(info);
 		}
 	}
 

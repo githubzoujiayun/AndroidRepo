@@ -1,12 +1,14 @@
 package com.bs.clothesroom;
 
+import com.bs.clothesroom.controller.PostController;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.view.Menu;
 
 public class Main extends GeneralActivity {
 
-    FragmentTabHost mTabHost;
+    private FragmentTabHost mTabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,5 +45,4 @@ public class Main extends GeneralActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         return super.onPrepareOptionsMenu(menu);
     }
-
 }

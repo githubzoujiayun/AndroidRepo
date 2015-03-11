@@ -10,6 +10,7 @@
     <string name="hint_email">请输入您的密码</string>
     <string name="hint_height">请输入您的身高</string>
     <string name="hint_working">您的工作是什么</string>
+    <string name="hint_phone">您的手机号是？</string>
     <string name="hint_middle">腰围</string>
     <string name="hint_bust">胸围</string>
     <string name="age_prompt">选择年龄</string>
@@ -37,4 +38,7 @@
 	<string name="tab_rack">我的衣架</string>
 	<string name="tab_collocation">搭配推荐</string>
 	<string name="tab_self">我</string>
+	<string name="network_not_avaliable">网络不可用，请检查。</string>
+	<string name="login_succeed">登陆成功</string>
+	<string name="login_failed">登陆失败</string>
 </resources>

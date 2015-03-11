@@ -9,7 +9,8 @@
     <string name="hint_age">Age</string>
     <string name="hint_email">Enter Your Email</string>
     <string name="hint_height">Enter Your Height</string>
-    <string name="hint_working">What do you do</string>
+    <string name="hint_working">What do you do?</string>
+    <string name="hint_phone">What is your phone number?</string>
     <string name="hint_middle">腰围</string>
     <string name="hint_bust">胸围</string>
     <string name="age_prompt">Select Your Age :</string>
