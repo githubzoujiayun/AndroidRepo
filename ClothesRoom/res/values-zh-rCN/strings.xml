@@ -7,7 +7,7 @@
     <string name="hint_password">密码</string>
     <string name="hint_sex">性别</string>
     <string name="hint_age">年龄</string>
-    <string name="hint_email">请输入您的密码</string>
+    <string name="hint_email">请输入您的电子邮件</string>
     <string name="hint_height">请输入您的身高</string>
     <string name="hint_working">您的工作是什么</string>
     <string name="hint_phone">您的手机号是？</string>
@@ -41,4 +41,9 @@
 	<string name="network_not_avaliable">网络不可用，请检查。</string>
 	<string name="login_succeed">登陆成功</string>
 	<string name="login_failed">登陆失败</string>
+	<string name="link_error">连接错误</string>
+	<string name="invalide_username">用户名不存在</string>
+	<string name="password_not_match">密码不正确</string>
+	<string name="network_exception">网络异常</string>
+	<string name="register_succeed">注册成功</string>
 </resources>

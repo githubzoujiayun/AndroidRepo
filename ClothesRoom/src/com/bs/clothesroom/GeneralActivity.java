@@ -1,12 +1,18 @@
 package com.bs.clothesroom;
 
+import org.json.JSONException;
+
 import com.bs.clothesroom.controller.PostController;
+import com.bs.clothesroom.controller.UserInfo;
 import com.bs.clothesroom.controller.PostController.IPostCallback;
+import com.bs.clothesroom.controller.PostController.PostResult;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,8 +33,11 @@ public class GeneralActivity extends FragmentActivity {
 	private static final String ACTION_LOGIN = "com.bs.clothesroom.login";
 	private static final String ACTION_REGISTER = "com.bs.clothesroom.register";
 	
+	private static final int REQUEST_CODE_LOGIN = 0;
+	
 	PostController mPostController;
 	private PostCallback mPostCallback;
+	private Fragment mCurrentFragment;
 	
 	private CheckingProgressDialog mCheckingDialog;
 	
@@ -37,7 +46,7 @@ public class GeneralActivity extends FragmentActivity {
 		Intent i = new Intent(from,GeneralActivity.class);
 		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		i.setAction(ACTION_LOGIN);
-		from.startActivity(i);
+		from.startActivityForResult(i, REQUEST_CODE_LOGIN);
 	}
 	
 	public static void startRegister(Activity from) {
@@ -138,29 +147,61 @@ public class GeneralActivity extends FragmentActivity {
     class PostCallback implements IPostCallback {
 
         @Override
-        public void onPostSucceed(int post,String info) {
-            if (post == PostController.POST_ID_LOGIN) {
+        public void onPostSucceed(PostResult result) {
+            int post = result.postId;
+            switch (post) {
+            case PostController.POST_ID_LOGIN:
                 toastMessage(getString(R.string.login_succeed));
+                break;
+            case PostController.POST_ID_REGISTER:
+                toastMessage(R.string.register_succeed);
+                break;
+            case PostController.POST_ID_FETCH_USERINFO:
+                try {
+                    UserInfo userInfo = UserInfo.fromJson(result.json);
+                    Intent i = new Intent();
+                    i.putExtra("userinfo", userInfo);
+                    setResult(RESULT_OK, i);
+                    finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            default:
+                break;
             }
+            if (mCheckingDialog != null) {
+                mCheckingDialog.dismissAllowingStateLoss();
+            }
+            getSupportFragmentManager().popBackStack();
         }
 
         @Override
-        public void onPostFailed(int post, int err, String errMessage) {
-            if (post == PostController.POST_ID_LOGIN) {
-                if (errMessage != null) {
-                    toastMessage(errMessage);
-                } else {
-                    switch (err) {
-                    case PostController.POST_ERR_NETWORK_NOT_AVIABLE:
-                        toastMessage(R.string.network_not_avaliable);
-                        break;
+        public void onPostFailed(PostResult result) {
+            final int post = result.postId;
+            final int err = result.errId;
+            switch (err) {
+            case PostResult.ERR_INVALIDE_USERNAME:
+                toastMessage(R.string.invalide_username);
+                break;
+            case PostResult.ERR_PASSWORD_NOT_MATCH:
+                toastMessage(R.string.password_not_match);
+                break;
+            case PostResult.ERR_NETWORK_NOT_AVIABLE:
+                toastMessage(R.string.network_not_avaliable);
+                break;
+            case PostResult.ERR_NETWORK_EXCEPTION:
+                toastMessage(R.string.network_exception);
+                break;
 
-                    default:
-                        toastMessage(R.string.login_failed);
-                        break;
-                    }
-                }
+            default:
+                break;
             }
+            if (mCheckingDialog != null) {
+                mCheckingDialog.dismissAllowingStateLoss();
+            }
+            getSupportFragmentManager().popBackStack();
         }
 
 
@@ -171,10 +212,12 @@ public class GeneralActivity extends FragmentActivity {
 
         @Override
         public void onPostStart(int post, String message) {
-            CheckingProgressDialog dialog = new CheckingProgressDialog();
+            String msg = "is login...";
+            mCheckingDialog = new CheckingProgressDialog();
+            mCheckingDialog.setCancelable(false);
+            
 //            dialog.setTargetFragment(fragment, requestCode)
-            String title = "is login...";
-            dialog.show(getSupportFragmentManager(), title);
+            mCheckingDialog.show(getSupportFragmentManager(), msg);
         }
         
     }
@@ -184,13 +227,19 @@ public class GeneralActivity extends FragmentActivity {
         @Override
         @NonNull
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            ProgressDialog dialog = new ProgressDialog(GeneralActivity.this);
+            ProgressDialog dialog = new ProgressDialog(GeneralActivity.this,ProgressDialog.THEME_HOLO_LIGHT);
             dialog.setIndeterminate(true);
-            dialog.setTitle(getTag());
+            dialog.setMessage(getTag());
             dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
             return dialog;
         }
-        
+
+        @Override
+        public void onCancel(DialogInterface dialog) {
+            mPostController.cancelPost();
+            super.onCancel(dialog);
+        }
     }
     
     private void toastMessage(String text) {
@@ -200,5 +249,13 @@ public class GeneralActivity extends FragmentActivity {
     private void toastMessage(int id) {
         String msg = getString(id);
         toastMessage(msg);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int result, Intent intent) {
+        if (requestCode == REQUEST_CODE_LOGIN) {
+            
+        }
+        super.onActivityResult(requestCode, result, intent);
     }
 }
