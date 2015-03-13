@@ -1,7 +1,5 @@
 package com.bs.clothesroom;
 
-import com.bs.clothesroom.controller.PostController;
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.view.Menu;

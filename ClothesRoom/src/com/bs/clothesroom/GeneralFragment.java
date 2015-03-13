@@ -1,7 +1,5 @@
 package com.bs.clothesroom;
 
-import com.bs.clothesroom.controller.PostController;
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,14 +9,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bs.clothesroom.controller.PostController;
+import com.bs.clothesroom.controller.PostController.IPostCallback;
+import com.bs.clothesroom.controller.PostController.PostResult;
+import com.bs.clothesroom.controller.Preferences;
+import com.bs.clothesroom.controller.UserInfo;
+
 public abstract class GeneralFragment extends Fragment {
     
     PostController mPostController;
+    UserInfo mUserInfo;
+    Preferences mPrefs;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		mPrefs = Preferences.getInstance(getActivity());
 		log(this.getClass().getName()+" --> onCreate");
 	}
 
@@ -105,5 +112,25 @@ public abstract class GeneralFragment extends Fragment {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public UserInfo getUserInfo(){
+	    return ((GeneralActivity)getActivity()).getUserInfo();
+	}
+	
+	abstract class AbsPostCallback implements IPostCallback {
+
+        @Override
+        public void onPostStart(int post, String message) {
+        }
+
+        @Override
+        public void onPostSucceed(PostResult result) {
+            mUserInfo = UserInfo.fromJson(result.json);
+        }
+
+        @Override
+        public void onPostFailed(PostResult result) {
+        }
 	}
 }

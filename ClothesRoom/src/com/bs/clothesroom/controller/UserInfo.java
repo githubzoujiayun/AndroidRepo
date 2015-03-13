@@ -20,13 +20,18 @@ public class UserInfo implements Serializable{
     private static final String JSON_KEY_EMAIL = "email";
     private static final String JSON_KEY_JOB = "job";
 
-    String userName;
-    String password;
-    String sex;
-    String age;
-    String phone;
-    String email;
-    String job;
+    public String userName;
+    public String password;
+    public String sex;
+    public String age;
+    public String phone;
+    public String email;
+    public String job;
+    public String weight;
+    public String height;
+    public String bust;
+    public String waist;
+    public String hips;
     
     public UserInfo(String userName, String password, String sex, String age,
             String phone, String email, String work) {
@@ -41,7 +46,9 @@ public class UserInfo implements Serializable{
     
     public UserInfo(JSONObject json) throws JSONException {
         this.userName = json.getString(JSON_KEY_USERNAME);
-        this.password = json.getString(JSON_KEY_PASSWORD);
+        if (json.has(password)){
+            this.password = json.getString(JSON_KEY_PASSWORD);
+        }
         this.sex = json.getString(JSON_KEY_SEX);
         this.age = json.getString(JSON_KEY_AGE);
         this.phone = json.getString(JSON_KEY_PHONE);
@@ -49,8 +56,12 @@ public class UserInfo implements Serializable{
         this.job = json.getString(JSON_KEY_JOB);
     }
     
-    public static UserInfo fromJson(JSONObject json) throws JSONException {
-        return new UserInfo(json);
+    public static UserInfo fromJson(JSONObject json) {
+        try {
+            return new UserInfo(json);
+        } catch (JSONException e) {
+            throw new RuntimeException("json is not well formate.");
+        }
     }
     
     public JSONObject toJson() throws JSONException {

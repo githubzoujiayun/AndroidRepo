@@ -1,11 +1,5 @@
 package com.bs.clothesroom;
 
-import com.bs.clothesroom.controller.PostController;
-import com.bs.clothesroom.provider.RoomProvider;
-
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,27 +18,6 @@ public class LoginFragment extends GeneralFragment implements OnClickListener {
 	EditText mUser;
 	EditText mPassw;
 	
-	private Handler mCallback = new Handler(){
-	    
-	    /**
-	     * 0 --> failed
-	     * 1 --> succeed
-	     */
-	    public void sendLoginMessage(int succeed) {
-	        Message msg = obtainMessage();
-	        msg.arg1 = succeed;
-	        msg.sendToTarget();
-	    }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.arg1 == 1) {
-                getActivity().onBackPressed();
-            }
-        }
-	};
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,6 +46,7 @@ public class LoginFragment extends GeneralFragment implements OnClickListener {
 		} else if (id == R.id.login) {
 		    String username = mUser.getText().toString().trim();
 		    String password = mPassw.getText().toString().trim();
+		    mPrefs.saveUsername(username);
 		    mPostController.login(username,password);
 		}
 	}

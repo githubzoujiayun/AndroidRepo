@@ -1,17 +1,9 @@
 package com.bs.clothesroom;
 
-import org.json.JSONException;
-
-import com.bs.clothesroom.controller.PostController;
-import com.bs.clothesroom.controller.UserInfo;
-import com.bs.clothesroom.controller.PostController.IPostCallback;
-import com.bs.clothesroom.controller.PostController.PostResult;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bs.clothesroom.controller.PostController;
+import com.bs.clothesroom.controller.PostController.IPostCallback;
+import com.bs.clothesroom.controller.PostController.PostResult;
+import com.bs.clothesroom.controller.Preferences;
+import com.bs.clothesroom.controller.UserInfo;
+
 public class GeneralActivity extends FragmentActivity {
 	
 	private static final String ACTION_LOGIN = "com.bs.clothesroom.login";
@@ -40,6 +38,8 @@ public class GeneralActivity extends FragmentActivity {
 	private Fragment mCurrentFragment;
 	
 	private CheckingProgressDialog mCheckingDialog;
+    UserInfo mUserInfo;
+    Preferences mPrefs;
 	
 	
 	public static void startLogin(Activity from) {
@@ -61,6 +61,7 @@ public class GeneralActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		String action = getIntent().getAction();
 		setContentView(R.layout.general_actvity);
+		mPrefs = Preferences.getInstance(this);
 		mPostController = new PostController(this);
 		mPostCallback = new PostCallback();
 		mPostController.addCallback(mPostCallback);
@@ -148,37 +149,38 @@ public class GeneralActivity extends FragmentActivity {
 
         @Override
         public void onPostSucceed(PostResult result) {
+            log("onPostSucceed");
             int post = result.postId;
-            switch (post) {
-            case PostController.POST_ID_LOGIN:
-                toastMessage(getString(R.string.login_succeed));
-                break;
-            case PostController.POST_ID_REGISTER:
-                toastMessage(R.string.register_succeed);
-                break;
-            case PostController.POST_ID_FETCH_USERINFO:
-                try {
-                    UserInfo userInfo = UserInfo.fromJson(result.json);
-                    Intent i = new Intent();
-                    i.putExtra("userinfo", userInfo);
-                    setResult(RESULT_OK, i);
+            try {
+                switch (post) {
+                case PostController.POST_ID_LOGIN:
+                    toastMessage(getString(R.string.login_succeed));
+//                    mPostController.fetchUserInfo(result.primaryKey);
                     finish();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                break;
+                    break;
+                case PostController.POST_ID_REGISTER:
+                    toastMessage(R.string.register_succeed);
+                    break;
+                case PostController.POST_ID_FETCH_USERINFO:
+                    
+                    UserInfo userInfo = UserInfo.fromJson(result.json);
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+                }
+            } finally {
+                log(mCheckingDialog+"");
+                if (mCheckingDialog != null) {
+                    mCheckingDialog.dismissAllowingStateLoss();
+                }
+                getSupportFragmentManager().popBackStack();
             }
-            if (mCheckingDialog != null) {
-                mCheckingDialog.dismissAllowingStateLoss();
-            }
-            getSupportFragmentManager().popBackStack();
         }
 
         @Override
         public void onPostFailed(PostResult result) {
+            log("onPostFailed");
             final int post = result.postId;
             final int err = result.errId;
             switch (err) {
@@ -198,6 +200,7 @@ public class GeneralActivity extends FragmentActivity {
             default:
                 break;
             }
+            log(mCheckingDialog+"");
             if (mCheckingDialog != null) {
                 mCheckingDialog.dismissAllowingStateLoss();
             }
@@ -212,12 +215,11 @@ public class GeneralActivity extends FragmentActivity {
 
         @Override
         public void onPostStart(int post, String message) {
-            String msg = "is login...";
             mCheckingDialog = new CheckingProgressDialog();
             mCheckingDialog.setCancelable(false);
             
 //            dialog.setTargetFragment(fragment, requestCode)
-            mCheckingDialog.show(getSupportFragmentManager(), msg);
+            mCheckingDialog.show(getSupportFragmentManager(), message);
         }
         
     }
@@ -227,6 +229,7 @@ public class GeneralActivity extends FragmentActivity {
         @Override
         @NonNull
         public Dialog onCreateDialog(Bundle savedInstanceState) {
+            log("onCreateDialog");
             ProgressDialog dialog = new ProgressDialog(GeneralActivity.this,ProgressDialog.THEME_HOLO_LIGHT);
             dialog.setIndeterminate(true);
             dialog.setMessage(getTag());
@@ -242,6 +245,16 @@ public class GeneralActivity extends FragmentActivity {
         }
     }
     
+    @Override
+    protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+        log(GeneralActivity.class.getName()+" : onActivityResult");
+        super.onActivityResult(arg0, arg1, arg2);
+    }
+
+    public UserInfo getUserInfo() {
+        return mUserInfo;
+    }
+    
     private void toastMessage(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
@@ -251,11 +264,7 @@ public class GeneralActivity extends FragmentActivity {
         toastMessage(msg);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int result, Intent intent) {
-        if (requestCode == REQUEST_CODE_LOGIN) {
-            
-        }
-        super.onActivityResult(requestCode, result, intent);
+    public static void log(String str){
+        android.util.Log.e("qinchao",str);
     }
 }

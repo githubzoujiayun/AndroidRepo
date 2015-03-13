@@ -45,7 +45,7 @@ public class RegisterFragment extends GeneralFragment implements OnClickListener
 		mPhone = (EditText) v.findViewById(R.id.phone);
 
 		mSex.setAdapter(new ArrayAdapter<String>(getActivity(),
-				android.R.layout.simple_list_item_1, new String[] { "男", "女" }));
+				android.R.layout.simple_list_item_1, new String[] { "M", "F" }));
 		Integer ages[] = new Integer[40];
 		for (int i = 0; i < ages.length; i++) {
 			ages[i] = i + 1;
@@ -74,11 +74,11 @@ public class RegisterFragment extends GeneralFragment implements OnClickListener
 		} else if (id == R.id.register) {
 		    String username = mUserName.getText().toString().trim();
 		    String password = mPassword.getText().toString().trim();
-		    String sex = ((TextView)mSex.getSelectedItem()).getText().toString().trim();
-		    String age = ((TextView)mAge.getSelectedItem()).getText().toString().trim();
+		    String sex = ((String)mSex.getSelectedItem());/*.getText().toString().trim();*/
+		    String age = mAge.getSelectedItem().toString();/*.getText().toString().trim();*/
 		    String email = mEmail.getText().toString().trim();
 		    String work = mWorking.getText().toString().trim();
-		    String phone = mWorking.getText().toString().trim();
+		    String phone = mPhone.getText().toString().trim();
 		    UserInfo info = new UserInfo(username,password,sex,age,phone,email,work);
 			mPostController.register(info);
 		}

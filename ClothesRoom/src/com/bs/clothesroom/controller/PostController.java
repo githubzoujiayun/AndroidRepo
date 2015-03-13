@@ -1,10 +1,12 @@
 package com.bs.clothesroom.controller;
 
-import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreConnectionPNames;
@@ -27,19 +28,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import com.bs.clothesroom.R;
-
-import android.animation.ArgbEvaluator;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
-import android.util.JsonToken;
+import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
+
+import com.bs.clothesroom.R;
 
 public class PostController {
 
@@ -53,13 +49,13 @@ public class PostController {
      * @see #POST_TYPE_FETCH_USERINFO
      */
     public static final String POST_ARGS_TYPE = "type";
-    public static final String POST_ARGS_USERNAME = "username";
-    public static final String POST_ARGS_PASSWORD = "password";
-    public static final String POST_ARGS_SEX = "sex";
-    public static final String POST_ARGS_AGE = "age";
-    public static final String POST_ARGS_PHONE = "phone";
-    public static final String POST_ARGS_EMAIL = "email";
-    public static final String POST_ARGS_WORK = "job";
+    public static final String ARGS_USERNAME = "username";
+    public static final String ARGS_PASSWORD = "password";
+    public static final String ARGS_SEX = "sex";
+    public static final String ARGS_AGE = "age";
+    public static final String ARGS_PHONE = "phone";
+    public static final String ARGS_EMAIL = "email";
+    public static final String ARGS_WORK = "job";
 
     private static final String POST_TYPE_LOGIN = "login";
     private static final String POST_TYPE_REGISTER = "register";
@@ -92,11 +88,23 @@ public class PostController {
         mDelivery = new DeliverCallback();
     }
 
-    private void fetchUserInfo() {
-//        List<NameValuePair> params = new ArrayList<NameValuePair>();
+    private boolean checkJsonFormat(String json) {
+        try {
+            JSONObject js = new JSONObject(json);
+            return js.has(ARGS_USERNAME);
+        } catch (JSONException e) {
+            throw new PostException("json not well format.");
+        }
+    }
+    
+    public void fetchUserInfo(String primaryKey) {
+        if (TextUtils.isEmpty(primaryKey)) {
+            throw new RuntimeException("primary is not allow valued null.");
+        }
         JSONObject json = new JSONObject();
         try {
             addArgument(json, POST_ARGS_TYPE, POST_TYPE_FETCH_USERINFO);
+            addArgument(json, ARGS_USERNAME, primaryKey);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -118,8 +126,8 @@ public class PostController {
         JSONObject json = new JSONObject();
         try {
             addArgument(json, POST_ARGS_TYPE, POST_TYPE_LOGIN);
-            addArgument(json, POST_ARGS_USERNAME, username);
-            addArgument(json, POST_ARGS_PASSWORD, psw);
+            addArgument(json, ARGS_USERNAME, username);
+            addArgument(json, ARGS_PASSWORD, psw);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -145,13 +153,13 @@ public class PostController {
         JSONObject params = new JSONObject();
         try {
             addArgument(params, POST_ARGS_TYPE, POST_TYPE_REGISTER);
-            addArgument(params, POST_ARGS_USERNAME, info.userName);
-            addArgument(params, POST_ARGS_PASSWORD, info.password);
-            addArgument(params, POST_ARGS_AGE, info.age);
-            addArgument(params, POST_ARGS_SEX, info.sex);
-            addArgument(params, POST_ARGS_EMAIL, info.email);
-            addArgument(params, POST_ARGS_PHONE, info.phone);
-            addArgument(params, POST_ARGS_WORK, info.job);
+            addArgument(params, ARGS_USERNAME, info.userName);
+            addArgument(params, ARGS_PASSWORD, info.password);
+            addArgument(params, ARGS_AGE, info.age);
+            addArgument(params, ARGS_SEX, info.sex);
+            addArgument(params, ARGS_EMAIL, info.email);
+            addArgument(params, ARGS_PHONE, info.phone);
+            addArgument(params, ARGS_WORK, info.job);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -197,27 +205,83 @@ public class PostController {
         @Override
         protected void onPostExecute(PostResult result) {
             boolean succeed = result.errId == PostResult.SUCCED;
+            log("onPostExecute");
             if (succeed) {
-                if (result.postId == POST_ID_LOGIN) {
-                    fetchUserInfo();
-                }
                 mDelivery.onPostSucceed(result);
             } else {
                 mDelivery.onPostFailed(result);
             }
             super.onPostExecute(result);
         }
+        
+        /* 上传文件至Server的方法 */
+        private void uploadFile(File f) {
+            String end = "\r\n";
+            String twoHyphens = "--";
+            String boundary = "*****";
+            try {
+                URL url = new URL(SERVICE_URL);
+                HttpURLConnection con = (HttpURLConnection) url
+                        .openConnection();
+                /* 允许Input、Output，不使用Cache */
+                con.setDoInput(true);
+                con.setDoOutput(true);
+                con.setUseCaches(false);
+                /* 设置传送的method=POST */
+                con.setRequestMethod("POST");
+                /* setRequestProperty */
+                con.setRequestProperty("Connection", "Keep-Alive");
+                con.setRequestProperty("Charset", "UTF-8");
+                con.setRequestProperty("Content-Type",
+                        "multipart/form-data;boundary=" + boundary);
+                /* 设置DataOutputStream */
+                DataOutputStream ds = new DataOutputStream(
+                        con.getOutputStream());
+                ds.writeBytes(twoHyphens + boundary + end);
+                ds.writeBytes("Content-Disposition: form-data; "
+                        + "name=\"file1\";filename=\"" + f.getName() + "\"" + end);
+                ds.writeBytes(end);
+                /* 取得文件的FileInputStream */
+                FileInputStream fStream = new FileInputStream(f);
+                /* 设置每次写入1024bytes */
+                int bufferSize = 1024;
+                byte[] buffer = new byte[bufferSize];
+                int length = -1;
+                /* 从文件读取数据至缓冲区 */
+                while ((length = fStream.read(buffer)) != -1) {
+                    /* 将资料写入DataOutputStream中 */
+                    ds.write(buffer, 0, length);
+                }
+                ds.writeBytes(end);
+                ds.writeBytes(twoHyphens + boundary + twoHyphens + end);
+                /* close streams */
+                fStream.close();
+                ds.flush();
+                /* 取得Response内容 */
+                InputStream is = con.getInputStream();
+                int ch;
+                StringBuffer b = new StringBuffer();
+                while ((ch = is.read()) != -1) {
+                    b.append((char) ch);
+                }
+                /* 将Response显示于Dialog */
+                // showDialog("上传成功" + b.toString().trim());
+                /* 关闭DataOutputStream */
+                ds.close();
+            } catch (Exception e) {
+                // showDialog("上传失败" + e);
+            }
+        }
 
         private PostResult doPost(String json) {
             
             PostResult result = new PostResult();
             result.postId = mPostId;
+            result.errId = PostResult.SUCCED;
             if (!checkNetworkAvaliable()) {
                 result.errId = PostResult.ERR_NETWORK_NOT_AVIABLE;
                 return result;
             }
-            mDelivery.onPostStart(mPostId, "");
-
             HttpPost httpRequest = new HttpPost(SERVICE_URL);
             HttpEntity entity = null;
             try {
@@ -233,6 +297,21 @@ public class PostController {
              10000); 
             HttpResponse httpResponse = null;
             try {
+                String message = null;
+                switch (result.postId) {
+                case POST_ID_LOGIN:
+                    message = mContext.getString(R.string.logining);
+                    break;
+                case POST_ID_REGISTER:
+                    message = mContext.getString(R.string.registering);
+                    break;
+                case POST_ID_FETCH_USERINFO:
+                    message = mContext.getString(R.string.fetch_userinfoing);
+                default:
+                    break;
+                }
+                mDelivery.onPostStart(mPostId, message);
+                log("post >> "+json);
                 httpResponse = httpclient.execute(httpRequest);
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
@@ -282,20 +361,23 @@ public class PostController {
             JSONTokener parser = new JSONTokener(s);
             JSONObject json = (JSONObject) parser.nextValue();
             result.json = json;
-            Log.e("qinchao","json = "+json);
+            if (json.has(ARGS_USERNAME)) {
+                result.primaryKey = json.getString(ARGS_USERNAME);
+            }
+            log("get << "+json);
             if ((mPostId >> 12) == 0) {
                 /*
                  * POST_ID_STRING_MASK
                  */
                 switch (mPostId) {
                 case POST_ID_LOGIN:
-                    result.errId = json.getInt("message");
+                    result.errId = json.getInt("message"); 
                     break;
                 case POST_ID_REGISTER: 
                     result.errId = json.getInt("message");
                     break;
                 case POST_ID_FETCH_USERINFO:
-                    result.errId = json.getInt("message");
+//                    result.errId = json.getInt("message");
                     break;
 
                 default:
@@ -381,6 +463,7 @@ public class PostController {
         public JSONObject json;
         public int errId;
         public String info;
+        public String primaryKey;
         
         public static final int SUCCED = 0;
         public static final int ERR_INVALIDE_USERNAME = 1;
@@ -393,5 +476,13 @@ public class PostController {
     public void cancelPost() {
         Log.e("qinchao","cancelPost");
         mPostTask.cancel(true);
+    }
+    
+    public static void log(String str){
+        android.util.Log.e("qinchao",str);
+    }
+    
+    public void classLog(String str) {
+        log(getClass().getName()+" --->" + str);
     }
 }
