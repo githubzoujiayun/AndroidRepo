@@ -165,7 +165,9 @@ public class GeneralActivity extends FragmentActivity {
                     
                     UserInfo userInfo = UserInfo.fromJson(result.json);
                     break;
-
+                case PostController.POST_ID_UPLOAD_FILE:
+                    toastMessage(R.string.upload_succeed);
+                    break;
                 default:
                     break;
                 }
@@ -195,6 +197,9 @@ public class GeneralActivity extends FragmentActivity {
                 break;
             case PostResult.ERR_NETWORK_EXCEPTION:
                 toastMessage(R.string.network_exception);
+                break;
+            case PostResult.ERR_UPLOAD_FAILED:
+                toastMessage(R.string.upload_failed);
                 break;
 
             default:

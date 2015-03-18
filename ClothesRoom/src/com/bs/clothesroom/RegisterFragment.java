@@ -29,6 +29,11 @@ public class RegisterFragment extends GeneralFragment implements OnClickListener
 	private EditText mWorking;
 	private EditText mEmail;
 	private EditText mPhone;
+	private EditText mBust;
+	private EditText mWaist;
+	private EditText mHips;
+	private EditText mHeight;
+	private EditText mWeight;
 	private Button mRegister,mLogin;
 
 	@Override
@@ -43,6 +48,11 @@ public class RegisterFragment extends GeneralFragment implements OnClickListener
 		mEmail = (EditText) v.findViewById(R.id.email);
 		mWorking = (EditText) v.findViewById(R.id.work);
 		mPhone = (EditText) v.findViewById(R.id.phone);
+		mBust = (EditText) v.findViewById(R.id.bust);
+		mWaist = (EditText) v.findViewById(R.id.waist);
+		mHips = (EditText) v.findViewById(R.id.hips);
+		mWeight = (EditText) v.findViewById(R.id.weight);
+		mHeight = (EditText) v.findViewById(R.id.height);
 
 		mSex.setAdapter(new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_list_item_1, new String[] { "M", "F" }));
@@ -79,7 +89,13 @@ public class RegisterFragment extends GeneralFragment implements OnClickListener
 		    String email = mEmail.getText().toString().trim();
 		    String work = mWorking.getText().toString().trim();
 		    String phone = mPhone.getText().toString().trim();
-		    UserInfo info = new UserInfo(username,password,sex,age,phone,email,work);
+		    String bust = mBust.getText().toString().trim();
+		    String waist = mWaist.getText().toString().trim();
+		    String hips = mHips.getText().toString().trim();
+		    String height = mHeight.getText().toString().trim();
+		    String weight = mWeight.getText().toString().trim();
+            UserInfo info = new UserInfo(username, password, sex, age, phone,
+                    email, work, bust, waist, hips, height, weight);
 			mPostController.register(info);
 		}
 	}

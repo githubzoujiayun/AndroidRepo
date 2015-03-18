@@ -64,12 +64,15 @@ public class PostController {
     private static final String POST_TYPE_UPLOAD_FILE = "upload_file";
     private static final String POST_TYPE_DOWNLOAD_IMAGE = "download_image";
     private static final String POST_TYPE_DOWNLOAD_FILE = "download_file";
+    private static final String POST_TYPE_FETCH_DETAIL_LIST = "fetch_list";
     
     public static final int POST_ID_UNKNOWN = 0;
     public static final int POST_ID_STRING_MASK = 0x0001;
     public static final int POST_ID_LOGIN = POST_ID_STRING_MASK << 0;
     public static final int POST_ID_REGISTER = POST_ID_STRING_MASK << 1;
     public static final int POST_ID_FETCH_USERINFO = POST_ID_STRING_MASK << 2;
+    public static final int POST_ID_UPLOAD_FILE = POST_ID_STRING_MASK << 3;
+    public static final int POST_ID_FETCH_DETAIL_LIST = POST_ID_STRING_MASK << 4;
     
     public static final int POST_ID_BINARY_MASK = 0x1001;
     
@@ -113,15 +116,6 @@ public class PostController {
                 json.toString());
     }
 
-//    public void login(String username, String psw) {
-//        List<NameValuePair> params = new ArrayList<NameValuePair>();
-//        params.add(new BasicNameValuePair(POST_ARGS_TYPE, POST_TYPE_LOGIN));
-//        params.add(new BasicNameValuePair(POST_ARGS_USERNAME, username));
-//        params.add(new BasicNameValuePair(POST_ARGS_PASSWORD, psw));
-//        mPostTask = new PostTask(POST_ID_LOGIN);
-//        mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
-//    }
-
     public void login(String username, String psw) {
         JSONObject json = new JSONObject();
         try {
@@ -134,6 +128,12 @@ public class PostController {
         mPostTask = new PostTask(POST_ID_LOGIN);
         mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
                 json.toString());
+    }
+    
+    public void uploadFile(String file) {
+        
+        UploadTask task = new UploadTask(POST_ID_UPLOAD_FILE);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, file);
     }
 
     private boolean checkNetworkAvaliable() {
@@ -150,16 +150,10 @@ public class PostController {
     }
 
     public void register(UserInfo info) {
-        JSONObject params = new JSONObject();
+        JSONObject params = null;
         try {
+            params = info.toJson();
             addArgument(params, POST_ARGS_TYPE, POST_TYPE_REGISTER);
-            addArgument(params, ARGS_USERNAME, info.userName);
-            addArgument(params, ARGS_PASSWORD, info.password);
-            addArgument(params, ARGS_AGE, info.age);
-            addArgument(params, ARGS_SEX, info.sex);
-            addArgument(params, ARGS_EMAIL, info.email);
-            addArgument(params, ARGS_PHONE, info.phone);
-            addArgument(params, ARGS_WORK, info.job);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -176,7 +170,39 @@ public class PostController {
         final List<NameValuePair> params = _params;
         params.add(new BasicNameValuePair(key, value));
     }
+    
+    class UploadTask extends AsyncTask<String, Void, String> {
+        
+        private int mPostId = POST_ID_UNKNOWN;
+        
+        public UploadTask(int postId) {
+            mPostId = postId;
+        }
 
+        @Override
+        protected String doInBackground(String... files) {
+            return HttpAssist.uploadFile(new File(files[0]));
+        }
+
+        @Override
+        protected void onPostExecute(String r) {
+            PostResult result = new PostResult();
+            result.postId = POST_ID_UPLOAD_FILE;
+            if (r.equals(HttpAssist.SUCCESS)) {
+                mDelivery.onPostSucceed(result);
+            } else {
+                mDelivery.onPostFailed(result);
+            }
+            super.onPostExecute(r);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            mDelivery.onPostStart(mPostId, mContext.getString(R.string.upload_file));
+            super.onPreExecute();
+        }
+    }
+    
     class PostTask extends AsyncTask<String, Integer, PostResult> {
 
         private int mPostId= POST_ID_UNKNOWN;
@@ -214,64 +240,6 @@ public class PostController {
             super.onPostExecute(result);
         }
         
-        /* 上传文件至Server的方法 */
-        private void uploadFile(File f) {
-            String end = "\r\n";
-            String twoHyphens = "--";
-            String boundary = "*****";
-            try {
-                URL url = new URL(SERVICE_URL);
-                HttpURLConnection con = (HttpURLConnection) url
-                        .openConnection();
-                /* 允许Input、Output，不使用Cache */
-                con.setDoInput(true);
-                con.setDoOutput(true);
-                con.setUseCaches(false);
-                /* 设置传送的method=POST */
-                con.setRequestMethod("POST");
-                /* setRequestProperty */
-                con.setRequestProperty("Connection", "Keep-Alive");
-                con.setRequestProperty("Charset", "UTF-8");
-                con.setRequestProperty("Content-Type",
-                        "multipart/form-data;boundary=" + boundary);
-                /* 设置DataOutputStream */
-                DataOutputStream ds = new DataOutputStream(
-                        con.getOutputStream());
-                ds.writeBytes(twoHyphens + boundary + end);
-                ds.writeBytes("Content-Disposition: form-data; "
-                        + "name=\"file1\";filename=\"" + f.getName() + "\"" + end);
-                ds.writeBytes(end);
-                /* 取得文件的FileInputStream */
-                FileInputStream fStream = new FileInputStream(f);
-                /* 设置每次写入1024bytes */
-                int bufferSize = 1024;
-                byte[] buffer = new byte[bufferSize];
-                int length = -1;
-                /* 从文件读取数据至缓冲区 */
-                while ((length = fStream.read(buffer)) != -1) {
-                    /* 将资料写入DataOutputStream中 */
-                    ds.write(buffer, 0, length);
-                }
-                ds.writeBytes(end);
-                ds.writeBytes(twoHyphens + boundary + twoHyphens + end);
-                /* close streams */
-                fStream.close();
-                ds.flush();
-                /* 取得Response内容 */
-                InputStream is = con.getInputStream();
-                int ch;
-                StringBuffer b = new StringBuffer();
-                while ((ch = is.read()) != -1) {
-                    b.append((char) ch);
-                }
-                /* 将Response显示于Dialog */
-                // showDialog("上传成功" + b.toString().trim());
-                /* 关闭DataOutputStream */
-                ds.close();
-            } catch (Exception e) {
-                // showDialog("上传失败" + e);
-            }
-        }
 
         private PostResult doPost(String json) {
             
@@ -471,6 +439,7 @@ public class PostController {
         public static final int ERR_NETWORK_NOT_AVIABLE = 3;
         public static final int ERR_NULL_RETURN = 4;
         public static final int ERR_NETWORK_EXCEPTION = 5;
+        public static final int ERR_UPLOAD_FAILED = 6;
     }
 
     public void cancelPost() {

@@ -126,7 +126,9 @@ public abstract class GeneralFragment extends Fragment {
 
         @Override
         public void onPostSucceed(PostResult result) {
-            mUserInfo = UserInfo.fromJson(result.json);
+            if (result.postId == PostController.POST_ID_FETCH_USERINFO) {
+                mUserInfo = UserInfo.fromJson(result.json);
+            }
         }
 
         @Override

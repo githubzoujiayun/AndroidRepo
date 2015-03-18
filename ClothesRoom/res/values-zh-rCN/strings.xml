@@ -9,10 +9,12 @@
     <string name="hint_age">年龄</string>
     <string name="hint_email">请输入您的电子邮件</string>
     <string name="hint_height">请输入您的身高</string>
+    <string name="hint_weight">请输入您的体重</string>
     <string name="hint_working">您的工作是什么</string>
-    <string name="hint_phone">您的手机号是？</string>
+    <string name="hint_phone">您的手机号</string>
     <string name="hint_middle">腰围</string>
     <string name="hint_bust">胸围</string>
+    <string name="hint_hips">臂围</string>
     <string name="age_prompt">选择年龄</string>
     <string name="sex_prompt">选择性别</string>
 	<string name="login">登陆</string>
@@ -50,4 +52,23 @@
 	<string name="registering">正在注册...</string>
 	<string name="fetch_userinfoing">正在获取用户信息...</string>
 	<string name="upload">上传</string>
+	<string name="upload_file">正在上传...</string>
+	<string name="upload_succeed">上传成功</string>
+	<string name="upload_failed">上传失败</string>
+	<string name="spring">春</string>
+	<string name="summer">夏</string>
+	<string name="autumn">秋</string>
+	<string name="winter">冬</string>
+	<string name="gentleman">绅士</string>
+	<string name="fashion">时尚</string>
+	<string name="business">商务</string>
+	<string name="leisure">休闲</string>
+	<string name="sleeved">衬衣</string>
+	<string name="overcoat">外套</string>
+	<string name="trousers">裤子</string>
+	<string name="label_type">选择类型</string>
+	<string name="label_season">选择季节</string>
+	<string name="label_form">选择款式</string>
+	<string name="description_preview">图片预览</string>
+	<string name="upload_image">上传图片</string>
 </resources>

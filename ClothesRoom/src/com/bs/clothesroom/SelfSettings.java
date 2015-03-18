@@ -1,7 +1,12 @@
 package com.bs.clothesroom;
 
+import java.io.File;
+
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,6 +17,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bs.clothesroom.controller.HttpAssist;
 import com.bs.clothesroom.controller.PostController.PostResult;
 import com.bs.clothesroom.controller.UserInfo;
 
@@ -126,9 +132,15 @@ public class SelfSettings extends GeneralFragment{
 			} else if(id == R.id.register) {
 				GeneralActivity.startRegister(getActivity());
 			} else if (id == R.id.upload) {
-			    Intent i = new Intent(Intent.ACTION_PICK);
-			    i.setType("image/*");
-			    startActivityForResult(i, 0);
+			    
+			    replaceFragment(ImageUploadFragment.class, null, R.id.container);
+//			    openFragment(R.id.container, ImageUploadFragment.class, null, "upload");
+//			    new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        HttpAssist.downloadFile();
+//                    }
+//                }).start();
 			}
 		}
 		
@@ -171,8 +183,10 @@ public class SelfSettings extends GeneralFragment{
         @Override
         public void onPostSucceed(PostResult result) {
             super.onPostSucceed(result);
-            mUserName = mUserInfo.userName;
-            showUserInfo(mUserInfo);
+            if (mUserInfo != null) {
+                mUserName = mUserInfo.userName;
+                showUserInfo(mUserInfo);
+            }
             setTitle(mUserName);
         }
 
@@ -192,9 +206,23 @@ public class SelfSettings extends GeneralFragment{
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
-        log("onActivityResult : "+data.toString());
+        log("onActivityResult : " + data.toString());
+        Uri uri = data.getData();
+        Cursor c = getActivity().getContentResolver().query(uri, null, null,
+                null, null);
+        if (c != null && c.moveToFirst()) {
+            final String path = c.getString(c
+                    .getColumnIndex(MediaStore.Images.Media.DATA));
+//            new Thread(new Runnable() {
+//
+//                @Override
+//                public void run() {
+//                    HttpAssist.uploadFile(new File(path));
+//                }
+//            }).start();
+            mPostController.uploadFile(path);
+        }
+
     }
-	
-	
 	
 }

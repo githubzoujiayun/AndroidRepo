@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="style_season">
+        <item >春</item>
+        <item >夏</item>
+        <item >秋</item>
+        <item >冬</item>
+    </string-array>
+    
+    <string-array name="cloth_style">
+        <item >休闲</item>
+        <item >绅士</item>
+        <item >商务</item>
+    </string-array>
+    
+</resources>
