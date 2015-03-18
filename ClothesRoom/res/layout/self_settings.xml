@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+<FrameLayout 
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+    >
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -131,6 +134,11 @@
                 android:text="@string/upload"
                 />
         </LinearLayout>
-        
     </LinearLayout>
+	<fragment
+            android:id="@+id/fragment2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.bs.clothesroom.GeneralActivity$DefaultFragment" />    
+</FrameLayout>
 </ScrollView>

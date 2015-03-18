@@ -133,8 +133,8 @@ public class SelfSettings extends GeneralFragment{
 				GeneralActivity.startRegister(getActivity());
 			} else if (id == R.id.upload) {
 			    
-			    replaceFragment(ImageUploadFragment.class, null, R.id.container);
-//			    openFragment(R.id.container, ImageUploadFragment.class, null, "upload");
+//			    replaceFragment(ImageUploadFragment.class, null, R.id.fragment2);
+			    openFragment(R.id.fragment2, ImageUploadFragment.class, null, "upload");
 //			    new Thread(new Runnable() {
 //                    @Override
 //                    public void run() {

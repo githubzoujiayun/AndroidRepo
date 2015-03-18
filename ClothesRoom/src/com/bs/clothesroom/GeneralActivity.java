@@ -176,7 +176,7 @@ public class GeneralActivity extends FragmentActivity {
                 if (mCheckingDialog != null) {
                     mCheckingDialog.dismissAllowingStateLoss();
                 }
-                getSupportFragmentManager().popBackStack();
+//                getSupportFragmentManager().popBackStack();
             }
         }
 
@@ -209,7 +209,7 @@ public class GeneralActivity extends FragmentActivity {
             if (mCheckingDialog != null) {
                 mCheckingDialog.dismissAllowingStateLoss();
             }
-            getSupportFragmentManager().popBackStack();
+//            getSupportFragmentManager().popBackStack();
         }
 
 
