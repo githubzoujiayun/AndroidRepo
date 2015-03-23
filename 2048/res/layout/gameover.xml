@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/miniAdLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:id="@+id/game_over_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/game_over_title"
+            android:textColor="@color/dark"
+            android:textSize="24sp" />
+
+        <LinearLayout
+            android:id="@+id/socore_layout"
+            android:layout_width="@dimen/settings_buttons_width"
+            android:layout_height="@dimen/settings_buttons_height"
+            android:layout_below="@id/game_over_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/settings_margin_top"
+            android:background="@drawable/settings_btn_bg"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:text="@string/game_over_score"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/game_over_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="2dp"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/game_over_shared"
+            android:layout_width="@dimen/settings_buttons_width"
+            android:layout_height="@dimen/settings_buttons_height"
+            android:layout_below="@id/socore_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/settings_margin_top"
+            android:background="@drawable/settings_btn_bg_selector"
+            android:text="@string/game_over_shared"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/game_over_restart"
+            android:layout_width="@dimen/settings_buttons_width"
+            android:layout_height="@dimen/settings_buttons_height"
+            android:layout_below="@id/game_over_shared"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/settings_margin_top"
+            android:background="@drawable/settings_btn_bg_selector"
+            android:text="@string/game_over_restart" />
+
+        <Button
+            android:id="@+id/install_games"
+            android:layout_width="@dimen/settings_buttons_width"
+            android:layout_height="@dimen/settings_buttons_height"
+            android:layout_below="@id/game_over_restart"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/settings_margin_top"
+            android:background="@drawable/settings_btn_bg_selector"
+            android:text="@string/install_games" />
+
+        <Button
+            android:id="@+id/install_apps"
+            android:layout_width="@dimen/settings_buttons_width"
+            android:layout_height="@dimen/settings_buttons_height"
+            android:layout_below="@id/install_games"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/settings_margin_top"
+            android:background="@drawable/settings_btn_bg_selector"
+            android:text="@string/install_apps" />
+    </RelativeLayout>
+
+</LinearLayout>

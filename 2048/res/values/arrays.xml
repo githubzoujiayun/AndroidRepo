@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer-array name="entity_colors">
+		<!-- 2       f3f3f2 -->
+        <item>0xfff4f4e4</item>
+        <!-- 4		f4d171 -->
+        <item>0xfff5f5b3</item>
+        <!-- 8		eeb007 -->
+        <item>0xfff3f25b</item>
+        <!-- 16		f2961e -->
+        <item>0xfff4d171</item>
+        <!-- 32		f3a191 -->
+        <item>0xffeeb007</item>
+        <!-- 64		f66649 -->
+        <item>0xfff2961e</item>
+        <!-- 128		fa2a01 -->
+        <item>0xfff3a191</item>
+        <!-- 256		f4f4e4 -->
+        <item>0xfff66649</item>
+        <!-- 512		f5f5b3 -->
+        <item>0xfffa2a01</item>
+        <!-- 1024	f3f25b -->
+        <item>0xffece409</item>
+        <!-- 2048	ece409 -->
+        <item>0xff3399ff</item>
+        <!-- 4096	3399ff -->
+        <item>0xff0ab50a</item>
+        <!-- 8192	0ab50a -->
+        <item>0xff0ab50a</item>
+        <!-- 16384	0ab50a -->
+        <item>0xfff3f3f2</item>
+        <item>0xfff3f3f2</item>
+        <item>0xfff3f3f2</item>
+    </integer-array>
+
+</resources>

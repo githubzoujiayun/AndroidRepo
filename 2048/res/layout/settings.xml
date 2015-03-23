@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:gravity="center_vertical"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/settings"
+        android:textColor="@color/dark"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/go_btn"
+        android:layout_width="@dimen/settings_buttons_width"
+        android:layout_height="@dimen/settings_buttons_height"
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/settings_margin_top"
+        android:background="@drawable/settings_btn_bg_selector"
+        android:text="@string/goon" />
+
+    <Button
+        android:id="@+id/restart_game"
+        android:layout_width="@dimen/settings_buttons_width"
+        android:layout_height="@dimen/settings_buttons_height"
+        android:layout_below="@id/go_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/settings_margin_top"
+        android:background="@drawable/settings_btn_bg_selector"
+        android:text="@string/restart" />
+
+    <Button
+        android:id="@+id/historys"
+        android:layout_width="@dimen/settings_buttons_width"
+        android:layout_height="@dimen/settings_buttons_height"
+        android:layout_below="@id/restart_game"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/settings_margin_top"
+        android:background="@drawable/settings_btn_bg_selector"
+        android:text="@string/historys"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/sound_effects"
+        android:layout_width="@dimen/settings_buttons_width"
+        android:layout_height="@dimen/settings_buttons_height"
+        android:layout_below="@id/historys"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/settings_margin_top"
+        android:background="@drawable/settings_btn_bg_selector"
+        android:text="@string/sound_effects" />
+
+    <LinearLayout
+        android:id="@+id/load_save_layout"
+        android:layout_width="@dimen/settings_buttons_width"
+        android:layout_height="@dimen/settings_buttons_height"
+        android:layout_below="@id/sound_effects"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/settings_margin_top"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
+        <Button
+            android:id="@+id/settings_save"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/settings_btn_bg_selector"
+            android:text="@string/settings_save" />
+
+        <Button
+            android:id="@+id/settings_load"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/settings_btn_bg_selector"
+            android:text="@string/settings_load" />
+    </LinearLayout>
+    
+    <Button
+        android:id="@+id/install_games"
+        android:layout_width="@dimen/settings_buttons_width"
+        android:layout_height="@dimen/settings_buttons_height"
+        android:layout_below="@id/load_save_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/settings_margin_top"
+        android:background="@drawable/settings_btn_bg_selector"
+        android:text="@string/install_games" />
+    
+    <Button
+        android:id="@+id/install_apps"
+        android:layout_width="@dimen/settings_buttons_width"
+        android:layout_height="@dimen/settings_buttons_height"
+        android:layout_below="@id/install_games"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/settings_margin_top"
+        android:background="@drawable/settings_btn_bg_selector"
+        android:text="@string/install_apps" />
+    
+
+</RelativeLayout>

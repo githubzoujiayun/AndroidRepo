@@ -1,0 +1,166 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.test2048.Main" >
+
+    <TextView
+        android:id="@+id/title_2048"
+        android:layout_width="@dimen/dimen_summery_height"
+        android:layout_height="@dimen/dimen_summery_height"
+        android:layout_marginRight="@dimen/dimen_summery_margin"
+        android:background="@drawable/radius_rectangle_shape_orange"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/title"
+        android:textColor="@android:color/background_dark"
+        android:textSize="30sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_margin_parent_horizon"
+        android:layout_toRightOf="@id/title_2048"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_summery_height"
+            android:layout_marginLeft="@dimen/dimen_summery_margin"
+            android:layout_marginRight="@dimen/dimen_summery_margin"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/radius_rectangle_shape_yellow"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/current_score"
+                    android:textColor="@color/main_score"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/current_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="2dp"
+                    android:singleLine="true"
+                    android:textColor="@color/dark"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_menu"
+                android:layout_width="@dimen/dimen_summery_height"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/main_btn_selector"
+                android:text="@string/btn_menu"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_summery_height"
+            android:layout_marginLeft="@dimen/dimen_summery_margin"
+            android:layout_marginRight="@dimen/dimen_summery_margin"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/radius_rectangle_shape_yellow"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/history_max_score"
+                    android:textColor="@color/main_score"
+                    android:ellipsize="none"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/history_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="2dp"
+                    android:singleLine="true"
+                    android:textColor="@color/dark"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_rollback"
+                android:layout_width="@dimen/dimen_summery_height"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/main_btn_selector"
+                android:text="@string/btn_rollback"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/target"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/title_2048"
+        android:layout_below="@id/title_2048"
+        android:layout_marginTop="14dp"
+        android:text="@string/your_new_target"
+        android:textColor="@color/dark"
+        android:textSize="16sp" />
+
+    <FrameLayout
+        android:id="@+id/game_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/target"
+        android:layout_marginLeft="@dimen/dimen_margin_parent_horizon"
+        android:layout_marginRight="@dimen/dimen_margin_parent_horizon"
+        android:layout_marginTop="@dimen/dimen_margin_view_top"
+        android:background="@drawable/radius_rectangle_shape_gray" >
+
+        <com.example.test2048.GameView
+            android:id="@+id/game_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/AdLinearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/target"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+    </LinearLayout>
+</RelativeLayout>
