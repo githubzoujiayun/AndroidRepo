@@ -1,6 +1,7 @@
 package com.bs.clothesroom.provider;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
@@ -107,9 +108,10 @@ public class RoomProvider extends ContentProvider{
                 throw new IllegalArgumentException("unkown uri.");
         }
         if (_id >= 0) {
-            getContext().getContentResolver().notifyChange(CONTENT_URI, null);
+//            getContext().getContentResolver().notifyChange(CONTENT_URI, null);
+            getContext().getContentResolver().notifyChange(uri, null);
         }
-        return null;
+        return ContentUris.withAppendedId(uri,_id);
     }
 
     @Override
@@ -135,7 +137,7 @@ public class RoomProvider extends ContentProvider{
                 c = mDb.query(TABLE_NAME_USERS, projection, selection, selectionArgs, null, null, orderBy);
             }
             case MEDIA_FILES:{
-                
+                c = mDb.query(TABLE_NAME_USERS, projection, selection, selectionArgs, null, null, orderBy);
                 break;
             }
             case MEDIA_FILES_ID:{

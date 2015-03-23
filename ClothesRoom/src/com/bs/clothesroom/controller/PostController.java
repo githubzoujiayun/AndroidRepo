@@ -39,7 +39,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.bs.clothesroom.R;
-import com.bs.clothesroom.provider.CloseInfo;
+import com.bs.clothesroom.provider.ClothesInfo;
 import com.bs.clothesroom.provider.IInfo;
 import com.bs.clothesroom.provider.UserInfo;
 
@@ -138,7 +138,7 @@ public class PostController {
                 json.toString());
     }
     
-    public void uploadFile(String file, CloseInfo info) {
+    public void uploadFile(String file, ClothesInfo info) {
         JSONObject json = null;
         try {
             json = info.toJson();

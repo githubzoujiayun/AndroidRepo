@@ -1,9 +1,5 @@
 package com.bs.clothesroom;
 
-import com.bs.clothesroom.provider.CloseInfo;
-import com.bs.clothesroom.provider.CloseInfo.Season;
-import com.bs.clothesroom.provider.CloseInfo.Style;
-import com.bs.clothesroom.provider.CloseInfo.Type;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -23,6 +19,11 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import com.bs.clothesroom.provider.ClothesInfo;
+import com.bs.clothesroom.provider.ClothesInfo.Season;
+import com.bs.clothesroom.provider.ClothesInfo.Style;
+import com.bs.clothesroom.provider.ClothesInfo.Type;
 
 public class ImageUploadFragment extends GeneralFragment implements OnClickListener {
     
@@ -126,7 +127,7 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
         default:
             throw new IllegalArgumentException("typeId id not found :"+typeId);
         }
-        CloseInfo info = new CloseInfo(style,season,type);
+        ClothesInfo info = new ClothesInfo(style,season,type);
         mPostController.uploadFile(mImagePath,info);
     }
 
