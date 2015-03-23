@@ -13,10 +13,11 @@ import com.bs.clothesroom.controller.PostController;
 import com.bs.clothesroom.controller.PostController.IPostCallback;
 import com.bs.clothesroom.controller.PostController.PostResult;
 import com.bs.clothesroom.controller.Preferences;
-import com.bs.clothesroom.controller.UserInfo;
+import com.bs.clothesroom.provider.UserInfo;
 
 public abstract class GeneralFragment extends Fragment {
     
+    private static final boolean DEBUG_CLASS = true;
     PostController mPostController;
     UserInfo mUserInfo;
     Preferences mPrefs;
@@ -26,7 +27,7 @@ public abstract class GeneralFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		mPrefs = Preferences.getInstance(getActivity());
-		log(this.getClass().getName()+" --> onCreate");
+		classLog("onCreate");
 	}
 
 	@Override
@@ -80,7 +81,9 @@ public abstract class GeneralFragment extends Fragment {
 	}
 	
 	public void classLog(String str) {
-		log(getClass().getName()+" --->" + str);
+	    if (DEBUG_CLASS) {
+	        log(getClass().getName()+" --->" + str);
+	    }
 	}
 	
 	public void replaceFragment(Class<? extends Fragment> f,Bundle b,int replace) {
@@ -126,9 +129,7 @@ public abstract class GeneralFragment extends Fragment {
 
         @Override
         public void onPostSucceed(PostResult result) {
-            if (result.postId == PostController.POST_ID_FETCH_USERINFO) {
-                mUserInfo = UserInfo.fromJson(result.json);
-            }
+           
         }
 
         @Override

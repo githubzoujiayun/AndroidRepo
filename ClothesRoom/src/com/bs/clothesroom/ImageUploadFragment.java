@@ -1,5 +1,6 @@
 package com.bs.clothesroom;
 
+import com.bs.clothesroom.provider.CloseInfo;
 import com.bs.clothesroom.provider.CloseInfo.Season;
 import com.bs.clothesroom.provider.CloseInfo.Style;
 import com.bs.clothesroom.provider.CloseInfo.Type;
@@ -125,6 +126,8 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
         default:
             throw new IllegalArgumentException("typeId id not found :"+typeId);
         }
+        CloseInfo info = new CloseInfo(style,season,type);
+        mPostController.uploadFile(mImagePath,info);
     }
 
     @Override

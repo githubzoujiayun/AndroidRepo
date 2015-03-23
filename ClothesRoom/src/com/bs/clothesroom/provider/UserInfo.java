@@ -1,11 +1,13 @@
-package com.bs.clothesroom.controller;
+package com.bs.clothesroom.provider;
 
 import java.io.Serializable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class UserInfo implements Serializable{
+import android.provider.BaseColumns;
+
+public class UserInfo implements Serializable,IInfo{
     
     /**
      * 
@@ -52,7 +54,7 @@ public class UserInfo implements Serializable{
         this.waist = waist;
         this.hips = hips;
         this.height = height;
-        this.waist = waist;
+        this.weight = weight;
     }
     
     public UserInfo(JSONObject json) throws JSONException {
@@ -65,20 +67,24 @@ public class UserInfo implements Serializable{
         this.phone = json.getString(JSON_KEY_PHONE);
         this.email = json.getString(JSON_KEY_EMAIL);
         this.job = json.getString(JSON_KEY_JOB);
-        this.bust = json.getString(JSON_KEY_BUST);
-        this.waist = json.getString(JSON_KEY_WAIST);
-        this.hips = json.getString(JSON_KEY_HIPS);
-        this.weight = json.getString(JSON_KEY_WEIGHT);
-        this.height = json.getString(JSON_KEY_HEIGHT);
+        try {
+            this.bust = json.getString(JSON_KEY_BUST);
+            this.waist = json.getString(JSON_KEY_WAIST);
+            this.hips = json.getString(JSON_KEY_HIPS);
+            this.weight = json.getString(JSON_KEY_WEIGHT);
+            this.height = json.getString(JSON_KEY_HEIGHT);
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
     }
     
     public static UserInfo fromJson(JSONObject json) {
         try {
             return new UserInfo(json);
         } catch (JSONException e) {
-//            throw new RuntimeException("json is not well formate.");
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException("json is not well formate.",e);
+//            e.printStackTrace();
+//            return null;
         }
     }
     
@@ -98,4 +104,14 @@ public class UserInfo implements Serializable{
         json.put(JSON_KEY_WEIGHT, weight);
         return json;
     }
+    
+    @Override
+    public String toString() {
+        return "UserInfo [userName=" + userName + ", password=" + password
+                + ", sex=" + sex + ", age=" + age + ", phone=" + phone
+                + ", email=" + email + ", job=" + job + ", weight=" + weight
+                + ", height=" + height + ", bust=" + bust + ", waist=" + waist
+                + ", hips=" + hips + "]";
+    }
+
 }

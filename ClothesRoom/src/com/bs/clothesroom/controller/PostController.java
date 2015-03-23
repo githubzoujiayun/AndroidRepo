@@ -20,6 +20,9 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreConnectionPNames;
@@ -36,6 +39,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.bs.clothesroom.R;
+import com.bs.clothesroom.provider.CloseInfo;
+import com.bs.clothesroom.provider.IInfo;
+import com.bs.clothesroom.provider.UserInfo;
 
 public class PostController {
 
@@ -49,6 +55,8 @@ public class PostController {
      * @see #POST_TYPE_FETCH_USERINFO
      */
     public static final String POST_ARGS_TYPE = "type";
+    public static final String POST_ARGS_JSON = "requestJson";
+    public static final String POST_ARGS_IMAGE = "image";
     public static final String ARGS_USERNAME = "username";
     public static final String ARGS_PASSWORD = "password";
     public static final String ARGS_SEX = "sex";
@@ -67,14 +75,14 @@ public class PostController {
     private static final String POST_TYPE_FETCH_DETAIL_LIST = "fetch_list";
     
     public static final int POST_ID_UNKNOWN = 0;
-    public static final int POST_ID_STRING_MASK = 0x0001;
-    public static final int POST_ID_LOGIN = POST_ID_STRING_MASK << 0;
-    public static final int POST_ID_REGISTER = POST_ID_STRING_MASK << 1;
-    public static final int POST_ID_FETCH_USERINFO = POST_ID_STRING_MASK << 2;
-    public static final int POST_ID_UPLOAD_FILE = POST_ID_STRING_MASK << 3;
-    public static final int POST_ID_FETCH_DETAIL_LIST = POST_ID_STRING_MASK << 4;
+    public static final int POST_ID_STRING_MASK = 0x01000;
+    public static final int POST_ID_LOGIN = POST_ID_STRING_MASK + (1 << 0);
+    public static final int POST_ID_REGISTER = POST_ID_STRING_MASK +(1 << 1);
+    public static final int POST_ID_FETCH_USERINFO = POST_ID_STRING_MASK + (1 << 2);
+    public static final int POST_ID_UPLOAD_FILE = POST_ID_STRING_MASK + (1 << 3);
+    public static final int POST_ID_FETCH_DETAIL_LIST = POST_ID_STRING_MASK + (1 << 4);
     
-    public static final int POST_ID_BINARY_MASK = 0x1001;
+    public static final int POST_ID_BINARY_MASK = 0x10000;
     
     private Context mContext;
 
@@ -130,10 +138,19 @@ public class PostController {
                 json.toString());
     }
     
-    public void uploadFile(String file) {
+    public void uploadFile(String file, CloseInfo info) {
+        JSONObject json = null;
+        try {
+            json = info.toJson();
+            addArgument(json, POST_ARGS_TYPE, POST_TYPE_UPLOAD_FILE);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mPostTask = new PostTask(POST_ID_UPLOAD_FILE,file,json.toString());
+        mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//        UploadTask task = new UploadTask(POST_ID_UPLOAD_FILE,file,info);
+//        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         
-        UploadTask task = new UploadTask(POST_ID_UPLOAD_FILE);
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, file);
     }
 
     private boolean checkNetworkAvaliable() {
@@ -165,47 +182,53 @@ public class PostController {
         json.put(key, value);
     }
 
-    private void addArgument(List<NameValuePair> _params, String key,
-            String value) {
-        final List<NameValuePair> params = _params;
-        params.add(new BasicNameValuePair(key, value));
-    }
+//    private void addArgument(List<NameValuePair> _params, String key,
+//            String value) {
+//        final List<NameValuePair> params = _params;
+//        params.add(new BasicNameValuePair(key, value));
+//    }
     
-    class UploadTask extends AsyncTask<String, Void, String> {
-        
-        private int mPostId = POST_ID_UNKNOWN;
-        
-        public UploadTask(int postId) {
-            mPostId = postId;
-        }
-
-        @Override
-        protected String doInBackground(String... files) {
-            return HttpAssist.uploadFile(new File(files[0]));
-        }
-
-        @Override
-        protected void onPostExecute(String r) {
-            PostResult result = new PostResult();
-            result.postId = POST_ID_UPLOAD_FILE;
-            if (r.equals(HttpAssist.SUCCESS)) {
-                mDelivery.onPostSucceed(result);
-            } else {
-                mDelivery.onPostFailed(result);
-            }
-            super.onPostExecute(r);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            mDelivery.onPostStart(mPostId, mContext.getString(R.string.upload_file));
-            super.onPreExecute();
-        }
-    }
+//    class UploadTask extends AsyncTask<String, Void, String> {
+//        
+//        private int mPostId = POST_ID_UNKNOWN;
+//        private String mTargetFile;
+//        private IInfo mInfo;
+//        
+//        public UploadTask(int postId, String file, IInfo info) {
+//            mPostId = postId;
+//            mTargetFile = file;
+//            mInfo = info;
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... files) {
+//            return HttpAssist.uploadFile(new File(files[0]));
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String r) {
+//            PostResult result = new PostResult();
+//            result.postId = POST_ID_UPLOAD_FILE;
+//            if (r.equals(HttpAssist.SUCCESS)) {
+//                mDelivery.onPostSucceed(result);
+//            } else {
+//                mDelivery.onPostFailed(result);
+//            }
+//            super.onPostExecute(r);
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            mDelivery.onPostStart(mPostId, mContext.getString(R.string.upload_file));
+//            super.onPreExecute();
+//        }
+//    }
     
     class PostTask extends AsyncTask<String, Integer, PostResult> {
 
         private int mPostId= POST_ID_UNKNOWN;
+        private String mJson;
+        private String mTargetFile;
 
         public PostTask(int postType) {
             mPostId = postType;
@@ -214,6 +237,12 @@ public class PostController {
         public PostTask() {
         }
         
+        public PostTask(int postId, String file, String json) {
+            mPostId = postId;
+            mTargetFile = file;
+            mJson = json;
+        }
+
         public void setPostType(int id){
             mPostId = id;
         }
@@ -225,6 +254,10 @@ public class PostController {
 
         @Override
         protected PostResult doInBackground(String... params) {
+            if ((mPostId & POST_ID_BINARY_MASK) != 0) {
+                assert mTargetFile != null;
+                return doMuiltyPost(new File(mTargetFile), mJson);
+            }
             return doPost(params[0]);
         }
 
@@ -240,8 +273,35 @@ public class PostController {
             super.onPostExecute(result);
         }
         
-
+        private PostResult doMuiltyPost(File f,String json) { 
+            MultipartEntity entity = new MultipartEntity();
+            if (f.exists()) {
+                FileBody fbody = new FileBody(f,"image/*");
+                entity.addPart(POST_ARGS_IMAGE, fbody);
+            }
+            try {
+                StringBody stringBody = new StringBody(json);
+                entity.addPart(POST_ARGS_JSON, stringBody);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            return doPostInternal(entity);
+        }
+        
         private PostResult doPost(String json) {
+            HttpEntity entity = null;
+            try {
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair(POST_ARGS_JSON,json));
+                entity = new UrlEncodedFormEntity(params);
+                log("post >> "+json);
+            } catch (UnsupportedEncodingException e1) {
+                throw new PostException("json parse error.");
+            }
+            return doPostInternal(entity);
+        }
+
+        private PostResult doPostInternal(HttpEntity entity) {
             
             PostResult result = new PostResult();
             result.postId = mPostId;
@@ -251,18 +311,10 @@ public class PostController {
                 return result;
             }
             HttpPost httpRequest = new HttpPost(SERVICE_URL);
-            HttpEntity entity = null;
-            try {
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("requestJson",json));
-                entity = new UrlEncodedFormEntity(params);
-            } catch (UnsupportedEncodingException e1) {
-                throw new PostException("json parse error.");
-            }
             httpRequest.setEntity(entity);
             HttpClient httpclient = new DefaultHttpClient();
-             httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT,
-             10000); 
+            httpclient.getParams().setParameter(
+                    CoreConnectionPNames.CONNECTION_TIMEOUT, 10000); 
             HttpResponse httpResponse = null;
             try {
                 String message = null;
@@ -279,7 +331,7 @@ public class PostController {
                     break;
                 }
                 mDelivery.onPostStart(mPostId, message);
-                log("post >> "+json);
+                log("post succeed!");
                 httpResponse = httpclient.execute(httpRequest);
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
@@ -333,7 +385,7 @@ public class PostController {
                 result.primaryKey = json.getString(ARGS_USERNAME);
             }
             log("get << "+json);
-            if ((mPostId >> 12) == 0) {
+            if ((mPostId & POST_ID_STRING_MASK) != 0) {
                 /*
                  * POST_ID_STRING_MASK
                  */
@@ -436,10 +488,14 @@ public class PostController {
         public static final int SUCCED = 0;
         public static final int ERR_INVALIDE_USERNAME = 1;
         public static final int ERR_PASSWORD_NOT_MATCH = 2;
-        public static final int ERR_NETWORK_NOT_AVIABLE = 3;
-        public static final int ERR_NULL_RETURN = 4;
-        public static final int ERR_NETWORK_EXCEPTION = 5;
-        public static final int ERR_UPLOAD_FAILED = 6;
+        public static final int ERR_MESSAGE_FAILED = 3;
+        public static final int ERR_MESSAGE_USEREXIST    = 5;
+        public static final int ERR_MESSAGE_EMAILEXIST  = 6;
+        public static final int ERR_MESSAGE_PHONEEXIST = 7;
+        public static final int ERR_NETWORK_EXCEPTION = 8;
+        public static final int ERR_UPLOAD_FAILED = 9;
+        public static final int ERR_NULL_RETURN = 10;
+        public static final int ERR_NETWORK_NOT_AVIABLE = 11;
     }
 
     public void cancelPost() {

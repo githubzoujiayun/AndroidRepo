@@ -24,7 +24,7 @@ import com.bs.clothesroom.controller.PostController;
 import com.bs.clothesroom.controller.PostController.IPostCallback;
 import com.bs.clothesroom.controller.PostController.PostResult;
 import com.bs.clothesroom.controller.Preferences;
-import com.bs.clothesroom.controller.UserInfo;
+import com.bs.clothesroom.provider.UserInfo;
 
 public class GeneralActivity extends FragmentActivity {
 	
@@ -32,6 +32,7 @@ public class GeneralActivity extends FragmentActivity {
 	private static final String ACTION_REGISTER = "com.bs.clothesroom.register";
 	
 	private static final int REQUEST_CODE_LOGIN = 0;
+    private static final boolean DEBUG_CLASS = false;
 	
 	PostController mPostController;
 	private PostCallback mPostCallback;
@@ -160,9 +161,10 @@ public class GeneralActivity extends FragmentActivity {
                     break;
                 case PostController.POST_ID_REGISTER:
                     toastMessage(R.string.register_succeed);
+                    startLogin(GeneralActivity.this);
+                    finish();
                     break;
                 case PostController.POST_ID_FETCH_USERINFO:
-                    
                     UserInfo userInfo = UserInfo.fromJson(result.json);
                     break;
                 case PostController.POST_ID_UPLOAD_FILE:
@@ -201,8 +203,21 @@ public class GeneralActivity extends FragmentActivity {
             case PostResult.ERR_UPLOAD_FAILED:
                 toastMessage(R.string.upload_failed);
                 break;
+            case PostResult.ERR_MESSAGE_EMAILEXIST:
+                toastMessage(R.string.email_exist);
+                break;
+            case PostResult.ERR_MESSAGE_PHONEEXIST:
+                toastMessage(R.string.phone_exist);
+                break;
+            case PostResult.ERR_MESSAGE_USEREXIST:
+                toastMessage(R.string.username_exist);
+                break;
+            case PostResult.ERR_MESSAGE_FAILED:
+//                toastMessage(R.string.re);
+                break;
 
             default:
+                toastMessage("Error Code = "+result.errId);
                 break;
             }
             log(mCheckingDialog+"");
@@ -271,5 +286,11 @@ public class GeneralActivity extends FragmentActivity {
 
     public static void log(String str){
         android.util.Log.e("qinchao",str);
+    }
+    
+    public void classLog(String str) {
+        if (DEBUG_CLASS) {
+            log(getClass().getName()+" --->" + str);
+        }
     }
 }

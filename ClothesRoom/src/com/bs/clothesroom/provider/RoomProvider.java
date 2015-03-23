@@ -50,12 +50,13 @@ public class RoomProvider extends ContentProvider{
             		"UserName Text, " +
             		"PhoneNumber Text, " +
             		"EmailAddress Text, " +
-            		"Age Integer, " +
+            		"Age Text, " +
             		"Sex Text, " +
-            		"Bust Integer, " +
-            		"Waist Integer, " +
-            		"Hips Integer, " +
-            		"Shoudler Integer" +
+            		"Job Text" +
+            		"Bust Text, " +
+            		"Waist Text, " +
+            		"Hips Text, " +
+//            		"Shoudler Integer" +
             		")");
             db.execSQL("create table "+TABLE_NAME_MEDIAS + " (" +
             		"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -70,6 +71,7 @@ public class RoomProvider extends ContentProvider{
         @Override
         public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_USERS);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDIAS);
             onCreate(db);
         }
         

@@ -7,7 +7,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import com.bs.clothesroom.controller.PostController;
-import com.bs.clothesroom.controller.UserInfo;
+import com.bs.clothesroom.provider.UserInfo;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -94,8 +94,10 @@ public class RegisterFragment extends GeneralFragment implements OnClickListener
 		    String hips = mHips.getText().toString().trim();
 		    String height = mHeight.getText().toString().trim();
 		    String weight = mWeight.getText().toString().trim();
+		    log("weight : "+weight);
             UserInfo info = new UserInfo(username, password, sex, age, phone,
                     email, work, bust, waist, hips, height, weight);
+            log(info.toString());
 			mPostController.register(info);
 		}
 	}

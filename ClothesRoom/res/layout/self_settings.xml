@@ -135,10 +135,11 @@
                 />
         </LinearLayout>
     </LinearLayout>
-	<fragment
+	<LinearLayout
             android:id="@+id/fragment2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.bs.clothesroom.GeneralActivity$DefaultFragment" />    
+            android:orientation="horizontal"
+            />    
 </FrameLayout>
 </ScrollView>

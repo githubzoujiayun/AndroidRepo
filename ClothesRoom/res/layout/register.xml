@@ -58,7 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:hint="@string/hint_email"
-            android:text="704896571@qq.com"
             android:inputType="textEmailAddress" />
 
         <EditText
