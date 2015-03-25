@@ -65,7 +65,6 @@ public class GeneralActivity extends FragmentActivity {
 		mPrefs = Preferences.getInstance(this);
 		mPostController = new PostController(this);
 		mPostCallback = new PostCallback();
-		mPostController.addCallback(mPostCallback);
 		if (!(GeneralActivity.this instanceof Main)) {
 			ActionBar bar = getActionBar();
 			bar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
@@ -79,20 +78,29 @@ public class GeneralActivity extends FragmentActivity {
 		}
 	}
 	
-	
-	
 	@Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
 	protected void onDestroy() {
-	    mPostController.removeCallback(mPostCallback);
 		super.onDestroy();
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
+	protected void onStart() {
+		super.onStart();
+		mPostController.addCallback(mPostCallback);
 	}
 	
-	public void replaceFragment(Class<? extends Fragment> f,Bundle b,int replace) {
+	@Override
+    protected void onStop() {
+	    mPostController.removeCallback(mPostCallback);
+	    super.onStop();
+    }
+
+    public void replaceFragment(Class<? extends Fragment> f,Bundle b,int replace) {
 		try {
 			Fragment fragment = f.newInstance();
 			fragment.setArguments(b);
@@ -174,7 +182,7 @@ public class GeneralActivity extends FragmentActivity {
                     break;
                 }
             } finally {
-                log(mCheckingDialog+"");
+                log("mCheckingDialog = "+mCheckingDialog+"");
                 if (mCheckingDialog != null) {
                     mCheckingDialog.dismissAllowingStateLoss();
                 }
@@ -234,7 +242,24 @@ public class GeneralActivity extends FragmentActivity {
         }
 
         @Override
-        public void onPostStart(int post, String message) {
+        public void onPostStart(int post, String info) {
+            String message = null;
+            switch (post) {
+            case PostController.POST_ID_LOGIN:
+                message = getString(R.string.logining);
+                break;
+            case PostController.POST_ID_REGISTER:
+                message = getString(R.string.registering);
+                break;
+            case PostController.POST_ID_FETCH_USERINFO:
+                message = getString(R.string.fetch_userinfoing);
+            case PostController.POST_ID_FETCH_FETCH_VEDIO_IDS:
+            case PostController.POST_ID_FETCH_FETCH_IMAGE_IDS:
+                message = getString(R.string.fetch_data);
+                break;
+            default:
+                break;
+            }
             mCheckingDialog = new CheckingProgressDialog();
             mCheckingDialog.setCancelable(false);
             

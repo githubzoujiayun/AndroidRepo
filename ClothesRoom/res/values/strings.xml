@@ -54,4 +54,6 @@
 	<string name="description_preview">图片预览</string>
 	<string name="upload_image">上传图片</string>
 	<string name="toast_null_preview">请上传有效图片</string>
+	<string name="menu_refresh">刷新</string>
+	<string name="fetch_data">正在获取数据...</string>
 </resources>

@@ -1,6 +1,8 @@
 package com.bs.clothesroom;
 
 
+import java.io.File;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -128,7 +130,11 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
             throw new IllegalArgumentException("typeId id not found :"+typeId);
         }
         ClothesInfo info = new ClothesInfo(style,season,type);
-        mPostController.uploadFile(mImagePath,info);
+//        mPostController.uploadFile(mImagePath,info);
+        File f = new File(mImagePath);
+//        if (f.exists()) {
+            mPostController.uploadFile(f, info);
+//        }
     }
 
     @Override

@@ -16,7 +16,7 @@ public class RoomProvider extends ContentProvider{
     public static final Uri CONTENT_URI = Uri.parse("content://"+PROVIDER_NAME);
     
     private static final String DATABASE_NAME = "room.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
     
     private static final String TABLE_NAME_USERS = "Users";
     private static final String TABLE_NAME_MEDIAS = "Medias";
@@ -56,7 +56,7 @@ public class RoomProvider extends ContentProvider{
             		"Job Text" +
             		"Bust Text, " +
             		"Waist Text, " +
-            		"Hips Text, " +
+            		"Hips Text" +
 //            		"Shoudler Integer" +
             		")");
             db.execSQL("create table "+TABLE_NAME_MEDIAS + " (" +
@@ -65,7 +65,12 @@ public class RoomProvider extends ContentProvider{
             		"Size Integer, " +
             		"Time Text, " +
             		"_data Text, " +
-            		"user_id integer" +
+            		"user_id Text," +
+            		"season Text," +
+            		"style Text," +
+            		"type Text," +
+            		"server_id Text," +
+            		"media_name Text" +
             		")");
         }
 
@@ -129,20 +134,20 @@ public class RoomProvider extends ContentProvider{
         Cursor c = null;
         switch(match) {
             case USERS:{
-//                mDb.qu
                 break;
             }
             case USERS_ID:{
                 _id = uri.getPathSegments().get(1);
                 c = mDb.query(TABLE_NAME_USERS, projection, selection, selectionArgs, null, null, orderBy);
+                break;
             }
             case MEDIA_FILES:{
-                c = mDb.query(TABLE_NAME_USERS, projection, selection, selectionArgs, null, null, orderBy);
+                c = mDb.query(TABLE_NAME_MEDIAS, projection, selection, selectionArgs, null, null, orderBy);
                 break;
             }
             case MEDIA_FILES_ID:{
                 _id = uri.getPathSegments().get(1);
-                c = mDb.query(TABLE_NAME_USERS, projection, selection, selectionArgs, null, null, orderBy);
+                c = mDb.query(TABLE_NAME_MEDIAS, projection, selection, selectionArgs, null, null, orderBy);
                 break;
             }
             default:

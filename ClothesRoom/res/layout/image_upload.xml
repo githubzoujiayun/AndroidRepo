@@ -36,6 +36,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginLeft="@dimen/dimen_upload_margin_left"
+        android:checkedButton="@+id/leisure"
         android:weightSum="4" >
 
         <RadioButton
@@ -81,6 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_upload_margin_left"
         android:orientation="horizontal"
+        android:checkedButton="@+id/spring"
         android:weightSum="4" >
 
         <RadioButton
@@ -125,6 +127,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginLeft="@dimen/dimen_upload_margin_left"
+        android:checkedButton="@+id/sleeved"
         android:weightSum="4" >
 
         <RadioButton

@@ -29,13 +29,14 @@ public class ClothesInfo implements IInfo {
     public final static String COLUMN_NAME_DATA = "_data";
     public final static String COLUMN_NAME_USERID = "user_id";
     public final static String COLUMN_NAME_SYN_SERVER_ID = "server_id";
+    public final static String COLUMN_NAME_MEDIA_NAME = "media_name";
 
     public final static String MIMETYPE_VEDIO = "vedio";
     public final static String MIMETYPE_IMAGE = "image";
     private static final String[] PROJECTION = new String[] { _ID,
             COLUMN_NAME_SEASON, COLUMN_NAME_STYLE, COLUMN_NAME_TYPE,
             COLUMN_NAME_MIMETYPE, COLUMN_NAME_DATA, COLUMN_NAME_USERID,
-            COLUMN_NAME_SYN_SERVER_ID };
+            COLUMN_NAME_SYN_SERVER_ID,COLUMN_NAME_MEDIA_NAME };
     
     public static final Uri CONTENT_URI = Uri
             .parse(RoomProvider.CONTENT_URI + "/medias");
@@ -59,7 +60,8 @@ public class ClothesInfo implements IInfo {
     public String mMediaPath;
     public int mSynServerId;
     public int mId;
-    public int mUserId;
+    public String mUserId;
+    public String mMediaName;
 
     public ClothesInfo(Style style, Season season, Type type) {
         mSeason = season;
@@ -95,6 +97,7 @@ public class ClothesInfo implements IInfo {
         values.put(COLUMN_NAME_SYN_SERVER_ID, mSynServerId);
         values.put(COLUMN_NAME_TYPE, mType.name());
         values.put(COLUMN_NAME_USERID, mUserId);
+        values.put(COLUMN_NAME_MEDIA_NAME, mMediaName);
         return resoler.insert(CONTENT_URI, values);
     }
     
@@ -118,6 +121,7 @@ public class ClothesInfo implements IInfo {
             infos[i].mSeason = Season.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_SEASON)));
             infos[i].mStyle = Style.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_STYLE)));
             infos[i].mType = Type.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_TYPE)));
+            infos[i].mMediaName = c.getString(c.getColumnIndex(COLUMN_NAME_MEDIA_NAME));
             i++;
         }
         return infos;
@@ -143,6 +147,7 @@ public class ClothesInfo implements IInfo {
             infos[i].mSeason = Season.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_SEASON)));
             infos[i].mStyle = Style.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_STYLE)));
             infos[i].mType = Type.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_TYPE)));
+            infos[i].mMediaName = c.getString(c.getColumnIndex(COLUMN_NAME_MEDIA_NAME));
             i++;
         }
         return infos;
@@ -166,6 +171,7 @@ public class ClothesInfo implements IInfo {
             infos[i].mSeason = Season.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_SEASON)));
             infos[i].mStyle = Style.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_STYLE)));
             infos[i].mType = Type.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_TYPE)));
+            infos[i].mMediaName = c.getString(c.getColumnIndex(COLUMN_NAME_MEDIA_NAME));
             i++;
         }
         return infos;
@@ -187,11 +193,10 @@ public class ClothesInfo implements IInfo {
                 .parse(RoomProvider.CONTENT_URI + "/medias");
     }
 
-    public static CursorLoader getVedioCursorLoader(Context context, int userId) {
-        String selection = COLUMN_NAME_MIMETYPE + " = ? , "
+    public static CursorLoader getVedioCursorLoader(Context context, String userId) {
+        String selection = COLUMN_NAME_MIMETYPE + " = ? AND "
                 + COLUMN_NAME_USERID + " = ?";
-        String selectionArgs[] = new String[] { MIMETYPE_VEDIO,
-                String.valueOf(userId) };
+        String selectionArgs[] = new String[] { MIMETYPE_VEDIO, userId };
         return new CursorLoader(context, ClothesInfo.CONTENT_URI, PROJECTION,
                 selection, selectionArgs, null);
     }

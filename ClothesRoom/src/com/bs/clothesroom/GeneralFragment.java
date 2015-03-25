@@ -55,6 +55,7 @@ public abstract class GeneralFragment extends Fragment {
 
 	@Override
 	public void onDestroy() {
+	    log("onDestroy");
 		super.onDestroy();
 	}
 
@@ -76,6 +77,7 @@ public abstract class GeneralFragment extends Fragment {
 		super.onPause();
 	}
 
+	
 	public static void log(String str){
 		android.util.Log.e("qinchao",str);
 	}
