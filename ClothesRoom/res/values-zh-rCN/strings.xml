@@ -72,6 +72,7 @@
 	<string name="label_form">选择款式</string>
 	<string name="description_preview">图片预览</string>
 	<string name="upload_image">上传图片</string>
+	<string name="toast_null_preview">请上传有效图片</string>
 	<string name="username_exist">注册失败，用户名已存在</string>
 	<string name="phone_exist">注册失败，电话号码已存在</string>
 	<string name="email_exist">注册失败，电子邮件已存在</string>

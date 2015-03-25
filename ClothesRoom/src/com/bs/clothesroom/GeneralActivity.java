@@ -186,7 +186,6 @@ public class GeneralActivity extends FragmentActivity {
                 if (mCheckingDialog != null) {
                     mCheckingDialog.dismissAllowingStateLoss();
                 }
-//                getSupportFragmentManager().popBackStack();
             }
         }
 
@@ -195,44 +194,50 @@ public class GeneralActivity extends FragmentActivity {
             log("onPostFailed");
             final int post = result.postId;
             final int err = result.errId;
-            switch (err) {
-            case PostResult.ERR_INVALIDE_USERNAME:
-                toastMessage(R.string.invalide_username);
-                break;
-            case PostResult.ERR_PASSWORD_NOT_MATCH:
-                toastMessage(R.string.password_not_match);
-                break;
-            case PostResult.ERR_NETWORK_NOT_AVIABLE:
-                toastMessage(R.string.network_not_avaliable);
-                break;
-            case PostResult.ERR_NETWORK_EXCEPTION:
-                toastMessage(R.string.network_exception);
-                break;
-            case PostResult.ERR_UPLOAD_FAILED:
-                toastMessage(R.string.upload_failed);
-                break;
-            case PostResult.ERR_MESSAGE_EMAILEXIST:
-                toastMessage(R.string.email_exist);
-                break;
-            case PostResult.ERR_MESSAGE_PHONEEXIST:
-                toastMessage(R.string.phone_exist);
-                break;
-            case PostResult.ERR_MESSAGE_USEREXIST:
-                toastMessage(R.string.username_exist);
-                break;
-            case PostResult.ERR_MESSAGE_FAILED:
-//                toastMessage(R.string.re);
-                break;
+            try {
+                switch (err) {
+                case PostResult.ERR_INVALIDE_USERNAME:
+                    toastMessage(R.string.invalide_username);
+                    break;
+                case PostResult.ERR_PASSWORD_NOT_MATCH:
+                    toastMessage(R.string.password_not_match);
+                    break;
+                case PostResult.ERR_NETWORK_NOT_AVIABLE:
+                    toastMessage(R.string.network_not_avaliable);
+                    break;
+                case PostResult.ERR_NETWORK_EXCEPTION:
+                    toastMessage(R.string.network_exception);
+                    break;
+                case PostResult.ERR_UPLOAD_FAILED:
+                    toastMessage(R.string.upload_failed);
+                    break;
+                case PostResult.ERR_MESSAGE_EMAILEXIST:
+                    toastMessage(R.string.email_exist);
+                    break;
+                case PostResult.ERR_MESSAGE_PHONEEXIST:
+                    toastMessage(R.string.phone_exist);
+                    break;
+                case PostResult.ERR_MESSAGE_USEREXIST:
+                    toastMessage(R.string.username_exist);
+                    break;
+                case PostResult.ERR_MESSAGE_FAILED:
+                    // toastMessage(R.string.re);
+                    break;
 
-            default:
-                toastMessage("Error Code = "+result.errId);
-                break;
+                default:
+                    toastMessage("Error Code = " + result.errId);
+                    break;
+                }
+            } finally {
+                log("mCheckingDialog = " + mCheckingDialog + "");
+                if (mCheckingDialog != null) {
+                    mCheckingDialog.dismissAllowingStateLoss();
+                }
             }
-            log(mCheckingDialog+"");
+            log(mCheckingDialog + "");
             if (mCheckingDialog != null) {
                 mCheckingDialog.dismissAllowingStateLoss();
             }
-//            getSupportFragmentManager().popBackStack();
         }
 
 

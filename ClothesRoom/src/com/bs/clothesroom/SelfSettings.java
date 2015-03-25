@@ -44,8 +44,6 @@ public class SelfSettings extends GeneralFragment {
     
     private View mRootView;
 
-    private PostCallback mCallback;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,8 +171,7 @@ public class SelfSettings extends GeneralFragment {
         } else {
             setTitle(mUserName);
         }
-        mCallback = new PostCallback();
-        mPostController.addCallback(mCallback);
+        mPostController.addCallback(this);
     }
 
     @Override
@@ -186,36 +183,34 @@ public class SelfSettings extends GeneralFragment {
         return !TextUtils.isEmpty(mUserName);
     }
 
-    private class PostCallback extends AbsPostCallback {
 
-        @Override
-        public void onPostStart(int post, String message) {
-        }
+    @Override
+    public void onPostStart(int post, String message) {
+    }
 
-        @Override
-        public void onPostSucceed(PostResult result) {
-            super.onPostSucceed(result);
-            if (result.postId == PostController.POST_ID_FETCH_USERINFO) {
-                mUserInfo = UserInfo.fromJson(result.json);
-                if (mUserInfo != null) {
-                    mUserName = mUserInfo.userName;
-                    showUserInfo(mUserInfo);
-                }
-                setTitle(mUserName);
+    @Override
+    public void onPostSucceed(PostResult result) {
+        super.onPostSucceed(result);
+        if (result.postId == PostController.POST_ID_FETCH_USERINFO) {
+            mUserInfo = UserInfo.fromJson(result.json);
+            if (mUserInfo != null) {
+                mUserName = mUserInfo.userName;
+                showUserInfo(mUserInfo);
             }
+            setTitle(mUserName);
         }
+    }
 
-        @Override
-        public void onPostFailed(PostResult result) {
-
-        }
-
-        @Override
-        public void onPostInfo(int post, int infoId, String info) {
-
-        }
+    @Override
+    public void onPostFailed(PostResult result) {
 
     }
+
+    @Override
+    public void onPostInfo(int post, int infoId, String info) {
+
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

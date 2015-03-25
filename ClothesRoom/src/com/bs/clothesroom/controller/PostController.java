@@ -1,10 +1,13 @@
 package com.bs.clothesroom.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -23,6 +26,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -31,6 +35,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -49,6 +54,7 @@ public class PostController {
     public static final String POST_ARGS_TYPE = "post_type";
     public static final String POST_ARGS_JSON = "requestJson";
     public static final String POST_ARGS_IMAGE = "image";
+    public static final String ARGS_IMAGE_ID = "imageid";
     public static final String ARGS_USERNAME = "username";
     public static final String ARGS_PASSWORD = "password";
     public static final String ARGS_SEX = "sex";
@@ -63,10 +69,10 @@ public class PostController {
     private static final String POST_TYPE_FETCH_USERINFO = "fetch_userinfo";
     private static final String POST_TYPE_FETCH_VEDIO_IDS = "fetch_vedio_ids";
     private static final String POST_TYPE_FETCH_IMAGE_IDS = "fetch_image_ids";
+    private static final String POST_TYPE_FETCH_IMAGE_INFO = "fetch_image_info";
     private static final String POST_TYPE_DOWNLOAD_IMAGE = "download_image";
     private static final String POST_TYPE_DOWNLOAD_VEDIO = "download_vedio";
     private static final String POST_TYPE_UPLOAD_IMAGE = "upload_image";
-    private static final String POST_TYPE_FETCH_IMAGE = "fetch_image_info";
 
     
     public static final int POST_ID_UNKNOWN = 0;
@@ -77,9 +83,11 @@ public class PostController {
     public static final int POST_ID_UPLOAD_FILE = POST_ID_STRING_MASK + (1 << 3);
     public static final int POST_ID_FETCH_FETCH_VEDIO_IDS = POST_ID_STRING_MASK + (1 << 5);
     public static final int POST_ID_FETCH_FETCH_IMAGE_IDS = POST_ID_STRING_MASK + (1 << 6);
+    public static final int POST_ID_FETCH_FETCH_IMAGE_INFO = POST_ID_STRING_MASK + (1 << 7);
     
     public static final int POST_ID_BINARY_MASK = 0x10000;
-
+    private static final int POST_ID_FETCH_DOWNLOAD_IMAGE = POST_ID_BINARY_MASK + (1 << 1);
+    private static final int POST_ID_FETCH_DOWNLOAD_VEDIO = POST_ID_BINARY_MASK + (1 << 2);
 
     
     private Context mContext;
@@ -110,8 +118,8 @@ public class PostController {
         }
         JSONObject json = new JSONObject();
         try {
-            addArgument(json, POST_ARGS_TYPE, POST_TYPE_FETCH_USERINFO);
-            addArgument(json, ARGS_USERNAME, primaryKey);
+            json.put(POST_ARGS_TYPE, POST_TYPE_FETCH_USERINFO);
+            json.put(ARGS_USERNAME, primaryKey);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -123,9 +131,9 @@ public class PostController {
     public void login(String username, String psw) {
         JSONObject json = new JSONObject();
         try {
-            addArgument(json, POST_ARGS_TYPE, POST_TYPE_LOGIN);
-            addArgument(json, ARGS_USERNAME, username);
-            addArgument(json, ARGS_PASSWORD, psw);
+            json.put(POST_ARGS_TYPE, POST_TYPE_LOGIN);
+            json.put(ARGS_USERNAME, username);
+            json.put(ARGS_PASSWORD, psw);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -134,15 +142,11 @@ public class PostController {
                 json.toString());
     }
     
-//    public void fetchVedioInfo(String userId) {
-//        fe
-//    }
-    
     public void fetchVedioIds(String userId) {
         JSONObject json = new JSONObject();
         try {
-            addArgument(json, POST_ARGS_TYPE, POST_TYPE_FETCH_VEDIO_IDS);
-            addArgument(json, ARGS_USERNAME, userId);
+            json.put(POST_ARGS_TYPE, POST_TYPE_FETCH_VEDIO_IDS);
+            json.put(ARGS_USERNAME, userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -154,8 +158,8 @@ public class PostController {
     public void fetchImageIds(String userId) {
         JSONObject json = new JSONObject();
         try {
-            addArgument(json, POST_ARGS_TYPE, POST_TYPE_FETCH_IMAGE_IDS);
-            addArgument(json, ARGS_USERNAME, userId);
+            json.put(POST_ARGS_TYPE, POST_TYPE_FETCH_IMAGE_IDS);
+            json.put(ARGS_USERNAME, userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -164,21 +168,60 @@ public class PostController {
                 json.toString());
     }
     
+    public void fetchImageInfo(String userId,int imageId) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put(POST_ARGS_TYPE, POST_TYPE_FETCH_IMAGE_INFO);
+            json.put(ARGS_USERNAME, userId);
+            json.put(ARGS_IMAGE_ID, imageId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mPostTask = new PostTask(POST_ID_FETCH_FETCH_IMAGE_INFO);
+        mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+                json.toString());
+    }
+    
     public void uploadFile(File file, ClothesInfo info) {
         JSONObject json = null;
         try {
             json = info.toJson();
-            addArgument(json, POST_ARGS_TYPE, POST_TYPE_UPLOAD_IMAGE);
-            addArgument(json, ARGS_USERNAME, Preferences.getInstance(mContext).getUsername());
-            addArgument(json, ARGS_FILE_NAME, file.getName());
+            json.put(POST_ARGS_TYPE, POST_TYPE_UPLOAD_IMAGE);
+            json.put(ARGS_USERNAME, Preferences.getInstance(mContext).getUsername());
+            json.put(ARGS_FILE_NAME, file.getName());
         } catch (JSONException e) {
             e.printStackTrace();
         }
         mPostTask = new PostTask(POST_ID_UPLOAD_FILE,file,json.toString());
         mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-//        UploadTask task = new UploadTask(POST_ID_UPLOAD_FILE,file,info);
-//        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        
+    }
+    
+    public void downloadImage(String userId,int imageId) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put(POST_ARGS_TYPE, POST_TYPE_DOWNLOAD_IMAGE);
+            json.put(ARGS_USERNAME, userId);
+            json.put(ARGS_IMAGE_ID, imageId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mPostTask = new PostTask(POST_ID_FETCH_DOWNLOAD_IMAGE);
+        mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+                json.toString());
+    }
+    
+    public void downloadVedio(String userId,int vedioId) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put(POST_ARGS_TYPE, POST_TYPE_DOWNLOAD_VEDIO);
+            json.put(ARGS_USERNAME, userId);
+            json.put(ARGS_IMAGE_ID, vedioId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mPostTask = new PostTask(POST_ID_FETCH_DOWNLOAD_VEDIO);
+        mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+                json.toString());
     }
 
     private boolean checkNetworkAvaliable() {
@@ -198,7 +241,7 @@ public class PostController {
         JSONObject params = null;
         try {
             params = info.toJson();
-            addArgument(params, POST_ARGS_TYPE, POST_TYPE_REGISTER);
+            params.put(POST_ARGS_TYPE, POST_TYPE_REGISTER);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -206,34 +249,30 @@ public class PostController {
         mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params.toString());
     }
     
-    private void addArgument(JSONObject json,String key,String value) throws JSONException {
-        json.put(key, value);
-    }
-
     class PostTask extends AsyncTask<String, Integer, PostResult> {
 
-        private int mPostId= POST_ID_UNKNOWN;
+        private int mPostId = POST_ID_UNKNOWN;
         private String mJson;
         private File mTargetFile;
         private String mUrl = SERVER_GENERAL_URL;
 
         public static final String SERVER_GENERAL_URL = "http://123.57.15.28/VirtualCloset/manager";
         public static final String SERVER_UPLOAD_URL = "http://123.57.15.28/VirtualCloset/uploadfile";
-        
+
         public PostTask(int postType) {
             mPostId = postType;
         }
 
         public PostTask() {
         }
-        
+
         public PostTask(int postId, File file, String json) {
             mPostId = postId;
             mTargetFile = file;
             mJson = json;
         }
 
-        public void setPostType(int id){
+        public void setPostType(int id) {
             mPostId = id;
         }
 
@@ -265,11 +304,11 @@ public class PostController {
             }
             super.onPostExecute(result);
         }
-        
-        private PostResult doMuiltyPost(File f,String json) { 
+
+        private PostResult doMuiltyPost(File f, String json) {
             MultipartEntity entity = new MultipartEntity();
             if (f.exists()) {
-                FileBody fbody = new FileBody(f,"image/*");
+                FileBody fbody = new FileBody(f, "image/*");
                 entity.addPart(POST_ARGS_IMAGE, fbody);
             }
             try {
@@ -278,17 +317,17 @@ public class PostController {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            log("post >> "+json);
+            log("post >> " + json);
             return doPostInternal(entity);
         }
-        
+
         private PostResult doPost(String json) {
             HttpEntity entity = null;
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair(POST_ARGS_JSON,json));
+                params.add(new BasicNameValuePair(POST_ARGS_JSON, json));
                 entity = new UrlEncodedFormEntity(params);
-                log("post >> "+json);
+                log("post >> " + json);
             } catch (UnsupportedEncodingException e1) {
                 throw new PostException("json parse error.");
             }
@@ -296,7 +335,7 @@ public class PostController {
         }
 
         private PostResult doPostInternal(HttpEntity entity) {
-            
+
             PostResult result = new PostResult();
             result.postId = mPostId;
             result.errId = PostResult.SUCCED;
@@ -308,10 +347,10 @@ public class PostController {
             httpRequest.setEntity(entity);
             HttpClient httpclient = new DefaultHttpClient();
             httpclient.getParams().setParameter(
-                    CoreConnectionPNames.CONNECTION_TIMEOUT, 10000); 
+                    CoreConnectionPNames.CONNECTION_TIMEOUT, 10000);
             HttpResponse httpResponse = null;
             try {
-                mDelivery.onPostStart(mPostId,null);
+                mDelivery.onPostStart(mPostId, null);
                 httpResponse = httpclient.execute(httpRequest);
                 log("post succeed!");
             } catch (ClientProtocolException e) {
@@ -319,7 +358,7 @@ public class PostController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            
+
             if (httpResponse == null) {
                 result.errId = PostResult.ERR_NETWORK_EXCEPTION;
                 result.info = "httpRespone is null.";
@@ -333,21 +372,21 @@ public class PostController {
             }
             if (line.getStatusCode() == 200) {
                 try {
-                    parseEntity(httpResponse.getEntity(),result);
+                    parseEntity(httpResponse.getEntity(), result);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                } 
+                }
             } else {
                 int code = line.getStatusCode();
                 try {
                     String error = EntityUtils.toString(entity);
                     result.errId = code;
-                    log("code = "+code);
-                    log("error = "+error);
+                    log("code = " + code);
+                    log("error = " + error);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -381,6 +420,24 @@ public class PostController {
                 case POST_ID_FETCH_USERINFO:
                     // result.errId = json.getInt("message");
                     break;
+                case POST_ID_FETCH_FETCH_IMAGE_IDS:
+                    result.errId = json.getInt("message");
+//                    result.obj = json.getJSONArray("image_ids");
+                    JSONArray array = json.getJSONArray("image_ids");
+                    int size = array.length();
+                    int ids[] = new int[size];
+                    for (int i = 0; i < size; i++) {
+                        ids[i] = array.getInt(i);
+                    }
+                    log("ids[] = " + Arrays.toString(ids));
+                    fetchImageInfo("chao5", ids[0]);
+                    break;
+                case POST_ID_FETCH_FETCH_IMAGE_INFO:
+//                    result.errId = json.getInt("message");
+                    int id = json.getInt("imageid");
+                    log("startDownload");
+                    downloadImage("chao5", id);
+                    break;
 
                 default:
                     break;
@@ -390,8 +447,48 @@ public class PostController {
                  * POST_ID_BINARY_MASK
                  */
                 InputStream input = entity.getContent();
-//                File
+                // File
+                copyFile(input);
+            }
+        }
 
+        private void copyFile(InputStream input) {
+            String SDCard = Environment.getExternalStorageDirectory() + "";
+            String pathName = SDCard + "/" + "ClothesRoom" + "/" + "a.jpg";// 文件存储路径
+
+            File file = new File(pathName);
+            FileOutputStream output = null;
+            try {
+                
+                if (file.exists()) {
+                    file.delete();
+                    System.out.println("exits");
+                    return;
+                } else {
+                    String dir = SDCard + "/" + "ClothesRoom";
+                    new File(dir).mkdir();// 新建文件夹
+                    file.createNewFile();// 新建文件
+                    output = new FileOutputStream(file);
+                    // 读取大文件
+                    byte[] buffer = new byte[4 * 1024];
+                    int len = 0;
+                    while ((len = input.read(buffer)) != -1) {
+                        output.write(buffer, 0, len);
+                    }
+                    output.flush();
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    output.close();
+                    System.out.println("success");
+                } catch (IOException e) {
+                    System.out.println("fail");
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -468,6 +565,7 @@ public class PostController {
         public int errId;
         public String info;
         public String primaryKey;
+        public Object obj;
         
         public static final int SUCCED = 0;
         public static final int ERR_INVALIDE_USERNAME = 1;

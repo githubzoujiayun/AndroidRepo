@@ -15,9 +15,9 @@ import com.bs.clothesroom.controller.PostController.PostResult;
 import com.bs.clothesroom.controller.Preferences;
 import com.bs.clothesroom.provider.UserInfo;
 
-public abstract class GeneralFragment extends Fragment {
+public abstract class GeneralFragment extends Fragment implements IPostCallback{
     
-    private static final boolean DEBUG_CLASS = true;
+    private static final boolean DEBUG_CLASS = false;
     PostController mPostController;
     UserInfo mUserInfo;
     Preferences mPrefs;
@@ -42,6 +42,7 @@ public abstract class GeneralFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		classLog("onActivityCreated");
 		mPostController = ((GeneralActivity)getActivity()).getController();
+		mPostController.addCallback(this);
 	}
 	
 	public void setTitle(int id) {
@@ -68,6 +69,7 @@ public abstract class GeneralFragment extends Fragment {
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
+		mPostController.removeCallback(this);
 		classLog("onDestoryView");
 	}
 	
@@ -123,19 +125,22 @@ public abstract class GeneralFragment extends Fragment {
 	    return ((GeneralActivity)getActivity()).getUserInfo();
 	}
 	
-	abstract class AbsPostCallback implements IPostCallback {
 
-        @Override
-        public void onPostStart(int post, String message) {
-        }
+    @Override
+    public void onPostStart(int post, String message) {
+    }
 
-        @Override
-        public void onPostSucceed(PostResult result) {
-           
-        }
+    @Override
+    public void onPostSucceed(PostResult result) {
 
-        @Override
-        public void onPostFailed(PostResult result) {
-        }
-	}
+    }
+
+    @Override
+    public void onPostFailed(PostResult result) {
+    }
+    
+    @Override
+    public void onPostInfo(int post, int infoId, String info) {
+        
+    }
 }

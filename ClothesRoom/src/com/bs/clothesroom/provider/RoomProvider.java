@@ -26,15 +26,17 @@ public class RoomProvider extends ContentProvider{
     private static final int MEDIA_FILES = 3;
     private static final int MEDIA_FILES_ID = 4;
     
-    private static final UriMatcher mUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+    private static UriMatcher sUriMatcher = null;
+    
     static {
-        mUriMatcher.addURI(PROVIDER_NAME, "/users", USERS);
-        mUriMatcher.addURI(PROVIDER_NAME, "/users/#", USERS_ID);
-        mUriMatcher.addURI(PROVIDER_NAME, "/medias", MEDIA_FILES);
-        mUriMatcher.addURI(PROVIDER_NAME, "/medias/#", MEDIA_FILES_ID);
+        sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+        sUriMatcher.addURI(PROVIDER_NAME, "users", USERS);
+        sUriMatcher.addURI(PROVIDER_NAME, "users/#", USERS_ID);
+        sUriMatcher.addURI(PROVIDER_NAME, "medias", MEDIA_FILES);
+        sUriMatcher.addURI(PROVIDER_NAME, "medias/#", MEDIA_FILES_ID);
     }
     
-    private DatabaseHelper mHelper = null;
+    private DatabaseHelper mHelper = null; 
     private SQLiteDatabase mDb;
     
     private static class DatabaseHelper extends SQLiteOpenHelper {
@@ -98,7 +100,7 @@ public class RoomProvider extends ContentProvider{
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         android.util.Log.e("qinchao","insert : uri = "+uri + " values = "+values);
-        final int match = mUriMatcher.match(uri);
+        final int match = sUriMatcher.match(uri);
         long _id = -1;
         switch(match) {
             case USERS:{
@@ -110,7 +112,7 @@ public class RoomProvider extends ContentProvider{
                 break;
             }
             default:
-                throw new IllegalArgumentException("unkown uri.");
+                throw new IllegalArgumentException("unkown uri. " + uri);
         }
         if (_id >= 0) {
 //            getContext().getContentResolver().notifyChange(CONTENT_URI, null);
@@ -129,7 +131,7 @@ public class RoomProvider extends ContentProvider{
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
             String orderBy) {
-        final int match = mUriMatcher.match(uri);
+        final int match = sUriMatcher.match(uri);
         String _id = null;
         Cursor c = null;
         switch(match) {
@@ -151,7 +153,7 @@ public class RoomProvider extends ContentProvider{
                 break;
             }
             default:
-                throw new IllegalArgumentException("unkown uri.");
+                throw new IllegalArgumentException("unkown uri. " + uri+" match = "+match);
         }
         if (c != null) {
             c.setNotificationUri(getContext().getContentResolver(), uri);
