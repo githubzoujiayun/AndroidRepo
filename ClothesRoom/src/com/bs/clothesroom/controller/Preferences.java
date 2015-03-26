@@ -30,8 +30,12 @@ public class Preferences {
         mEditor.commit();
     }
     
-    public String getUsername() {
-        String name = mPrefs.getString("username", "");
-        return name;
+    public static String getUsername(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getString("username", "");
+    }
+    
+    public static void log(String str){
+        android.util.Log.e("qinchao",str);
     }
 }

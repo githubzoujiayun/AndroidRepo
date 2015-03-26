@@ -31,9 +31,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -41,6 +45,7 @@ import android.util.Log;
 
 import com.bs.clothesroom.provider.ClothesInfo;
 import com.bs.clothesroom.provider.UserInfo;
+import com.bs.clothesroom.provider.ClothesInfo.ImageInfo;
 
 public class PostController {
 
@@ -187,7 +192,7 @@ public class PostController {
         try {
             json = info.toJson();
             json.put(POST_ARGS_TYPE, POST_TYPE_UPLOAD_IMAGE);
-            json.put(ARGS_USERNAME, Preferences.getInstance(mContext).getUsername());
+            json.put(ARGS_USERNAME, Preferences.getUsername(mContext));
             json.put(ARGS_FILE_NAME, file.getName());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -205,7 +210,7 @@ public class PostController {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        mPostTask = new PostTask(POST_ID_FETCH_DOWNLOAD_IMAGE);
+        mPostTask = new PostTask(POST_ID_FETCH_DOWNLOAD_IMAGE,imageId);
         mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
                 json.toString());
     }
@@ -255,6 +260,7 @@ public class PostController {
         private String mJson;
         private File mTargetFile;
         private String mUrl = SERVER_GENERAL_URL;
+        private int mServerMediaId;
 
         public static final String SERVER_GENERAL_URL = "http://123.57.15.28/VirtualCloset/manager";
         public static final String SERVER_UPLOAD_URL = "http://123.57.15.28/VirtualCloset/uploadfile";
@@ -270,6 +276,11 @@ public class PostController {
             mPostId = postId;
             mTargetFile = file;
             mJson = json;
+        }
+
+        public PostTask(int postId, int serverId) {
+            this(postId);
+            mServerMediaId = serverId;
         }
 
         public void setPostType(int id) {
@@ -383,22 +394,24 @@ public class PostController {
             } else {
                 int code = line.getStatusCode();
                 try {
-                    String error = EntityUtils.toString(entity);
+//                    String error = EntityUtils.toString(entity);
                     result.errId = code;
                     log("code = " + code);
-                    log("error = " + error);
+//                    log("error = " + error);
                 } catch (ParseException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
             return result;
         }
 
+        private boolean isBinaryId() {
+            return (mPostId & POST_ID_STRING_MASK) != 0;
+        }
+        
         private void parseEntity(HttpEntity entity, PostResult result)
                 throws ParseException, IOException, JSONException {
-            if ((mPostId & POST_ID_STRING_MASK) != 0) {
+            if (!isBinaryId()) {
                 /*
                  * POST_ID_STRING_MASK
                  */
@@ -410,37 +423,10 @@ public class PostController {
                     result.primaryKey = json.getString(ARGS_USERNAME);
                 }
                 log("get << " + json);
-                switch (mPostId) {
-                case POST_ID_LOGIN:
+                try{
                     result.errId = json.getInt("message");
-                    break;
-                case POST_ID_REGISTER:
-                    result.errId = json.getInt("message");
-                    break;
-                case POST_ID_FETCH_USERINFO:
-                    // result.errId = json.getInt("message");
-                    break;
-                case POST_ID_FETCH_FETCH_IMAGE_IDS:
-                    result.errId = json.getInt("message");
-//                    result.obj = json.getJSONArray("image_ids");
-                    JSONArray array = json.getJSONArray("image_ids");
-                    int size = array.length();
-                    int ids[] = new int[size];
-                    for (int i = 0; i < size; i++) {
-                        ids[i] = array.getInt(i);
-                    }
-                    log("ids[] = " + Arrays.toString(ids));
-                    fetchImageInfo("chao5", ids[0]);
-                    break;
-                case POST_ID_FETCH_FETCH_IMAGE_INFO:
-//                    result.errId = json.getInt("message");
-                    int id = json.getInt("imageid");
-                    log("startDownload");
-                    downloadImage("chao5", id);
-                    break;
-
-                default:
-                    break;
+                }catch (JSONException je) {
+                    result.errId = PostResult.SUCCED;
                 }
             } else {
                 /*
@@ -453,18 +439,23 @@ public class PostController {
         }
 
         private void copyFile(InputStream input) {
+            ContentResolver resolver = mContext.getContentResolver();
+            ClothesInfo localInfo = ClothesInfo.getImageInfoBySID(resolver,
+                    mServerMediaId, Preferences.getUsername(mContext));
+            log("localInfo : "+localInfo);
+            String fileName = localInfo.mMediaName;
             String SDCard = Environment.getExternalStorageDirectory() + "";
-            String pathName = SDCard + "/" + "ClothesRoom" + "/" + "a.jpg";// 文件存储路径
+            String pathName = SDCard + "/" + "ClothesRoom" + "/" + fileName;// 文件存储路径
 
             File file = new File(pathName);
             FileOutputStream output = null;
             try {
-                
+
                 if (file.exists()) {
                     file.delete();
                     System.out.println("exits");
-                    return;
-                } else {
+                }
+                {
                     String dir = SDCard + "/" + "ClothesRoom";
                     new File(dir).mkdir();// 新建文件夹
                     file.createNewFile();// 新建文件
@@ -476,11 +467,27 @@ public class PostController {
                         output.write(buffer, 0, len);
                     }
                     output.flush();
+                    
+                    //write database
+                    ContentValues update = new ContentValues();
+                    log("cp file pathName : "+pathName);
+                    update.put(ClothesInfo.COLUMN_NAME_DATA,pathName);
+                    update.put(ClothesInfo.COLUMN_NAME_DOWNLOAD_FLAG, ClothesInfo.FLAG_DOWNLOAD_DONE);
+                    Uri uri = ContentUris.withAppendedId(ClothesInfo.CONTENT_URI, localInfo.mId);
+                    resolver.update(uri, update, null, null);
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
+                ContentValues update = new ContentValues();
+                update.put(ClothesInfo.COLUMN_NAME_DOWNLOAD_FLAG, ClothesInfo.FLAG_DOWNLOAD_FAILED);
+                Uri uri = ContentUris.withAppendedId(ClothesInfo.CONTENT_URI, localInfo.mId);
+                resolver.update(uri, update, null, null);
             } catch (IOException e) {
                 e.printStackTrace();
+                ContentValues update = new ContentValues();
+                update.put(ClothesInfo.COLUMN_NAME_DOWNLOAD_FLAG, ClothesInfo.FLAG_DOWNLOAD_FAILED);
+                Uri uri = ContentUris.withAppendedId(ClothesInfo.CONTENT_URI, localInfo.mId);
+                resolver.update(uri, update, null, null);
             } finally {
                 try {
                     output.close();

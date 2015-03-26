@@ -1,5 +1,7 @@
 package com.bs.clothesroom.provider;
 
+import com.bs.clothesroom.controller.Preferences;
+
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -16,7 +18,7 @@ public class RoomProvider extends ContentProvider{
     public static final Uri CONTENT_URI = Uri.parse("content://"+PROVIDER_NAME);
     
     private static final String DATABASE_NAME = "room.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 6;
     
     private static final String TABLE_NAME_USERS = "Users";
     private static final String TABLE_NAME_MEDIAS = "Medias";
@@ -63,16 +65,17 @@ public class RoomProvider extends ContentProvider{
             		")");
             db.execSQL("create table "+TABLE_NAME_MEDIAS + " (" +
             		"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            		"MimeType Text, " +
-            		"Size Integer, " +
-            		"Time Text, " +
+            		"mimetype Text, " +
+            		"size Integer, " +
+            		"time Text, " +
             		"_data Text, " +
             		"user_id Text," +
             		"season Text," +
             		"style Text," +
             		"type Text," +
             		"server_id Text," +
-            		"media_name Text" +
+            		"media_name Text," +
+            		"flag Text" +
             		")");
         }
 
@@ -112,10 +115,9 @@ public class RoomProvider extends ContentProvider{
                 break;
             }
             default:
-                throw new IllegalArgumentException("unkown uri. " + uri);
+                throw new IllegalArgumentException("unkown insert uri. " + uri);
         }
         if (_id >= 0) {
-//            getContext().getContentResolver().notifyChange(CONTENT_URI, null);
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return ContentUris.withAppendedId(uri,_id);
@@ -140,7 +142,13 @@ public class RoomProvider extends ContentProvider{
             }
             case USERS_ID:{
                 _id = uri.getPathSegments().get(1);
-                c = mDb.query(TABLE_NAME_USERS, projection, selection, selectionArgs, null, null, orderBy);
+                StringBuffer where = new StringBuffer();
+                where.append(selection)
+                    .append(" AND ")
+                    .append(ClothesInfo._ID)
+                    .append(" = ")
+                    .append(_id);
+                c = mDb.query(TABLE_NAME_USERS, projection, where.toString(), selectionArgs, null, null, orderBy);
                 break;
             }
             case MEDIA_FILES:{
@@ -153,7 +161,7 @@ public class RoomProvider extends ContentProvider{
                 break;
             }
             default:
-                throw new IllegalArgumentException("unkown uri. " + uri+" match = "+match);
+                throw new IllegalArgumentException("unkown query uri. " + uri+" match = "+match);
         }
         if (c != null) {
             c.setNotificationUri(getContext().getContentResolver(), uri);
@@ -162,7 +170,29 @@ public class RoomProvider extends ContentProvider{
     }
 
     @Override
-    public int update(Uri arg0, ContentValues arg1, String arg2, String[] arg3) {
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        final int match = sUriMatcher.match(uri);
+        int row = -1;
+        String _id = uri.getLastPathSegment();
+        String where = ClothesInfo._ID + " = ?";
+        String args[] = new String[]{_id};
+        Preferences.log("values : "+values);
+        Preferences.log("id = "+_id);
+        switch (match) {
+        case MEDIA_FILES_ID:
+            
+            row = mDb.update(TABLE_NAME_MEDIAS, values, where, args);
+            break;
+        case USERS_ID:
+            row = mDb.update(TABLE_NAME_USERS, values, where, args);
+            break;
+
+        default:
+            throw new IllegalArgumentException("unkown insert uri. " + uri+" match = "+match);
+        }
+        if (row >= 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
         return 0;
     }
 

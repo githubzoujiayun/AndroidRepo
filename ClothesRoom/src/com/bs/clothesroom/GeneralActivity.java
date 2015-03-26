@@ -1,9 +1,18 @@
 package com.bs.clothesroom;
 
+import java.util.Arrays;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.backup.RestoreObserver;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,136 +33,191 @@ import com.bs.clothesroom.controller.PostController;
 import com.bs.clothesroom.controller.PostController.IPostCallback;
 import com.bs.clothesroom.controller.PostController.PostResult;
 import com.bs.clothesroom.controller.Preferences;
+import com.bs.clothesroom.provider.ClothesInfo;
+import com.bs.clothesroom.provider.ClothesInfo.ImageInfo;
 import com.bs.clothesroom.provider.UserInfo;
 
 public class GeneralActivity extends FragmentActivity {
-	
-	private static final String ACTION_LOGIN = "com.bs.clothesroom.login";
-	private static final String ACTION_REGISTER = "com.bs.clothesroom.register";
-	
-	private static final int REQUEST_CODE_LOGIN = 0;
+
+    private static final String ACTION_LOGIN = "com.bs.clothesroom.login";
+    private static final String ACTION_REGISTER = "com.bs.clothesroom.register";
+
+    private static final int REQUEST_CODE_LOGIN = 0;
     private static final boolean DEBUG_CLASS = false;
-	
-	PostController mPostController;
-	private PostCallback mPostCallback;
-	private Fragment mCurrentFragment;
-	
-	private CheckingProgressDialog mCheckingDialog;
+
+    PostController mPostController;
+    private PostCallback mPostCallback;
+    private Fragment mCurrentFragment;
+
+    private CheckingProgressDialog mCheckingDialog;
     UserInfo mUserInfo;
     Preferences mPrefs;
-	
-	
-	public static void startLogin(Activity from) {
-		Intent i = new Intent(from,GeneralActivity.class);
-		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		i.setAction(ACTION_LOGIN);
-		from.startActivityForResult(i, REQUEST_CODE_LOGIN);
-	}
-	
-	public static void startRegister(Activity from) {
-		Intent i = new Intent(from,GeneralActivity.class);
-		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		i.setAction(ACTION_REGISTER);
-		from.startActivity(i);
-	}
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		String action = getIntent().getAction();
-		setContentView(R.layout.general_actvity);
-		mPrefs = Preferences.getInstance(this);
-		mPostController = new PostController(this);
-		mPostCallback = new PostCallback();
-		if (!(GeneralActivity.this instanceof Main)) {
-			ActionBar bar = getActionBar();
-			bar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
-		}
-		if (ACTION_LOGIN.equals(action)) {
-//			openFragment(R.id.fragment, LoginFragment.class, null, "login");
-			replaceFragment(LoginFragment.class, null, R.id.fragment);
-		} else if (ACTION_REGISTER.equals(action)) {
-			replaceFragment(RegisterFragment.class, null, R.id.fragment);
-//			openFragment(R.id.fragment, RegisterFragment.class, null, "register");
-		}
-	}
-	
-	@Override
+    public static void startLogin(Activity from) {
+        Intent i = new Intent(from, GeneralActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setAction(ACTION_LOGIN);
+        from.startActivityForResult(i, REQUEST_CODE_LOGIN);
+    }
+
+    public static void startRegister(Activity from) {
+        Intent i = new Intent(from, GeneralActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setAction(ACTION_REGISTER);
+        from.startActivity(i);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        String action = getIntent().getAction();
+        setContentView(R.layout.general_actvity);
+        mPrefs = Preferences.getInstance(this);
+        mPostController = new PostController(this);
+        mPostCallback = new PostCallback();
+        if (!(GeneralActivity.this instanceof Main)) {
+            ActionBar bar = getActionBar();
+            bar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP
+                    | ActionBar.DISPLAY_SHOW_TITLE);
+        }
+        if (ACTION_LOGIN.equals(action)) {
+            // openFragment(R.id.fragment, LoginFragment.class, null, "login");
+            replaceFragment(LoginFragment.class, null, R.id.fragment);
+        } else if (ACTION_REGISTER.equals(action)) {
+            replaceFragment(RegisterFragment.class, null, R.id.fragment);
+            // openFragment(R.id.fragment, RegisterFragment.class, null,
+            // "register");
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
 
     @Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		mPostController.addCallback(mPostCallback);
-	}
-	
-	@Override
-    protected void onStop() {
-	    mPostController.removeCallback(mPostCallback);
-	    super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
-    public void replaceFragment(Class<? extends Fragment> f,Bundle b,int replace) {
-		try {
-			Fragment fragment = f.newInstance();
-			fragment.setArguments(b);
-			FragmentManager fm = getSupportFragmentManager();
-			FragmentTransaction transaction = fm.beginTransaction();
-			transaction.replace(replace, fragment);
-			transaction.commit();
-		} catch (java.lang.InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	protected void openFragment(int containerId,Class<? extends Fragment> f,Bundle b,String tag) {
-		try {
-			Fragment fragment = f.newInstance();
-			fragment.setArguments(b);
-			FragmentManager fm = getSupportFragmentManager();
-			FragmentTransaction transaction = fm.beginTransaction();
-			transaction.add(containerId,fragment, tag);
-			transaction.addToBackStack(tag);
-			transaction.commit();
-		} catch (java.lang.InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static class DefaultFragment extends GeneralFragment {
-		
-		@Override
-		public View onCreateView(LayoutInflater inflater,
-				@Nullable ViewGroup container,
-				@Nullable Bundle savedInstanceState) {
-			return inflater.inflate(R.layout.empty, container,false);
-		}
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		final long id = item.getItemId();
-		if (id == android.R.id.home) {
-			onBackPressed();
-		}
-		return super.onOptionsItemSelected(item);
-	}
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPostController.addCallback(mPostCallback);
+    }
+
+    @Override
+    protected void onStop() {
+        mPostController.removeCallback(mPostCallback);
+        super.onStop();
+    }
+
+    public void replaceFragment(Class<? extends Fragment> f, Bundle b,
+            int replace) {
+        try {
+            Fragment fragment = f.newInstance();
+            fragment.setArguments(b);
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(replace, fragment);
+            transaction.commit();
+        } catch (java.lang.InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void openFragment(int containerId, Class<? extends Fragment> f,
+            Bundle b, String tag) {
+        try {
+            Fragment fragment = f.newInstance();
+            fragment.setArguments(b);
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.add(containerId, fragment, tag);
+            transaction.addToBackStack(tag);
+            transaction.commit();
+        } catch (java.lang.InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static class DefaultFragment extends GeneralFragment {
+
+        @Override
+        public View onCreateView(LayoutInflater inflater,
+                @Nullable ViewGroup container,
+                @Nullable Bundle savedInstanceState) {
+            return inflater.inflate(R.layout.empty, container, false);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final long id = item.getItemId();
+        if (id == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public PostController getController() {
         return mPostController;
     }
+
+    private void onFetchedImageInfo(JSONObject jsonObj) throws JSONException {
+        final JSONObject json = jsonObj;
+        int id = json.getInt("imageid");
+        String imageName = json.getString("imagename");
+        ClothesInfo info = ClothesInfo.fromJson(json);
+        info.mMediaName = imageName;
+        info.mMimeType = "image";
+        info.mFlag = ClothesInfo.FLAG_DOWNLOAD_START;
+        ContentValues values = info.toContentValues();
+        getContentResolver().insert(ImageInfo.CONTENT_URI, values);
+        log("startDownload");
+        mPostController.downloadImage(info.mUserId, id);
+    }
     
+    private void onFetchedIds(String mimeType ,JSONObject jsonObj) throws JSONException {
+        final JSONObject json = jsonObj;
+        JSONArray array = json.getJSONArray("image_ids");
+        int size = array.length();
+        if (size <= 0) {
+            log("empty image ids : size = "+size);
+            return;
+        }
+        int ids[] = new int[size];
+        for (int i = 0; i < size; i++) {
+            ids[i] = array.getInt(i);
+        }
+        log("ids[] = " + Arrays.toString(ids));
+        ContentResolver resolver = getContentResolver();
+        if (ClothesInfo.MIMETYPE_IMAGE.equals(mimeType)) {
+            int localIds[] = ClothesInfo.getImageIds(resolver, Preferences.getUsername(this));
+            log("localIds : "+Arrays.toString(localIds));
+            for (int i = 0; i < size; i++) {
+                int j = 0;
+                int length = localIds.length;
+                for (; j < length; j++) {
+                    if (ids[i] == localIds[j]) break;
+                }
+                if (j == localIds.length) {
+                    mPostController.fetchImageInfo("chao5", ids[i]);
+                }
+            }
+        } else if (ClothesInfo.MIMETYPE_VEDIO.equals(mimeType)){
+            int localIds[] = ClothesInfo.getVedioIds(resolver, Preferences.getUsername(this));
+            log("localIds : "+Arrays.toString(localIds));
+//            mPostController.fe
+        } else {
+            throw new IllegalArgumentException("unkown mimeType : " + mimeType);
+        }
+    }
+
     class PostCallback implements IPostCallback {
 
         @Override
@@ -164,7 +228,7 @@ public class GeneralActivity extends FragmentActivity {
                 switch (post) {
                 case PostController.POST_ID_LOGIN:
                     toastMessage(getString(R.string.login_succeed));
-//                    mPostController.fetchUserInfo(result.primaryKey);
+                    // mPostController.fetchUserInfo(result.primaryKey);
                     finish();
                     break;
                 case PostController.POST_ID_REGISTER:
@@ -178,11 +242,25 @@ public class GeneralActivity extends FragmentActivity {
                 case PostController.POST_ID_UPLOAD_FILE:
                     toastMessage(R.string.upload_succeed);
                     break;
+                case PostController.POST_ID_FETCH_FETCH_IMAGE_IDS:
+                    try {
+                        onFetchedIds("image", result.json);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case PostController.POST_ID_FETCH_FETCH_IMAGE_INFO:
+                    try {
+                        onFetchedImageInfo(result.json);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
                 default:
                     break;
                 }
             } finally {
-                log("mCheckingDialog = "+mCheckingDialog+"");
+                log("mCheckingDialog = " + mCheckingDialog + "");
                 if (mCheckingDialog != null) {
                     mCheckingDialog.dismissAllowingStateLoss();
                 }
@@ -240,10 +318,9 @@ public class GeneralActivity extends FragmentActivity {
             }
         }
 
-
         @Override
         public void onPostInfo(int post, int infoId, String info) {
-            
+
         }
 
         @Override
@@ -266,21 +343,22 @@ public class GeneralActivity extends FragmentActivity {
                 break;
             }
             mCheckingDialog = new CheckingProgressDialog();
-            mCheckingDialog.setCancelable(false);
-            
-//            dialog.setTargetFragment(fragment, requestCode)
+//            mCheckingDialog.setCancelable(false);
+
+            // dialog.setTargetFragment(fragment, requestCode)
             mCheckingDialog.show(getSupportFragmentManager(), message);
         }
-        
+
     }
-    
-    private class CheckingProgressDialog extends DialogFragment{
+
+    private class CheckingProgressDialog extends DialogFragment {
 
         @Override
         @NonNull
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             log("onCreateDialog");
-            ProgressDialog dialog = new ProgressDialog(GeneralActivity.this,ProgressDialog.THEME_HOLO_LIGHT);
+            ProgressDialog dialog = new ProgressDialog(GeneralActivity.this,
+                    ProgressDialog.THEME_HOLO_LIGHT);
             dialog.setIndeterminate(true);
             dialog.setMessage(getTag());
             dialog.setCancelable(false);
@@ -294,33 +372,33 @@ public class GeneralActivity extends FragmentActivity {
             super.onCancel(dialog);
         }
     }
-    
+
     @Override
     protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-        log(GeneralActivity.class.getName()+" : onActivityResult");
+        log(GeneralActivity.class.getName() + " : onActivityResult");
         super.onActivityResult(arg0, arg1, arg2);
     }
 
     public UserInfo getUserInfo() {
         return mUserInfo;
     }
-    
+
     private void toastMessage(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
-    
+
     private void toastMessage(int id) {
         String msg = getString(id);
         toastMessage(msg);
     }
 
-    public static void log(String str){
-        android.util.Log.e("qinchao",str);
+    public static void log(String str) {
+        android.util.Log.e("qinchao", str);
     }
-    
+
     public void classLog(String str) {
         if (DEBUG_CLASS) {
-            log(getClass().getName()+" --->" + str);
+            log(getClass().getName() + " --->" + str);
         }
     }
 }

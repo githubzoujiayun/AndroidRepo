@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bs.clothesroom.controller.PostController;
+import com.bs.clothesroom.controller.Preferences;
 import com.bs.clothesroom.controller.PostController.PostResult;
 import com.bs.clothesroom.provider.UserInfo;
 
@@ -47,7 +48,7 @@ public class SelfSettings extends GeneralFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserName = mPrefs.getUsername();
+        mUserName = Preferences.getUsername(getActivity());
         // mPassword = mPrefs.getString("password", null);
         mLoginListener = new LoginListener();
         if (!isLogin()) {
@@ -61,7 +62,7 @@ public class SelfSettings extends GeneralFragment {
     @Override
     public void onResume() {
         super.onResume();
-        mUserName = mPrefs.getUsername();
+        mUserName = Preferences.getUsername(getActivity());
         if (!TextUtils.isEmpty(mUserName)) {
 //            mPostController.fetchUserInfo(mUserName);
         }
