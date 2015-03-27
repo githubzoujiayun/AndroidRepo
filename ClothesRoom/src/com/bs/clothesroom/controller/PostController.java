@@ -60,6 +60,7 @@ public class PostController {
     public static final String POST_ARGS_JSON = "requestJson";
     public static final String POST_ARGS_IMAGE = "image";
     public static final String ARGS_IMAGE_ID = "imageid";
+    public static final String ARGS_VEDIO_ID = "vedioid";
     public static final String ARGS_USERNAME = "username";
     public static final String ARGS_PASSWORD = "password";
     public static final String ARGS_SEX = "sex";
@@ -75,6 +76,7 @@ public class PostController {
     private static final String POST_TYPE_FETCH_VEDIO_IDS = "fetch_vedio_ids";
     private static final String POST_TYPE_FETCH_IMAGE_IDS = "fetch_image_ids";
     private static final String POST_TYPE_FETCH_IMAGE_INFO = "fetch_image_info";
+    private static final String POST_TYPE_FETCH_VEDIO_INFO = "fetch_vedio_info";
     private static final String POST_TYPE_DOWNLOAD_IMAGE = "download_image";
     private static final String POST_TYPE_DOWNLOAD_VEDIO = "download_vedio";
     private static final String POST_TYPE_UPLOAD_IMAGE = "upload_image";
@@ -89,10 +91,11 @@ public class PostController {
     public static final int POST_ID_FETCH_FETCH_VEDIO_IDS = POST_ID_STRING_MASK + (1 << 5);
     public static final int POST_ID_FETCH_FETCH_IMAGE_IDS = POST_ID_STRING_MASK + (1 << 6);
     public static final int POST_ID_FETCH_FETCH_IMAGE_INFO = POST_ID_STRING_MASK + (1 << 7);
+    public static final int POST_ID_FETCH_FETCH_VEDIO_INFO = POST_ID_STRING_MASK + (1 << 8);
     
     public static final int POST_ID_BINARY_MASK = 0x10000;
-    private static final int POST_ID_FETCH_DOWNLOAD_IMAGE = POST_ID_BINARY_MASK + (1 << 1);
-    private static final int POST_ID_FETCH_DOWNLOAD_VEDIO = POST_ID_BINARY_MASK + (1 << 2);
+    private static final int POST_ID_DOWNLOAD_IMAGE = POST_ID_BINARY_MASK + (1 << 1);
+    private static final int POST_ID_DOWNLOAD_VEDIO = POST_ID_BINARY_MASK + (1 << 2);
 
     
     private Context mContext;
@@ -187,6 +190,20 @@ public class PostController {
                 json.toString());
     }
     
+    public void fetchVedioInfo(String userId,int vedioId) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put(POST_ARGS_TYPE, POST_TYPE_FETCH_VEDIO_INFO);
+            json.put(ARGS_USERNAME, userId);
+            json.put(ARGS_VEDIO_ID, vedioId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mPostTask = new PostTask(POST_ID_FETCH_FETCH_VEDIO_INFO);
+        mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+                json.toString());
+    }
+    
     public void uploadFile(File file, ClothesInfo info) {
         JSONObject json = null;
         try {
@@ -210,7 +227,7 @@ public class PostController {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        mPostTask = new PostTask(POST_ID_FETCH_DOWNLOAD_IMAGE,imageId);
+        mPostTask = new PostTask(POST_ID_DOWNLOAD_IMAGE,imageId);
         mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
                 json.toString());
     }
@@ -224,7 +241,7 @@ public class PostController {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        mPostTask = new PostTask(POST_ID_FETCH_DOWNLOAD_VEDIO);
+        mPostTask = new PostTask(POST_ID_DOWNLOAD_VEDIO);
         mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
                 json.toString());
     }
@@ -252,6 +269,10 @@ public class PostController {
         }
         mPostTask = new PostTask(POST_ID_REGISTER);
         mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params.toString());
+    }
+    
+    public boolean isBinaryId(int postId) {
+        return (postId & POST_ID_STRING_MASK) != 0;
     }
     
     class PostTask extends AsyncTask<String, Integer, PostResult> {
@@ -405,13 +426,9 @@ public class PostController {
             return result;
         }
 
-        private boolean isBinaryId() {
-            return (mPostId & POST_ID_STRING_MASK) != 0;
-        }
-        
         private void parseEntity(HttpEntity entity, PostResult result)
                 throws ParseException, IOException, JSONException {
-            if (!isBinaryId()) {
+            if (!isBinaryId(mPostId)) {
                 /*
                  * POST_ID_STRING_MASK
                  */
@@ -432,20 +449,34 @@ public class PostController {
                 /*
                  * POST_ID_BINARY_MASK
                  */
+                ContentResolver resolver = mContext.getContentResolver();
+                ClothesInfo info = null;
+                switch (mPostId) {
+                case POST_ID_DOWNLOAD_IMAGE:
+                    info = ClothesInfo.getImageInfoBySID(resolver,
+                            mServerMediaId, Preferences.getUsername(mContext));
+                    break;
+                case POST_ID_DOWNLOAD_VEDIO:
+                    info = ClothesInfo.getVedioInfoBySID(resolver,
+                            mServerMediaId, Preferences.getUsername(mContext));
+                    break;
+
+                default:
+                    throw new IllegalArgumentException("unkown post id : " + Integer.pmPostId);
+                }
+                
                 InputStream input = entity.getContent();
                 // File
-                copyFile(input);
+                copyFile(input,info);
             }
         }
 
-        private void copyFile(InputStream input) {
+        private void copyFile(InputStream input,ClothesInfo localInfo) {
             ContentResolver resolver = mContext.getContentResolver();
-            ClothesInfo localInfo = ClothesInfo.getImageInfoBySID(resolver,
-                    mServerMediaId, Preferences.getUsername(mContext));
             log("localInfo : "+localInfo);
             String fileName = localInfo.mMediaName;
             String SDCard = Environment.getExternalStorageDirectory() + "";
-            String pathName = SDCard + "/" + "ClothesRoom" + "/" + fileName;// 文件存储路径
+            String pathName = SDCard + "/" + "ClothesRoom/media" + "/" + fileName;// 文件存储路径
 
             File file = new File(pathName);
             FileOutputStream output = null;
@@ -456,8 +487,10 @@ public class PostController {
                     System.out.println("exits");
                 }
                 {
-                    String dir = SDCard + "/" + "ClothesRoom";
-                    new File(dir).mkdir();// 新建文件夹
+                    File dir = new File(SDCard + "/" + "ClothesRoom/media");
+                    if (!dir.exists()){
+                        dir.mkdirs();// 新建文件夹
+                    }
                     file.createNewFile();// 新建文件
                     output = new FileOutputStream(file);
                     // 读取大文件

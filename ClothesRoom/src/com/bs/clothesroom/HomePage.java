@@ -94,6 +94,7 @@ public class HomePage extends GeneralFragment implements LoaderCallbacks<Cursor>
         case R.id.menu_refresh:
             log("menu.refresh");
             mPostController.fetchImageIds(Preferences.getUsername(getActivity()));
+//            mPostController.fetchVedioIds(Preferences.getUsername(getActivity()));
             break;
 
         default:

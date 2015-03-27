@@ -342,11 +342,12 @@ public class GeneralActivity extends FragmentActivity {
             default:
                 break;
             }
-            mCheckingDialog = new CheckingProgressDialog();
-//            mCheckingDialog.setCancelable(false);
+            if (mPostController.isBinaryId(post)) {
+                mCheckingDialog = new CheckingProgressDialog();
+                // mCheckingDialog.setCancelable(false);
 
-            // dialog.setTargetFragment(fragment, requestCode)
-            mCheckingDialog.show(getSupportFragmentManager(), message);
+                mCheckingDialog.show(getSupportFragmentManager(), message);
+            }
         }
 
     }

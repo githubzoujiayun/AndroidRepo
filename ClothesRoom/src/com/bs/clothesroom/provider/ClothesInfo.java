@@ -253,7 +253,40 @@ public class ClothesInfo implements IInfo {
                 + COLUMN_NAME_SYN_SERVER_ID + " = ? AND "
                 + COLUMN_NAME_MIMETYPE + " = ?";
         String selectionArgs[] = new String[] { userId, String.valueOf(sid),
-                "image" };
+                MIMETYPE_IMAGE };
+        Cursor c = resolver.query(ImageInfo.CONTENT_URI, PROJECTION, selection,
+                selectionArgs, null);
+        if (c == null)
+            return null;
+        while (c.moveToNext()) {
+            info = new ClothesInfo();
+            info.mId = c.getInt(c.getColumnIndex(_ID));
+            info.mMediaPath = c.getString(c.getColumnIndex(COLUMN_NAME_DATA));
+            info.mMimeType = c
+                    .getString(c.getColumnIndex(COLUMN_NAME_MIMETYPE));
+            info.mSeason = Season.valueOf(c.getString(c
+                    .getColumnIndex(COLUMN_NAME_SEASON)));
+            info.mStyle = Style.valueOf(c.getString(c
+                    .getColumnIndex(COLUMN_NAME_STYLE)));
+            info.mType = Type.valueOf(c.getString(c
+                    .getColumnIndex(COLUMN_NAME_TYPE)));
+            info.mMediaName = c.getString(c
+                    .getColumnIndex(COLUMN_NAME_MEDIA_NAME));
+            info.mFlag = c.getInt(c.getColumnIndex(COLUMN_NAME_DOWNLOAD_FLAG));
+            info.mSynServerId = c.getInt(c.getColumnIndex(COLUMN_NAME_SYN_SERVER_ID));
+            info.mUserId = c.getString(c.getColumnIndex(COLUMN_NAME_USERID));
+        }
+        return info;
+    }
+    
+    public static ClothesInfo getVedioInfoBySID(ContentResolver resolver,
+            int sid, String userId) {
+        ClothesInfo info = new ClothesInfo();
+        String selection = COLUMN_NAME_USERID + " = ? AND "
+                + COLUMN_NAME_SYN_SERVER_ID + " = ? AND "
+                + COLUMN_NAME_MIMETYPE + " = ?";
+        String selectionArgs[] = new String[] { userId, String.valueOf(sid),
+                MIMETYPE_VEDIO };
         Cursor c = resolver.query(ImageInfo.CONTENT_URI, PROJECTION, selection,
                 selectionArgs, null);
         if (c == null)
