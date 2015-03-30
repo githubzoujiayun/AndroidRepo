@@ -77,4 +77,8 @@
 	<string name="phone_exist">注册失败，电话号码已存在</string>
 	<string name="email_exist">注册失败，电子邮件已存在</string>
 	<string name="menu_refresh">刷新</string>
+	<string name="sp_label_season">季节</string>
+	<string name="sp_label_situation">场合</string>
+	<string name="sp_label_style">风格</string>
+	<string name="sp_label_type">类型</string>
 </resources>

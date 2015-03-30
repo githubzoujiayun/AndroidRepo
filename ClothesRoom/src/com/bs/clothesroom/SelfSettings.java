@@ -64,7 +64,7 @@ public class SelfSettings extends GeneralFragment {
         super.onResume();
         mUserName = Preferences.getUsername(getActivity());
         if (!TextUtils.isEmpty(mUserName)) {
-//            mPostController.fetchUserInfo(mUserName);
+            mPostController.fetchUserInfo(mUserName);
         }
     }
 

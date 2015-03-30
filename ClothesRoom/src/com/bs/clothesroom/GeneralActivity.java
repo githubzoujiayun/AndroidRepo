@@ -1,5 +1,6 @@
 package com.bs.clothesroom;
 
+import java.io.File;
 import java.util.Arrays;
 
 import org.json.JSONArray;
@@ -10,11 +11,12 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.app.backup.RestoreObserver;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,6 +37,7 @@ import com.bs.clothesroom.controller.PostController.PostResult;
 import com.bs.clothesroom.controller.Preferences;
 import com.bs.clothesroom.provider.ClothesInfo;
 import com.bs.clothesroom.provider.ClothesInfo.ImageInfo;
+import com.bs.clothesroom.provider.ClothesInfo.VideoInfo;
 import com.bs.clothesroom.provider.UserInfo;
 
 public class GeneralActivity extends FragmentActivity {
@@ -172,7 +175,7 @@ public class GeneralActivity extends FragmentActivity {
         final JSONObject json = jsonObj;
         int id = json.getInt("imageid");
         String imageName = json.getString("imagename");
-        ClothesInfo info = ClothesInfo.fromJson(json);
+        ClothesInfo info = ImageInfo.fromJson(json);
         info.mMediaName = imageName;
         info.mMimeType = "image";
         info.mFlag = ClothesInfo.FLAG_DOWNLOAD_START;
@@ -182,37 +185,90 @@ public class GeneralActivity extends FragmentActivity {
         mPostController.downloadImage(info.mUserId, id);
     }
     
+    private void onFetchedVideoInfo(JSONObject jsonObj) throws JSONException {
+        final JSONObject json = jsonObj;
+        int id = json.getInt("videoid");
+        String videoName = json.getString("videoname");
+        VideoInfo info = VideoInfo.fromJson(json);
+        info.mMediaName = videoName; 
+        info.mMimeType = "video";
+        info.mFlag = ClothesInfo.FLAG_DOWNLOAD_START;
+        ContentValues values = info.toContentValues();
+        getContentResolver().insert(VideoInfo.CONTENT_URI, values);
+        log("startDownload : json = "+json);
+        mPostController.downloadVideo(info.mUserId, id);
+    }
+    
     private void onFetchedIds(String mimeType ,JSONObject jsonObj) throws JSONException {
         final JSONObject json = jsonObj;
-        JSONArray array = json.getJSONArray("image_ids");
-        int size = array.length();
-        if (size <= 0) {
-            log("empty image ids : size = "+size);
-            return;
-        }
-        int ids[] = new int[size];
-        for (int i = 0; i < size; i++) {
-            ids[i] = array.getInt(i);
-        }
-        log("ids[] = " + Arrays.toString(ids));
         ContentResolver resolver = getContentResolver();
+        String userId = Preferences.getUsername(this);
         if (ClothesInfo.MIMETYPE_IMAGE.equals(mimeType)) {
-            int localIds[] = ClothesInfo.getImageIds(resolver, Preferences.getUsername(this));
+            JSONArray array = json.getJSONArray("image_ids");
+            int size = array.length();
+            if (size <= 0) {
+                log("empty image ids : size = "+size);
+                return;
+            }
+            int ids[] = new int[size];
+            for (int i = 0; i < size; i++) {
+                ids[i] = array.getInt(i);
+            }
+            log("ids[] = " + Arrays.toString(ids));
+            int localIds[] = ClothesInfo.getImageIds(resolver, userId);
             log("localIds : "+Arrays.toString(localIds));
             for (int i = 0; i < size; i++) {
                 int j = 0;
                 int length = localIds.length;
                 for (; j < length; j++) {
-                    if (ids[i] == localIds[j]) break;
+                    if (ids[i] == localIds[j]) {
+                        ClothesInfo info = ClothesInfo.getImageInfoBySID(resolver, ids[i], userId);
+                        String mediaPath = info.mMediaPath;
+                        String mediaName = info.mMediaName;
+                        if (mediaName != null && mediaPath != null
+                                && new File(mediaPath).exists()) {
+                            mPostController.fetchImageInfo(userId,ids[i]);
+                        }
+                        break;
+                    }
                 }
                 if (j == localIds.length) {
-                    mPostController.fetchImageInfo("chao5", ids[i]);
+                    mPostController.fetchImageInfo(userId, ids[i]);
                 }
             }
-        } else if (ClothesInfo.MIMETYPE_VEDIO.equals(mimeType)){
-            int localIds[] = ClothesInfo.getVedioIds(resolver, Preferences.getUsername(this));
+        } else if (ClothesInfo.MIMETYPE_VIDEO.equals(mimeType)){
+            JSONArray array = json.getJSONArray("video_ids");
+            int size = array.length();
+            if (size <= 0) {
+                log("empty video ids : size = "+size);
+                return;
+            }
+            int ids[] = new int[size];
+            for (int i = 0; i < size; i++) {
+                ids[i] = array.getInt(i);
+            }
+            log("ids[] = " + Arrays.toString(ids));
+            int localIds[] = ClothesInfo.getVideoIds(resolver, userId);
             log("localIds : "+Arrays.toString(localIds));
-//            mPostController.fe
+            for (int i = 0; i < size; i++) {
+                int j = 0;
+                int length = localIds.length;
+                for (; j < length; j++) {
+                    if (ids[i] == localIds[j]) {
+                        ClothesInfo info = ClothesInfo.getVideoInfoBySID(resolver, ids[i], userId);
+                        String mediaPath = info.mMediaPath;
+                        String mediaName = info.mMediaName;
+                        if (mediaName != null && mediaPath != null
+                                && !new File(mediaPath).exists()) {
+                            mPostController.fetchVideoInfo(userId,ids[i]);
+                        }
+                        break;
+                    }
+                }
+                if (j == localIds.length) {
+                    mPostController.fetchVideoInfo(userId, ids[i]);
+                }
+            }
         } else {
             throw new IllegalArgumentException("unkown mimeType : " + mimeType);
         }
@@ -244,7 +300,7 @@ public class GeneralActivity extends FragmentActivity {
                     break;
                 case PostController.POST_ID_FETCH_FETCH_IMAGE_IDS:
                     try {
-                        onFetchedIds("image", result.json);
+                        onFetchedIds(ClothesInfo.MIMETYPE_IMAGE, result.json);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -252,6 +308,20 @@ public class GeneralActivity extends FragmentActivity {
                 case PostController.POST_ID_FETCH_FETCH_IMAGE_INFO:
                     try {
                         onFetchedImageInfo(result.json);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case PostController.POST_ID_FETCH_FETCH_VIDEO_IDS:
+                    try {
+                        onFetchedIds(ClothesInfo.MIMETYPE_VIDEO, result.json);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case PostController.POST_ID_FETCH_FETCH_VIDEO_INFO:
+                    try {
+                        onFetchedVideoInfo(result.json);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -335,14 +405,20 @@ public class GeneralActivity extends FragmentActivity {
                 break;
             case PostController.POST_ID_FETCH_USERINFO:
                 message = getString(R.string.fetch_userinfoing);
-            case PostController.POST_ID_FETCH_FETCH_VEDIO_IDS:
+            case PostController.POST_ID_FETCH_FETCH_VIDEO_IDS:
             case PostController.POST_ID_FETCH_FETCH_IMAGE_IDS:
                 message = getString(R.string.fetch_data);
+                break;
+            case PostController.POST_ID_DOWNLOAD_IMAGE:
+            case PostController.POST_ID_DOWNLOAD_VIDEO:
                 break;
             default:
                 break;
             }
-            if (mPostController.isBinaryId(post)) {
+            if (!mPostController.isBinaryId(post)) {
+                if (mCheckingDialog != null) {
+                    mCheckingDialog.dismissAllowingStateLoss();
+                }
                 mCheckingDialog = new CheckingProgressDialog();
                 // mCheckingDialog.setCancelable(false);
 

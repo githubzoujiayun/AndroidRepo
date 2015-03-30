@@ -1,5 +1,7 @@
 package com.bs.clothesroom.provider;
 
+import java.util.Arrays;
+
 import com.bs.clothesroom.controller.Preferences;
 
 import android.content.ContentProvider;
@@ -18,7 +20,7 @@ public class RoomProvider extends ContentProvider{
     public static final Uri CONTENT_URI = Uri.parse("content://"+PROVIDER_NAME);
     
     private static final String DATABASE_NAME = "room.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 8;
     
     private static final String TABLE_NAME_USERS = "Users";
     private static final String TABLE_NAME_MEDIAS = "Medias";
@@ -27,6 +29,7 @@ public class RoomProvider extends ContentProvider{
     private static final int USERS_ID = 2;
     private static final int MEDIA_FILES = 3;
     private static final int MEDIA_FILES_ID = 4;
+    private static final boolean DEBUG_SQL = true;
     
     private static UriMatcher sUriMatcher = null;
     
@@ -75,7 +78,8 @@ public class RoomProvider extends ContentProvider{
             		"type Text," +
             		"server_id Text," +
             		"media_name Text," +
-            		"flag Text" +
+            		"flag Text," +
+            		"relative_image_ids Text" +
             		")");
         }
 
@@ -134,6 +138,7 @@ public class RoomProvider extends ContentProvider{
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
             String orderBy) {
         final int match = sUriMatcher.match(uri);
+        log("query : selection = "+selection+" args = "+Arrays.toString(selectionArgs));
         String _id = null;
         Cursor c = null;
         switch(match) {
@@ -196,4 +201,9 @@ public class RoomProvider extends ContentProvider{
         return 0;
     }
 
+    private void log(String args){
+        if(DEBUG_SQL) {
+            android.util.Log.e("qinchao","sql.log --> " + args);
+        }
+    }
 }

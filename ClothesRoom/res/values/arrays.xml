@@ -16,7 +16,7 @@
     <string-array name="cloth_situation">
     </string-array>
     
-     <string-array name="cloth_type">
+    <string-array name="cloth_type">
         <item>长袖</item>
         <item>裤子</item>
         <item>外套</item>

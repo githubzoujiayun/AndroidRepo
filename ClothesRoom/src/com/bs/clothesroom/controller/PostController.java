@@ -60,7 +60,7 @@ public class PostController {
     public static final String POST_ARGS_JSON = "requestJson";
     public static final String POST_ARGS_IMAGE = "image";
     public static final String ARGS_IMAGE_ID = "imageid";
-    public static final String ARGS_VEDIO_ID = "vedioid";
+    public static final String ARGS_VIDEO_ID = "videoid";
     public static final String ARGS_USERNAME = "username";
     public static final String ARGS_PASSWORD = "password";
     public static final String ARGS_SEX = "sex";
@@ -73,12 +73,12 @@ public class PostController {
     private static final String POST_TYPE_LOGIN = "login";
     private static final String POST_TYPE_REGISTER = "register";
     private static final String POST_TYPE_FETCH_USERINFO = "fetch_userinfo";
-    private static final String POST_TYPE_FETCH_VEDIO_IDS = "fetch_vedio_ids";
+    private static final String POST_TYPE_FETCH_VIDEO_IDS = "fetch_video_ids";
     private static final String POST_TYPE_FETCH_IMAGE_IDS = "fetch_image_ids";
     private static final String POST_TYPE_FETCH_IMAGE_INFO = "fetch_image_info";
-    private static final String POST_TYPE_FETCH_VEDIO_INFO = "fetch_vedio_info";
+    private static final String POST_TYPE_FETCH_VIDEO_INFO = "fetch_video_info";
     private static final String POST_TYPE_DOWNLOAD_IMAGE = "download_image";
-    private static final String POST_TYPE_DOWNLOAD_VEDIO = "download_vedio";
+    private static final String POST_TYPE_DOWNLOAD_VIDEO = "download_video";
     private static final String POST_TYPE_UPLOAD_IMAGE = "upload_image";
 
     
@@ -88,14 +88,14 @@ public class PostController {
     public static final int POST_ID_REGISTER = POST_ID_STRING_MASK +(1 << 1);
     public static final int POST_ID_FETCH_USERINFO = POST_ID_STRING_MASK + (1 << 2);
     public static final int POST_ID_UPLOAD_FILE = POST_ID_STRING_MASK + (1 << 3);
-    public static final int POST_ID_FETCH_FETCH_VEDIO_IDS = POST_ID_STRING_MASK + (1 << 5);
+    public static final int POST_ID_FETCH_FETCH_VIDEO_IDS = POST_ID_STRING_MASK + (1 << 5);
     public static final int POST_ID_FETCH_FETCH_IMAGE_IDS = POST_ID_STRING_MASK + (1 << 6);
     public static final int POST_ID_FETCH_FETCH_IMAGE_INFO = POST_ID_STRING_MASK + (1 << 7);
-    public static final int POST_ID_FETCH_FETCH_VEDIO_INFO = POST_ID_STRING_MASK + (1 << 8);
+    public static final int POST_ID_FETCH_FETCH_VIDEO_INFO = POST_ID_STRING_MASK + (1 << 8);
     
     public static final int POST_ID_BINARY_MASK = 0x10000;
-    private static final int POST_ID_DOWNLOAD_IMAGE = POST_ID_BINARY_MASK + (1 << 1);
-    private static final int POST_ID_DOWNLOAD_VEDIO = POST_ID_BINARY_MASK + (1 << 2);
+    public static final int POST_ID_DOWNLOAD_IMAGE = POST_ID_BINARY_MASK + (1 << 1);
+    public static final int POST_ID_DOWNLOAD_VIDEO = POST_ID_BINARY_MASK + (1 << 2);
 
     
     private Context mContext;
@@ -150,15 +150,15 @@ public class PostController {
                 json.toString());
     }
     
-    public void fetchVedioIds(String userId) {
+    public void fetchVideoIds(String userId) {
         JSONObject json = new JSONObject();
         try {
-            json.put(POST_ARGS_TYPE, POST_TYPE_FETCH_VEDIO_IDS);
+            json.put(POST_ARGS_TYPE, POST_TYPE_FETCH_VIDEO_IDS);
             json.put(ARGS_USERNAME, userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        mPostTask = new PostTask(POST_ID_FETCH_FETCH_VEDIO_IDS);
+        mPostTask = new PostTask(POST_ID_FETCH_FETCH_VIDEO_IDS);
         mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
                 json.toString());
     }
@@ -190,16 +190,16 @@ public class PostController {
                 json.toString());
     }
     
-    public void fetchVedioInfo(String userId,int vedioId) {
+    public void fetchVideoInfo(String userId,int videoId) {
         JSONObject json = new JSONObject();
         try {
-            json.put(POST_ARGS_TYPE, POST_TYPE_FETCH_VEDIO_INFO);
+            json.put(POST_ARGS_TYPE, POST_TYPE_FETCH_VIDEO_INFO);
             json.put(ARGS_USERNAME, userId);
-            json.put(ARGS_VEDIO_ID, vedioId);
+            json.put(ARGS_VIDEO_ID, videoId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        mPostTask = new PostTask(POST_ID_FETCH_FETCH_VEDIO_INFO);
+        mPostTask = new PostTask(POST_ID_FETCH_FETCH_VIDEO_INFO);
         mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
                 json.toString());
     }
@@ -232,16 +232,16 @@ public class PostController {
                 json.toString());
     }
     
-    public void downloadVedio(String userId,int vedioId) {
+    public void downloadVideo(String userId,int videoId) {
         JSONObject json = new JSONObject();
         try {
-            json.put(POST_ARGS_TYPE, POST_TYPE_DOWNLOAD_VEDIO);
+            json.put(POST_ARGS_TYPE, POST_TYPE_DOWNLOAD_VIDEO);
             json.put(ARGS_USERNAME, userId);
-            json.put(ARGS_IMAGE_ID, vedioId);
+            json.put(ARGS_VIDEO_ID, videoId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        mPostTask = new PostTask(POST_ID_DOWNLOAD_VEDIO);
+        mPostTask = new PostTask(POST_ID_DOWNLOAD_VIDEO,videoId);
         mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
                 json.toString());
     }
@@ -272,7 +272,7 @@ public class PostController {
     }
     
     public boolean isBinaryId(int postId) {
-        return (postId & POST_ID_STRING_MASK) != 0;
+        return (postId & POST_ID_BINARY_MASK) != 0;
     }
     
     class PostTask extends AsyncTask<String, Integer, PostResult> {
@@ -381,6 +381,7 @@ public class PostController {
             httpclient.getParams().setParameter(
                     CoreConnectionPNames.CONNECTION_TIMEOUT, 10000);
             HttpResponse httpResponse = null;
+            
             try {
                 mDelivery.onPostStart(mPostId, null);
                 httpResponse = httpclient.execute(httpRequest);
@@ -456,15 +457,14 @@ public class PostController {
                     info = ClothesInfo.getImageInfoBySID(resolver,
                             mServerMediaId, Preferences.getUsername(mContext));
                     break;
-                case POST_ID_DOWNLOAD_VEDIO:
-                    info = ClothesInfo.getVedioInfoBySID(resolver,
+                case POST_ID_DOWNLOAD_VIDEO:
+                    info = ClothesInfo.getVideoInfoBySID(resolver,
                             mServerMediaId, Preferences.getUsername(mContext));
                     break;
 
                 default:
-                    throw new IllegalArgumentException("unkown post id : " + Integer.pmPostId);
+                    throw new IllegalArgumentException("unkown post id : " + Integer.toHexString(mPostId));
                 }
-                
                 InputStream input = entity.getContent();
                 // File
                 copyFile(input,info);
