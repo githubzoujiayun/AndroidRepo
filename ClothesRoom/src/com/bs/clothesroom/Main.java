@@ -19,8 +19,8 @@ public class Main extends GeneralActivity {
         mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         mTabHost.addTab(
-                mTabHost.newTabSpec("HomePage").setIndicator(
-                        getString(R.string.tab_home_page)), HomePage.class,
+                mTabHost.newTabSpec("HomePage2").setIndicator(
+                        getString(R.string.tab_home_page)), HomePage2.class,
                 new Bundle());
         mTabHost.addTab(
                 mTabHost.newTabSpec("Rack").setIndicator(

@@ -1,5 +1,6 @@
 package com.bs.clothesroom;
 
+import java.io.File;
 import java.lang.ref.SoftReference;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -8,6 +9,7 @@ import com.bs.clothesroom.provider.ClothesInfo;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -16,6 +18,7 @@ import android.graphics.BitmapFactory.Options;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -32,14 +35,13 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
-public class GridFragment extends GeneralFragment implements
-        LoaderCallbacks<Cursor>, OnItemClickListener, OnClickListener {
+public abstract class GridFragment extends GeneralFragment implements
+        LoaderCallbacks<Cursor>, OnClickListener {
 
-    private Handler mHandler;
-    private MediaObserver mObserver;
-    private ContentResolver mResolver;
+//    private MediaObserver mObserver;
+//    private ContentResolver mResolver;
     private View mRootView;
-    private GridView mGridView;
+    protected GridView mGridView;
     private MediaAdapter mAdapter;
 
     private ConcurrentHashMap<String, SoftReference<BitmapDrawable>> mThumbnailCache = new ConcurrentHashMap<String, SoftReference<BitmapDrawable>>(
@@ -48,11 +50,6 @@ public class GridFragment extends GeneralFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHandler = new Handler();
-        mObserver = new MediaObserver(mHandler);
-        mResolver = getActivity().getContentResolver();
-        mResolver.registerContentObserver(ClothesInfo.CONTENT_URI, false,
-                mObserver);
     }
 
     @Override
@@ -62,7 +59,7 @@ public class GridFragment extends GeneralFragment implements
             mRootView = inflater.inflate(R.layout.grid_fragment, container,
                     false);
         }
-
+        log("bundle : "+getArguments());
         final ViewGroup v = (ViewGroup) mRootView.getParent();
         if (v != null) {
             v.removeView(mRootView);
@@ -71,7 +68,6 @@ public class GridFragment extends GeneralFragment implements
         mGridView = (GridView) mRootView.findViewById(R.id.list);
         mAdapter = new MediaAdapter(getActivity(), null, false);
         mGridView.setAdapter(mAdapter);
-        mGridView.setOnItemClickListener(this);
         Button b = (Button) mRootView.findViewById(R.id.refresh);
         b.setOnClickListener(this);
         mGridView.setEmptyView(b);
@@ -82,7 +78,7 @@ public class GridFragment extends GeneralFragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getLoaderManager().initLoader(0, null, this);
+        getLoaderManager().initLoader(0, getArguments(), this);
     }
 
     @Override
@@ -90,17 +86,8 @@ public class GridFragment extends GeneralFragment implements
         super.onDestroy();
     }
 
-    private class MediaObserver extends ContentObserver {
-
-        public MediaObserver(Handler handler) {
-            super(handler);
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            super.onChange(selfChange);
-            getLoaderManager().restartLoader(0, null, GridFragment.this);
-        }
+    public interface CursorChangedListener {
+    	public void onCursorChanged();
     }
 
     private class MediaAdapter extends CursorAdapter {
@@ -149,7 +136,7 @@ public class GridFragment extends GeneralFragment implements
                 if (ClothesInfo.MIMETYPE_IMAGE.equals(mimeType)) {
                     // bd = Drawable.createFromPath(videoPath);
                     Options ops = new Options();
-                    ops.inSampleSize = 4;
+                    ops.inSampleSize = 2;
                     Bitmap bp = BitmapFactory.decodeFile(mediaPath, ops);
                     bd = new BitmapDrawable(getResources(), bp);
                 } else {
@@ -164,7 +151,7 @@ public class GridFragment extends GeneralFragment implements
             // tv.setCompoundDrawables(null, bd, null, null);
             tv.setCompoundDrawablesWithIntrinsicBounds(null, bd, null, null);
             tv.setText(name);
-            tv.setTag(mediaPath);
+            v.setTag(mediaPath);
         }
 
         @Override
@@ -197,11 +184,7 @@ public class GridFragment extends GeneralFragment implements
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int arg0, Bundle b) {
-        // return ClothesInfo.getImageCursorLoader(context, userId);
-        return ClothesInfo.createMediaCursorLoader(getActivity(),
-                Preferences.getUsername(getActivity()));
-    }
+    public abstract Loader<Cursor> onCreateLoader(int arg0, Bundle b);
 
     @Override
     public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
@@ -214,20 +197,17 @@ public class GridFragment extends GeneralFragment implements
     }
 
     @Override
-    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-        
-    }
-
-    @Override
     public void onClick(View v) {
         if (v.getId() == R.id.refresh) {
             sync();
         }
     }
+    
+    public abstract void sync();
 
-    private void sync() {
-        String userId = Preferences.getUsername(getActivity());
-        mPostController.fetchImageIds(userId);
-//        mPostController.fetchVideoIds(userId);
-    }
+//    private void sync() {
+//        String userId = Preferences.getUsername(getActivity());
+//        mPostController.fetchImageIds(userId);
+////        mPostController.fetchVideoIds(userId);
+//    }
 }

@@ -8,9 +8,10 @@
     </string-array>
     
     <string-array name="cloth_style">
-        <item >休闲</item>
         <item >绅士</item>
+        <item >休闲</item>
         <item >商务</item>
+        <item >时尚</item>
     </string-array>
     
     <string-array name="cloth_situation">

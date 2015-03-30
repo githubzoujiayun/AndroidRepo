@@ -51,7 +51,7 @@ public class ClothesInfo implements IInfo {
             .parse(RoomProvider.CONTENT_URI + "/medias");
 
     public enum Season {
-        SPRING, AUTUMN, SUMMER, WINTER;
+        SPRING, SUMMER, AUTUMN, WINTER;
         
         public static Season valueAt(int index) {
             for (Season season : Season.values()) {
@@ -408,7 +408,7 @@ public class ClothesInfo implements IInfo {
                 .parse(RoomProvider.CONTENT_URI + "/medias");
         
         public ContentValues toContentValues() {
-            ContentValues values = new ContentValues();
+            ContentValues values = super.toContentValues();
             values.put(COLUMN_NAME_SEASON, mSeason.name());
             values.put(COLUMN_NAME_STYLE, mStyle.name());
             values.put(COLUMN_NAME_TYPE, mType.name());
@@ -442,13 +442,13 @@ public class ClothesInfo implements IInfo {
                 selection, selectionArgs, null);
     }
     
-    public static CursorLoader createMediaCursorLoader(Context context, String userId) {
-        String selection = COLUMN_NAME_SEASON + " = ? AND "
-                + COLUMN_NAME_STYLE + " = ? AND "
-                + COLUMN_NAME_TYPE + " = ? AND "
-                + COLUMN_NAME_USERID + " = ?";
-        String selectionArgs[] = new String[] { COLUMN_NAME_SEASON,COLUMN_NAME_STYLE,COLUMN_NAME_TYPE, userId };
-        return new CursorLoader(context, ClothesInfo.CONTENT_URI, PROJECTION,
-                selection, selectionArgs, null);
-    }
+	public static CursorLoader createMediaCursorLoader(Context context,
+			String userId, String season, String style, String type) {
+		String selection = COLUMN_NAME_SEASON + " = ? AND " + COLUMN_NAME_STYLE
+				+ " = ? AND " + COLUMN_NAME_TYPE + " = ? AND "
+				+ COLUMN_NAME_USERID + " = ?";
+		String selectionArgs[] = new String[] { season, style, type, userId };
+		return new CursorLoader(context, ClothesInfo.CONTENT_URI, PROJECTION,
+				selection, selectionArgs, null);
+	}
 }

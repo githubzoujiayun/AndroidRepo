@@ -44,6 +44,7 @@ public class GeneralActivity extends FragmentActivity {
 
     private static final String ACTION_LOGIN = "com.bs.clothesroom.login";
     private static final String ACTION_REGISTER = "com.bs.clothesroom.register";
+    private static final String ACTION_SEARCH = "com.bs.clothesroom.search";
 
     private static final int REQUEST_CODE_LOGIN = 0;
     private static final boolean DEBUG_CLASS = false;
@@ -56,6 +57,14 @@ public class GeneralActivity extends FragmentActivity {
     UserInfo mUserInfo;
     Preferences mPrefs;
 
+	public static void search(Activity from,Bundle b) {
+		Intent i = new Intent(from,GeneralActivity.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		i.setAction(ACTION_SEARCH);
+		i.putExtras(b);
+		from.startActivity(i);
+	}
+    
     public static void startLogin(Activity from) {
         Intent i = new Intent(from, GeneralActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -90,6 +99,10 @@ public class GeneralActivity extends FragmentActivity {
             replaceFragment(RegisterFragment.class, null, R.id.fragment);
             // openFragment(R.id.fragment, RegisterFragment.class, null,
             // "register");
+        } else if (ACTION_SEARCH.equals(action)) {
+        	Bundle b = getIntent().getExtras();
+        	log("bundle = "+b);
+        	replaceFragment(SearchResultFragment.class, b, R.id.fragment);
         }
     }
 
@@ -175,7 +188,7 @@ public class GeneralActivity extends FragmentActivity {
         final JSONObject json = jsonObj;
         int id = json.getInt("imageid");
         String imageName = json.getString("imagename");
-        ClothesInfo info = ImageInfo.fromJson(json);
+        ImageInfo info = ImageInfo.fromJson(json);
         info.mMediaName = imageName;
         info.mMimeType = "image";
         info.mFlag = ClothesInfo.FLAG_DOWNLOAD_START;
@@ -226,7 +239,7 @@ public class GeneralActivity extends FragmentActivity {
                         String mediaPath = info.mMediaPath;
                         String mediaName = info.mMediaName;
                         if (mediaName != null && mediaPath != null
-                                && new File(mediaPath).exists()) {
+                                && !new File(mediaPath).exists()) {
                             mPostController.fetchImageInfo(userId,ids[i]);
                         }
                         break;
@@ -478,4 +491,6 @@ public class GeneralActivity extends FragmentActivity {
             log(getClass().getName() + " --->" + str);
         }
     }
+
+
 }
