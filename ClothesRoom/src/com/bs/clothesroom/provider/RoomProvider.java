@@ -76,6 +76,7 @@ public class RoomProvider extends ContentProvider{
             		"season Text," +
             		"style Text," +
             		"type Text," +
+            		"situation Text," +
             		"server_id Text," +
             		"media_name Text," +
             		"flag Text," +

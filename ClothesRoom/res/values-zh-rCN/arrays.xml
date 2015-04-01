@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="style_season">
-        <item >春</item>
-        <item >夏</item>
-        <item >秋</item>
-        <item >冬</item>
+        <item>春</item>
+        <item>夏</item>
+        <item>秋</item>
+        <item>冬</item>
     </string-array>
-    
     <string-array name="cloth_style">
-        <item >绅士</item>
-        <item >休闲</item>
-        <item >商务</item>
-        <item >时尚</item>
+        <item>绅士</item>
+        <item>休闲</item>
+        <item>商务</item>
+        <item>时尚</item>
     </string-array>
-    
     <string-array name="cloth_situation">
+        <item>公共场合</item>
+        <item>办公室</item>
+        <item>酒会</item>
     </string-array>
-    
-     <string-array name="cloth_type">
+    <string-array name="cloth_type">
         <item>长袖</item>
         <item>裤子</item>
         <item>外套</item>
     </string-array>
+
 </resources>

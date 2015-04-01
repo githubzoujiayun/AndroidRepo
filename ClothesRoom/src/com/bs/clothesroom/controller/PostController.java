@@ -104,11 +104,16 @@ public class PostController {
 
     DeliverCallback mDelivery;
     private PostTask mPostTask;
+    File mRoomDir = null;
     
 
     public PostController(Context _context) {
         mContext = _context;
         mDelivery = new DeliverCallback();
+        mRoomDir = new File(Environment.getExternalStorageDirectory() + "/" + "ClothesRoom/media");
+        if (!mRoomDir.exists()){
+            mRoomDir.mkdirs();// 新建文件夹
+        }
     }
 
     private boolean checkJsonFormat(String json) {
@@ -475,23 +480,15 @@ public class PostController {
             ContentResolver resolver = mContext.getContentResolver();
             log("localInfo : "+localInfo);
             String fileName = localInfo.mMediaName;
-            String SDCard = Environment.getExternalStorageDirectory() + "";
-            String pathName = SDCard + "/" + "ClothesRoom/media" + "/" + fileName;// 文件存储路径
-
+            String pathName = mRoomDir.getPath() + "/" + fileName;
             File file = new File(pathName);
             FileOutputStream output = null;
             try {
-
                 if (file.exists()) {
                     file.delete();
                     System.out.println("exits");
                 }
                 {
-                    File dir = new File(SDCard + "/" + "ClothesRoom/media");
-                    if (!dir.exists()){
-                        dir.mkdirs();// 新建文件夹
-                    }
-                    file.createNewFile();// 新建文件
                     output = new FileOutputStream(file);
                     // 读取大文件
                     byte[] buffer = new byte[4 * 1024];

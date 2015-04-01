@@ -4,6 +4,7 @@ import com.bs.clothesroom.controller.Preferences;
 import com.bs.clothesroom.provider.ClothesInfo;
 import com.bs.clothesroom.provider.ClothesInfo.ImageInfo;
 import com.bs.clothesroom.provider.ClothesInfo.Season;
+import com.bs.clothesroom.provider.ClothesInfo.Situation;
 import com.bs.clothesroom.provider.ClothesInfo.Style;
 import com.bs.clothesroom.provider.ClothesInfo.Type;
 
@@ -56,7 +57,7 @@ public class Collocation extends GeneralFragment implements OnClickListener {
         if (v.getId() == R.id.find) {
             Season season = Season.valueAt(mSeason.getSelectedItemPosition());
             Style style = Style.valueAt(mStyle.getSelectedItemPosition());
-            Type type = Type.valueAt(mType.getSelectedItemPosition());
+            Situation situation = Situation.valueAt(mSituation.getSelectedItemPosition());
 //            Situation situation = Situation.valueAt(mSituation.getSelectedItemPosition());
             String userId = Preferences.getUsername(getActivity());
 //            ImageInfo images[] = ClothesInfo.getImageInfoArgs(getActivity()
@@ -66,7 +67,7 @@ public class Collocation extends GeneralFragment implements OnClickListener {
             Bundle b = new Bundle();
             b.putString("season", season.name());
             b.putString("style",style.name());
-            b.putString("type", type.name());
+            b.putString("situation", situation.name());
             b.putString("userId",userId);
             GeneralActivity.search(getActivity(),b);
         }

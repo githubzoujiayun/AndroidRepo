@@ -67,6 +67,9 @@
 	<string name="sleeved">衬衣</string>
 	<string name="overcoat">外套</string>
 	<string name="trousers">裤子</string>
+	<string name="public_place">公共场合</string>
+	<string name="cocktail">酒会</string>
+	<string name="office">办公室</string>
 	<string name="label_type">选择类型</string>
 	<string name="label_season">选择季节</string>
 	<string name="label_form">选择款式</string>
@@ -78,7 +81,7 @@
 	<string name="email_exist">注册失败，电子邮件已存在</string>
 	<string name="menu_refresh">刷新</string>
 	<string name="sp_label_season">季节</string>
-	<string name="sp_label_situation">场合</string>
+	<string name="sp_label_situation">出席场合</string>
 	<string name="sp_label_style">风格</string>
 	<string name="sp_label_type">类型</string>
 </resources>

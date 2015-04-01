@@ -8,6 +8,8 @@ import com.bs.clothesroom.controller.Preferences;
 import com.bs.clothesroom.provider.ClothesInfo;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
@@ -46,11 +48,6 @@ public abstract class GridFragment extends GeneralFragment implements
 
     private ConcurrentHashMap<String, SoftReference<BitmapDrawable>> mThumbnailCache = new ConcurrentHashMap<String, SoftReference<BitmapDrawable>>(
             10);
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -107,20 +104,27 @@ public abstract class GridFragment extends GeneralFragment implements
                     .getColumnIndex(ClothesInfo.COLUMN_NAME_MEDIA_NAME));
             String mimeType = c.getString(c
                     .getColumnIndex(ClothesInfo.COLUMN_NAME_MIMETYPE));
+            int downloadFlag = c.getInt(c
+                    .getColumnIndex(ClothesInfo.COLUMN_NAME_DOWNLOAD_FLAG));
+            
             TextView tv = (TextView) v.findViewById(R.id.video_thumbnail);
             // videoPath = null;
-            if (mediaPath == null) {
+            if (mediaPath == null || !new File(mediaPath).exists() || downloadFlag != ClothesInfo.FLAG_DOWNLOAD_DONE) {
                 tv.setCompoundDrawablesWithIntrinsicBounds(null,
                         mDefaultDrawable, null, null);
                 tv.setText(name);
-                int downloadFlag = c.getInt(c
-                        .getColumnIndex(ClothesInfo.COLUMN_NAME_DOWNLOAD_FLAG));
+                log(v.toString() + "  : download flag = "+downloadFlag);
                 if (downloadFlag != ClothesInfo.FLAG_DOWNLOAD_START) {
                     String userId = c.getString(c
                             .getColumnIndex(ClothesInfo.COLUMN_NAME_USERID));
                     int serverId = c
                             .getInt(c
                                     .getColumnIndex(ClothesInfo.COLUMN_NAME_SYN_SERVER_ID));
+                    ContentValues values = new ContentValues();
+                    values.put(ClothesInfo.COLUMN_NAME_DOWNLOAD_FLAG, ClothesInfo.FLAG_DOWNLOAD_START);
+                    int id = c.getInt(c.getColumnIndex(ClothesInfo._ID));
+                    Uri uri = ContentUris.withAppendedId(ClothesInfo.CONTENT_URI, id);
+                    getActivity().getContentResolver().update(uri, values, null, null);
                     if (ClothesInfo.MIMETYPE_IMAGE.equals(mimeType)) {
                         mPostController.downloadImage(userId, serverId);
                     } else {

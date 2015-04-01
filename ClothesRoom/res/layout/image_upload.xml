@@ -128,6 +128,7 @@
         android:orientation="horizontal"
         android:layout_marginLeft="@dimen/dimen_upload_margin_left"
         android:checkedButton="@+id/sleeved"
+        android:visibility="gone"
         android:weightSum="4" >
 
         <RadioButton
@@ -150,6 +151,38 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/overcoat" />
+    </RadioGroup>
+    
+    <RadioGroup
+        android:id="@+id/style_situation_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/dimen_upload_margin_left"
+        android:checkedButton="@+id/public_place"
+        android:visibility="gone"
+        android:weightSum="4" >
+
+        <RadioButton
+            android:id="@+id/public_place"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/public_place" />
+
+        <RadioButton
+            android:id="@+id/office"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/office" />
+
+        <RadioButton
+            android:id="@+id/cocktail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cocktail" />
     </RadioGroup>
 
     <Button 

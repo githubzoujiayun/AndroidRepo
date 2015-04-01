@@ -45,6 +45,7 @@ public class GeneralActivity extends FragmentActivity {
     private static final String ACTION_LOGIN = "com.bs.clothesroom.login";
     private static final String ACTION_REGISTER = "com.bs.clothesroom.register";
     private static final String ACTION_SEARCH = "com.bs.clothesroom.search";
+    private static final String ACTION_RACK = "com.bs.clothesroom.rack";
 
     private static final int REQUEST_CODE_LOGIN = 0;
     private static final boolean DEBUG_CLASS = false;
@@ -56,6 +57,14 @@ public class GeneralActivity extends FragmentActivity {
     private CheckingProgressDialog mCheckingDialog;
     UserInfo mUserInfo;
     Preferences mPrefs;
+    
+    public static void openRack(Activity from,Bundle b) {
+        Intent i = new Intent(from,GeneralActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setAction(ACTION_RACK);
+        i.putExtras(b);
+        from.startActivity(i);
+    }
 
 	public static void search(Activity from,Bundle b) {
 		Intent i = new Intent(from,GeneralActivity.class);
@@ -103,6 +112,8 @@ public class GeneralActivity extends FragmentActivity {
         	Bundle b = getIntent().getExtras();
         	log("bundle = "+b);
         	replaceFragment(SearchResultFragment.class, b, R.id.fragment);
+        } else if (ACTION_RACK.equals(action)) {
+            replaceFragment(ClothesRack.class, getIntent().getExtras(), R.id.fragment);
         }
     }
 
@@ -430,7 +441,7 @@ public class GeneralActivity extends FragmentActivity {
             }
             if (!mPostController.isBinaryId(post)) {
                 if (mCheckingDialog != null) {
-                    mCheckingDialog.dismissAllowingStateLoss();
+                    mCheckingDialog.dismiss();
                 }
                 mCheckingDialog = new CheckingProgressDialog();
                 // mCheckingDialog.setCancelable(false);

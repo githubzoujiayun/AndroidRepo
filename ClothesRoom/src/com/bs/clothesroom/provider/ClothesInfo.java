@@ -22,17 +22,19 @@ public class ClothesInfo implements IInfo {
     public static final int FLAG_DOWNLOAD_DONE = 2;
     public static final int FLAG_DOWNLOAD_FAILED = 3;
 
-    public static final String JSON_KEY_SEASON = "season";
-    public static final String JSON_KEY_STYLE = "style";
-    public static final String JSON_KEY_TYPE = "type";
-    public static final String JSON_KEY_MEDIA_NAME = "media_name";
-    public static final String JSON_KEY_USERNAME = "username";
-    public static final String JSON_KEY_IMAGE_SERVERID = "imageid";
-    public static final String JSON_KEY_VIDEO_SERVERID = "videoid";
+    private static final String JSON_KEY_SEASON = "season";
+    private static final String JSON_KEY_STYLE = "style";
+    private static final String JSON_KEY_SITUATION = "situation";
+    private static final String JSON_KEY_TYPE = "type";
+    private static final String JSON_KEY_MEDIA_NAME = "media_name";
+    private static final String JSON_KEY_USERNAME = "username";
+    private static final String JSON_KEY_IMAGE_SERVERID = "imageid";
+    private static final String JSON_KEY_VIDEO_SERVERID = "videoid";
 
-    public final static String COLUMN_NAME_SEASON = "season";
-    public final static String COLUMN_NAME_STYLE = "style";
-    public final static String COLUMN_NAME_TYPE = "type";
+    private final static String COLUMN_NAME_SEASON = "season";
+    private final static String COLUMN_NAME_STYLE = "style";
+    private final static String COLUMN_NAME_SITUATION = "situation";
+    private final static String COLUMN_NAME_TYPE = "type";
     public final static String COLUMN_NAME_MIMETYPE = "mimetype";
     public final static String COLUMN_NAME_DATA = "_data";
     public final static String COLUMN_NAME_USERID = "user_id";
@@ -44,8 +46,9 @@ public class ClothesInfo implements IInfo {
     public final static String MIMETYPE_IMAGE = "image";
     private static final String[] PROJECTION = new String[] { _ID,
             COLUMN_NAME_SEASON, COLUMN_NAME_STYLE, COLUMN_NAME_TYPE,
-            COLUMN_NAME_MIMETYPE, COLUMN_NAME_DATA, COLUMN_NAME_USERID,
-            COLUMN_NAME_SYN_SERVER_ID,COLUMN_NAME_MEDIA_NAME,COLUMN_NAME_DOWNLOAD_FLAG };
+            COLUMN_NAME_MIMETYPE, COLUMN_NAME_SITUATION, COLUMN_NAME_DATA,
+            COLUMN_NAME_USERID, COLUMN_NAME_SYN_SERVER_ID,
+            COLUMN_NAME_MEDIA_NAME, COLUMN_NAME_DOWNLOAD_FLAG };
     
     public static final Uri CONTENT_URI = Uri
             .parse(RoomProvider.CONTENT_URI + "/medias");
@@ -75,10 +78,23 @@ public class ClothesInfo implements IInfo {
             return null;
         }
     }
+    
+    public enum Situation {
+        PUBLIC, OFFICE, COCKTAIL;
+
+        public static Situation valueAt(int index) {
+            for (Situation situation : Situation.values()) {
+                if (situation.ordinal() == index) {
+                    return situation;
+                }
+            }
+            return null;
+        }
+    }
 
     public enum Type {
         SLEEVED, TROUSERS, OVERCOAT;
-        
+
         public static Type valueAt(int index) {
             for (Type type : Type.values()) {
                 if (type.ordinal() == index) {
@@ -89,20 +105,9 @@ public class ClothesInfo implements IInfo {
         }
     }
     
-    public enum Situation {
-        ;
-        public static Situation valueAt(int index) {
-            for (Situation type : Situation.values()) {
-                if (type.ordinal() == index) {
-                    return type;
-                }
-            }
-            return null;
-        }
-    }
-
     public Season mSeason;
     public Style mStyle;
+    public Situation mSituation;
     public Type mType;
     public String mMimeType;
     public String mMediaPath;
@@ -112,10 +117,11 @@ public class ClothesInfo implements IInfo {
     public String mMediaName;
     public int mFlag;
 
-    public ClothesInfo(Style style, Season season, Type type) {
+    public ClothesInfo(Style style, Season season, Situation situation, Type type) {
         mSeason = season;
         mStyle = style;
         mType = type;
+        mSituation = situation;
     }
 
     public ClothesInfo() {
@@ -130,6 +136,7 @@ public class ClothesInfo implements IInfo {
         json.put(JSON_KEY_SEASON, mSeason);
         json.put(JSON_KEY_STYLE, mStyle);
         json.put(JSON_KEY_TYPE, mType);
+        json.put(JSON_KEY_SITUATION, mSituation);
         return json;
     }
     
@@ -139,8 +146,9 @@ public class ClothesInfo implements IInfo {
         values.put(COLUMN_NAME_MIMETYPE,mMimeType);
         values.put(COLUMN_NAME_SEASON,mSeason.name());
         values.put(COLUMN_NAME_STYLE, mStyle.name());
-        values.put(COLUMN_NAME_SYN_SERVER_ID, mSynServerId);
         values.put(COLUMN_NAME_TYPE, mType.name());
+        values.put(COLUMN_NAME_SITUATION,mSituation.name());
+        values.put(COLUMN_NAME_SYN_SERVER_ID, mSynServerId);
         values.put(COLUMN_NAME_USERID, mUserId);
         values.put(COLUMN_NAME_MEDIA_NAME, mMediaName);
         return resoler.insert(CONTENT_URI, values);
@@ -166,6 +174,7 @@ public class ClothesInfo implements IInfo {
             infos[i].mSeason = Season.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_SEASON)));
             infos[i].mStyle = Style.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_STYLE)));
             infos[i].mType = Type.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_TYPE)));
+            infos[i].mSituation = Situation.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_SITUATION)));
             infos[i].mMediaName = c.getString(c.getColumnIndex(COLUMN_NAME_MEDIA_NAME));
             i++;
         }
@@ -230,6 +239,7 @@ public class ClothesInfo implements IInfo {
             infos[i].mSeason = Season.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_SEASON)));
             infos[i].mStyle = Style.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_STYLE)));
             infos[i].mType = Type.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_TYPE)));
+            infos[i].mSituation = Situation.valueOf(c.getString(c.getColumnIndex(COLUMN_NAME_SITUATION)));
             infos[i].mMediaName = c.getString(c.getColumnIndex(COLUMN_NAME_MEDIA_NAME));
             infos[i].mFlag = c.getInt(c.getColumnIndex(COLUMN_NAME_DOWNLOAD_FLAG));
             infos[i].mSynServerId = c.getInt(c.getColumnIndex(COLUMN_NAME_SYN_SERVER_ID));
@@ -290,6 +300,8 @@ public class ClothesInfo implements IInfo {
                     .getColumnIndex(COLUMN_NAME_STYLE)));
             info.mType = Type.valueOf(c.getString(c
                     .getColumnIndex(COLUMN_NAME_TYPE)));
+            info.mSituation = Situation.valueOf(c.getString(c
+                    .getColumnIndex(COLUMN_NAME_SITUATION)));
             info.mMediaName = c.getString(c
                     .getColumnIndex(COLUMN_NAME_MEDIA_NAME));
             info.mFlag = c.getInt(c.getColumnIndex(COLUMN_NAME_DOWNLOAD_FLAG));
@@ -300,13 +312,13 @@ public class ClothesInfo implements IInfo {
     }
     
     public static ImageInfo[] getImageInfoArgs(ContentResolver resolver,
-            String userId, Season season, Style style, Type type) {
+            String userId, Season season, Style style, Situation situation) {
         String selection = COLUMN_NAME_USERID + " = ? AND "
                 + COLUMN_NAME_SEASON + " = ? AND " + COLUMN_NAME_STYLE
-                + " = ? AND " + COLUMN_NAME_TYPE + " = ? AND "
+                + " = ? AND " + COLUMN_NAME_SITUATION + " = ? AND "
                 + COLUMN_NAME_MIMETYPE + " = ?";
         String selectionArgs[] = new String[] { userId, season.name(),
-                style.name(), type.name(), MIMETYPE_IMAGE };
+                style.name(), situation.name(), MIMETYPE_IMAGE };
         Cursor c = resolver.query(ImageInfo.CONTENT_URI, PROJECTION, selection,
                 selectionArgs, null);
         if (c == null)
@@ -325,6 +337,8 @@ public class ClothesInfo implements IInfo {
                     .getColumnIndex(COLUMN_NAME_STYLE)));
             info[i].mType = Type.valueOf(c.getString(c
                     .getColumnIndex(COLUMN_NAME_TYPE)));
+            info[i].mSituation = Situation.valueOf(c.getString(c
+                    .getColumnIndex(COLUMN_NAME_SITUATION)));
             info[i].mMediaName = c.getString(c
                     .getColumnIndex(COLUMN_NAME_MEDIA_NAME));
             info[i].mFlag = c.getInt(c.getColumnIndex(COLUMN_NAME_DOWNLOAD_FLAG));
@@ -376,10 +390,11 @@ public class ClothesInfo implements IInfo {
     @Override
     public String toString() {
         return "ClothesInfo [mSeason=" + mSeason + ", mStyle=" + mStyle
-                + ", mType=" + mType + ", mMimeType=" + mMimeType
-                + ", mMediaPath=" + mMediaPath + ", mSynServerId="
-                + mSynServerId + ", mId=" + mId + ", mUserId=" + mUserId
-                + ", mMediaName=" + mMediaName + ", mFlag=" + mFlag + "]";
+                + ", mSituation=" + mSituation + ", mType=" + mType
+                + ", mMimeType=" + mMimeType + ", mMediaPath=" + mMediaPath
+                + ", mSynServerId=" + mSynServerId + ", mId=" + mId
+                + ", mUserId=" + mUserId + ", mMediaName=" + mMediaName
+                + ", mFlag=" + mFlag + "]";
     }
 
     public static class VideoInfo extends ClothesInfo {
@@ -412,6 +427,7 @@ public class ClothesInfo implements IInfo {
             values.put(COLUMN_NAME_SEASON, mSeason.name());
             values.put(COLUMN_NAME_STYLE, mStyle.name());
             values.put(COLUMN_NAME_TYPE, mType.name());
+            values.put(COLUMN_NAME_SITUATION, mSituation.name());
             return values;
         }
         
@@ -420,6 +436,8 @@ public class ClothesInfo implements IInfo {
             info.mSeason = Season.valueOf(json.getString(JSON_KEY_SEASON));
             info.mStyle = Style.valueOf(json.getString(JSON_KEY_STYLE));
             info.mType = Type.valueOf(json.getString(JSON_KEY_TYPE));
+//            info.mSituation = Situation.valueOf(json.getString(JSON_KEY_SITUATION));
+            info.mSituation = Situation.COCKTAIL;
             info.mUserId = json.getString(JSON_KEY_USERNAME);
             info.mSynServerId = json.getInt(JSON_KEY_IMAGE_SERVERID);
             return info;
@@ -443,12 +461,21 @@ public class ClothesInfo implements IInfo {
     }
     
 	public static CursorLoader createMediaCursorLoader(Context context,
-			String userId, String season, String style, String type) {
+			String userId, String season, String style, String situation) {
 		String selection = COLUMN_NAME_SEASON + " = ? AND " + COLUMN_NAME_STYLE
-				+ " = ? AND " + COLUMN_NAME_TYPE + " = ? AND "
+				+ " = ? AND " + COLUMN_NAME_SITUATION + " = ? AND "
 				+ COLUMN_NAME_USERID + " = ?";
-		String selectionArgs[] = new String[] { season, style, type, userId };
+		String selectionArgs[] = new String[] { season, style, situation, userId };
 		return new CursorLoader(context, ClothesInfo.CONTENT_URI, PROJECTION,
 				selection, selectionArgs, null);
 	}
+	
+	public static CursorLoader createTypeCursorLoader(Context context,
+            String userId, String type) {
+        String selection = COLUMN_NAME_TYPE + " = ?  AND "
+                + COLUMN_NAME_USERID + " = ?";
+        String selectionArgs[] = new String[] { type, userId };
+        return new CursorLoader(context, ClothesInfo.CONTENT_URI, PROJECTION,
+                selection, selectionArgs, null);
+    }
 }

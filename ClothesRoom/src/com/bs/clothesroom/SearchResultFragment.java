@@ -78,11 +78,11 @@ public class SearchResultFragment extends GridFragment implements OnItemClickLis
 			return null;
 		String season = args.getString("season");
 		String style = args.getString("style");
-		String type = args.getString("type");
+		String situation = args.getString("situation");
 		// String userId = args.getString("userId");
 		String userId = Preferences.getUsername(getActivity());
 		return ClothesInfo.createMediaCursorLoader(getActivity(), userId,
-				season, style, type);
+				season, style, situation);
 	}
 
 	@Override

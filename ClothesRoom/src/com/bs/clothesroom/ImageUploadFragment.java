@@ -24,13 +24,14 @@ import android.widget.Toast;
 
 import com.bs.clothesroom.provider.ClothesInfo;
 import com.bs.clothesroom.provider.ClothesInfo.Season;
+import com.bs.clothesroom.provider.ClothesInfo.Situation;
 import com.bs.clothesroom.provider.ClothesInfo.Style;
 import com.bs.clothesroom.provider.ClothesInfo.Type;
 
 public class ImageUploadFragment extends GeneralFragment implements OnClickListener {
     
     Button mUpload;
-    RadioGroup mSeason,mStyle,mType;
+    RadioGroup mSeason,mStyle,mType,mSituation;
     RadioButton mLeisure,mBuesiness,mFashion,mGentleman;
     RadioButton mOvercoat,mSleeved,mTrousers;
     ImageView mPreviewView;
@@ -42,16 +43,17 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.image_upload,container,false);
         mUpload = (Button) v.findViewById(R.id.upload);
-        mLeisure = (RadioButton) v.findViewById(R.id.leisure);
-        mBuesiness = (RadioButton) v.findViewById(R.id.business);
-        mFashion = (RadioButton) v.findViewById(R.id.fashion);
-        mGentleman = (RadioButton) v.findViewById(R.id.gentleman);
-        mOvercoat = (RadioButton) v.findViewById(R.id.overcoat);
-        mSleeved = (RadioButton) v.findViewById(R.id.sleeved);
+//        mLeisure = (RadioButton) v.findViewById(R.id.leisure);
+//        mBuesiness = (RadioButton) v.findViewById(R.id.business);
+//        mFashion = (RadioButton) v.findViewById(R.id.fashion);
+//        mGentleman = (RadioButton) v.findViewById(R.id.gentleman);
+//        mOvercoat = (RadioButton) v.findViewById(R.id.overcoat);
+//        mSleeved = (RadioButton) v.findViewById(R.id.sleeved);
         mTrousers = (RadioButton) v.findViewById(R.id.trousers);
         mSeason = (RadioGroup) v.findViewById(R.id.style_season_group);
         mStyle = (RadioGroup) v.findViewById(R.id.style_form_group);
         mType = (RadioGroup) v.findViewById(R.id.style_type_group);
+        mSituation = (RadioGroup) v.findViewById(R.id.style_situation_group);
         mPreviewView = (ImageView) v.findViewById(R.id.preview);
         mPreviewView.setOnClickListener(this);
         mUpload.setOnClickListener(this);
@@ -129,7 +131,24 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
         default:
             throw new IllegalArgumentException("typeId id not found :"+typeId);
         }
-        ClothesInfo info = new ClothesInfo(style,season,type);
+        
+        int situationId = mSituation.getCheckedRadioButtonId();
+        Situation situation = null;
+        switch (situationId) {
+        case R.id.public_place:
+            situation = Situation.PUBLIC;
+            break;
+        case R.id.cocktail:
+            situation = Situation.COCKTAIL;
+            break;
+        case R.id.office:
+            situation = Situation.OFFICE;
+            break;
+
+        default:
+            throw new IllegalArgumentException("typeId id not found :"+typeId);
+        }
+        ClothesInfo info = new ClothesInfo(style,season,situation,type);
 //        mPostController.uploadFile(mImagePath,info);
         File f = new File(mImagePath);
 //        if (f.exists()) {
