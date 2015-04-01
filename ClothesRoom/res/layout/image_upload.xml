@@ -160,7 +160,6 @@
         android:orientation="horizontal"
         android:layout_marginLeft="@dimen/dimen_upload_margin_left"
         android:checkedButton="@+id/public_place"
-        android:visibility="gone"
         android:weightSum="4" >
 
         <RadioButton
@@ -189,7 +188,7 @@
         android:id="@+id/upload"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/dimen_upload_margin_top"
+        android:layout_marginTop="30dp"
         android:text="@string/upload_image"
         />
 </LinearLayout>

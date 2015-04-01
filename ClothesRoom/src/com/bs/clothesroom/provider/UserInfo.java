@@ -5,8 +5,6 @@ import java.io.Serializable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.provider.BaseColumns;
-
 public class UserInfo implements Serializable,IInfo{
     
     /**

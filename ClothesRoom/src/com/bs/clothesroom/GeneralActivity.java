@@ -46,6 +46,7 @@ public class GeneralActivity extends FragmentActivity {
     private static final String ACTION_REGISTER = "com.bs.clothesroom.register";
     private static final String ACTION_SEARCH = "com.bs.clothesroom.search";
     private static final String ACTION_RACK = "com.bs.clothesroom.rack";
+    private static final String ACTION_UPLOAD = "com.bs.clothesroom.upload_image";
 
     private static final int REQUEST_CODE_LOGIN = 0;
     private static final boolean DEBUG_CLASS = false;
@@ -74,6 +75,14 @@ public class GeneralActivity extends FragmentActivity {
 		from.startActivity(i);
 	}
     
+	public static void upload(Activity from, Bundle b) {
+		Intent i = new Intent(from, GeneralActivity.class);
+		i.putExtras(b);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setAction(ACTION_UPLOAD);
+        from.startActivity(i);
+	}
+	
     public static void startLogin(Activity from) {
         Intent i = new Intent(from, GeneralActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -114,6 +123,9 @@ public class GeneralActivity extends FragmentActivity {
         	replaceFragment(SearchResultFragment.class, b, R.id.fragment);
         } else if (ACTION_RACK.equals(action)) {
             replaceFragment(ClothesRack.class, getIntent().getExtras(), R.id.fragment);
+        } else if (ACTION_UPLOAD.equals(action)) {
+        	Bundle b = getIntent().getExtras();
+        	replaceFragment(ImageUploadFragment.class, b, R.id.fragment);
         }
     }
 
@@ -321,6 +333,7 @@ public class GeneralActivity extends FragmentActivity {
                     break;
                 case PostController.POST_ID_UPLOAD_FILE:
                     toastMessage(R.string.upload_succeed);
+                    finish();
                     break;
                 case PostController.POST_ID_FETCH_FETCH_IMAGE_IDS:
                     try {
@@ -395,6 +408,9 @@ public class GeneralActivity extends FragmentActivity {
                 case PostResult.ERR_MESSAGE_FAILED:
                     // toastMessage(R.string.re);
                     break;
+                case PostResult.ERR_MESSAGE_ILLEGAL_USERNAME:
+                	startLogin(GeneralActivity.this);
+                	break;
 
                 default:
                     toastMessage("Error Code = " + result.errId);
@@ -502,6 +518,4 @@ public class GeneralActivity extends FragmentActivity {
             log(getClass().getName() + " --->" + str);
         }
     }
-
-
 }

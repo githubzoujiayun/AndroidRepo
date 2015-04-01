@@ -146,8 +146,8 @@ public class SelfSettings extends GeneralFragment {
 
 //                 replaceFragment(ImageUploadFragment.class, null,
 //                 R.id.fragment2);
-                openFragment(R.id.fragment2, ImageUploadFragment.class, null,
-                        "upload");
+//                openFragment(R.id.fragment2, ImageUploadFragment.class, null,
+//                        "upload");
                 // new Thread(new Runnable() {
                 // @Override
                 // public void run() {

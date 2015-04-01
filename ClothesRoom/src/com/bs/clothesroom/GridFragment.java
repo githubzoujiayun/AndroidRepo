@@ -38,7 +38,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
 public abstract class GridFragment extends GeneralFragment implements
-        LoaderCallbacks<Cursor>, OnClickListener {
+        LoaderCallbacks<Cursor>, OnClickListener, OnItemClickListener {
 
 //    private MediaObserver mObserver;
 //    private ContentResolver mResolver;
@@ -68,7 +68,7 @@ public abstract class GridFragment extends GeneralFragment implements
         Button b = (Button) mRootView.findViewById(R.id.refresh);
         b.setOnClickListener(this);
         mGridView.setEmptyView(b);
-
+        mGridView.setOnItemClickListener(this);
         return mRootView;
     }
 
@@ -86,6 +86,11 @@ public abstract class GridFragment extends GeneralFragment implements
     public interface CursorChangedListener {
     	public void onCursorChanged();
     }
+    
+    private class Holder {
+    	String path;
+    	String mimeType;
+    }
 
     private class MediaAdapter extends CursorAdapter {
 
@@ -96,18 +101,27 @@ public abstract class GridFragment extends GeneralFragment implements
             super(context, c, auto);
         }
 
-        @Override
+		@Override
         public void bindView(View v, Context context, Cursor c) {
             String mediaPath = c.getString(c
                     .getColumnIndex(ClothesInfo.COLUMN_NAME_DATA));
             String name = c.getString(c
                     .getColumnIndex(ClothesInfo.COLUMN_NAME_MEDIA_NAME));
-            String mimeType = c.getString(c
+            String mime = c.getString(c
                     .getColumnIndex(ClothesInfo.COLUMN_NAME_MIMETYPE));
             int downloadFlag = c.getInt(c
                     .getColumnIndex(ClothesInfo.COLUMN_NAME_DOWNLOAD_FLAG));
             
             TextView tv = (TextView) v.findViewById(R.id.video_thumbnail);
+
+            String mimeType = null;
+            if (ClothesInfo.MIMETYPE_IMAGE.equals(mime)) {
+            	mimeType = "image/*";
+            	
+            } else if (ClothesInfo.MIMETYPE_VIDEO.equals(mime)) {
+            	mimeType = "video/*";
+            }
+            
             // videoPath = null;
             if (mediaPath == null || !new File(mediaPath).exists() || downloadFlag != ClothesInfo.FLAG_DOWNLOAD_DONE) {
                 tv.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -125,7 +139,7 @@ public abstract class GridFragment extends GeneralFragment implements
                     int id = c.getInt(c.getColumnIndex(ClothesInfo._ID));
                     Uri uri = ContentUris.withAppendedId(ClothesInfo.CONTENT_URI, id);
                     getActivity().getContentResolver().update(uri, values, null, null);
-                    if (ClothesInfo.MIMETYPE_IMAGE.equals(mimeType)) {
+                    if (ClothesInfo.MIMETYPE_IMAGE.equals(mime)) {
                         mPostController.downloadImage(userId, serverId);
                     } else {
                         mPostController.downloadVideo(userId, serverId);
@@ -137,10 +151,10 @@ public abstract class GridFragment extends GeneralFragment implements
             Drawable bd = null;
 
             if (ref == null || (bd = ref.get()) == null) {
-                if (ClothesInfo.MIMETYPE_IMAGE.equals(mimeType)) {
+                if (ClothesInfo.MIMETYPE_IMAGE.equals(mime)) {
                     // bd = Drawable.createFromPath(videoPath);
                     Options ops = new Options();
-                    ops.inSampleSize = 2;
+                    ops.inSampleSize = 4;
                     Bitmap bp = BitmapFactory.decodeFile(mediaPath, ops);
                     bd = new BitmapDrawable(getResources(), bp);
                 } else {
@@ -155,7 +169,11 @@ public abstract class GridFragment extends GeneralFragment implements
             // tv.setCompoundDrawables(null, bd, null, null);
             tv.setCompoundDrawablesWithIntrinsicBounds(null, bd, null, null);
             tv.setText(name);
-            v.setTag(mediaPath);
+            
+            Holder holder = new Holder();
+            holder.mimeType = mimeType;
+            holder.path = mediaPath;
+            v.setTag(holder);
         }
 
         @Override
@@ -208,6 +226,20 @@ public abstract class GridFragment extends GeneralFragment implements
     }
     
     public abstract void sync();
+    
+	public void onItemClick(AdapterView<?> arg0, View v, int arg2, long arg3) {
+		Holder holder = (Holder) v.getTag();
+		if (holder == null) return;
+		String path = holder.path;
+		String mimeType = holder.mimeType;
+		Intent i = new Intent(Intent.ACTION_VIEW);
+		File f = new File(path);
+		if (!f.exists())
+			return;
+		i.setDataAndType(Uri.fromFile(f), mimeType);
+		startActivity(i);		
+	}
+
 
 //    private void sync() {
 //        String userId = Preferences.getUsername(getActivity());

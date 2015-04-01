@@ -1,14 +1,5 @@
 package com.bs.clothesroom;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
-import com.bs.clothesroom.controller.PostController;
-import com.bs.clothesroom.provider.UserInfo;
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -19,7 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
+
+import com.bs.clothesroom.provider.UserInfo;
 
 public class RegisterFragment extends GeneralFragment implements OnClickListener {
 

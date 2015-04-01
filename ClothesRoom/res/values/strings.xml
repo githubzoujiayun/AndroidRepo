@@ -84,4 +84,7 @@
 	<string name="sp_label_situation">出席场合</string>
 	<string name="sp_label_style">风格</string>
 	<string name="sp_label_type">类型</string>
+	<string name="open">打开</string>
+	<string name="delete">删除</string>
+	<string name="try_it">进入虚拟试衣</string>
 </resources>

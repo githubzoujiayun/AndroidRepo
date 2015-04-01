@@ -372,9 +372,15 @@ public class PostController {
         }
 
         private PostResult doPostInternal(HttpEntity entity) {
+        	PostResult result = new PostResult();
+        	result.postId = mPostId;
+        	
+        	String userId = Preferences.getUsername(mContext);
+        	if (TextUtils.isEmpty(userId)) {
+        		result.errId = PostResult.ERR_MESSAGE_ILLEGAL_USERNAME;
+        		return result;
+        	}
 
-            PostResult result = new PostResult();
-            result.postId = mPostId;
             result.errId = PostResult.SUCCED;
             if (!checkNetworkAvaliable()) {
                 result.errId = PostResult.ERR_NETWORK_NOT_AVIABLE;
@@ -615,6 +621,8 @@ public class PostController {
         public static final int ERR_UPLOAD_FAILED = 9;
         public static final int ERR_NULL_RETURN = 10;
         public static final int ERR_NETWORK_NOT_AVIABLE = 11;
+
+        public static final int ERR_MESSAGE_ILLEGAL_USERNAME = 12;
     }
 
     public void cancelPost() {

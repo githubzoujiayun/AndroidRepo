@@ -116,21 +116,6 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
         default:
             throw new IllegalArgumentException("season id not found :"+seasonId);
         }
-        int typeId = mType.getCheckedRadioButtonId();
-        Type type = null;
-        switch (typeId) {
-        case R.id.trousers:
-            type = Type.TROUSERS;
-            break;
-        case R.id.overcoat:
-            type = Type.OVERCOAT;
-            break;
-        case R.id.sleeved:
-            type = Type.SLEEVED;
-            break;
-        default:
-            throw new IllegalArgumentException("typeId id not found :"+typeId);
-        }
         
         int situationId = mSituation.getCheckedRadioButtonId();
         Situation situation = null;
@@ -146,8 +131,10 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
             break;
 
         default:
-            throw new IllegalArgumentException("typeId id not found :"+typeId);
+            throw new IllegalArgumentException("typeId id not found :"+situationId);
         }
+        
+        Type type = Type.valueOf(getArguments().getString("type"));
         ClothesInfo info = new ClothesInfo(style,season,situation,type);
 //        mPostController.uploadFile(mImagePath,info);
         File f = new File(mImagePath);

@@ -384,6 +384,11 @@ public class ClothesInfo implements IInfo {
         values.put(COLUMN_NAME_USERID, mUserId);
         values.put(COLUMN_NAME_SYN_SERVER_ID, mSynServerId);
         values.put(COLUMN_NAME_DOWNLOAD_FLAG, mFlag);
+        values.put(COLUMN_NAME_SEASON, mSeason.name());
+        values.put(COLUMN_NAME_STYLE, mStyle.name());
+        values.put(COLUMN_NAME_TYPE, mType.name());
+        values.put(COLUMN_NAME_SITUATION, Situation.COCKTAIL.name());
+//        values.put(COLUMN_NAME_SITUATION, mSituation.name());
         return values;
     }
 
@@ -407,6 +412,9 @@ public class ClothesInfo implements IInfo {
             info.mUserId = json.getString(JSON_KEY_USERNAME);
             info.mSynServerId = json.getInt(JSON_KEY_VIDEO_SERVERID);
             info.mRelativeImageIds = json.getString("imageids");
+            info.mSeason = Season.valueOf(json.getString(JSON_KEY_SEASON));
+            info.mStyle = Style.valueOf(json.getString(JSON_KEY_STYLE));
+            info.mType = Type.valueOf(json.getString(JSON_KEY_TYPE));
             return info;
         }
         
@@ -424,10 +432,6 @@ public class ClothesInfo implements IInfo {
         
         public ContentValues toContentValues() {
             ContentValues values = super.toContentValues();
-            values.put(COLUMN_NAME_SEASON, mSeason.name());
-            values.put(COLUMN_NAME_STYLE, mStyle.name());
-            values.put(COLUMN_NAME_TYPE, mType.name());
-            values.put(COLUMN_NAME_SITUATION, mSituation.name());
             return values;
         }
         

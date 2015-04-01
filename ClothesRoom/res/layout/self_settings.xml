@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:background="@android:color/darker_gray"
     android:orientation="vertical" >
-<FrameLayout 
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-    >
+<!-- <FrameLayout  -->
+<!-- 	android:layout_width="match_parent" -->
+<!-- 	android:layout_height="wrap_content" -->
+<!--     > -->
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -109,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:weightSum="3"
+            android:weightSum="2"
             android:orientation="horizontal"
             >
             <Button 
@@ -127,20 +127,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/register"
                 />
-             <Button 
-                android:id="@+id/upload"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="@string/upload"
-                />
         </LinearLayout>
     </LinearLayout>
-	<FrameLayout
-            android:id="@+id/fragment2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            />    
-</FrameLayout>
+
+<!-- </FrameLayout> -->
 </ScrollView>

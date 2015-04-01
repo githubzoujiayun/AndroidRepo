@@ -1,12 +1,8 @@
 package com.bs.clothesroom;
 
-import java.io.File;
-
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -14,7 +10,6 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.bs.clothesroom.controller.Preferences;
@@ -90,15 +85,4 @@ public class SearchResultFragment extends GridFragment implements OnItemClickLis
 		String userId = Preferences.getUsername(getActivity());
 		mPostController.fetchImageIds(userId);
 	}
-
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View v, int arg2, long arg3) {
-		 String path = (String) v.getTag();
-	        Intent i = new Intent(Intent.ACTION_VIEW);
-	        File f = new File(path);
-	        if (!f.exists()) return;
-	        i.setDataAndType(Uri.fromFile(f), "image/*");
-	        startActivity(i);		
-	}
-
 }

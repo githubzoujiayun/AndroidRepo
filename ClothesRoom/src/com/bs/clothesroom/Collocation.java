@@ -16,6 +16,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 
+import com.bs.clothesroom.controller.Preferences;
+import com.bs.clothesroom.provider.ClothesInfo.Season;
+import com.bs.clothesroom.provider.ClothesInfo.Style;
+import com.bs.clothesroom.provider.ClothesInfo.Type;
+
 
 public class Collocation extends GeneralFragment implements OnClickListener {
     

@@ -1,28 +1,22 @@
 package com.bs.clothesroom;
 
-import java.io.File;
-
-import com.bs.clothesroom.controller.Preferences;
-import com.bs.clothesroom.provider.ClothesInfo;
-
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-public class HomePage2 extends GridFragment implements OnItemClickListener {
+import com.bs.clothesroom.controller.Preferences;
+import com.bs.clothesroom.provider.ClothesInfo;
+
+public class HomePage2 extends GridFragment {
 
 	private Handler mHandler;
 	private MediaObserver mObserver;
@@ -31,6 +25,7 @@ public class HomePage2 extends GridFragment implements OnItemClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
 		mHandler = new Handler();
         mObserver = new MediaObserver(mHandler);
         mResolver = getActivity().getContentResolver();
@@ -39,15 +34,23 @@ public class HomePage2 extends GridFragment implements OnItemClickListener {
 	}
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater,
-			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		View v = super.onCreateView(inflater, container, savedInstanceState);
-		mGridView.setOnItemClickListener(this);
-		return v;
-	}
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.home_page, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.menu_refresh:
+            sync();
+            break;
 
+        default:
+            break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -85,20 +88,11 @@ public class HomePage2 extends GridFragment implements OnItemClickListener {
     }
     
     @Override
-    public void onItemClick(AdapterView<?> arg0, View v, int arg2, long arg3) {
-        String path = (String) v.getTag();
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        File f = new File(path);
-        if (!f.exists()) return;
-        i.setDataAndType(Uri.fromFile(f), "video/*");
-        startActivity(i);
-    }
-    
-    @Override
     public Loader<Cursor> onCreateLoader(int arg0, Bundle b) {
     	String userId = Preferences.getUsername(getActivity());
 //      CursorLoader loader = ClothesInfo.getVideoCursorLoader(getActivity(), userId);
       CursorLoader loader = ClothesInfo.createVideoCursorLoader(getActivity(), userId);
       return loader;
     }
+
 }
