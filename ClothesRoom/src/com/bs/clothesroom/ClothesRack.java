@@ -15,10 +15,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class ClothesRack extends GridFragment {
     
 	private String mType = null;
+	Holder mHolder;
 	
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -27,17 +29,21 @@ public class ClothesRack extends GridFragment {
 		setHasOptionsMenu(true);
 		 Bundle args = getArguments();
 		 mType = args.getString("type");
-		mGridView.setOnCreateContextMenuListener(this);
+//		mGridView.setOnCreateContextMenuListener(this);
+		registerForContextMenu(mGridView);
 	}
 	
     @Override
 	public boolean onContextItemSelected(MenuItem item) {
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        Holder holder = (Holder) info.targetView.getTag();
     	switch (item.getItemId()) {
 		case 1:
-			
+			openMedia(holder);
 		case 2:
-			
+			deleteMedia(holder);
 		case 3:
+//		    dressVirtual(holder);
 			break;
 
 		default:
@@ -46,14 +52,17 @@ public class ClothesRack extends GridFragment {
 		return super.onContextItemSelected(item);
 	}
 
-	@Override
+    @Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.add(0, 1, Menu.NONE, getString(R.string.open));
 		menu.add(0, 2, Menu.NONE, getString(R.string.delete));
 		menu.add(0, 3, Menu.NONE, getString(R.string.try_it));
+		mHolder = (Holder) v.getTag();
 	}
+	
+	
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
@@ -94,6 +103,7 @@ public class ClothesRack extends GridFragment {
 
     @Override
     public void sync() {
+        getLoaderManager().restartLoader(0, null, this);
     	String userId = Preferences.getUsername(getActivity());
 		mPostController.fetchImageIds(userId);
     }

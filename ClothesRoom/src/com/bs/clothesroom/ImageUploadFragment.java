@@ -98,7 +98,7 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
             style = Style.FASHION;
             break;
         default:
-            throw new IllegalArgumentException("style id not found : "+styleId);
+            throw new IllegalArgumentException("style id not found : "+Integer.toHexString(styleId));
         }
         int seasonId = mSeason.getCheckedRadioButtonId();
         Season season;
@@ -111,10 +111,12 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
             break;
         case R.id.autumn:
             season = Season.AUTUMN;
+            break;
         case R.id.winter:
             season = Season.WINTER;
+            break;
         default:
-            throw new IllegalArgumentException("season id not found :"+seasonId);
+            throw new IllegalArgumentException("season id not found :"+Integer.toHexString(seasonId));
         }
         
         int situationId = mSituation.getCheckedRadioButtonId();
@@ -131,16 +133,17 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
             break;
 
         default:
-            throw new IllegalArgumentException("typeId id not found :"+situationId);
+            throw new IllegalArgumentException("typeId id not found :"+Integer.toHexString(situationId));
         }
         
         Type type = Type.valueOf(getArguments().getString("type"));
         ClothesInfo info = new ClothesInfo(style,season,situation,type);
 //        mPostController.uploadFile(mImagePath,info);
+        if (mImagePath == null) return;
         File f = new File(mImagePath);
-//        if (f.exists()) {
+        if (f.exists()) {
             mPostController.uploadFile(f, info);
-//        }
+        }
     }
 
     @Override

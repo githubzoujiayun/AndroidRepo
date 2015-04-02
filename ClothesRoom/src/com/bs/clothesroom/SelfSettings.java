@@ -98,7 +98,7 @@ public class SelfSettings extends GeneralFragment {
         mRegister = (Button) mRootView.findViewById(R.id.register);
         mLogin.setOnClickListener(mLoginListener);
         mRegister.setOnClickListener(mLoginListener);
-        mRootView.findViewById(R.id.upload).setOnClickListener(mLoginListener);
+//        mRootView.findViewById(R.id.upload).setOnClickListener(mLoginListener);
         return mRootView;
     }
 

@@ -253,6 +253,7 @@ public class GeneralActivity extends FragmentActivity {
             log("ids[] = " + Arrays.toString(ids));
             int localIds[] = ClothesInfo.getImageIds(resolver, userId);
             log("localIds : "+Arrays.toString(localIds));
+            // fetch serverId
             for (int i = 0; i < size; i++) {
                 int j = 0;
                 int length = localIds.length;
@@ -272,6 +273,28 @@ public class GeneralActivity extends FragmentActivity {
                     mPostController.fetchImageInfo(userId, ids[i]);
                 }
             }
+            //delete local image 
+            for (int i=0;i<localIds.length;i++) {
+                
+                int j=0;
+                for (;j<size;j++) {
+                    if (localIds[i] == ids[j]) {
+                        break;
+                    }
+                }
+                if (j == size) {
+                    ClothesInfo info = ClothesInfo.getImageInfoBySID(resolver, localIds[i], userId);
+                    String path = info.mMediaPath;
+                    if (path != null) {
+                        File f = new File(path);
+                        if (f.exists()) 
+                            f.delete();
+                    }
+                    Uri uri = ContentUris.withAppendedId(ImageInfo.CONTENT_URI, info.mId);
+                    resolver.delete(uri, null, null);
+                }
+            }
+            
         } else if (ClothesInfo.MIMETYPE_VIDEO.equals(mimeType)){
             JSONArray array = json.getJSONArray("video_ids");
             int size = array.length();
@@ -362,6 +385,10 @@ public class GeneralActivity extends FragmentActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    break;
+                case PostController.POST_ID_DELETE_IMAGE:
+                    String userId = Preferences.getUsername(GeneralActivity.this);
+                    mPostController.fetchImageIds(userId);
                     break;
                 default:
                     break;

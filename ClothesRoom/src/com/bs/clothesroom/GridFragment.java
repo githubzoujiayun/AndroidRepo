@@ -4,9 +4,6 @@ import java.io.File;
 import java.lang.ref.SoftReference;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.bs.clothesroom.controller.Preferences;
-import com.bs.clothesroom.provider.ClothesInfo;
-
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -32,22 +29,49 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
+
+import com.bs.clothesroom.controller.Preferences;
+import com.bs.clothesroom.provider.ClothesInfo;
 
 public abstract class GridFragment extends GeneralFragment implements
         LoaderCallbacks<Cursor>, OnClickListener, OnItemClickListener {
 
-//    private MediaObserver mObserver;
-//    private ContentResolver mResolver;
+    private MediaObserver mObserver;
+    private ContentResolver mResolver;
+    private Handler mHandler;
     private View mRootView;
     protected GridView mGridView;
     private MediaAdapter mAdapter;
 
     private ConcurrentHashMap<String, SoftReference<BitmapDrawable>> mThumbnailCache = new ConcurrentHashMap<String, SoftReference<BitmapDrawable>>(
             10);
+    
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        mObserver = new MediaObserver(mHandler);
+        mResolver = getActivity().getContentResolver();
+        mResolver.registerContentObserver(ClothesInfo.CONTENT_URI, false,
+                mObserver);
+    }
+    
+    private class MediaObserver extends ContentObserver {
+
+        public MediaObserver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            getLoaderManager().restartLoader(0, null, GridFragment.this);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -80,6 +104,7 @@ public abstract class GridFragment extends GeneralFragment implements
 
     @Override
     public void onDestroy() {
+        mResolver.unregisterContentObserver(mObserver);
         super.onDestroy();
     }
 
@@ -87,9 +112,11 @@ public abstract class GridFragment extends GeneralFragment implements
     	public void onCursorChanged();
     }
     
-    private class Holder {
+    class Holder {
     	String path;
     	String mimeType;
+    	int serverId;
+    	String relativeId;
     }
 
     private class MediaAdapter extends CursorAdapter {
@@ -173,6 +200,8 @@ public abstract class GridFragment extends GeneralFragment implements
             Holder holder = new Holder();
             holder.mimeType = mimeType;
             holder.path = mediaPath;
+            holder.serverId = c.getInt(c.getColumnIndex(ClothesInfo.COLUMN_NAME_SYN_SERVER_ID));
+//            holder.relativeId = c.getString(c.getColumnIndex(ClothesInfo.co));
             v.setTag(holder);
         }
 
@@ -229,21 +258,29 @@ public abstract class GridFragment extends GeneralFragment implements
     
 	public void onItemClick(AdapterView<?> arg0, View v, int arg2, long arg3) {
 		Holder holder = (Holder) v.getTag();
-		if (holder == null) return;
-		String path = holder.path;
-		String mimeType = holder.mimeType;
-		Intent i = new Intent(Intent.ACTION_VIEW);
-		File f = new File(path);
-		if (!f.exists())
-			return;
-		i.setDataAndType(Uri.fromFile(f), mimeType);
-		startActivity(i);		
+		openMedia(holder);
 	}
 
+	void openMedia(Holder holder) {
+	    if (holder == null) return;
+        String path = holder.path;
+        String mimeType = holder.mimeType;
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        File f = new File(path);
+        if (!f.exists())
+            return;
+        i.setDataAndType(Uri.fromFile(f), mimeType);
+        startActivity(i);
+	}
+	
+	void deleteMedia(Holder holder) {
+	    if (holder == null) return;
+	    String userId = Preferences.getUsername(getActivity());
+	    mPostController.deleteImage(userId, holder.serverId);
+	}
 
-//    private void sync() {
-//        String userId = Preferences.getUsername(getActivity());
-//        mPostController.fetchImageIds(userId);
-////        mPostController.fetchVideoIds(userId);
-//    }
+    private void dressVirtual(Holder holder) {
+        if (holder == null) return;
+        
+    }
 }

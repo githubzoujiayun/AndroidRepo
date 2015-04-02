@@ -19,7 +19,7 @@ import com.bs.clothesroom.provider.ClothesInfo;
 public class HomePage2 extends GridFragment {
 
 	private Handler mHandler;
-	private MediaObserver mObserver;
+	
 	private ContentResolver mResolver;
 
 	@Override
@@ -27,10 +27,6 @@ public class HomePage2 extends GridFragment {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		mHandler = new Handler();
-        mObserver = new MediaObserver(mHandler);
-        mResolver = getActivity().getContentResolver();
-        mResolver.registerContentObserver(ClothesInfo.CONTENT_URI, false,
-                mObserver);
 	}
 	
 	@Override
@@ -61,7 +57,6 @@ public class HomePage2 extends GridFragment {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		mResolver.unregisterContentObserver(mObserver);
 	}
 
 	@Override
@@ -74,19 +69,6 @@ public class HomePage2 extends GridFragment {
         mPostController.fetchVideoIds(userId);
 	}
 
-    private class MediaObserver extends ContentObserver {
-
-        public MediaObserver(Handler handler) {
-            super(handler);
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            super.onChange(selfChange);
-            getLoaderManager().restartLoader(0, null, HomePage2.this);
-        }
-    }
-    
     @Override
     public Loader<Cursor> onCreateLoader(int arg0, Bundle b) {
     	String userId = Preferences.getUsername(getActivity());
