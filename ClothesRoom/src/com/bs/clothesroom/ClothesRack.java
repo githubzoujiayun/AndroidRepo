@@ -1,8 +1,15 @@
 package com.bs.clothesroom;
 
+import java.io.File;
+
 import com.bs.clothesroom.controller.Preferences;
 import com.bs.clothesroom.provider.ClothesInfo;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -45,20 +52,60 @@ public class ClothesRack extends GridFragment {
 		case 3:
 //		    dressVirtual(holder);
 			break;
-
+		case 4:
+			mediaDetails(holder);
+			break;
 		default:
 			throw new IllegalArgumentException("unkown item id :"+item.getItemId());
 		}
 		return super.onContextItemSelected(item);
 	}
 
-    @Override
+    private void mediaDetails(Holder holder) {
+    	if (holder == null) return;
+    	final ClothesInfo info = new ClothesInfo(holder.c);
+    	StringBuilder sbuilder = new StringBuilder();
+    	final String SPLITE = " : ";
+    	final String ENTER = "\r\n";
+    	sbuilder.append(getString(R.string.sp_label_season))
+    			.append(SPLITE)
+    			.append(info.mSeason.name2(getActivity()))
+    			.append(ENTER)
+    			.append(getString(R.string.sp_label_situation))
+    			.append(SPLITE)
+    			.append(info.mSituation.name2(getActivity()))
+    			.append(ENTER)
+    			.append(getString(R.string.sp_label_style))
+    			.append(SPLITE)
+    			.append(info.mStyle.name2(getActivity()))
+    			.append(ENTER)
+    			.append(getString(R.string.sp_label_type))
+    			.append(SPLITE)
+    			.append(info.mType.name2(getActivity()));
+    	AlertDialog.Builder builder = new Builder(getActivity())
+    	.setTitle(info.mMediaName)
+    	.setMessage(sbuilder.toString())
+    	.setPositiveButton(android.R.string.ok, null)
+		.setNegativeButton(R.string.modify, new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				Bundle b = new Bundle();
+				b.putSerializable("info", info);
+				GeneralActivity.modify(getActivity(), b);
+			}
+		});
+    	builder.create().show();
+    }
+
+	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.add(0, 1, Menu.NONE, getString(R.string.open));
 		menu.add(0, 2, Menu.NONE, getString(R.string.delete));
 		menu.add(0, 3, Menu.NONE, getString(R.string.try_it));
+		menu.add(0, 4, Menu.NONE, getString(R.string.details));
 		mHolder = (Holder) v.getTag();
 	}
 	

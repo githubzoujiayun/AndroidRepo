@@ -1,11 +1,7 @@
 package com.bs.clothesroom;
 
-import android.content.ContentResolver;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
@@ -18,15 +14,11 @@ import com.bs.clothesroom.provider.ClothesInfo;
 
 public class HomePage2 extends GridFragment {
 
-	private Handler mHandler;
 	
-	private ContentResolver mResolver;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		mHandler = new Handler();
 	}
 	
 	@Override
@@ -47,12 +39,6 @@ public class HomePage2 extends GridFragment {
         }
         return super.onOptionsItemSelected(item);
     }
-
-	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		getLoaderManager().initLoader(0, getArguments(), this);
-	}
 
 	@Override
 	public void onDestroy() {

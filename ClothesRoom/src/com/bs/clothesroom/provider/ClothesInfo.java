@@ -3,18 +3,14 @@ package com.bs.clothesroom.provider;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.ContentProvider;
+import com.bs.clothesroom.R;
+
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.content.CursorLoader;
-
-import com.bs.clothesroom.provider.ClothesInfo.Season;
-import com.bs.clothesroom.provider.ClothesInfo.Style;
-import com.bs.clothesroom.provider.ClothesInfo.Type;
 
 public class ClothesInfo implements IInfo {
     
@@ -64,6 +60,28 @@ public class ClothesInfo implements IInfo {
             }
             return null;
         }
+        
+        public String name2(Context context) {
+        	String name = null;
+        	switch (ordinal()) {
+			case 0:
+				name = context.getString(R.string.spring);
+				break;
+			case 1:
+				name = context.getString(R.string.summer);
+				break;
+			case 2:
+				name = context.getString(R.string.autumn);
+				break;
+			case 3:
+				name = context.getString(R.string.winter);
+				break;
+
+			default:
+				break;
+			}
+        	return name;
+        }
     }
 
     public enum Style {
@@ -76,6 +94,28 @@ public class ClothesInfo implements IInfo {
                 }
             }
             return null;
+        }
+        
+        public String name2(Context context) {
+        	String name = null;
+        	switch (ordinal()) {
+			case 0:
+				name = context.getString(R.string.gentleman);
+				break;
+			case 1:
+				name = context.getString(R.string.leisure);
+				break;
+			case 2:
+				name = context.getString(R.string.business);
+				break;
+			case 3:
+				name = context.getString(R.string.fashion);
+				break;
+
+			default:
+				break;
+			}
+        	return name;
         }
     }
     
@@ -90,6 +130,25 @@ public class ClothesInfo implements IInfo {
             }
             return null;
         }
+        
+        public String name2(Context context) {
+        	String name = null;
+        	switch (ordinal()) {
+			case 0:
+				name = context.getString(R.string.public_place);
+				break;
+			case 1:
+				name = context.getString(R.string.office);
+				break;
+			case 2:
+				name = context.getString(R.string.cocktail);
+				break;
+
+			default:
+				break;
+			}
+        	return name;
+        }
     }
 
     public enum Type {
@@ -102,6 +161,24 @@ public class ClothesInfo implements IInfo {
                 }
             }
             return null;
+        }
+        
+        public String name2(Context context) {
+        	String name = null;
+        	switch (ordinal()) {
+			case 0:
+				name = context.getString(R.string.sleeved);
+				break;
+			case 1:
+				name = context.getString(R.string.trousers);
+				break;
+			case 2:
+				name = context.getString(R.string.overcoat);
+				break;
+			default:
+				break;
+			}
+        	return name;
         }
     }
     
@@ -127,7 +204,25 @@ public class ClothesInfo implements IInfo {
     public ClothesInfo() {
     }
     
-    
+    public ClothesInfo(Cursor c) {
+        mId = c.getInt(c.getColumnIndex(_ID));
+        mMediaPath = c.getString(c.getColumnIndex(COLUMN_NAME_DATA));
+        mMimeType = c
+                .getString(c.getColumnIndex(COLUMN_NAME_MIMETYPE));
+        mSeason = Season.valueOf(c.getString(c
+                .getColumnIndex(COLUMN_NAME_SEASON)));
+        mStyle = Style.valueOf(c.getString(c
+                .getColumnIndex(COLUMN_NAME_STYLE)));
+        mType = Type.valueOf(c.getString(c
+                .getColumnIndex(COLUMN_NAME_TYPE)));
+        mSituation = Situation.valueOf(c.getString(c
+                .getColumnIndex(COLUMN_NAME_SITUATION)));
+        mMediaName = c.getString(c
+                .getColumnIndex(COLUMN_NAME_MEDIA_NAME));
+        mFlag = c.getInt(c.getColumnIndex(COLUMN_NAME_DOWNLOAD_FLAG));
+        mSynServerId = c.getInt(c.getColumnIndex(COLUMN_NAME_SYN_SERVER_ID));
+        mUserId = c.getString(c.getColumnIndex(COLUMN_NAME_USERID));
+    }
 
 //    public abstract ClothesInfo fromJson(JSONObject json) throws JSONException;
 
@@ -137,6 +232,7 @@ public class ClothesInfo implements IInfo {
         json.put(JSON_KEY_STYLE, mStyle);
         json.put(JSON_KEY_TYPE, mType);
         json.put(JSON_KEY_SITUATION, mSituation);
+        json.put(JSON_KEY_IMAGE_SERVERID,mSynServerId);
         return json;
     }
     
@@ -476,9 +572,10 @@ public class ClothesInfo implements IInfo {
 	
 	public static CursorLoader createTypeCursorLoader(Context context,
             String userId, String type) {
-        String selection = COLUMN_NAME_TYPE + " = ?  AND "
+        String selection = COLUMN_NAME_TYPE + " =?  AND " +
+        		COLUMN_NAME_MIMETYPE + " = ? AND "
                 + COLUMN_NAME_USERID + " = ?";
-        String selectionArgs[] = new String[] { type, userId };
+        String selectionArgs[] = new String[] { type,MIMETYPE_IMAGE, userId };
         return new CursorLoader(context, ClothesInfo.CONTENT_URI, PROJECTION,
                 selection, selectionArgs, null);
     }

@@ -80,6 +80,7 @@ public class PostController {
     private static final String POST_TYPE_DOWNLOAD_IMAGE = "download_image";
     private static final String POST_TYPE_DOWNLOAD_VIDEO = "download_video";
     private static final String POST_TYPE_UPLOAD_IMAGE = "upload_image";
+    private static final String POST_TYPE_MODIFY_IMAGE = "modify_image";
     private static final String POST_TYPE_DELETE_IMAGE = "delete_image";
     private static final String POST_TYPE_DELETE_VIDEO = "delete_video";
 
@@ -96,6 +97,7 @@ public class PostController {
     public static final int POST_ID_FETCH_FETCH_VIDEO_INFO = POST_ID_STRING_MASK + (1 << 8);
     public static final int POST_ID_DELETE_IMAGE = POST_ID_STRING_MASK + (1 << 9);
     public static final int POST_ID_DELETE_VIDEO = POST_ID_STRING_MASK + (1 << 10);
+    public static final int POST_ID_MODIFY_FILE = POST_ID_STRING_MASK + (1 << 11);
     
     public static final int POST_ID_BINARY_MASK = 0x10000;
     public static final int POST_ID_DOWNLOAD_IMAGE = POST_ID_BINARY_MASK + (1 << 1);
@@ -226,6 +228,19 @@ public class PostController {
         mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
                 json.toString());
     }
+    
+	public void modify(ClothesInfo info) {
+		JSONObject json = null;
+        try {
+            json = info.toJson();
+            json.put(POST_ARGS_TYPE, POST_TYPE_UPLOAD_IMAGE);
+            json.put(ARGS_USERNAME, Preferences.getUsername(mContext));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mPostTask = new PostTask(POST_ID_MODIFY_FILE);
+        mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,json.toString());
+	}
     
     public void uploadFile(File file, ClothesInfo info) {
         JSONObject json = null;

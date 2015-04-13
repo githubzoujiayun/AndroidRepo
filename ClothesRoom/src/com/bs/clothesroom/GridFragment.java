@@ -117,6 +117,7 @@ public abstract class GridFragment extends GeneralFragment implements
     	String mimeType;
     	int serverId;
     	String relativeId;
+    	Cursor c;
     }
 
     private class MediaAdapter extends CursorAdapter {
@@ -201,6 +202,7 @@ public abstract class GridFragment extends GeneralFragment implements
             holder.mimeType = mimeType;
             holder.path = mediaPath;
             holder.serverId = c.getInt(c.getColumnIndex(ClothesInfo.COLUMN_NAME_SYN_SERVER_ID));
+            holder.c = c;
 //            holder.relativeId = c.getString(c.getColumnIndex(ClothesInfo.co));
             v.setTag(holder);
         }

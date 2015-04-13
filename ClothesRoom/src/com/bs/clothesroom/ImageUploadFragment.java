@@ -2,6 +2,7 @@ package com.bs.clothesroom;
 
 
 import java.io.File;
+import java.lang.reflect.Modifier;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -36,7 +37,22 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
     RadioButton mOvercoat,mSleeved,mTrousers;
     ImageView mPreviewView;
     
+	private static final int[] SEASON_IDS = new int[] { R.id.spring,
+			R.id.summer, R.id.autumn, R.id.winter };
+
+	private static final int[] STYLE_IDS = new int[] { R.id.leisure,
+			R.id.gentleman, R.id.business, R.id.fashion };
+
+	private static final int[] SITUATION_IDS = new int[] { R.id.public_place,
+			R.id.office, R.id.cocktail };
+
+	private static final int[] TYPE_IDS = new int[] { R.id.sleeved,
+			R.id.trousers, R.id.overcoat };
+    
     private String mImagePath;
+    private ClothesInfo mInfo;
+    
+    private boolean mModify = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -57,6 +73,26 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
         mPreviewView = (ImageView) v.findViewById(R.id.preview);
         mPreviewView.setOnClickListener(this);
         mUpload.setOnClickListener(this);
+        
+        Bundle b = getArguments();
+        mInfo = (ClothesInfo) b.getSerializable("info");
+        if (mInfo != null) {
+	        mSeason.check(SEASON_IDS[mInfo.mSeason.ordinal()]);
+	        mStyle.check(STYLE_IDS[mInfo.mStyle.ordinal()]);
+	        mType.check(TYPE_IDS[mInfo.mType.ordinal()]);
+	        mSituation.check(SITUATION_IDS[mInfo.mType.ordinal()]);
+	        
+	        final File file = new File(mInfo.mMediaPath);
+	        if (file.exists()) {
+	        	Uri uri = Uri.fromFile(file);
+	        	mImagePath = mInfo.mMediaPath;
+	        	performPreview(uri);
+	        	mPreviewView.setClickable(false);
+	        	mUpload.setText(R.string.modify);
+	        }
+	        mModify = true;
+        }
+        
         return v;
     }
 
@@ -136,8 +172,14 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
             throw new IllegalArgumentException("typeId id not found :"+Integer.toHexString(situationId));
         }
         
+        
         Type type = Type.valueOf(getArguments().getString("type"));
         ClothesInfo info = new ClothesInfo(style,season,situation,type);
+
+        if (mModify) {
+        	mPostController.modify(info);
+        	return;
+        }
 //        mPostController.uploadFile(mImagePath,info);
         if (mImagePath == null) return;
         File f = new File(mImagePath);

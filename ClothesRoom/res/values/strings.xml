@@ -73,6 +73,7 @@
 	<string name="label_type">选择类型</string>
 	<string name="label_season">选择季节</string>
 	<string name="label_form">选择款式</string>
+	<string name="label_situation">选择场合</string>
 	<string name="description_preview">图片预览</string>
 	<string name="upload_image">上传图片</string>
 	<string name="toast_null_preview">请上传有效图片</string>
@@ -87,4 +88,6 @@
 	<string name="open">打开</string>
 	<string name="delete">删除</string>
 	<string name="try_it">进入虚拟试衣</string>
+	<string name="details">详细信息</string>
+	<string name="modify">修改</string>
 </resources>

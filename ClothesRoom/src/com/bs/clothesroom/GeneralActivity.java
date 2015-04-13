@@ -47,6 +47,7 @@ public class GeneralActivity extends FragmentActivity {
     private static final String ACTION_SEARCH = "com.bs.clothesroom.search";
     private static final String ACTION_RACK = "com.bs.clothesroom.rack";
     private static final String ACTION_UPLOAD = "com.bs.clothesroom.upload_image";
+    private static final String ACTION_MODIFY = "com.bs.clothesroom.upload_modify";
 
     private static final int REQUEST_CODE_LOGIN = 0;
     private static final boolean DEBUG_CLASS = false;
@@ -80,6 +81,14 @@ public class GeneralActivity extends FragmentActivity {
 		i.putExtras(b);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.setAction(ACTION_UPLOAD);
+        from.startActivity(i);
+	}
+	
+	public static void modify(Activity from, Bundle b) {
+		Intent i = new Intent(from, GeneralActivity.class);
+		i.putExtras(b);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setAction(ACTION_MODIFY);
         from.startActivity(i);
 	}
 	
@@ -125,6 +134,10 @@ public class GeneralActivity extends FragmentActivity {
             replaceFragment(ClothesRack.class, getIntent().getExtras(), R.id.fragment);
         } else if (ACTION_UPLOAD.equals(action)) {
         	Bundle b = getIntent().getExtras();
+        	replaceFragment(ImageUploadFragment.class, b, R.id.fragment);
+        } else if (ACTION_MODIFY.equals(action)) {
+        	Bundle b = getIntent().getExtras();
+        	b.putBoolean("modify", true);
         	replaceFragment(ImageUploadFragment.class, b, R.id.fragment);
         }
     }
