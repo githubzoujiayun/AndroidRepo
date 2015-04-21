@@ -28,7 +28,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.bs.clothesroom.GeneralActivity" />
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.bs.clothesroom.GeneralActivity" />
 
         <provider
             android:name="com.bs.clothesroom.provider.RoomProvider"

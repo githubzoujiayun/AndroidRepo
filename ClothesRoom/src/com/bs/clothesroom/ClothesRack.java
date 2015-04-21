@@ -1,28 +1,25 @@
 package com.bs.clothesroom;
 
-import java.io.File;
-
-import com.bs.clothesroom.controller.Preferences;
-import com.bs.clothesroom.provider.ClothesInfo;
-
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+
+import com.bs.clothesroom.controller.Preferences;
+import com.bs.clothesroom.provider.ClothesInfo;
+import com.bs.clothesroom.provider.ClothesInfo.ImageInfo;
 
 public class ClothesRack extends GridFragment {
     
@@ -50,7 +47,7 @@ public class ClothesRack extends GridFragment {
 		case 2:
 			deleteMedia(holder);
 		case 3:
-//		    dressVirtual(holder);
+		    dressVirtual(holder);
 			break;
 		case 4:
 			mediaDetails(holder);
@@ -60,6 +57,24 @@ public class ClothesRack extends GridFragment {
 		}
 		return super.onContextItemSelected(item);
 	}
+    
+
+    private void dressVirtual(Holder holder) {
+        if (holder == null) return;
+        final ImageInfo info = new ImageInfo(holder.c);
+//        String videoIds[] = info.mRelativeVideoIds.split("v");
+//        log("videoIds = "+videoIds);
+//        ContentResolver resolver = getActivity().getContentResolver();
+//        String userId = Preferences.getUsername(getActivity());
+//        for (String id:videoIds) {
+//        	int sid = Integer.parseInt(id);
+//        	ClothesInfo videoInfo = ClothesInfo.getVideoInfoBySID(resolver, sid, userId);
+//        	
+//        }
+        Bundle b = new Bundle();
+        b.putString("videoIds", info.mRelativeVideoIds);
+        replaceFragment(VituralSearchResult.class, b, R.id.fragment);
+    }
 
     private void mediaDetails(Holder holder) {
     	if (holder == null) return;

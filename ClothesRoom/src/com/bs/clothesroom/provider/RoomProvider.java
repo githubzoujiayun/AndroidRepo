@@ -21,7 +21,7 @@ public class RoomProvider extends ContentProvider {
             + PROVIDER_NAME);
 
     private static final String DATABASE_NAME = "room.db";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
 
     private static final String TABLE_NAME_USERS = "Users";
     private static final String TABLE_NAME_MEDIAS = "Medias";
@@ -30,6 +30,7 @@ public class RoomProvider extends ContentProvider {
     private static final int USERS_ID = 2;
     private static final int MEDIA_FILES = 3;
     private static final int MEDIA_FILES_ID = 4;
+    private static final int VIDEOS_QUERY = 5;
     private static final boolean DEBUG_SQL = true;
 
     private static UriMatcher sUriMatcher = null;
@@ -40,6 +41,7 @@ public class RoomProvider extends ContentProvider {
         sUriMatcher.addURI(PROVIDER_NAME, "users/#", USERS_ID);
         sUriMatcher.addURI(PROVIDER_NAME, "medias", MEDIA_FILES);
         sUriMatcher.addURI(PROVIDER_NAME, "medias/#", MEDIA_FILES_ID);
+        sUriMatcher.addURI(PROVIDER_NAME, "videoids", VIDEOS_QUERY);
     }
 
     private DatabaseHelper mHelper = null;
@@ -52,23 +54,24 @@ public class RoomProvider extends ContentProvider {
         }
 
         @Override
-        public void onCreate(SQLiteDatabase db) {
-            db.execSQL("create table " + TABLE_NAME_USERS + " ("
-                    + "_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "UserName Text, " + "PhoneNumber Text, "
-                    + "EmailAddress Text, " + "Age Text, " + "Sex Text, "
-                    + "Job Text" + "Bust Text, " + "Waist Text, " + "Hips Text"
-                    +
-                    // "Shoudler Integer" +
-                    ")");
-            db.execSQL("create table " + TABLE_NAME_MEDIAS + " ("
-                    + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + "mimetype Text, " + "size Integer, " + "time Text, "
-                    + "_data Text, " + "user_id Text," + "season Text,"
-                    + "style Text," + "type Text," + "situation Text,"
-                    + "server_id Text," + "media_name Text," + "flag Text,"
-                    + "relative_image_ids Text" + ")");
-        }
+		public void onCreate(SQLiteDatabase db) {
+			db.execSQL("create table " + TABLE_NAME_USERS + " ("
+					+ "_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "UserName Text, " + "PhoneNumber Text, "
+					+ "EmailAddress Text, " + "Age Text, " + "Sex Text, "
+					+ "Job Text" + "Bust Text, " + "Waist Text, " + "Hips Text"
+					+
+					// "Shoudler Integer" +
+					")");
+			db.execSQL("create table " + TABLE_NAME_MEDIAS + " ("
+					+ "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+					+ "mimetype Text, " + "size Integer, " + "time Text, "
+					+ "_data Text, " + "user_id Text," + "season Text,"
+					+ "style Text," + "type Text," + "situation Text,"
+					+ "server_id Text," + "media_name Text," + "flag Text,"
+					+ "relative_vedio_ids Text," + "relative_image_ids Text"
+					+ ")");
+		}
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
@@ -171,6 +174,19 @@ public class RoomProvider extends ContentProvider {
                     selectionArgs, null, null, orderBy);
             break;
         }
+        case VIDEOS_QUERY:
+        	String ids = selection;
+        	String videoIds[] = ids.split("v");
+        	StringBuilder sb = new StringBuilder();
+        	sb.append("(mimetype = \'video\') AND (");
+        	for (String id: videoIds) {
+        		sb.append("server_id = ?").append(" OR ");
+        	}
+        	String where = sb.subSequence(0, sb.length()-4).toString();
+        	where = where+")";
+        	c = mDb.query(TABLE_NAME_MEDIAS, projection, where, videoIds, null, null, null);
+        	Preferences.log("where = "+where.toString());
+        	break;
         default:
             throw new IllegalArgumentException("unkown query uri. " + uri
                     + " match = " + match);

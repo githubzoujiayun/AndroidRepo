@@ -280,9 +280,4 @@ public abstract class GridFragment extends GeneralFragment implements
 	    String userId = Preferences.getUsername(getActivity());
 	    mPostController.deleteImage(userId, holder.serverId);
 	}
-
-    private void dressVirtual(Holder holder) {
-        if (holder == null) return;
-        
-    }
 }

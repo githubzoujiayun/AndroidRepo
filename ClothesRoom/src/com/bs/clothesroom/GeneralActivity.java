@@ -220,6 +220,26 @@ public class GeneralActivity extends FragmentActivity {
         return mPostController;
     }
 
+    private void onModifySucced(JSONObject json) throws JSONException {
+    	log("onModifySucced.json : "+json);
+    	ContentResolver resolver = getContentResolver();
+    	int sid = json.getInt(ClothesInfo.JSON_KEY_IMAGE_SERVERID);
+    	String uid = Preferences.getUsername(this);
+        ClothesInfo info = ClothesInfo.getImageInfoBySID(resolver, sid, uid);
+        
+        ImageInfo srvInfo = ImageInfo.fromJson(json);
+        
+        info.mSeason = srvInfo.mSeason;
+        info.mSituation = srvInfo.mSituation;
+        info.mStyle = srvInfo.mStyle;
+        info.mType = srvInfo.mType;
+        ContentValues values = info.toContentValues();
+//        getContentResolver().insert(ImageInfo.CONTENT_URI, values);
+        Uri uri = ContentUris.withAppendedId(ImageInfo.CONTENT_URI, info.mId);
+        getContentResolver().update(uri, values, null, null);
+        toastMessage(R.string.modify_succed);
+    }
+    
     private void onFetchedImageInfo(JSONObject jsonObj) throws JSONException {
         final JSONObject json = jsonObj;
         int id = json.getInt("imageid");
@@ -403,6 +423,30 @@ public class GeneralActivity extends FragmentActivity {
                     String userId = Preferences.getUsername(GeneralActivity.this);
                     mPostController.fetchImageIds(userId);
                     break;
+                case PostController.POST_ID_MODIFY_FILE:
+                	log("modify succed from server !");
+                	//delete local image from sdcard and database
+//                	ContentResolver resolver = getContentResolver();
+//                	int sid = (Integer) result.obj;
+//                	String uid = Preferences.getUsername(GeneralActivity.this);
+//                	ClothesInfo info = ClothesInfo.getImageInfoBySID(resolver,sid, uid);
+//                	Uri uri = ContentUris.withAppendedId(ImageInfo.CONTENT_URI, info.mId);
+//                	resolver.delete(uri, null,null);
+//                	File f = new File(info.mMediaPath);
+//                	if (f.exists()) {
+////                		boolean succed = f.delete();
+//                		log("delete succed from sdcard !");
+//                	}
+//                	//sync image
+//                	mPostController.fetchImageIds(uid);
+                	
+                	try {
+						onModifySucced(result.json);
+						finish();
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+                	break;
                 default:
                     break;
                 }

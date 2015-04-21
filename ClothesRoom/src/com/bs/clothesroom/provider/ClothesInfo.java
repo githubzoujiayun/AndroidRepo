@@ -1,9 +1,12 @@
 package com.bs.clothesroom.provider;
 
+import java.util.Arrays;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.bs.clothesroom.R;
+import com.bs.clothesroom.controller.Preferences;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -24,7 +27,7 @@ public class ClothesInfo implements IInfo {
     private static final String JSON_KEY_TYPE = "type";
     private static final String JSON_KEY_MEDIA_NAME = "media_name";
     private static final String JSON_KEY_USERNAME = "username";
-    private static final String JSON_KEY_IMAGE_SERVERID = "imageid";
+    public static final String JSON_KEY_IMAGE_SERVERID = "imageid";
     private static final String JSON_KEY_VIDEO_SERVERID = "videoid";
 
     private final static String COLUMN_NAME_SEASON = "season";
@@ -37,6 +40,7 @@ public class ClothesInfo implements IInfo {
     public final static String COLUMN_NAME_SYN_SERVER_ID = "server_id";
     public final static String COLUMN_NAME_MEDIA_NAME = "media_name";
     public final static String COLUMN_NAME_DOWNLOAD_FLAG = "flag";
+    public final static String COLUMN_NAME_VIDEO_IDS = "relative_vedio_ids";
 
     public final static String MIMETYPE_VIDEO = "video";
     public final static String MIMETYPE_IMAGE = "image";
@@ -44,7 +48,7 @@ public class ClothesInfo implements IInfo {
             COLUMN_NAME_SEASON, COLUMN_NAME_STYLE, COLUMN_NAME_TYPE,
             COLUMN_NAME_MIMETYPE, COLUMN_NAME_SITUATION, COLUMN_NAME_DATA,
             COLUMN_NAME_USERID, COLUMN_NAME_SYN_SERVER_ID,
-            COLUMN_NAME_MEDIA_NAME, COLUMN_NAME_DOWNLOAD_FLAG };
+            COLUMN_NAME_MEDIA_NAME, COLUMN_NAME_DOWNLOAD_FLAG,COLUMN_NAME_VIDEO_IDS };
     
     public static final Uri CONTENT_URI = Uri
             .parse(RoomProvider.CONTENT_URI + "/medias");
@@ -483,8 +487,8 @@ public class ClothesInfo implements IInfo {
         values.put(COLUMN_NAME_SEASON, mSeason.name());
         values.put(COLUMN_NAME_STYLE, mStyle.name());
         values.put(COLUMN_NAME_TYPE, mType.name());
-        values.put(COLUMN_NAME_SITUATION, Situation.COCKTAIL.name());
-//        values.put(COLUMN_NAME_SITUATION, mSituation.name());
+//        values.put(COLUMN_NAME_SITUATION, Situation.COCKTAIL.name());
+        values.put(COLUMN_NAME_SITUATION, mSituation.name());
         return values;
     }
 
@@ -509,8 +513,9 @@ public class ClothesInfo implements IInfo {
             info.mSynServerId = json.getInt(JSON_KEY_VIDEO_SERVERID);
             info.mRelativeImageIds = json.getString("imageids");
             info.mSeason = Season.valueOf(json.getString(JSON_KEY_SEASON));
-            info.mStyle = Style.valueOf(json.getString(JSON_KEY_STYLE));
+            info.mStyle = Style.valueOf(json.getString(JSON_KEY_STYLE).trim());
             info.mType = Type.valueOf(json.getString(JSON_KEY_TYPE));
+            info.mSituation = Situation.valueOf(json.getString(JSON_KEY_SITUATION).trim());
             return info;
         }
         
@@ -525,10 +530,22 @@ public class ClothesInfo implements IInfo {
     public static class ImageInfo extends ClothesInfo {
         public static final Uri CONTENT_URI = Uri
                 .parse(RoomProvider.CONTENT_URI + "/medias");
-        
+        public String mRelativeVideoIds;
         public ContentValues toContentValues() {
             ContentValues values = super.toContentValues();
+            values.put(COLUMN_NAME_VIDEO_IDS, mRelativeVideoIds);
             return values;
+        }
+        
+        public ImageInfo(){}
+        
+        public ImageInfo(Cursor c) {
+        	super(c);
+//        	int index = ;
+//        	Preferences.log("ImageInfo.index = "+index);
+//        	String[] names = c.getColumnNames();
+//        	Preferences.log("ImageInfo.names = "+Arrays.toString(names));
+        	mRelativeVideoIds = c.getString(c.getColumnIndex(COLUMN_NAME_VIDEO_IDS));
         }
         
         public static ImageInfo fromJson(JSONObject json) throws JSONException {
@@ -536,8 +553,9 @@ public class ClothesInfo implements IInfo {
             info.mSeason = Season.valueOf(json.getString(JSON_KEY_SEASON));
             info.mStyle = Style.valueOf(json.getString(JSON_KEY_STYLE));
             info.mType = Type.valueOf(json.getString(JSON_KEY_TYPE));
-//            info.mSituation = Situation.valueOf(json.getString(JSON_KEY_SITUATION));
-            info.mSituation = Situation.COCKTAIL;
+            info.mSituation = Situation.valueOf(json.getString(JSON_KEY_SITUATION));
+//            info.mSituation = Situation.COCKTAIL;
+            info.mRelativeVideoIds = json.getString("videoidS");
             info.mUserId = json.getString(JSON_KEY_USERNAME);
             info.mSynServerId = json.getInt(JSON_KEY_IMAGE_SERVERID);
             return info;
@@ -579,4 +597,11 @@ public class ClothesInfo implements IInfo {
         return new CursorLoader(context, ClothesInfo.CONTENT_URI, PROJECTION,
                 selection, selectionArgs, null);
     }
+	
+	public static CursorLoader createVideoResultCursorLoader(Context context,String userId,String videoIds) {
+        Uri uri = Uri.parse(RoomProvider.CONTENT_URI+"/videoids");
+        String selection = videoIds;
+		return new CursorLoader(context,uri, PROJECTION,
+				selection, null, null);
+	}
 }

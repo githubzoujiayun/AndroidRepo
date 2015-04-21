@@ -40,8 +40,8 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
 	private static final int[] SEASON_IDS = new int[] { R.id.spring,
 			R.id.summer, R.id.autumn, R.id.winter };
 
-	private static final int[] STYLE_IDS = new int[] { R.id.leisure,
-			R.id.gentleman, R.id.business, R.id.fashion };
+	private static final int[] STYLE_IDS = new int[] { 
+			R.id.gentleman,R.id.leisure, R.id.business, R.id.fashion };
 
 	private static final int[] SITUATION_IDS = new int[] { R.id.public_place,
 			R.id.office, R.id.cocktail };
@@ -80,7 +80,7 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
 	        mSeason.check(SEASON_IDS[mInfo.mSeason.ordinal()]);
 	        mStyle.check(STYLE_IDS[mInfo.mStyle.ordinal()]);
 	        mType.check(TYPE_IDS[mInfo.mType.ordinal()]);
-	        mSituation.check(SITUATION_IDS[mInfo.mType.ordinal()]);
+	        mSituation.check(SITUATION_IDS[mInfo.mSituation.ordinal()]);
 	        
 	        final File file = new File(mInfo.mMediaPath);
 	        if (file.exists()) {
@@ -169,12 +169,30 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
             break;
 
         default:
+            throw new IllegalArgumentException("situation id not found :"+Integer.toHexString(situationId));
+        }
+        
+        int typeId = mType.getCheckedRadioButtonId();
+        Type type = null;
+        switch (typeId) {
+        case R.id.sleeved:
+            type = Type.SLEEVED;
+            break;
+        case R.id.trousers:
+        	type = Type.TROUSERS;
+            break;
+        case R.id.overcoat:
+        	type = Type.OVERCOAT;
+            break;
+
+        default:
             throw new IllegalArgumentException("typeId id not found :"+Integer.toHexString(situationId));
         }
         
         
-        Type type = Type.valueOf(getArguments().getString("type"));
         ClothesInfo info = new ClothesInfo(style,season,situation,type);
+        info.mId = mInfo.mId;
+        info.mSynServerId = mInfo.mSynServerId;
 
         if (mModify) {
         	mPostController.modify(info);

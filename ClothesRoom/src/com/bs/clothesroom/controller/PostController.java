@@ -233,7 +233,7 @@ public class PostController {
 		JSONObject json = null;
         try {
             json = info.toJson();
-            json.put(POST_ARGS_TYPE, POST_TYPE_UPLOAD_IMAGE);
+            json.put(POST_ARGS_TYPE, POST_TYPE_MODIFY_IMAGE);
             json.put(ARGS_USERNAME, Preferences.getUsername(mContext));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -401,7 +401,15 @@ public class PostController {
             } catch (UnsupportedEncodingException e1) {
                 throw new PostException("json parse error.");
             }
-            return doPostInternal(entity);
+            PostResult result = doPostInternal(entity);
+            if(mPostId == POST_ID_MODIFY_FILE) {
+            	try {
+					result.obj = new JSONObject(json).getInt(ClothesInfo.JSON_KEY_IMAGE_SERVERID);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+            }
+            return result;
         }
 
         private PostResult doPostInternal(HttpEntity entity) {
