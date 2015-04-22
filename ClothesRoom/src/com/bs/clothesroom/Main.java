@@ -20,7 +20,7 @@ public class Main extends GeneralActivity {
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         mTabHost.addTab(
                 mTabHost.newTabSpec("HomePage2").setIndicator(
-                        getString(R.string.tab_home_page)), HomePage.class,
+                        getString(R.string.tab_home_page)), HomePage2.class,
                 new Bundle());
         mTabHost.addTab(
                 mTabHost.newTabSpec("Rack").setIndicator(
