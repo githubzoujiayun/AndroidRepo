@@ -191,10 +191,10 @@ public class ImageUploadFragment extends GeneralFragment implements OnClickListe
         
         
         ClothesInfo info = new ClothesInfo(style,season,situation,type);
-        info.mId = mInfo.mId;
-        info.mSynServerId = mInfo.mSynServerId;
 
         if (mModify) {
+        	info.mId = mInfo.mId;
+        	info.mSynServerId = mInfo.mSynServerId;
         	mPostController.modify(info);
         	return;
         }

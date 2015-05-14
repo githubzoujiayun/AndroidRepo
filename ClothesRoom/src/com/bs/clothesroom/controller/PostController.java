@@ -536,6 +536,7 @@ public class PostController {
                     System.out.println("exits");
                 }
                 {
+                	file.createNewFile();
                     output = new FileOutputStream(file);
                     // 读取大文件
                     byte[] buffer = new byte[4 * 1024];

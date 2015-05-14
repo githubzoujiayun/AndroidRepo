@@ -54,6 +54,7 @@ public abstract class GridFragment extends GeneralFragment implements
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
+        mHandler = new Handler();
         mObserver = new MediaObserver(mHandler);
         mResolver = getActivity().getContentResolver();
         mResolver.registerContentObserver(ClothesInfo.CONTENT_URI, false,
@@ -69,7 +70,13 @@ public abstract class GridFragment extends GeneralFragment implements
         @Override
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
-            getLoaderManager().restartLoader(0, null, GridFragment.this);
+            mHandler.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					getLoaderManager().restartLoader(0, null, GridFragment.this);
+				}
+			});
         }
     }
 
