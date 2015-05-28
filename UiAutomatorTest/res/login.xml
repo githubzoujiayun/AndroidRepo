@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jobcase
+    enabled="false"
+    discription="注册测试"
+    >
+
+    <click condition="view_exist" 
+   		   conditionNodeId="unregister">
+        <text id="unregister">"注销"</text>
+        <text>"确定"</text>
+    </click>
+        
+    <click>
+        <text>"登录"</text>
+        <text>"注册"</text>
+        <text>"Email注册"</text>
+    </click>
+    <input type="qassd202@126.com">
+        <text>请输入常用Email</text>
+    </input>
+    <input type="qch52402ss">
+        <text>"至少4位字母或数字组成"</text>
+    </input>
+	<click>
+	    <text>"下一步"</text>
+	</click>
+	<input type="qwe123">
+	    <text resId="com.job.android:id/register_password"/>
+	    <text resId="com.job.android:id/register_password_confrim"/>
+	</input>
+	<click>
+	    <text>"注册"</text>
+	</click>
+	<record>
+	    <text>"出生日期"</text>
+	</record>
+</jobcase>

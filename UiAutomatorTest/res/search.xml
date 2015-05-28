@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jobcase
+    enabled="true">
+    <click>
+	    <text>"职位搜索"</text>
+    	<text>"地区"</text>
+    	<text
+    	    text="上海" 
+    	    resId="com.job.android:id/left_textview"></text>
+    	<text
+    	    text="上海" 
+    	    resId="com.job.android:id/left_textview"></text>
+    	<text>"行业"</text>
+    </click>
+    <click condition="view_not_exist"
+        conditionNodeId="selected">
+        <indexView 
+            id="selected"
+            rootClass="android.widget.ListView"
+    		rootIndex="0" 
+    		indexs="2:0:2:0"
+    		clickable="false"
+            />
+        <text>"计算机软件"</text>
+    </click>
+    <click>
+        <text>"确定"</text>
+        <text>"发布日期"</text>
+        <text>"近二天"</text>
+        <text textMatches="搜.*索"/>
+    </click>
+    <wait type="WAIT_UNTIL_GONE">
+		<text textMatches="数据加载中.*"></text>
+    </wait>
+    <click>
+		<text>"公司性质"</text>
+    </click>
+    <record>
+        <indexView 
+            rootClass="android.widget.ListView"
+    		rootIndex="0" 
+    		indexs="4:0:1"
+            />
+    </record>
+    <click>
+        <text>"国企"</text>
+    </click>
+    <wait type="WAIT_UNTIL_GONE">
+		<text textMatches="数据加载中.*"></text>
+    </wait>
+    <record >
+        <text resId="com.job.android:id/count_title"></text>
+    </record>
+</jobcase>
