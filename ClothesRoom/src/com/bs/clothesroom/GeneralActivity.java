@@ -467,7 +467,7 @@ public class GeneralActivity extends FragmentActivity {
 				if (mCheckingDialog != null
 						&& (post == PostController.POST_ID_DOWNLOAD_IMAGE
 								|| post == PostController.POST_ID_DELETE_VIDEO || post == PostController.POST_ID_UPLOAD_FILE)) {
-					getSupportFragmentManager().findFragmentByTag(arg0);
+//					getSupportFragmentManager().findFragmentByTag(arg0);
 					mCheckingDialog.dismiss();
 				}
 			}
@@ -554,9 +554,11 @@ public class GeneralActivity extends FragmentActivity {
 			default:
 				break;
 			}
-			if (post == PostController.POST_ID_FETCH_FETCH_VIDEO_IDS
-					|| post == PostController.POST_ID_FETCH_FETCH_IMAGE_IDS
-					|| post == PostController.POST_ID_UPLOAD_FILE) {
+			if (
+//					post == PostController.POST_ID_FETCH_FETCH_VIDEO_IDS
+//					|| post == PostController.POST_ID_FETCH_FETCH_IMAGE_IDS
+//					|| 
+					post == PostController.POST_ID_UPLOAD_FILE) {
 				// if (!mPostController.isBinaryId(post)) {
 				// if (mDownloadDialog != null && (mDownloadDialog.isVisible()
 				// || mDownloadDialog.isResumed())) {
