@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <jobcase
-    enabled="true">
+    enabled="true"
+    resultType="VALUE_EQUALS"
+    >
     <click>
 	    <text>"职位搜索"</text>
     	<text>"地区"</text>

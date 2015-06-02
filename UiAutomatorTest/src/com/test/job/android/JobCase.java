@@ -11,6 +11,11 @@ public abstract class JobCase {
 
 	public abstract void onCreate();
 
+	/**
+	 * 用于统计Case的结果
+	 * @param records
+	 * @return 完成结果判断返回true,否则返回false
+	 */
 	public boolean onResult(ArrayList<Record> records) {
 		return false;
 	}

@@ -10,6 +10,7 @@ import com.android.uiautomator.core.UiObject;
 import com.android.uiautomator.core.UiObjectNotFoundException;
 import com.android.uiautomator.core.UiSelector;
 import com.test.job.android.JobCase.PerformListener;
+import com.test.job.android.Logging;
 import com.test.job.android.TestUtils;
 
 public abstract class Node {
@@ -105,9 +106,9 @@ public abstract class Node {
 		IView view = (IView) node;
 		switch (type) {
 		case VIEW_EXIST:
-			return view.exist();
+			return view.exists();
 		case VIEW_NOT_EXIST:
-			return !view.exist();
+			return !view.exists();
 		case TEXT_EQUALS:
 
 			break;
@@ -136,6 +137,9 @@ public abstract class Node {
 	public void setEnabled(String enable) {
 		if ("false".equalsIgnoreCase(TestUtils.stringVaule(enable))) {
 			mEnabled = false;
+			if (this instanceof Case) {
+				Logging.logInfo("Disabled case,pass.");
+			}
 			return;
 		}
 		mEnabled = true;
@@ -234,7 +238,7 @@ public abstract class Node {
 
 		public abstract boolean click() throws UiObjectNotFoundException;
 
-		public abstract boolean exist();
+		public abstract boolean exists();
 
 		public abstract UiSelector getSelector();
 
@@ -245,7 +249,7 @@ public abstract class Node {
 
 		public abstract boolean wait(WaitType waitType, long timeout);
 
-		public abstract boolean waitForExist();
+		public abstract boolean waitForExists();
 	}
 
 	public static enum Scrollable {

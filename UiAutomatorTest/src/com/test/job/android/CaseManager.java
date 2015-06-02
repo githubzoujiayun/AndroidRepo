@@ -17,6 +17,7 @@ public class CaseManager {
 	private LinkedList<Case> mQueue = new LinkedList<Case>();
 	private File mResDir;
 	private Result mResult;
+	private Logging mLogging;
 
 	private CaseManager() {
 		if (mHomeDirectory == null) {
@@ -31,6 +32,7 @@ public class CaseManager {
 				mLogDir.mkdirs();
 		}
 		mResult = new Result();
+		mLogging = new Logging();
 	}
 
 	public static CaseManager getInstance() {
@@ -43,18 +45,26 @@ public class CaseManager {
 	}
 
 	private void start() {
-		while (true) {
-			Case localCase = (Case) mQueue.poll();
-			if (localCase == null)
-				break;
+		Case localCase = null;
+		mLogging.createNewDir();
+		while((localCase = mQueue.poll()) != null) {
 			try {
+				mLogging.createNewLog(localCase.getConfigFile().getName());
 				localCase.start();
 			} catch (Exception e) {
+				Logging.logInfo("catch exception : "+e.getMessage());
 				e.printStackTrace();
 				Result localResult = mResult;
 				localResult.error++;
+			}finally {
+				mLogging.closeLog();
 			}
 		}
+		onFinished();
+	}
+
+	private void onFinished() {
+		System.out.printf("Succed %d,  Failed %d,  Error %d\n",mResult.succed,mResult.failed,mResult.error);
 	}
 
 	public void cacheNewCase(String key, Case jobcase) {
@@ -81,7 +91,7 @@ public class CaseManager {
 		});
 		for (File f : childs) {
 			Case localCase = getJobCase(f.getPath());
-			mQueue.add(localCase);
+			mQueue.offer(localCase);
 		}
 		start();
 	}
@@ -96,8 +106,3 @@ public class CaseManager {
 		int succed;
 	}
 }
-
-/*
- * Location: C:\Users\chao.qin\Desktop\apktool\dex2jar\classes-dex2jar.jar
- * Qualified Name: com.test.job.android.CaseManager JD-Core Version: 0.6.1
- */

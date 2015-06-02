@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import com.android.uiautomator.core.UiDevice;
 import com.android.uiautomator.core.UiObjectNotFoundException;
 import com.test.job.android.JobCase.PerformListener;
+import com.test.job.android.Logging;
 import com.test.job.android.TestUtils;
 import com.test.job.android.node.Node.Event;
 
@@ -16,6 +17,13 @@ public class PressEvent extends Event {
 	private PressKey mKey;
 	private int mKeyCode;
 	private int mMetaState;
+	private static UiDevice sUiDevice;
+	
+	private static boolean DEBUG = true;
+	
+	public PressEvent() {
+		sUiDevice = UiDevice.getInstance();
+	}
 
 	public int getKeyCode(String keycode) {
 		try {
@@ -37,35 +45,57 @@ public class PressEvent extends Event {
 		}
 	}
 
-	void perform(Node paramNode, PerformListener paramPerformListener)
+	void perform(Node node, PerformListener listener)
 			throws UiObjectNotFoundException {
-		UiDevice uiDevice = UiDevice.getInstance();
-		System.out.println("mKey -------------->" + this.mKey);
+		
+		Logging.log("mKey -------------->" + this.mKey);
 		switch (mKey) {
-		default:
-			throw new IllegalArgumentException("Unkown key : " + this.mKey);
 		case SEARCH:
-			uiDevice.pressSearch();
-			break;
 		case BACK:
-			uiDevice.pressBack();
-			break;
 		case DELETE:
-			uiDevice.pressDelete();
-			break;
 		case ENTER:
-			uiDevice.pressEnter();
-			break;
 		case HOME:
-			uiDevice.pressHome();
-			break;
 		case MENU:
-			uiDevice.pressMenu();
+			pressKey(mKey);
 			break;
 		case KEYCODE:
-			uiDevice.pressKeyCode(mKeyCode, mMetaState);
+			pressKeyCode(mKeyCode, mMetaState);
+			break;
+		default:
+			throw new IllegalArgumentException("Unkown key : " + this.mKey);
+		}
+	}
+	
+	public static void pressKey(PressKey key) {
+		if (DEBUG) {
+			Logging.logInfo("pressKey --->  "+key.toString());
+		}
+		switch (key) {
+		case SEARCH:
+			sUiDevice.pressSearch();
+			break;
+		case BACK:
+			sUiDevice.pressBack();
+			break;
+		case DELETE:
+			sUiDevice.pressDelete();
+			break;
+		case ENTER:
+			sUiDevice.pressEnter();
+			break;
+		case HOME:
+			sUiDevice.pressHome();
+			break;
+		case MENU:
+			sUiDevice.pressMenu();
+			break;
+		default:
 			break;
 		}
+	}
+	
+	public static void pressKeyCode(int keyCode,int metaState) {
+		sUiDevice.pressKeyCode(keyCode, keyCode);
 	}
 
 	void setKeyCode(String paramString) {

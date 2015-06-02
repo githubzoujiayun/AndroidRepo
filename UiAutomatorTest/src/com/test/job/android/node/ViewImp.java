@@ -5,20 +5,21 @@ import com.android.uiautomator.core.UiObject;
 import com.android.uiautomator.core.UiObjectNotFoundException;
 import com.android.uiautomator.core.UiScrollable;
 import com.android.uiautomator.core.UiSelector;
-import java.io.PrintStream;
+import com.test.job.android.Logging;
 
 public class ViewImp extends Node implements Node.IView {
-	private boolean waitUntilGone(long paramLong) {
-		return build().waitUntilGone(paramLong);
-	}
+
+	private static final boolean DEBUG = true;
 
 	public UiObject build() {
 		return new UiObject(getSelector());
 	}
 
 	public boolean click() throws UiObjectNotFoundException {
+		if (DEBUG) {
+			Logging.logInfo("click --->  " + getSelector());
+		}
 		if (!isClickable()) {
-			System.out.println("clickable = false");
 			return false;
 		}
 		Scrollable scrollable = getScrollable();
@@ -40,9 +41,14 @@ public class ViewImp extends Node implements Node.IView {
 		return build().clickAndWaitForNewWindow();
 	}
 
-	public boolean exist() {
-		waitForExist();
-		return build().exists();
+	public boolean exists() {
+		waitForExists();
+		boolean exists = build().exists();
+		if (DEBUG) {
+			System.out.printf("exists : %b --->  " + getSelector() + "\n",
+					exists);
+		}
+		return exists;
 	}
 
 	public UiSelector getSelector() {
@@ -57,22 +63,31 @@ public class ViewImp extends Node implements Node.IView {
 	}
 
 	public String getText() throws UiObjectNotFoundException {
-		return build().getText();
+		String text = build().getText();
+		;
+		if (DEBUG) {
+			Logging.logInfo("getText : %s --->  " + getSelector(), text);
+		}
+		return text;
 	}
 
-	public void input(String paramString) throws UiObjectNotFoundException {
+	public void input(String chars) throws UiObjectNotFoundException {
+		if (DEBUG) {
+			System.out
+					.printf("input : %s --->  " + getSelector() + "\n", chars);
+		}
 		Configurator configurator = Configurator.getInstance();
 		configurator.setKeyInjectionDelay(40);
-		build().setText(paramString);
+		build().setText(chars);
 		configurator.setKeyInjectionDelay(0);
 	}
 
 	boolean satisfied() {
 		switch (mConditionType) {
 		case VIEW_EXIST:
-			return exist();
+			return exists();
 		case VIEW_NOT_EXIST:
-			return !exist();
+			return !exists();
 		case TEXT_EQUALS:
 
 			break;
@@ -87,7 +102,7 @@ public class ViewImp extends Node implements Node.IView {
 	public boolean wait(WaitType waitType, long timeout) {
 		switch (waitType) {
 		case WAIT_FOR_EXIST:
-			return build().waitForExists(timeout);
+			return waitForExists(timeout);
 		case WAIT_UNTIL_GONE:
 			return waitUntilGone(timeout);
 		case WAIT_FOR_DISABLE:
@@ -101,11 +116,27 @@ public class ViewImp extends Node implements Node.IView {
 		return false;
 	}
 
-	public boolean waitForExist() {
+	public boolean waitForExists() {
+		if (DEBUG) {
+			Logging.logInfo("waitForExist --->  timeout 10000ms ,  "
+					+ getSelector());
+		}
 		return build().waitForExists(10000);
 	}
 
-	public boolean waitForExist(long paramLong) {
-		return build().waitForExists(paramLong);
+	public boolean waitForExists(long timeout) {
+		if (DEBUG) {
+			Logging.logInfo("waitForExist --->  timeout " + timeout + "ms,  "
+					+ getSelector());
+		}
+		return build().waitForExists(timeout);
+	}
+
+	private boolean waitUntilGone(long timeout) {
+		if (DEBUG) {
+			Logging.logInfo("waitUntilGone --->  timeout " + timeout + "ms,  "
+					+ getSelector());
+		}
+		return build().waitUntilGone(timeout);
 	}
 }

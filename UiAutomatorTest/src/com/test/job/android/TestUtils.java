@@ -15,7 +15,10 @@ import android.text.TextUtils;
 
 import com.android.uiautomator.core.UiDevice;
 import com.android.uiautomator.core.UiObject;
+import com.android.uiautomator.core.UiObjectNotFoundException;
 import com.android.uiautomator.core.UiSelector;
+import com.test.job.android.node.PressEvent;
+import com.test.job.android.node.PressEvent.PressKey;
 
 public class TestUtils {
 	private static final String JOBTEST_PATH = "/data/local/tmp/jobtest";
@@ -134,9 +137,10 @@ public class TestUtils {
 		return true;
 	}
 
-	public static String stringVaule(String text) {
-		if (TextUtils.isEmpty(text))
+	public static String stringVaule(String value) {
+		if (TextUtils.isEmpty(value))
 			return null;
+		String text = value.trim();
 		if (text.startsWith("\"") && text.endsWith("\"")) {
 			text = text.substring(1, text.length() - 1);
 		}
@@ -161,5 +165,21 @@ public class TestUtils {
 	public static boolean waitForHome() {
 		return new UiObject(new UiSelector().text("My 51Job"))
 				.waitForExists(5000L);
+	}
+	
+	public static boolean closeTitleLayout() throws UiObjectNotFoundException {
+		
+		UiSelector selector = new UiSelector();
+		selector = selector.resourceId("com.job.android:id/title_layout");
+		UiObject uo = new UiObject(selector);
+		if (uo.exists()) {
+			UiSelector content = new UiSelector();
+			content.resourceId("com.job.android:id/tv_msg_remind_content");
+			uo = new UiObject(content);
+			Logging.logInfo("detected title layout with message : "+uo.getText());
+			PressEvent.pressKey(PressKey.BACK);
+		}
+		
+		return false;
 	}
 }

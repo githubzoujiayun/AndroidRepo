@@ -8,5 +8,11 @@ public class Test extends UiAutomatorTestCase {
 	public void testTest() throws UiObjectNotFoundException {
 		CaseManager.getInstance().startCases();
 	}
+	
+//	public void testTest() {
+//		File dir = new File("/data/local/tmp/");
+//		dir.mkdirs();
+//		Task.logcat(dir);
+//	}
 }
 

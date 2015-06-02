@@ -26,14 +26,14 @@ public class Record extends Event {
 
 	private boolean viewExist(Node node) {
 		if ((node instanceof IView))
-			return ((IView) node).exist();
+			return ((IView) node).exists();
 		throw new IllegalStateException("Node " + node + " is not a view.");
 	}
 
 	private void waitForExist() {
 		Node node = getDefaultChild();
 		if ((node instanceof IView))
-			((IView) node).waitForExist();
+			((IView) node).waitForExists();
 	}
 
 	public void clearCache() {

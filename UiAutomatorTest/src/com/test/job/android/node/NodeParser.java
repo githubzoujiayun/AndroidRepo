@@ -15,10 +15,11 @@ import com.android.uiautomator.core.UiObjectNotFoundException;
 import com.test.job.android.JobCase.ParserListener;
 import com.test.job.android.JobCase.PerformListener;
 import com.test.job.android.CaseManager;
+import com.test.job.android.Logging;
 import com.test.job.android.TestUtils;
 
 public class NodeParser {
-	private static final boolean PARSER_DEBUG = true;
+	private static final boolean PARSER_DEBUG = false;
 	private ParserListener mParserListener;
 	private PerformListener mPerformListener;
 	private ArrayList<Record> mRecords;
@@ -37,7 +38,7 @@ public class NodeParser {
 		mTargetFile = targetFile;
 	}
 
-	private void onParserDone() {
+	private void onParserDone() throws UiObjectNotFoundException {
 		if (!mRootNode.isEnabled()) {
 			return;
 		}
@@ -47,7 +48,6 @@ public class NodeParser {
 		TestUtils.waitForHome();
 		if (mParserListener != null)
 			mParserListener.onParserDone();
-		try {
 			mRootNode.dispatchPerform(mPerformListener);
 			CaseManager.getInstance().onCaseFinished(mRootNode,mRootNode.onResult(mRecords));
 			mRootNode = null;
@@ -55,9 +55,6 @@ public class NodeParser {
 			mParserListener = null;
 			mRecords.clear();
 			return;
-		} catch (UiObjectNotFoundException e) {
-			e.printStackTrace();
-		}
 	}
 
 	private void onParserStarted() {
@@ -67,7 +64,7 @@ public class NodeParser {
 	}
 
 	private void parserNodes(InputStream paramInputStream)
-			throws XmlPullParserException, IOException {
+			throws XmlPullParserException, IOException, UiObjectNotFoundException {
 		XmlPullParser parser = Xml.newPullParser();
 		parser.setInput(paramInputStream, "UTF-8");
 		int eventType = parser.getEventType();
@@ -80,7 +77,9 @@ public class NodeParser {
 				break;
 			case XmlPullParser.START_TAG:
 				String tagName = parser.getName();
-				System.out.println("start tag name : " + tagName);
+				if (PARSER_DEBUG) {
+					Logging.log("start tag name : " + tagName);
+				}
 				Node node = null;
 
 				if ("jobcase".equals(tagName)) {
@@ -175,7 +174,7 @@ public class NodeParser {
 				break;
 			case XmlPullParser.END_TAG:
 				if (PARSER_DEBUG) {
-					System.out.println("end tag name : " + parser.getName());
+					Logging.log("end tag name : " + parser.getName());
 				}
 				if (currentNode != null) {
 					currentNode = currentNode.getParent();
@@ -206,7 +205,7 @@ public class NodeParser {
 	}
 
 	public void parserNodes(String filePath) throws XmlPullParserException,
-			IOException {
+			IOException, UiObjectNotFoundException {
 		parserNodes(new FileInputStream(filePath));
 	}
 
@@ -218,7 +217,7 @@ public class NodeParser {
 		mPerformListener = listener;
 	}
 
-	public void start() throws XmlPullParserException, IOException {
+	public void start() throws XmlPullParserException, IOException, UiObjectNotFoundException {
 		if (mTargetFile == null)
 			throw new IllegalArgumentException(
 					"You must valued a jobcase xml file.");

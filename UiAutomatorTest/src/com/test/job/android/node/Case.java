@@ -6,6 +6,7 @@ import com.test.job.android.CaseManager;
 import com.test.job.android.JobCase;
 import com.test.job.android.JobCase.ParserListener;
 import com.test.job.android.JobCase.PerformListener;
+import com.test.job.android.Logging;
 import com.test.job.android.TestUtils;
 import com.test.job.android.node.Node.Event;
 
@@ -22,11 +23,17 @@ public class Case extends Event {
 	private JobCase mJobCase;
 	private NodeParser mParser;
 	private ResultType mResultType;
+	
+	private final static boolean DEBUG = true;
 
 	public Case(File xmlFile) {
 		mConfigFile = xmlFile;
 		mParser = new NodeParser(this, xmlFile.getPath());
 		mCaseManager = CaseManager.getInstance();
+	}
+	
+	public File getConfigFile() {
+		return mConfigFile;
 	}
 
 	public ResultType getResultType() {
@@ -66,6 +73,20 @@ public class Case extends Event {
 			case TEXT_MATHES:
 
 				break;
+			case TEXT_CONTAINS:
+				
+				break;
+			case VALUE_EQUALS:
+				int size = records.size();
+				int value[] = new int[size];
+				for (int i =0;i<size ;i++) {
+					value[i] = TestUtils.getInt(records.get(i).getRecordText());
+				}
+				Arrays.sort(value);
+				if (DEBUG) {
+					Logging.logInfo("VALUE_EQUALS : "+Arrays.toString(value));
+				}
+				return value[0] == value[size-1];
 
 			default:
 				break;
@@ -120,12 +141,12 @@ public class Case extends Event {
 		mResultType = ResultType.toType(paramString);
 	}
 
-	public void start() throws XmlPullParserException, IOException {
+	public void start() throws XmlPullParserException, IOException, UiObjectNotFoundException {
 		mParser.start();
 	}
 
 	public static enum ResultType {
-		VIEW_EXIST, VIEW_NOT_EXIST, TEXT_EQUALS, TEXT_MATHES;
+		VIEW_EXIST, VIEW_NOT_EXIST, TEXT_EQUALS, TEXT_MATHES, TEXT_CONTAINS,VALUE_EQUALS;
 
 		public static ResultType toType(String paramString) {
 			if (paramString == null)
