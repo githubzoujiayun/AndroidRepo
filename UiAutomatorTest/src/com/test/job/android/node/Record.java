@@ -1,7 +1,11 @@
 package com.test.job.android.node;
 
+import android.text.TextUtils;
+
 import com.android.uiautomator.core.UiObjectNotFoundException;
 import com.test.job.android.JobCase.PerformListener;
+import com.test.job.android.CaseManager;
+import com.test.job.android.Logging;
 import com.test.job.android.node.Node.Event;
 
 import java.lang.reflect.InvocationTargetException;
@@ -75,8 +79,14 @@ public class Record extends Event {
 
 	public void perform(Node node, PerformListener listener)
 			throws UiObjectNotFoundException {
+		Logging.logInfo("record --->  "+getChild().getSelector());
 		waitForExist();
 		this.mRecordText = getText();
+		String screenShot = mRecordText;
+		if (TextUtils.isEmpty(mRecordText)) {
+			screenShot = "screenshot";
+		}
+		getLogging().takeScreenshot("record-"+screenShot);
 	}
 
 	public boolean satisfied() {
@@ -89,5 +99,9 @@ public class Record extends Event {
 
 	public boolean viewExist(String paramString) {
 		return viewExist(getChildById(paramString));
+	}
+	
+	private Logging getLogging() {
+		return CaseManager.getInstance().getLogging();
 	}
 }

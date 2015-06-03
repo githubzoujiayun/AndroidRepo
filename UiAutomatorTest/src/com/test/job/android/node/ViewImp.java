@@ -16,9 +16,7 @@ public class ViewImp extends Node implements Node.IView {
 	}
 
 	public boolean click() throws UiObjectNotFoundException {
-		if (DEBUG) {
-			Logging.logInfo("click --->  " + getSelector());
-		}
+		Logging.logInfo("click --->  " + getSelector());
 		if (!isClickable()) {
 			return false;
 		}
@@ -64,18 +62,12 @@ public class ViewImp extends Node implements Node.IView {
 
 	public String getText() throws UiObjectNotFoundException {
 		String text = build().getText();
-		;
-		if (DEBUG) {
-			Logging.logInfo("getText : %s --->  " + getSelector(), text);
-		}
+		Logging.logInfo("getText : %s --->  " + getSelector(), text);
 		return text;
 	}
 
 	public void input(String chars) throws UiObjectNotFoundException {
-		if (DEBUG) {
-			System.out
-					.printf("input : %s --->  " + getSelector() + "\n", chars);
-		}
+		Logging.logInfo("input : %s --->  " + getSelector() + "\n", chars);
 		Configurator configurator = Configurator.getInstance();
 		configurator.setKeyInjectionDelay(40);
 		build().setText(chars);
@@ -117,26 +109,24 @@ public class ViewImp extends Node implements Node.IView {
 	}
 
 	public boolean waitForExists() {
-		if (DEBUG) {
-			Logging.logInfo("waitForExist --->  timeout 10000ms ,  "
-					+ getSelector());
+		if (mTimeout == 0) {
+			return true;
 		}
-		return build().waitForExists(10000);
+		if (mTimeout > 0) {
+			return waitForExists(mTimeout);
+		}
+		return waitForExists(10000);
 	}
 
 	public boolean waitForExists(long timeout) {
-		if (DEBUG) {
-			Logging.logInfo("waitForExist --->  timeout " + timeout + "ms,  "
-					+ getSelector());
-		}
+		Logging.logInfo("waitForExist --->  timeout " + timeout + "ms,  "
+				+ getSelector());
 		return build().waitForExists(timeout);
 	}
 
 	private boolean waitUntilGone(long timeout) {
-		if (DEBUG) {
-			Logging.logInfo("waitUntilGone --->  timeout " + timeout + "ms,  "
-					+ getSelector());
-		}
+		Logging.logInfo("waitUntilGone --->  timeout " + timeout + "ms,  "
+				+ getSelector());
 		return build().waitUntilGone(timeout);
 	}
 }

@@ -48,13 +48,14 @@ public class NodeParser {
 		TestUtils.waitForHome();
 		if (mParserListener != null)
 			mParserListener.onParserDone();
-			mRootNode.dispatchPerform(mPerformListener);
-			CaseManager.getInstance().onCaseFinished(mRootNode,mRootNode.onResult(mRecords));
-			mRootNode = null;
-			mTargetFile = null;
-			mParserListener = null;
-			mRecords.clear();
-			return;
+		mRootNode.dispatchPerform(mPerformListener);
+		CaseManager.getInstance().onCaseFinished(mRootNode,
+				mRootNode.onResult(mRecords));
+		mRootNode = null;
+		mTargetFile = null;
+		mParserListener = null;
+		mRecords.clear();
+		return;
 	}
 
 	private void onParserStarted() {
@@ -64,7 +65,8 @@ public class NodeParser {
 	}
 
 	private void parserNodes(InputStream paramInputStream)
-			throws XmlPullParserException, IOException, UiObjectNotFoundException {
+			throws XmlPullParserException, IOException,
+			UiObjectNotFoundException {
 		XmlPullParser parser = Xml.newPullParser();
 		parser.setInput(paramInputStream, "UTF-8");
 		int eventType = parser.getEventType();
@@ -162,6 +164,7 @@ public class NodeParser {
 					node.setScrollable(parser.getAttributeValue(null,
 							"scrollable"));
 					node.setParent(currentNode);
+					node.setTimeout(parser.getAttributeValue(null, "timeout"));
 					currentNode = node;
 					if (node instanceof TextNode) {
 						TextNode textNode = (TextNode) node;
@@ -217,7 +220,8 @@ public class NodeParser {
 		mPerformListener = listener;
 	}
 
-	public void start() throws XmlPullParserException, IOException, UiObjectNotFoundException {
+	public void start() throws XmlPullParserException, IOException,
+			UiObjectNotFoundException {
 		if (mTargetFile == null)
 			throw new IllegalArgumentException(
 					"You must valued a jobcase xml file.");

@@ -52,10 +52,11 @@ public class CaseManager {
 				mLogging.createNewLog(localCase.getConfigFile().getName());
 				localCase.start();
 			} catch (Exception e) {
-				Logging.logInfo("catch exception : "+e.getMessage());
-				e.printStackTrace();
+				Logging.logException(e);
 				Result localResult = mResult;
 				localResult.error++;
+				String name = e.getMessage();
+				mLogging.takeScreenshot("exception-" + name);
 			}finally {
 				mLogging.closeLog();
 			}
@@ -104,5 +105,9 @@ public class CaseManager {
 		int error;
 		int failed;
 		int succed;
+	}
+	
+	public Logging getLogging() {
+		return mLogging;
 	}
 }

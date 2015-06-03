@@ -147,20 +147,7 @@ public class TestUtils {
 		return text;
 	}
 
-	public static void takeScreenshot(String name) {
-		String fileName = name;
-		if (fileName == null) {
-			SimpleDateFormat formate = new SimpleDateFormat(
-					"yyyy/MM/dd-HH-mm-ss");
-			fileName = formate.format(new Date());
-		}
-		File dir = new File(SCREENSHOT_PATH);
-		if (dir.exists()) {
-			dir.mkdirs();
-		}
-		File target = new File(dir, fileName);
-		UiDevice.getInstance().takeScreenshot(target);
-	}
+
 
 	public static boolean waitForHome() {
 		return new UiObject(new UiSelector().text("My 51Job"))

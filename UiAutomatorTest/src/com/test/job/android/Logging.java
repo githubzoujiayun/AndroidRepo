@@ -5,14 +5,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.os.SystemClock;
 import android.util.Log;
 
-import com.test.job.android.node.Case;
+import com.android.uiautomator.core.UiDevice;
 
 public class Logging {
 
@@ -23,7 +23,7 @@ public class Logging {
 	private static PrintStream sPrinter = null;
 	private File mLogDir = null;
 	private File mCaseDir = null;
-	private static Task mTask; 
+	private static CommandTask mTask; 
 	
 	void createNewDir() {
 		File dir = new File(LOG_PATH);
@@ -47,7 +47,7 @@ public class Logging {
 	}
 	
 	void closeLog() {
-		mTask.terminated();
+		stopLogcat();
 		sPrinter.flush();
 		sPrinter.close();
 		sPrinter = null;
@@ -57,6 +57,11 @@ public class Logging {
 		if (DEBUG) {
 			System.out.println(log);
 		}
+	}
+	
+	public static void logException(Exception e) {
+		e.printStackTrace();
+		e.printStackTrace(sPrinter);
 	}
 
 	public static void logInfo(String log) {
@@ -75,24 +80,26 @@ public class Logging {
 	}
 	
 	public void logcat(String path) {
-		mTask = new Task();
+		mTask = new CommandTask();
 		final String logPath = path;
-		Task.execute(new Runnable() {
+		CommandTask.execute(new Runnable() {
 			
 			@Override
 			public void run() {
 				mTask.executeShellCommand("logcat -c");
-				mTask.executeShellCommand("logcat -v time -f "+logPath);
+				mTask.executeShellCommand("logcat -v time -f " + logPath);
 			}
 		});
 	}
 	
 	public static void stopLogcat() {
+		//等待logcat命令执行结束
+		SystemClock.sleep(2000);
 		mTask.terminated();
 	}
 	
 
-	public static class Task {
+	public static class CommandTask {
 		
 		private boolean mTerminaled = false;
 		private Process mProcess;
@@ -154,6 +161,21 @@ public class Logging {
 			}
 			return true;
 		}
-		
+	}
+	
+	public void takeScreenshot(String name) {
+		String fileName = name;
+		if (fileName == null) {
+			SimpleDateFormat formate = new SimpleDateFormat(
+					"yyyy_MM_dd-HH_mm_ss");
+			fileName = formate.format(new Date());
+		}
+		try {
+			fileName = fileName.replaceAll(File.separator, "_");
+			File target = File.createTempFile(fileName, ".png", mCaseDir);
+			UiDevice.getInstance().takeScreenshot(target);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

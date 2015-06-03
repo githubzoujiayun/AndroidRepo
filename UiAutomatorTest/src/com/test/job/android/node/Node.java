@@ -25,6 +25,7 @@ public abstract class Node {
 	private Node mParent;
 	String mResourceId;
 	String mResourceIdMatches;
+	long mTimeout = -1;
 	private Scrollable mScrollable = Scrollable.NONE;
 
 	public void addNode(Node paramNode) {
@@ -275,6 +276,12 @@ public abstract class Node {
 						"WaitType must have a value in "
 								+ Arrays.toString(values()));
 			return valueOf(str.toUpperCase());
+		}
+	}
+
+	public void setTimeout(String timeout) {
+		if (timeout != null) {
+			mTimeout = Integer.parseInt(TestUtils.stringVaule(timeout));
 		}
 	}
 }

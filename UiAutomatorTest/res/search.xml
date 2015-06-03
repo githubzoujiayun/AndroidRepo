@@ -22,6 +22,7 @@
     		rootIndex="0" 
     		indexs="2:0:2:0"
     		clickable="false"
+    		timeout="2000"
             />
         <text>"计算机软件"</text>
     </click>

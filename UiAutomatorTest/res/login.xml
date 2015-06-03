@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <jobcase
     enabled="false"
-    discription="注册测试"
     >
 
     <click condition="view_exist" 
