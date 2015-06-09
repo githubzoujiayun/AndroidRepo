@@ -7,17 +7,24 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public abstract class JobCase {
-	private Case mCase;
+    
+    public static final int RESULT_FAILED = 0;
+    public static final int RESULT_SUCCED = 1;
+    public static final int RESULT_DEFAULT = 2;
+    
+    private Case mCase;
 
 	public abstract void onCreate();
 
 	/**
 	 * 用于统计Case的结果
 	 * @param records
-	 * @return 完成结果判断返回true,否则返回false
+	 * @return 成功返回 {@link #RESULT_SUCCED} ,
+	 *         失败返回 {@link #RESULT_FAILED},
+	 *         使用默认判断返回 {@link #RESULT_DEFAULT}
 	 */
-	public boolean onResult(ArrayList<Record> records) {
-		return false;
+	public int onResult(ArrayList<Record> records) {
+		return RESULT_DEFAULT;
 	}
 
 	public void setCase(Case paramCase) {

@@ -46,55 +46,55 @@ public class Case extends Event {
 	public void onParserStarted() {
 	}
 
-	public boolean onResult(ArrayList<Record> records) {
-		if (mJobCase == null || !mJobCase.onResult(records)) {
+    public boolean onResult(ArrayList<Record> records) {
+        if (mJobCase == null || (mJobCase.onResult(records) == JobCase.RESULT_DEFAULT)) {
 
-			if ((records == null) || (records.size() <= 0)) {
-				throw new IllegalStateException("Miss records.");
-			}
+            if ((records == null) || (records.size() <= 0)) {
+                throw new IllegalStateException("Miss records.");
+            }
 
-			for (Record record : records) {
-				if (!record.satisfied()) {
-					return false;
-				}
-			}
+            for (Record record : records) {
+                if (!record.satisfied()) {
+                    return false;
+                }
+            }
 
-			if (getResultType() == null) {
-				return true;
-			}
+            if (getResultType() == null) {
+                return true;
+            }
 
-			switch (getResultType()) {
-			case VIEW_EXIST:
-				break;
-			case VIEW_NOT_EXIST:
-				break;
-			case TEXT_EQUALS:
-				break;
-			case TEXT_MATHES:
+            switch (getResultType()) {
+            case VIEW_EXIST:
+                break;
+            case VIEW_NOT_EXIST:
+                break;
+            case TEXT_EQUALS:
+                break;
+            case TEXT_MATHES:
 
-				break;
-			case TEXT_CONTAINS:
-				
-				break;
-			case VALUE_EQUALS:
-				int size = records.size();
-				int value[] = new int[size];
-				for (int i =0;i<size ;i++) {
-					value[i] = TestUtils.getInt(records.get(i).getRecordText());
-				}
-				Arrays.sort(value);
-				if (DEBUG) {
-					Logging.logInfo("VALUE_EQUALS : "+Arrays.toString(value));
-				}
-				return value[0] == value[size-1];
+                break;
+            case TEXT_CONTAINS:
 
-			default:
-				break;
-			}
-			return true;
-		}
-		return true;
-	}
+                break;
+            case VALUE_EQUALS:
+                int size = records.size();
+                int value[] = new int[size];
+                for (int i = 0; i < size; i++) {
+                    value[i] = TestUtils.getInt(records.get(i).getRecordText());
+                }
+                Arrays.sort(value);
+                if (DEBUG) {
+                    Logging.logInfo("VALUE_EQUALS : " + Arrays.toString(value));
+                }
+                return value[0] == value[size - 1];
+
+            default:
+                break;
+            }
+            return true;
+        }
+        return true;
+    }
 
 	public void perform(Node node, PerformListener listener)
 			throws UiObjectNotFoundException {

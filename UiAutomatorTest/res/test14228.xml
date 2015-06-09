@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
+    <!-- className指定TestJobCase为该测试用例的接口，TestJobCase需要继承JobCase -->
+    <!-- enabled表示是否启用该测试用例，默认启用 -->
 <jobcase
     className="com.test.job.android.cases.TestJobCase"
-    enabled="true"
->
+    enabled="true">
+    <!-- click事件执行时会依次点击他的子节点，每个子节点都必须是一个View类型 -->
     <click>
+        <!-- 根据resId查找控件 -->
 	    <text
 	        resId="com.job.android:id/app_home_city_layout"/>
+	    <!-- 根据节点索引查找控件 -->
 	    <indexView
 	        rootClass="android.widget.ListView"
 	        rootIndex="0"
 	        indexs="5:0:0"
 	        />
+	    <!-- 根据text文本查找控件 -->
+	    <!-- 因为"奉贤区"需要在ListView的倒数第二项，
+	         需要上下滑动滚动ListView，所以添加scrollable属性 -->
 	    <text
 	        text="奉贤区"
 	        scrollable="vertical"
 	        />
 	    <text>"请输入关键字"</text>
     </click>
-    <input type="android">
+    <!-- 先查找到符合子节点的View,再向其中输入typed指定的字符"android" -->
+    <input typed="android">
     	<text>"请输入关键字"</text>    
     </input>
+    <!-- 按键盘的Enter键，enter不区分大小写 -->
     <press presskey="enter"/>
+    
+    <!-- 记录View状态，并根据condition条件返回结果，record只有第一个view有效 -->
     <record 
         condition="view_exist">
+    	<!-- 这个Text使用resId,textMatches查找一个view，因为在有的界面有相同的id或相同的文本的控件的情况 -->
         <text
             resId="com.job.android:id/app_title"
             textMatches=".*奉贤区"

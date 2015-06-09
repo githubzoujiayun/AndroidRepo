@@ -1,5 +1,6 @@
 package com.test.job.android.cases;
 
+import com.android.uiautomator.core.UiDevice;
 import com.test.job.android.JobCase;
 import com.test.job.android.JobCase.ParserListener;
 import com.test.job.android.JobCase.PerformListener;
@@ -25,6 +26,7 @@ public class TestJobCase extends JobCase implements ParserListener,
 
 	public boolean onPerform(Node paramNode) {
 		System.out.println("onPerform : " + paramNode);
+		System.out.println("AcitivityName : "+UiDevice.getInstance().getCurrentActivityName());
 		return false;
 	}
 
@@ -36,8 +38,8 @@ public class TestJobCase extends JobCase implements ParserListener,
 		System.out.println("onPerformStarted : " + paramNode);
 	}
 
-	public boolean onResult(ArrayList<Record> records) {
-		boolean succed = super.onResult(records);
+	public int onResult(ArrayList<Record> records) {
+		int succed = super.onResult(records);
 		System.out.println("onResult : " + succed);
 		return succed;
 	}
