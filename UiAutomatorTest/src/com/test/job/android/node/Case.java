@@ -1,6 +1,15 @@
 package com.test.job.android.node;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.xmlpull.v1.XmlPullParserException;
+
 import android.text.TextUtils;
+
 import com.android.uiautomator.core.UiObjectNotFoundException;
 import com.test.job.android.CaseManager;
 import com.test.job.android.JobCase;
@@ -10,30 +19,22 @@ import com.test.job.android.Logging;
 import com.test.job.android.TestUtils;
 import com.test.job.android.node.Node.Event;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import org.xmlpull.v1.XmlPullParserException;
-
 public class Case extends Event {
 	private CaseManager mCaseManager;
 	private String mClassName;
-	private File mConfigFile;
 	private JobCase mJobCase;
 	private NodeParser mParser;
 	private ResultType mResultType;
+	private InputStream mConfigStream;
+	private String mTag;
 	
 	private final static boolean DEBUG = true;
 
-	public Case(File xmlFile) {
-		mConfigFile = xmlFile;
-		mParser = new NodeParser(this, xmlFile.getPath());
+	public Case(InputStream inputStream,String tag) {
+		mConfigStream = inputStream;
+		mTag = tag;
+		mParser = new NodeParser(this,mConfigStream);
 		mCaseManager = CaseManager.getInstance();
-	}
-	
-	public File getConfigFile() {
-		return mConfigFile;
 	}
 
 	public ResultType getResultType() {
@@ -49,9 +50,9 @@ public class Case extends Event {
     public boolean onResult(ArrayList<Record> records) {
         if (mJobCase == null || (mJobCase.onResult(records) == JobCase.RESULT_DEFAULT)) {
 
-            if ((records == null) || (records.size() <= 0)) {
-                throw new IllegalStateException("Miss records.");
-            }
+//            if ((records == null) || (records.size() <= 0)) {
+//                throw new IllegalStateException("Miss records.");
+//            }
 
             for (Record record : records) {
                 if (!record.satisfied()) {
@@ -95,12 +96,6 @@ public class Case extends Event {
         }
         return true;
     }
-
-	public void perform(Node node, PerformListener listener)
-			throws UiObjectNotFoundException {
-		if ((node instanceof Event))
-			((Event) node).dispatchPerform(listener);
-	}
 
 	public void setClassName(String className) {
 		if (TextUtils.isEmpty(className)) {
@@ -161,5 +156,9 @@ public class Case extends Event {
 		public String toValue() {
 			return toString().toLowerCase();
 		}
+	}
+	
+	public String getTag() {
+		return mTag;
 	}
 }

@@ -19,12 +19,13 @@ import com.test.job.android.Logging;
 import com.test.job.android.TestUtils;
 
 public class NodeParser {
-    private static final boolean PARSER_DEBUG = false;
+    private static final boolean PARSER_DEBUG = true;
     private ParserListener mParserListener;
     private PerformListener mPerformListener;
     private ArrayList<Record> mRecords;
     private Case mRootNode;
     private String mTargetFile = null;
+    private InputStream mConfigStream = null;
 
     public NodeParser() {
     }
@@ -38,13 +39,18 @@ public class NodeParser {
         mTargetFile = targetFile;
     }
 
-    private void onParserDone() throws UiObjectNotFoundException {
+    public NodeParser(Case root, InputStream inputStream) {
+    	mRootNode = root;
+    	mConfigStream = inputStream;
+    }
+
+	private void onParserDone() throws UiObjectNotFoundException {
         if (!mRootNode.isEnabled()) {
             return;
         }
 
         mRootNode.onParserDone();
-        TestUtils.startHomeActivity();
+//        TestUtils.startHomeActivity();
         TestUtils.waitForHome();
         if (mParserListener != null)
             mParserListener.onParserDone();
@@ -112,20 +118,25 @@ public class NodeParser {
                     indexView.setIndexs(parser.getAttributeValue(null, "indexs"));
                     indexView.setRootClass(parser.getAttributeValue(null, "rootClass"));
                     indexView.setRootIndex(parser.getAttributeValue(null, "rootIndex"));
+                    indexView.setRootResourceId(parser.getAttributeValue(null,"rootResId"));
                     node = indexView;
                 } else if ("wait".equals(tagName)) {
                     WaitEvent waitEvent = new WaitEvent();
-                    waitEvent.setWaitType(parser.getAttributeValue(null, "type"));
+                    waitEvent.setWaitType(parser.getAttributeValue(null, "waitType"));
                     waitEvent.setTimeout(parser.getAttributeValue(null, "timeout"));
                     node = waitEvent;
                 } else if ("view".equals(tagName)) {
                     node = new ViewImp();
                 } else if ("press".equals(tagName)) {
                     PressEvent pressEvent = new PressEvent();
-                    pressEvent.setPressKey(parser.getAttributeValue(null, "presskey"));
-                    pressEvent.setKeyCode(parser.getAttributeValue(null, "keycode"));
+                    pressEvent.setPressKey(parser.getAttributeValue(null, "pressKey"));
+                    pressEvent.setKeyCode(parser.getAttributeValue(null, "keyCode"));
                     pressEvent.setMetaState(parser.getAttributeValue(null, "metaState"));
                     node = pressEvent;
+                } else if("swipe".equals(tagName)) {
+                	SwipeEvent swipeEvent = new SwipeEvent();
+                	swipeEvent.setSwipeCount(parser.getAttributeValue(null,"swipeCount"));
+                	node = swipeEvent;
                 } else {
                     throw new IllegalArgumentException("Unkown tag name : " + tagName);
                 }
@@ -141,8 +152,11 @@ public class NodeParser {
                     node.setEnabled(parser.getAttributeValue(null, "enabled"));
                     node.setDescription(parser.getAttributeValue(null, "description"));
                     node.setScrollable(parser.getAttributeValue(null, "scrollable"));
+                    node.setSwipeDirection(parser.getAttributeValue(null,"swipeDirection"));
                     node.setParent(currentNode);
                     node.setTimeout(parser.getAttributeValue(null, "timeout"));
+                    node.setTypedChars(parser.getAttributeValue(null,"typed"));
+                    node.setComponentName(parser.getAttributeValue(null,"componentName"));
                     currentNode = node;
                     if (node instanceof TextNode) {
                         TextNode textNode = (TextNode) node;
@@ -198,8 +212,9 @@ public class NodeParser {
     }
 
     public void start() throws XmlPullParserException, IOException, UiObjectNotFoundException {
-        if (mTargetFile == null)
+        if (mTargetFile == null && mConfigStream == null)
             throw new IllegalArgumentException("You must valued a jobcase xml file.");
-        parserNodes(mTargetFile);
+//        parserNodes(mTargetFile);
+        parserNodes(mConfigStream);
     }
 }

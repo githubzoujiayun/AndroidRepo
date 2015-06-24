@@ -6,9 +6,7 @@ import java.util.Iterator;
 
 import android.text.TextUtils;
 
-import com.android.uiautomator.core.UiObject;
 import com.android.uiautomator.core.UiObjectNotFoundException;
-import com.android.uiautomator.core.UiSelector;
 import com.test.job.android.JobCase.PerformListener;
 import com.test.job.android.Logging;
 import com.test.job.android.TestUtils;
@@ -25,8 +23,12 @@ public abstract class Node {
     private Node mParent;
     String mResourceId;
     String mResourceIdMatches;
-    long mTimeout = -1;
+    private int mTimeout = 0;
+    String mTypedChars;
+    private String mComponentName = null;
     private Scrollable mScrollable = Scrollable.NONE;
+    
+    private SwipeDirection mSwipe = SwipeDirection.NONE;
 
     public void addNode(Node paramNode) {
         mChildren.add(paramNode);
@@ -45,7 +47,15 @@ public abstract class Node {
         }
         return null;
     }
-
+    
+    public SwipeDirection getSwipeDirection() {
+    	return mSwipe;
+    }
+    
+    public void setSwipeDirection(String direction) {
+    	mSwipe = SwipeDirection.toType(direction);
+    }
+    
     public ArrayList<Node> getChildren() {
         return mChildren;
     }
@@ -81,6 +91,18 @@ public abstract class Node {
     public void removeNode(Node paramNode) {
         mChildren.remove(paramNode);
     }
+    
+    public int getTimeout() {
+    	return mTimeout;
+    }
+    
+    public String getResourceId() {
+    	return mResourceId;
+    }
+    
+    public String getResourceIdMatches() {
+    	return mResourceIdMatches;
+    }
 
     boolean satisfied() {
         if (mConditionType == null)
@@ -101,11 +123,14 @@ public abstract class Node {
             throw new IllegalStateException("\"condition_node_id\" must point to a view id.");
         }
         IView view = (IView) node;
+        boolean result = false;
         switch (type) {
         case VIEW_EXIST:
-            return view.exists();
+            result = view.exists();
+            break;
         case VIEW_NOT_EXIST:
-            return !view.exists();
+            result = !view.exists();
+            break;
         case TEXT_EQUALS:
 
             break;
@@ -115,8 +140,10 @@ public abstract class Node {
         default:
             break;
         }
-
-        return false;
+        if (result == false) {
+        	Logging.logInfo(view.getQueryParam() + " not satisfied,pass");
+        }
+        return result;
     }
 
     public void setClickable(String clickable) {
@@ -179,6 +206,21 @@ public abstract class Node {
                 + ", mConditionNodeId=" + mConditionNodeId + ", mResourceId=" + mResourceId
                 + ", mResourceIdMatches=" + mResourceIdMatches + "]";
     }
+    
+	public static enum SwipeDirection {
+		UP, DOWN, LEFT, RIGHT, NONE, U2D, D2U, L2R, R2L;
+
+		public static SwipeDirection toType(String direction) {
+			if (direction == null)
+				return NONE;
+			if (TextUtils.isEmpty(TestUtils.stringVaule(direction)))
+				throw new IllegalArgumentException(
+						"SwipeDirection must have a value in : "
+								+ Arrays.toString(SwipeDirection.values())
+								+ direction);
+			return valueOf(direction.toUpperCase());
+		}
+	}
 
     public static enum ConditionType {
         VIEW_EXIST, VIEW_NOT_EXIST, TEXT_EQUALS, TEXT_MATCHES;
@@ -224,25 +266,12 @@ public abstract class Node {
             }
         }
 
-        abstract void perform(Node node, PerformListener listener) throws UiObjectNotFoundException;
-    }
-
-    public static abstract interface IView {
-        public abstract UiObject build();
-
-        public abstract boolean click() throws UiObjectNotFoundException;
-
-        public abstract boolean exists();
-
-        public abstract UiSelector getSelector();
-
-        public abstract String getText() throws UiObjectNotFoundException;
-
-        public abstract void input(String chars) throws UiObjectNotFoundException;
-
-        public abstract boolean wait(WaitType waitType, long timeout);
-
-        public abstract boolean waitForExists();
+        void perform(Node node, PerformListener listener) throws UiObjectNotFoundException {
+        	if (node instanceof Event) {
+        		Event event = (Event)node;
+        		event.dispatchPerform(listener);
+        	}
+        }
     }
 
     public static enum Scrollable {
@@ -274,4 +303,23 @@ public abstract class Node {
             mTimeout = Integer.parseInt(TestUtils.stringVaule(timeout));
         }
     }
+    
+    public void setTypedChars(String input) {
+//    	if (!(this instanceof ViewImp)) {
+//    		Logging.log(this + " is not a view.");
+//    	}
+    	mTypedChars = TestUtils.stringVaule(input);
+    }
+    
+    public String getTypedChars() {
+    	return mTypedChars;
+    }
+    
+    public String getComponentName() {
+    	return mComponentName;
+    }
+
+	public void setComponentName(String name) {
+		mComponentName = name;
+	}
 }

@@ -17,7 +17,10 @@ import com.android.uiautomator.core.UiDevice;
 import com.android.uiautomator.core.UiObject;
 import com.android.uiautomator.core.UiObjectNotFoundException;
 import com.android.uiautomator.core.UiSelector;
+import com.test.job.android.node.IView;
 import com.test.job.android.node.PressEvent;
+import com.test.job.android.node.TextNode;
+import com.test.job.android.node.ViewImp;
 import com.test.job.android.node.PressEvent.PressKey;
 
 public class TestUtils {
@@ -70,7 +73,11 @@ public class TestUtils {
 		return true;
 	}
 
-	public static int getInt(String text) {
+	public static int getInt(String textAttrib) {
+		String text = stringVaule(textAttrib);
+		if (TextUtils.isEmpty(text)) {
+			return 0;
+		}
 		System.out.println("getInt : " + text);
 		Pattern p = Pattern.compile("\\d+");
 		Matcher m = p.matcher(text);
@@ -92,7 +99,7 @@ public class TestUtils {
 		String line = "";
 		boolean hasErr = false;
 		try {
-			// 先使用 --activity-clear-task 参数将后台 51job 的Activities 从栈中清除
+			// 鍏堜娇鐢� --activity-clear-task 鍙傛暟灏嗗悗鍙� 51job 鐨凙ctivities 浠庢爤涓竻闄�
 			Runtime.getRuntime()
 					.exec("am start --activity-clear-task com.job.android/com.job.android.pages.common.OpenImageActivity");
 			SystemClock.sleep(500);
@@ -150,8 +157,10 @@ public class TestUtils {
 
 
 	public static boolean waitForHome() {
-		return new UiObject(new UiSelector().text("My 51Job"))
-				.waitForExists(5000L);
+		TextNode text = new TextNode();
+		text.mText = "My 51Job";
+		text.setTimeout("5000");
+		return CaseManager.getInstance().getWork().waitForExists(text);
 	}
 	
 	public static boolean closeTitleLayout() throws UiObjectNotFoundException {
@@ -164,7 +173,7 @@ public class TestUtils {
 			content.resourceId("com.job.android:id/tv_msg_remind_content");
 			uo = new UiObject(content);
 			Logging.logInfo("detected title layout with message : "+uo.getText());
-			PressEvent.pressKey(PressKey.BACK);
+//			PressEvent.pressKey(PressKey.BACK);
 		}
 		
 		return false;

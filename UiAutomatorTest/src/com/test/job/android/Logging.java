@@ -13,9 +13,11 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import com.android.uiautomator.core.UiDevice;
+import com.test.job.android.node.IWork;
 
 public class Logging {
 
+	private static final String TAG = "jobtest";
 	private static final boolean DEBUG = true;
 	private static final boolean DEBUG_LOGGING = true;
 	private static final String JOBTEST_HOME = "/data/local/tmp/jobtest/";
@@ -24,9 +26,14 @@ public class Logging {
 	private File mLogDir = null;
 	private File mCaseDir = null;
 	private static CommandTask mTask; 
+	private IWork mWork;
 	
+	public Logging(IWork work) {
+		mWork = work;
+	}
+
 	void createNewDir() {
-		File dir = new File(LOG_PATH);
+		File dir = new File(mWork.getLogPath());
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
@@ -55,28 +62,46 @@ public class Logging {
 	
 	public static void log(String log) {
 		if (DEBUG) {
-			System.out.println(log);
+			Log.e(TAG,log);
 		}
 	}
 	
 	public static void logException(Exception e) {
 		e.printStackTrace();
+		Log.e(TAG,e.getMessage(),e);
 		e.printStackTrace(sPrinter);
+	}
+	
+	public static void e(String log) {
+		Log.e(TAG,log);
+	}
+	
+	public static void logw(String log) {
+		if (DEBUG) {
+			System.out.println("Warning : " + log);
+		}
+		if (sPrinter != null) {
+			sPrinter.println("Warning : " + log);
+		}
 	}
 
 	public static void logInfo(String log) {
 		if (DEBUG) {
 			System.out.println(log);
 		}
-		sPrinter.println(log);
+		if (sPrinter != null) {
+			sPrinter.println(log);
+		}
 	}
 	
 	public static void logInfo(String log,Object... args) {
 		String info = String.format(log, args);
-		if (DEBUG_LOGGING) {
+		if (DEBUG) {
 			System.out.println(info);
 		}
-		sPrinter.println(info);
+		if (sPrinter != null) {
+			sPrinter.println(info);
+		}
 	}
 	
 	public void logcat(String path) {
@@ -84,7 +109,6 @@ public class Logging {
 		final String logPath = path;
 		CommandTask.execute(new Runnable() {
 			
-			@Override
 			public void run() {
 				mTask.executeShellCommand("logcat -c");
 				mTask.executeShellCommand("logcat -v time -f " + logPath);
@@ -94,8 +118,10 @@ public class Logging {
 	
 	public static void stopLogcat() {
 		//等待logcat命令执行结束
-		SystemClock.sleep(2000);
-		mTask.terminated();
+		SystemClock.sleep(1000);
+		if (mTask != null) {
+			mTask.terminated();
+		}
 	}
 	
 
@@ -115,7 +141,7 @@ public class Logging {
 		
 		public boolean executeShellCommand(String command) {
 			System.out.println("execute command : "+command);
-			Log.e("qinchao","execute command : "+command);
+			Log.e(TAG,"execute command : "+command);
 			InputStream in = null;
 			InputStream errIn = null;
 			BufferedReader reader = null;
@@ -173,7 +199,7 @@ public class Logging {
 		try {
 			fileName = fileName.replaceAll(File.separator, "_");
 			File target = File.createTempFile(fileName, ".png", mCaseDir);
-			UiDevice.getInstance().takeScreenshot(target);
+			mWork.takeScreenshot(target);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="UiAutomator" default="build">
+<project name="JobTest" default="build">
 
     <!-- The local.properties file is created and updated by the 'android' tool.
          It contains the path to the SDK. It should *NOT* be checked into
@@ -87,11 +87,6 @@
          in order to avoid having your file be overridden by tools such as "android update project"
     -->
     <!-- version-tag: VERSION_TAG -->
-    <copy todir="${basedir}/res">
-        <fileset dir="${basedir}/res">
-            <include name="res/**"/>
-        </fileset>
-    </copy>
     <import file="${sdk.dir}/tools/ant/uibuild.xml" />
 
 </project>

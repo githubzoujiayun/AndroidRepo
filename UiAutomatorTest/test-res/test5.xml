@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jobcase
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="jobtest.xsd"
+    >
+    <click>
+        <text>"简历中心"</text>
+    </click>
+    <wait waitType="wait_until_gone">
+        <text textMatches="数据加载中.*"></text>
+    </wait>
+    <click>
+        <text>"设置公开程度"</text>
+        <text>"完全保密"</text>
+        <text>"编辑简历"</text>
+        <text>"修改名称"</text>
+    </click>
+    <input>
+        <text resId="com.job.android:id/resume_rename_edit"
+            typed="	Hello World!"></text>
+    </input>
+    <click>
+        <text>"保存"</text>
+        <text resId="com.job.android:id/goback"></text>
+    </click>
+    <record>
+        <text resId="com.job.android:id/resume_home_openstatus"></text>
+    </record>
+</jobcase>

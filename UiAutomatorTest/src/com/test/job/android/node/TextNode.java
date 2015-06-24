@@ -1,6 +1,5 @@
 package com.test.job.android.node;
 
-import com.android.uiautomator.core.UiSelector;
 import com.test.job.android.TestUtils;
 
 public class TextNode extends ViewImp {
@@ -8,23 +7,6 @@ public class TextNode extends ViewImp {
 	public String mTextContains;
 	public String mTextMatches;
 	public String mTextStartsWith;
-
-	public UiSelector getSelector() {
-		UiSelector selector = super.getSelector();
-		if (mText != null) {
-			selector = selector.text(mText);
-		}
-		if (mTextMatches != null) {
-			selector = selector.textMatches(mTextMatches);
-		}
-		if (mTextContains != null) {
-			selector = selector.textContains(mTextContains);
-		}
-		if (mTextStartsWith != null) {
-			selector = selector.textStartsWith(mTextStartsWith);
-		}
-		return selector;
-	}
 
 	public void setText(String paramString) {
 		mText = TestUtils.stringVaule(paramString);
@@ -40,6 +22,14 @@ public class TextNode extends ViewImp {
 
 	public void setTextStartsWith(String paramString) {
 		mTextStartsWith = TestUtils.stringVaule(paramString);
+	}
+	
+	public String getSearchText() {
+		return mText;
+	}
+	
+	public String getSearchTextMatches() {
+		return mTextMatches;
 	}
 
 	public String toString() {

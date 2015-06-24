@@ -1,13 +1,15 @@
 package com.test.job.android.node;
 
+import java.util.Arrays;
+
 import com.android.uiautomator.core.UiSelector;
 import com.test.job.android.TestUtils;
-import java.util.Arrays;
 
 public class IndexView extends ViewImp {
 	int[] mIndexs;
 	String mRootClass;
 	String mRootIndex;
+	String mRootResourceId;
 
 	public String getRootClass() {
 		return mRootClass;
@@ -21,6 +23,9 @@ public class IndexView extends ViewImp {
 		UiSelector selector = null;
 		if (mRootClass != null) {
 			selector = new UiSelector().className(mRootClass);
+		}
+		if (mRootResourceId != null) {
+			selector = selector.resourceId(mRootResourceId);
 		}
 		if (mRootIndex != null) {
 			int index = Integer.parseInt(mRootIndex);
@@ -53,5 +58,17 @@ public class IndexView extends ViewImp {
 	public String toString() {
 		return "IndexView [mRootClass=" + mRootClass + ", mRootIndex="
 				+ mRootIndex + ", mIndexs=" + Arrays.toString(mIndexs) + "]";
+	}
+
+	public void setRootResourceId(String attributeValue) {
+		mRootResourceId = TestUtils.stringVaule(attributeValue);
+	}
+	
+	public String getRootResourceId(){
+		return mRootResourceId;
+	}
+	
+	public int[] getIndexs() {
+		return mIndexs;
 	}
 }

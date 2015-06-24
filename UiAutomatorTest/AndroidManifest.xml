@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.job.android.test"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="8" />
+    <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></permission>
+    <permission android:name="android.permission.READ_EXTERNAL_STORAGE"></permission>
+    <permission android:name="android.permission.RETRIEVE_WINDOW_CONTENT"></permission>
+
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="com.job.android" />
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" >
+        <uses-library android:name="android.test.runner" />
+    </application>
+
+</manifest>

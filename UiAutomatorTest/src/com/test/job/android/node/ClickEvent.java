@@ -8,7 +8,10 @@ public class ClickEvent extends Event {
 
 	public void perform(Node node, PerformListener listener)
 			throws UiObjectNotFoundException {
-		((IView) node).click();
+		super.perform(node, listener);
+		if (node instanceof IView) {
+			((IView) node).click();
+		}
 	}
 
 }

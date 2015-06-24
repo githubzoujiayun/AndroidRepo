@@ -1,15 +1,14 @@
 package com.test.job.android;
 
-import com.test.job.android.node.Case;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import com.test.job.android.node.Case;
+import com.test.job.android.node.IWork;
+
 public class CaseManager {
-	private static final String JOBTEST_HOME = "/data/local/tmp/jobtest/";
-	private static final String LOG_PATH = "/data/local/tmp/jobtest/logs/";
-	private static final String RESOURCE_PATH = "/data/local/tmp/jobtest/res/";
+	
 	private static CaseManager sCaseManager;
 	private HashMap<String, Case> mCaseCache = new HashMap<String, Case>();
 	private File mHomeDirectory;
@@ -18,26 +17,33 @@ public class CaseManager {
 	private File mResDir;
 	private Result mResult;
 	private Logging mLogging;
+	private static IWork mWork;
 
 	private CaseManager() {
 		if (mHomeDirectory == null) {
-			mHomeDirectory = new File(JOBTEST_HOME);
+			mHomeDirectory = new File(mWork.getHomePath());
 			if (!mHomeDirectory.exists())
 				mHomeDirectory.mkdirs();
-			mResDir = new File(RESOURCE_PATH);
+			mResDir = new File(mWork.getResourcePath());
 			if (!mResDir.exists())
 				mResDir.mkdirs();
-			mLogDir = new File(LOG_PATH);
+			mLogDir = new File(mWork.getLogPath());
 			if (!mLogDir.exists())
 				mLogDir.mkdirs();
 		}
 		mResult = new Result();
-		mLogging = new Logging();
+		mLogging = new Logging(mWork);
 	}
 
-	public static CaseManager getInstance() {
-		if (sCaseManager == null)
+	public static CaseManager getInstance(IWork work) {
+		if (sCaseManager == null) {
+			mWork = work;
 			sCaseManager = new CaseManager();
+		}
+		return sCaseManager;
+	}
+	
+	public static CaseManager getInstance() {
 		return sCaseManager;
 	}
 
@@ -49,7 +55,7 @@ public class CaseManager {
 		mLogging.createNewDir();
 		while((localCase = mQueue.poll()) != null) {
 			try {
-				mLogging.createNewLog(localCase.getConfigFile().getName());
+				mLogging.createNewLog(localCase.getTag());
 				localCase.start();
 			} catch (Exception e) {
 				Logging.logException(e);
@@ -85,20 +91,27 @@ public class CaseManager {
 	}
 
 	public void startCases() {
-		File[] childs = mResDir.listFiles(new FilenameFilter() {
-			public boolean accept(File f, String fname) {
-				return fname.endsWith(".xml");
-			}
-		});
-		for (File f : childs) {
-			Case localCase = getJobCase(f.getPath());
+//		File[] childs = mResDir.listFiles(new FilenameFilter() {
+//			public boolean accept(File f, String fname) {
+//				return fname.endsWith(".xml");
+//			}
+//		});
+//		SystemClock.sleep(3000);
+		String[] configs = null;
+
+		if (configs == null) {
+			configs = mWork.listConfigs();
+		}
+		for (String config : configs) {
+			Case localCase = getJobCase(config);
 			mQueue.offer(localCase);
 		}
 		start();
 	}
 
-	private Case getJobCase(String path) {
-		return new Case(new File(path));
+	private Case getJobCase(String config) {
+//		return new Case(File.);
+		return new Case(mWork.getInputStream(config),config);
 	}
 
 	class Result {
@@ -109,5 +122,9 @@ public class CaseManager {
 	
 	public Logging getLogging() {
 		return mLogging;
+	}
+
+	public IWork getWork() {
+		return mWork;
 	}
 }

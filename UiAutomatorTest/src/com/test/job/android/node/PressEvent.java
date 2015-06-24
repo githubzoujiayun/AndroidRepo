@@ -3,12 +3,14 @@ package com.test.job.android.node;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 
 import com.android.uiautomator.core.UiDevice;
 import com.android.uiautomator.core.UiObjectNotFoundException;
 import com.test.job.android.JobCase.PerformListener;
+import com.test.job.android.CaseManager;
 import com.test.job.android.Logging;
 import com.test.job.android.TestUtils;
 import com.test.job.android.node.Node.Event;
@@ -17,12 +19,12 @@ public class PressEvent extends Event {
 	private PressKey mKey;
 	private int mKeyCode;
 	private int mMetaState;
-	private static UiDevice sUiDevice;
+	private IWork mWork;
 	
 	private static boolean DEBUG = true;
 	
 	public PressEvent() {
-		sUiDevice = UiDevice.getInstance();
+		mWork = CaseManager.getInstance().getWork();
 	}
 
 	public int getKeyCode(String keycode) {
@@ -47,7 +49,7 @@ public class PressEvent extends Event {
 
 	void perform(Node node, PerformListener listener)
 			throws UiObjectNotFoundException {
-		
+		super.perform(node, listener);
 		Logging.log("mKey -------------->" + this.mKey);
 		switch (mKey) {
 		case SEARCH:
@@ -64,38 +66,18 @@ public class PressEvent extends Event {
 		default:
 			throw new IllegalArgumentException("Unkown key : " + this.mKey);
 		}
+		SystemClock.sleep(1500);
 	}
 	
-	public static void pressKey(PressKey key) {
+	public void pressKey(PressKey key) {
 		if (DEBUG) {
 			Logging.logInfo("pressKey --->  "+key.toString());
 		}
-		switch (key) {
-		case SEARCH:
-			sUiDevice.pressSearch();
-			break;
-		case BACK:
-			sUiDevice.pressBack();
-			break;
-		case DELETE:
-			sUiDevice.pressDelete();
-			break;
-		case ENTER:
-			sUiDevice.pressEnter();
-			break;
-		case HOME:
-			sUiDevice.pressHome();
-			break;
-		case MENU:
-			sUiDevice.pressMenu();
-			break;
-		default:
-			break;
-		}
+		mWork.presskey(key);
 	}
 	
-	public static void pressKeyCode(int keyCode,int metaState) {
-		sUiDevice.pressKeyCode(keyCode, keyCode);
+	public void pressKeyCode(int keyCode,int metaState) {
+		mWork.pressKeyCode(keyCode, metaState);
 	}
 
 	void setKeyCode(String paramString) {

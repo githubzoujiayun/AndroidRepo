@@ -1,77 +1,41 @@
 package com.test.job.android.node;
 
-import com.android.uiautomator.core.Configurator;
-import com.android.uiautomator.core.UiObject;
 import com.android.uiautomator.core.UiObjectNotFoundException;
-import com.android.uiautomator.core.UiScrollable;
-import com.android.uiautomator.core.UiSelector;
+import com.test.job.android.CaseManager;
 import com.test.job.android.Logging;
 
-public class ViewImp extends Node implements Node.IView {
+public class ViewImp extends Node implements IView {
 
 	private static final boolean DEBUG = true;
-
-	public UiObject build() {
-		return new UiObject(getSelector());
+	private int mIndex = 0;
+	
+	private IWork mWork;
+	
+	public ViewImp() {
+		CaseManager cm = CaseManager.getInstance();
+		if (cm != null) {
+			mWork = cm.getWork();
+		}
 	}
 
 	public boolean click() throws UiObjectNotFoundException {
-		Logging.logInfo("click --->  " + getSelector());
+		Logging.logInfo("click --->  " + mWork.getQueryParam(this));
 		if (!isClickable()) {
 			return false;
 		}
-		Scrollable scrollable = getScrollable();
-		UiScrollable uiScrollable = new UiScrollable(
-				new UiSelector().scrollable(true));
-		switch (scrollable) {
-		case HORIZONTAL:
-			uiScrollable.setAsHorizontalList();
-			break;
-		case VERTICAL:
-			uiScrollable.setAsVerticalList();
-			break;
-		default:
-			break;
-		}
-		if (scrollable != Scrollable.NONE) {
-			uiScrollable.scrollIntoView(build());
-		}
-		return build().clickAndWaitForNewWindow();
+		return mWork.click(this,getScrollable());
 	}
 
 	public boolean exists() {
-		waitForExists();
-		boolean exists = build().exists();
-		if (DEBUG) {
-			System.out.printf("exists : %b --->  " + getSelector() + "\n",
-					exists);
-		}
-		return exists;
-	}
-
-	public UiSelector getSelector() {
-		UiSelector selector = new UiSelector();
-		if (mResourceId != null) {
-			selector = selector.resourceId(mResourceId);
-		}
-		if (mResourceIdMatches != null) {
-			selector = selector.resourceIdMatches(mResourceIdMatches);
-		}
-		return selector;
+		return mWork.exists(this,getScrollable());
 	}
 
 	public String getText() throws UiObjectNotFoundException {
-		String text = build().getText();
-		Logging.logInfo("getText : %s --->  " + getSelector(), text);
-		return text;
+		return mWork.getText(this);
 	}
 
 	public void input(String chars) throws UiObjectNotFoundException {
-		Logging.logInfo("input : %s --->  " + getSelector() + "\n", chars);
-		Configurator configurator = Configurator.getInstance();
-		configurator.setKeyInjectionDelay(40);
-		build().setText(chars);
-		configurator.setKeyInjectionDelay(0);
+		mWork.input(this,chars);
 	}
 
 	boolean satisfied() {
@@ -91,12 +55,12 @@ public class ViewImp extends Node implements Node.IView {
 		return false;
 	}
 
-	public boolean wait(WaitType waitType, long timeout) {
+	public boolean wait(WaitType waitType, int timeout) {
 		switch (waitType) {
 		case WAIT_FOR_EXIST:
-			return waitForExists(timeout);
+			return mWork.waitForExists(this,timeout);
 		case WAIT_UNTIL_GONE:
-			return waitUntilGone(timeout);
+			return mWork.waitUntilGone(this,timeout);
 		case WAIT_FOR_DISABLE:
 			break;
 		case WAIT_FOR_ENABLE:
@@ -108,25 +72,46 @@ public class ViewImp extends Node implements Node.IView {
 		return false;
 	}
 
+	public String getQueryParam() {
+		return mWork.getQueryParam(this);
+	}
+
+	public boolean waitUntilGone(int timeout) {
+		// TODO Auto-generated method stub
+		return mWork.waitUntilGone(this,timeout);
+	}
+
+	public boolean waitForExists(int timeout) {
+		return mWork.waitForExists(this,timeout);
+	}
+
 	public boolean waitForExists() {
-		if (mTimeout == 0) {
-			return true;
-		}
-		if (mTimeout > 0) {
-			return waitForExists(mTimeout);
-		}
-		return waitForExists(10000);
+		return mWork.waitForExists(this);
 	}
 
-	public boolean waitForExists(long timeout) {
-		Logging.logInfo("waitForExist --->  timeout " + timeout + "ms,  "
-				+ getSelector());
-		return build().waitForExists(timeout);
+	public String getSearchText() {
+		return null;
 	}
 
-	private boolean waitUntilGone(long timeout) {
-		Logging.logInfo("waitUntilGone --->  timeout " + timeout + "ms,  "
-				+ getSelector());
-		return build().waitUntilGone(timeout);
+	public String getSearchTextMatches() {
+		return null;
+	}
+	
+	public String toShortString() {
+		return null;
+	}
+
+	public <T> T build() {
+		return mWork.build(this);
+	}
+
+	public void swipe(SwipeDirection direction) {
+		Logging.logInfo("swipe "+direction.name());
+		mWork.swipe(this,direction);
+	}
+
+	@Override
+	public int getIndex() {
+		return mIndex;
 	}
 }

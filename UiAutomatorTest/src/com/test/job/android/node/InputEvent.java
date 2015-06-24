@@ -11,10 +11,15 @@ public class InputEvent extends Event {
 
 	public void perform(Node node, PerformListener listener)
 			throws UiObjectNotFoundException {
-	    if (TextUtils.isEmpty(mTypedChars)) {
+		super.perform(node, listener);
+	    String input = node.getTypedChars();
+	    if (input == null) {
+	    	input = mTypedChars; 
+	    }
+	    if (TextUtils.isEmpty(input)) {
 	        throw new IllegalStateException("attrribute 'type' in xml config file cannt be empty.");
 	    }
-		((IView) node).input(mTypedChars);
+		((IView) node).input(input);
 	}
 
 	public void setTypedChars(String chars) {
