@@ -49,7 +49,7 @@ public class PressEvent extends Event {
 
 	void perform(Node node, PerformListener listener)
 			throws UiObjectNotFoundException {
-		super.perform(node, listener);
+//		super.perform(node, listener);
 		Logging.log("mKey -------------->" + this.mKey);
 		switch (mKey) {
 		case SEARCH:

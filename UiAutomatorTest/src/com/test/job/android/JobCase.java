@@ -1,10 +1,10 @@
 package com.test.job.android;
 
+import java.util.ArrayList;
+
 import com.test.job.android.node.Case;
 import com.test.job.android.node.Node;
 import com.test.job.android.node.Record;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public abstract class JobCase {
     

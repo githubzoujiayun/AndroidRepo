@@ -3,26 +3,26 @@ package com.test.job.android;
 import com.android.uiautomator.testrunner.UiAutomatorTestCase;
 import com.test.job.android.node.UIAutomatorWork;
 
-public class UIAutomatorStart extends UiAutomatorTestCase {
+public class UIAutomatorStart extends UiAutomatorTestCase{
 
 	
 	CaseManager mManager = null;
 	
-	public UIAutomatorStart() {
+	@Override
+	protected void setUp() throws Exception {
 		UIAutomatorWork work = new UIAutomatorWork();
 		mManager = CaseManager.getInstance(work);
+		super.setUp();
 	}
-    
-	public void testTest()  {
+
+	@Override
+	protected void tearDown() throws Exception {
+		// TODO Auto-generated method stub
+		super.tearDown();
+	}
+
+	public void testCases()  {
 		mManager.startCases();
 	}
-	
-	
-//	public void testTest() throws UiObjectNotFoundException {
-//		TextNode node = new TextNode();
-//		node.setResourceId("com.job.android:id/login_username");
-////		UiObject uio = (UiObject)node.build();
-//		mManager.getWork().input(node, "Hello World!");
-//	}
 }
 

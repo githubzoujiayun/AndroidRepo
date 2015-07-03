@@ -81,6 +81,7 @@ public class Record extends Event {
 		Logging.logInfo("record --->  "+getChild().getQueryParam());
 		waitForExist();
 		this.mRecordText = getText();
+		Logging.logInfo("record --->  text : "+mRecordText);
 		String screenShot = mRecordText;
 		if (TextUtils.isEmpty(mRecordText)) {
 			screenShot = "screenshot";

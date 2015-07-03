@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.InputStream;
+
+import android.os.Environment;
 
 import com.android.uiautomator.core.Configurator;
 import com.android.uiautomator.core.UiDevice;
@@ -14,6 +17,7 @@ import com.android.uiautomator.core.UiScrollable;
 import com.android.uiautomator.core.UiSelector;
 import com.test.job.android.JobException;
 import com.test.job.android.Logging;
+import com.test.job.android.TestUtils;
 import com.test.job.android.node.Node.Scrollable;
 import com.test.job.android.node.Node.SwipeDirection;
 import com.test.job.android.node.PressEvent.PressKey;
@@ -24,6 +28,13 @@ public class UIAutomatorWork implements IWork {
 	private static final String LOG_PATH = "/data/local/tmp/jobtest/logs/";
 	private static final String RESOURCE_PATH = "/data/local/tmp/jobtest/res/";
 	private static final String CONFIG_PATH = RESOURCE_PATH;
+	
+	/* SD卡路径,UIAutomator没有读写SDCard权限*/
+//	private static final String JOBTEST_HOME = Environment
+//			.getExternalStorageDirectory() + "/jobtest";
+//	private static final String LOG_PATH = JOBTEST_HOME + "/logs";
+//	private static final String CONFIG_PATH = JOBTEST_HOME + "/res/";
+//	private static final String RESOURCE_PATH = CONFIG_PATH;
 
 	public boolean click(IView view, Scrollable _scrollable) {
 
@@ -217,8 +228,15 @@ public class UIAutomatorWork implements IWork {
 		return LOG_PATH;
 	}
 
-	public void takeScreenshot(File target) {
-		UiDevice.getInstance().takeScreenshot(target);
+	@Override
+	public void takeScreenshot(File parent,String fileName) {
+		File target;
+		try {
+			target = File.createTempFile(fileName, ".png", parent);
+			UiDevice.getInstance().takeScreenshot(target);
+		} catch (IOException e) {
+			throw new JobException(e);
+		}
 	}
 
 	public InputStream getInputStream(String config) {
@@ -287,5 +305,10 @@ public class UIAutomatorWork implements IWork {
 		} catch (UiObjectNotFoundException e) {
 			throw new JobException(e);
 		}
+	}
+
+	@Override
+	public void startHomeActivity(String componentName) {
+		TestUtils.startHomeActivity(componentName);
 	}
 }

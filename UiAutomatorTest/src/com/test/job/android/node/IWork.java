@@ -38,7 +38,7 @@ public interface IWork {
 	
 	public String getLogPath();
 
-	public void takeScreenshot(File target);
+	public void takeScreenshot(File parent,String fileName);
 
 	public InputStream getInputStream(String config);
 	
@@ -47,4 +47,6 @@ public interface IWork {
 	public void pressKeyCode(int keyCode, int keyCode2);
 
 	public void swipe(ViewImp viewImp, SwipeDirection direction);
+
+	public void startHomeActivity(String componentName);
 }

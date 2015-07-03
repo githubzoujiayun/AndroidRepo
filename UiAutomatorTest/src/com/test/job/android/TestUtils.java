@@ -91,7 +91,7 @@ public class TestUtils {
 		return Long.parseLong(localMatcher.group());
 	}
 
-	public static boolean startHomeActivity() {
+	public static boolean startHomeActivity(String componentName) {
 		InputStream in = null;
 		InputStream errIn = null;
 		BufferedReader reader = null;

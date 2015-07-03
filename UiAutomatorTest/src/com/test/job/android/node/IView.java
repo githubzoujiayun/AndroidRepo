@@ -28,6 +28,8 @@ public interface IView {
 
 	public int getTimeout();
 	
+	public void setTimeout(String timeout);
+	
 	public String getSearchText();
 
 	public String getComponentName();

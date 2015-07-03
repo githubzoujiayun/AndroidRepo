@@ -3,7 +3,7 @@
 	xsi:noNamespaceSchemaLocation="jobtest.xsd" enabled="false">
 
 	<click condition="view_exist">
-		<text>"登录"</text>
+		<text timeout="1">"登录"</text>
 		<input>
 			<text resId="com.job.android:id/login_username" typed="qch5240@163.com" />
 			<text resId="com.job.android:id/login_password" typed="qch123" />

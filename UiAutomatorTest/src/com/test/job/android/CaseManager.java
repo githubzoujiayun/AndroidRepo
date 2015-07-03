@@ -57,7 +57,7 @@ public class CaseManager {
 			try {
 				mLogging.createNewLog(localCase.getTag());
 				localCase.start();
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				Logging.logException(e);
 				Result localResult = mResult;
 				localResult.error++;
@@ -71,7 +71,7 @@ public class CaseManager {
 	}
 
 	private void onFinished() {
-		System.out.printf("Succed %d,  Failed %d,  Error %d\n",mResult.succed,mResult.failed,mResult.error);
+		Logging.logInfo("Succed %d,  Failed %d,  Error %d\n",mResult.succed,mResult.failed,mResult.error);
 	}
 
 	public void cacheNewCase(String key, Case jobcase) {
@@ -81,8 +81,10 @@ public class CaseManager {
 	public void onCaseFinished(Case jobCase, boolean succed) {
 		if (succed) {
 			mResult.succed++;
+			Logging.logInfo("Case succed!");
 		} else {
 			mResult.failed++;
+			Logging.logInfo("Case failed!");
 		}
 	}
 
@@ -91,12 +93,6 @@ public class CaseManager {
 	}
 
 	public void startCases() {
-//		File[] childs = mResDir.listFiles(new FilenameFilter() {
-//			public boolean accept(File f, String fname) {
-//				return fname.endsWith(".xml");
-//			}
-//		});
-//		SystemClock.sleep(3000);
 		String[] configs = null;
 
 		if (configs == null) {

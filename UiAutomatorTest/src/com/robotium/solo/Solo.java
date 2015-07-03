@@ -58,7 +58,7 @@ public class Solo {
 	protected final TextEnterer textEnterer;
 	protected final Rotator rotator;
 	protected final Scroller scroller;
-	protected final Sleeper sleeper;
+	public final Sleeper sleeper;
 	protected final Swiper swiper;
 	protected final Tapper tapper;
 	protected final Illustrator illustrator;

@@ -27,6 +27,7 @@ public class ViewImp extends Node implements IView {
 	}
 
 	public boolean exists() {
+		Logging.logInfo("exist --->  " + mWork.getQueryParam(this));
 		return mWork.exists(this,getScrollable());
 	}
 
@@ -58,9 +59,9 @@ public class ViewImp extends Node implements IView {
 	public boolean wait(WaitType waitType, int timeout) {
 		switch (waitType) {
 		case WAIT_FOR_EXIST:
-			return mWork.waitForExists(this,timeout);
+			return waitForExists(timeout);
 		case WAIT_UNTIL_GONE:
-			return mWork.waitUntilGone(this,timeout);
+			return waitUntilGone(timeout);
 		case WAIT_FOR_DISABLE:
 			break;
 		case WAIT_FOR_ENABLE:
@@ -77,11 +78,12 @@ public class ViewImp extends Node implements IView {
 	}
 
 	public boolean waitUntilGone(int timeout) {
-		// TODO Auto-generated method stub
+		Logging.logInfo("waitUntilGone --->  " + mWork.getQueryParam(this));
 		return mWork.waitUntilGone(this,timeout);
 	}
 
 	public boolean waitForExists(int timeout) {
+		Logging.logInfo("waitForExists --->  " + mWork.getQueryParam(this));
 		return mWork.waitForExists(this,timeout);
 	}
 

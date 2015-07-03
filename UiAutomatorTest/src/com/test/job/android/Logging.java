@@ -66,7 +66,7 @@ public class Logging {
 		}
 	}
 	
-	public static void logException(Exception e) {
+	public static void logException(Throwable e) {
 		e.printStackTrace();
 		Log.e(TAG,e.getMessage(),e);
 		e.printStackTrace(sPrinter);
@@ -78,6 +78,7 @@ public class Logging {
 	
 	public static void logw(String log) {
 		if (DEBUG) {
+			Log.e(TAG,log);
 			System.out.println("Warning : " + log);
 		}
 		if (sPrinter != null) {
@@ -87,6 +88,7 @@ public class Logging {
 
 	public static void logInfo(String log) {
 		if (DEBUG) {
+			Log.e(TAG,log);
 			System.out.println(log);
 		}
 		if (sPrinter != null) {
@@ -97,6 +99,7 @@ public class Logging {
 	public static void logInfo(String log,Object... args) {
 		String info = String.format(log, args);
 		if (DEBUG) {
+			Log.e(TAG,info);
 			System.out.println(info);
 		}
 		if (sPrinter != null) {
@@ -196,12 +199,9 @@ public class Logging {
 					"yyyy_MM_dd-HH_mm_ss");
 			fileName = formate.format(new Date());
 		}
-		try {
-			fileName = fileName.replaceAll(File.separator, "_");
-			File target = File.createTempFile(fileName, ".png", mCaseDir);
-			mWork.takeScreenshot(target);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		fileName = fileName.replaceAll(File.separator, "_").replaceAll("\\s",
+				"_");
+//		 File target = File.createTempFile(fileName, ".png", mCaseDir);
+		mWork.takeScreenshot(mCaseDir,fileName);
 	}
 }

@@ -210,8 +210,8 @@
 
 	<xsd:group name="nodeChoice">
 		<xsd:choice>
-			<xsd:group ref="eventChoice" />
 			<xsd:group ref="viewChoice" />
+			<xsd:group ref="eventChoice" />
 		</xsd:choice>
 	</xsd:group>
 	

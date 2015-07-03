@@ -23,7 +23,7 @@ public abstract class Node {
     private Node mParent;
     String mResourceId;
     String mResourceIdMatches;
-    private int mTimeout = 0;
+    private int mTimeout = 1000;
     String mTypedChars;
     private String mComponentName = null;
     private Scrollable mScrollable = Scrollable.NONE;
@@ -301,6 +301,8 @@ public abstract class Node {
     public void setTimeout(String timeout) {
         if (timeout != null) {
             mTimeout = Integer.parseInt(TestUtils.stringVaule(timeout));
+        } else {
+        	mTimeout = 10000;
         }
     }
     

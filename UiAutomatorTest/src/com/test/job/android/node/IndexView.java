@@ -2,7 +2,11 @@ package com.test.job.android.node;
 
 import java.util.Arrays;
 
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.android.uiautomator.core.UiSelector;
+import com.test.job.android.JobException;
 import com.test.job.android.TestUtils;
 
 public class IndexView extends ViewImp {
@@ -40,6 +44,10 @@ public class IndexView extends ViewImp {
 	}
 
 	public void setIndexs(String indexStr) {
+		if (indexStr == null) {
+			mIndexs = null;
+			return;
+		}
 		String indexArray[] = indexStr.split(":");
 		mIndexs = new int[indexArray.length];
 		for (int i=0;i<indexArray.length;i++) {
@@ -54,7 +62,7 @@ public class IndexView extends ViewImp {
 	public void setRootIndex(String paramString) {
 		mRootIndex = TestUtils.stringVaule(paramString);
 	}
-
+	
 	public String toString() {
 		return "IndexView [mRootClass=" + mRootClass + ", mRootIndex="
 				+ mRootIndex + ", mIndexs=" + Arrays.toString(mIndexs) + "]";

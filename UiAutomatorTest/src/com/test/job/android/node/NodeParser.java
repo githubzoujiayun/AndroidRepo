@@ -50,7 +50,9 @@ public class NodeParser {
         }
 
         mRootNode.onParserDone();
-//        TestUtils.startHomeActivity();
+        final String componentName = "com.job.android.pages.common.OpenImageActivity";
+        CaseManager.getInstance().getWork().startHomeActivity(componentName);
+//        TestUtils.startHomeActivity(componentName);
         TestUtils.waitForHome();
         if (mParserListener != null)
             mParserListener.onParserDone();

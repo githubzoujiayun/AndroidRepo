@@ -3,26 +3,27 @@
      VALUE_EQUALS用于判断两个record获得的数值是否相等-->
 <!-- enabled表示是否启用该测试用例，默认启用 -->     
 <jobcase
-    enabled="false"
+    enabled="true"
     resultType="VALUE_EQUALS"
     >
     <click>
-	    <text>"职位搜索"</text>
+	    <text text="职位搜索"></text>
     	<text>"地区"</text>
-    	<!-- 界面有2个上海，resId也不唯一，所以使用text,resId共同指定这个控件 -->
+<!--     	界面有2个上海，resId也不唯一，所以使用text,resId共同指定这个控件 -->
     	<text
     	    text="上海" 
     	    resId="com.job.android:id/left_textview"></text>
     	<text
-    	    text="上海" 
-    	    resId="com.job.android:id/left_textview"></text>
+    	    text="嘉定区" 
+    	    resId="com.job.android:id/left_textview"
+    	    scrollable="vertical"></text>
     	<text>"行业"</text>
     </click>
-    <!-- 根据节点索引查找控件 -->
-    <!-- 这里指定了点击条件，如果添加满足才点击，不满足则会直接跳过 -->
+<!--     根据节点索引查找控件 -->
+<!--     这里指定了点击条件，如果添加满足才点击，不满足则会直接跳过 -->
     <click condition="view_not_exist"
         conditionNodeId="selected">
-    	<!-- 这个view是为了判断条件而存在的，所以加了clickable=false,即使条件满足他也不会被点击 -->
+<!--     	这个view是为了判断条件而存在的，所以加了clickable=false,即使条件满足他也不会被点击 -->
         <indexView 
             id="selected"
             rootClass="android.widget.ListView"
@@ -37,13 +38,13 @@
         <text>"确定"</text>
         <text>"发布日期"</text>
         <text>"近二天"</text>
-        <!-- 文本正则匹配查找控件 -->
-        <text textMatches="搜.*索"/>
+<!--         文本正则匹配查找控件 -->
+        <text textMatches="^搜.*索$"/>
     </click>
     <!-- 等待view对应的控件消失，这里是等待数据加载完成再进行进一步操作
          这里建议在wait添加timeout属性，并且timeout赋值为app中网络超时时间 -->
-    <wait type="WAIT_UNTIL_GONE">
-		<text textMatches="数据加载中.*"></text>
+    <wait waitType="WAIT_UNTIL_GONE">
+		<text resId="com.job.android:id/textView1"></text>
     </wait>
     <click>
 		<text>"公司性质"</text>
@@ -60,7 +61,7 @@
     <click>
         <text>"国企"</text>
     </click>
-    <wait type="WAIT_UNTIL_GONE">
+    <wait waitType="WAIT_UNTIL_GONE">
 		<text textMatches="数据加载中.*"></text>
     </wait>
 	<!-- 记录View状态，并根据condition条件返回结果，record只有第一个view有效 -->

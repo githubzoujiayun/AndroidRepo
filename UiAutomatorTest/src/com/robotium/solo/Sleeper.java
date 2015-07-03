@@ -1,6 +1,6 @@
 package com.robotium.solo;
 
-class Sleeper {
+public class Sleeper {
 
 	private final int PAUSE = 500;
 	private final int MINIPAUSE = 300;
