@@ -3,7 +3,7 @@
      VALUE_EQUALS用于判断两个record获得的数值是否相等-->
 <!-- enabled表示是否启用该测试用例，默认启用 -->     
 <jobcase
-    enabled="true"
+    enabled="false"
     resultType="VALUE_EQUALS"
     >
     <click>

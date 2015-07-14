@@ -111,9 +111,4 @@ public class ViewImp extends Node implements IView {
 		Logging.logInfo("swipe "+direction.name());
 		mWork.swipe(this,direction);
 	}
-
-	@Override
-	public int getIndex() {
-		return mIndex;
-	}
 }

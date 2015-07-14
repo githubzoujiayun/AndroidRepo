@@ -159,6 +159,7 @@ public class NodeParser {
                     node.setTimeout(parser.getAttributeValue(null, "timeout"));
                     node.setTypedChars(parser.getAttributeValue(null,"typed"));
                     node.setComponentName(parser.getAttributeValue(null,"componentName"));
+                    node.setIndex(parser.getAttributeValue(null, "index"));
                     currentNode = node;
                     if (node instanceof TextNode) {
                         TextNode textNode = (TextNode) node;

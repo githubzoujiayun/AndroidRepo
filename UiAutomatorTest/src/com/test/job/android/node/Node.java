@@ -25,6 +25,7 @@ public abstract class Node {
     String mResourceIdMatches;
     private int mTimeout = 1000;
     String mTypedChars;
+    private int mIndex = 0;
     private String mComponentName = null;
     private Scrollable mScrollable = Scrollable.NONE;
     
@@ -323,5 +324,13 @@ public abstract class Node {
 
 	public void setComponentName(String name) {
 		mComponentName = name;
+	}
+	
+	public int getIndex() {
+		return mIndex;
+	}
+	
+	public void setIndex(String index) {
+		mIndex = TestUtils.getInt(index);
 	}
 }

@@ -163,6 +163,10 @@ public class UIAutomatorWork implements IWork {
 			if (textMatches != null) {
 				selector = selector.textMatches(textMatches);
 			}
+			int index = textView.getIndex();
+			if (index != 0) {
+				selector = selector.instance(index);
+			}
 		} else if (view instanceof IndexView) {
 			IndexView indexView = (IndexView) view;
 			String rootClass = indexView.getRootClass();
