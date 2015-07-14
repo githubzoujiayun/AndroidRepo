@@ -1,0 +1,1043 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point 
+      id="com.gorillalogic.monkeytalk.ide.tabularEditor" 
+      name="com.gorillalogic.monkeytalk.ide.tabularEditor" 
+      schema="schema/com.gorillalogic.monkeytalk.ide.tabularEditor.exsd"/>
+
+    <!-- #################### MonkeyTalkIDE Main Toolbar/Menu Config ############### -->
+	<extension
+				point="org.eclipse.ui.menus">
+
+		<menuContribution locationURI="menu:org.eclipse.ui.main.menu?after=file">
+			<menu
+				label="MonkeyTalk"
+				id="com.gorillalogic.monkeyconsole.menus.monkeyTalkMenu">
+
+					<separator name="transport controls" visible="true"/>
+
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.playAllCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.playAllCommand"
+							icon="icons/coolbaricons/play.gif"
+							style="push">							
+					</command>
+					
+					<command
+						id="com.gorillalogic.monkeyconsole.toolbars.stopCommandItem"
+						commandId="com.gorillalogic.monkeyconsole.commands.stopCommand"
+						icon="icons/coolbaricons/stop.gif"
+						style="push">
+					</command>
+					
+					<command
+						id="com.gorillalogic.monkeyconsole.toolbars.recordCommandItem"
+						commandId="com.gorillalogic.monkeyconsole.commands.recordCommand"
+						icon="icons/coolbaricons/recording.gif"
+						style="push">
+					</command>
+
+					<separator name="script editor" visible="true"/>
+					
+					<command
+						id="com.gorillalogic.monkeyconsole.toolbars.clearAllCommandItem"
+						commandId="com.gorillalogic.monkeyconsole.commands.clearAllCommand"
+						icon="icons/coolbaricons/clear.gif">
+					</command>		
+					
+					<separator name="record play options" visible="true"/>
+					
+					<command
+							id="com.gorillalogic.monkeyconsole.commands.toggleMoveCommandItem" 
+							commandId="com.gorillalogic.monkeyconsole.commands.toggleMoveCommand" 
+							style="toggle">
+					</command>
+
+					<command
+							id="com.gorillalogic.monkeyconsole.commands.toggleSwipeCommandItem" 
+							commandId="com.gorillalogic.monkeyconsole.commands.toggleSwipeCommand" 
+							style="toggle">
+					</command>
+
+					<command
+							id="com.gorillalogic.monkeyconsole.commands.toggleDragCommandItem" 
+							commandId="com.gorillalogic.monkeyconsole.commands.toggleDragCommand" 
+							style="toggle">
+					</command>
+
+					<command
+							id="com.gorillalogic.monkeyconsole.commands.toggleTapCoordinatesCommandItem" 
+							commandId="com.gorillalogic.monkeyconsole.commands.toggleTapCoordinatesCommand" 
+							style="toggle">
+					</command>
+					
+					<separator name="record play options 2" visible="true"/>
+					
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.timeSetupCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.timeSetupCommand"
+							icon="icons/coolbaricons/clock.png">
+					</command>
+
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.toggleScreenshotOnErrorCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.toggleScreenshotOnErrorCommand"
+							icon="icons/coolbaricons/camera_delete.png"
+							style="toggle">
+					</command>
+					
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.toggleScreenshotOnExecutionCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.toggleScreenshotOnExecutionCommand"
+							icon="icons/coolbaricons/camera.png"
+							style="toggle">
+					</command>
+					
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.toggleMetricsOnExecutionCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.toggleMetricsOnExecutionCommand"
+							icon="icons/coolbaricons/metric.png"
+							style="toggle">
+					</command>
+
+			</menu>
+		</menuContribution>
+
+		<menuContribution locationURI="menu:org.eclipse.ui.main.menu?after=file">
+			<menu
+				label="Connect"
+				id="com.gorillalogic.monkeyconsole.menus.connectMenu">
+
+				<separator name="top" visible="false"/>
+				
+				<dynamic
+					class="com.gorillalogic.monkeyconsole.commands.ConnectDropdownDynamicCommandItem"
+					id="com.gorillalogic.monkeyconsole.commands.connectDropdownDynamicCommandItemItem">
+				</dynamic>
+			</menu>
+		</menuContribution>
+		 
+		<menuContribution  
+				locationURI="toolbar:org.eclipse.ui.main.toolbar">
+				<toolbar
+						id="com.gorillalogic.monkeyconsole.toolbars.mainToolbar.promo">
+						
+					<separator name="promo" visible="true">
+					</separator>
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.goGorillaCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.goGorillaCommand"
+							icon="icons/coolbaricons/help.png">
+					</command>
+				</toolbar>
+				
+				<toolbar
+						id="com.gorillalogic.monkeyconsole.toolbars.mainToolbar.editor">
+					<separator name="editor" visible="true">
+					</separator>
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.clearAllCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.clearAllCommand"
+							icon="icons/coolbaricons/clear.gif">
+					</command>
+					
+				</toolbar>
+				<toolbar
+						id="com.gorillalogic.monkeyconsole.toolbars.mainToolbar.componentTree">
+					<separator name="component tree" visible="true">
+					</separator>
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.showComponentTreeCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.showComponentTreeCommand"
+							icon="icons/coolbaricons/tree.png">
+					</command>					
+				</toolbar>
+				
+				<toolbar
+						id="com.gorillalogic.monkeyconsole.toolbars.mainToolbar.transport">
+					<separator name="transport" visible="true">
+					</separator>
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.playAllCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.playAllCommand"
+							icon="icons/coolbaricons/play.gif"
+							style="push">
+					</command>
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.stopCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.stopCommand"
+							icon="icons/coolbaricons/stop.gif"
+							style="push">
+					</command>
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.recordCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.recordCommand"
+							icon="icons/coolbaricons/recording.gif"
+							style="push">
+					</command>
+				</toolbar>
+				<toolbar
+						id="com.gorillalogic.monkeyconsole.toolbars.mainToolbar.connect">										
+					<separator name="connect" visible="true">
+					</separator>
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.connectDropdownCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.connectDropdownCommand"
+							style="pulldown">
+						<parameter
+								name="org.eclipse.ui.commands.radioStateParameter"
+								value="DropDownSelector">
+						</parameter>
+					</command>					
+				</toolbar>
+				
+				<toolbar
+						id="com.gorillalogic.monkeyconsole.toolbars.mainToolbar.recordOptions">										
+					<separator name="record options" visible="true">
+					</separator>
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.filterRecordActionsCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.filterRecordActionsCommand"
+							icon="icons/coolbaricons/filter.gif"
+							tooltip="Record Options"
+							style="pulldown">
+					</command>
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.timeSetupCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.timeSetupCommand"
+							icon="icons/coolbaricons/clock.png">
+					</command>
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.toggleScreenshotOnErrorCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.toggleScreenshotOnErrorCommand"
+							icon="icons/coolbaricons/camera_delete.png"
+							style="toggle">
+					</command>
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.toggleScreenshotOnExecutionCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.toggleScreenshotOnExecutionCommand"
+							icon="icons/coolbaricons/camera.png"
+							style="toggle">
+					</command>
+					<command
+							id="com.gorillalogic.monkeyconsole.toolbars.toggleMetricsOnExecutionCommandItem"
+							commandId="com.gorillalogic.monkeyconsole.commands.toggleMetricsOnExecutionCommand"
+							icon="icons/coolbaricons/metric.png"
+							style="toggle">
+					</command>
+				</toolbar>
+				
+		</menuContribution>
+		
+		<!-- ### Record-filter drop-down ### -->
+		<menuContribution locationURI="menu:com.gorillalogic.monkeyconsole.toolbars.filterRecordActionsCommandItem">
+			<command
+					id="com.gorillalogic.monkeyconsole.commands.toggleMoveCommandItem" 
+					commandId="com.gorillalogic.monkeyconsole.commands.toggleMoveCommand" 
+					style="toggle">
+			</command>
+			<command
+					id="com.gorillalogic.monkeyconsole.commands.toggleSwipeCommandItem" 
+					commandId="com.gorillalogic.monkeyconsole.commands.toggleSwipeCommand" 
+					style="toggle">
+			</command>
+			<command
+					id="com.gorillalogic.monkeyconsole.commands.toggleDragCommandItem" 
+					commandId="com.gorillalogic.monkeyconsole.commands.toggleDragCommand" 
+					style="toggle">
+			</command>
+			<command
+					id="com.gorillalogic.monkeyconsole.commands.toggleTapCoordinatesCommandItem" 
+					commandId="com.gorillalogic.monkeyconsole.commands.toggleTapCoordinatesCommand" 
+					style="toggle">
+			</command>
+			<separator name="additions" visible="false">
+			</separator>
+		</menuContribution>
+		
+		<!-- ### Connection drop-down ### -->
+		<!-- labels and icons managed in Handler -->
+		<menuContribution locationURI="menu:com.gorillalogic.monkeyconsole.toolbars.connectDropdownCommandItem"
+						id="com.gorillalogic.monkeyconsole.menus.connectionMenu">
+    		<separator
+            		name="separator1"
+            		visible="true">
+    		</separator>
+  			<dynamic
+					class="com.gorillalogic.monkeyconsole.commands.ConnectDropdownDynamicCommandItem"
+					id="com.gorillalogic.monkeyconsole.commands.connectDropdownDynamicCommandItemItem">
+			</dynamic>
+			<separator name="additions" visible="false">
+			</separator>
+		</menuContribution>
+
+		<!-- ####### Help Menu command ################### -->
+    	<menuContribution locationURI="menu:help?before=group.assist">
+			<command
+					id="com.gorillalogic.monkeyconsole.toolbars.showDocumentationCommandItem"
+					commandId="com.gorillalogic.monkeyconsole.commands.showDocumentationCommand"
+					icon="icons/gl-icon-16.png">
+			</command>
+    	</menuContribution>
+
+	</extension>
+	<!-- #################### MonkeyTalkIDE Main Toolbar/Menu Config ############### -->
+   
+   <!-- #################### MonkeyTalkIDE Product Definition ############### -->
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.ui.ide.workbench"
+            name="MonkeyTalkIDE">
+         <property
+               name="appName"
+               value="MonkeyTalkIDE">
+         </property>
+         <property
+               name="aboutImage"
+               value="icons/about.png">
+         </property>
+         <!-- "aboutText" property is managed by maven via pom.xml -->
+         <property name="aboutText" value="MonkeyTalk IDE v2.0.11-SNAPSHOT (dev) | Copyright 2012-2014 CloudMonkey LLC | http://www.cloudmonkeymobile.com/monkeytalk">
+         </property>
+         <property
+               name="windowImages"
+               value="icons/mt-icon-16.png,icons/mt-icon-32.png,icons/mt-icon-48.png,icons/mt-icon-64.png,icons/mt-icon-128.png">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini"/>         
+         <property name="introBrandingImage" value="icons/mt-icon-64.png"/>
+		 <property name="introTitle" value="MonkeyTalk IDE"/>   
+         <property name="introDescription-overview" value="Welcome to MonkeyTalk!"/> 	
+         <property
+              name="cssTheme"
+              value="com.gorillalogic.monkeytalk.ide.theme">
+         </property>
+         <property
+              name="applicationCSSResources"
+              value="platform:/plugin/org.eclipse.platform/images/">
+         </property>
+      </product>      	
+   </extension>
+   
+   <!-- ###### intro #### -->
+   <extension
+         point="org.eclipse.ui.intro">
+      <introProductBinding
+            introId="org.eclipse.ui.intro.universal"
+            productId="com.gorillalogic.monkeytalk.ide.product"/>         
+   </extension>
+   <extension
+        point="org.eclipse.ui.intro.configExtension">
+      <configExtension
+           content="introData.xml"
+           configId="org.eclipse.ui.intro.universalConfig">
+      </configExtension>
+   </extension>
+   <extension id="monkeyTalkIDE" point="org.eclipse.core.runtime.applications"> 
+      <application> 
+         <run class="com.gorillalogic.monkeyconsole.MonkeyApplication"/> 
+      </application> 
+   </extension>
+   <!-- extension
+         point="org.eclipse.ui.intro">
+      <intro
+            class="org.eclipse.ui.intro.config.CustomizableIntroPart"
+            id="com.gorillalogic.monkeytalk.ide.intro">
+      </intro>
+      <introProductBinding
+            introId="com.gorillalogic.monkeytalk.ide.intro"
+            productId="com.gorillalogic.monkeytalk.ide.product">
+      </introProductBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro.config">
+      <config
+            content="introContent.xml"
+            id="com.gorillalogic.monkeytalk.ide.introConfigId"
+            introId="com.gorillalogic.monkeytalk.ide.intro">
+         <presentation
+               home-page-id="welcome">
+            <implementation
+                  kind="html"
+                  os="win32,linux,macosx"
+                  style="content/shared.css">
+            </implementation>
+         </presentation>
+      </config>
+   </extension -->
+   <!-- #################### END MonkeyTalkIDE Product Definition ############### -->
+   
+   <!-- ############# Preference Pages ############## -->
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.gorillalogic.monkeyconsole.preferences.FonemonkeyPreferencePage"
+            id="com.gorillalogic.monkeyconsole.preferences.FonemonkeyPreferencePage"
+            name="MonkeyTalk">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.gorillalogic.monkeyconsole.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+
+   <!-- ############# END Preference Pages ############## -->
+   
+   <!-- ############# New Wizards ############## -->
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="MonkeyTalk"
+            id="com.gorillalogic.monkeytalk.ide.newWizards.category">
+      </category>
+      <wizard
+            name="Script"
+            icon="icons/mt-icon-16.png"
+            category="com.gorillalogic.monkeytalk.ide.newWizards.category"
+            class="com.gorillalogic.monkeyconsole.wizard.NewTestWizard"
+            id="com.gorillalogic.monkeyconsole.wizard.NewTestWizard">
+      </wizard>
+      <wizard
+            name="Test Suite"
+            icon="icons/mt-icon-16.png"
+            category="com.gorillalogic.monkeytalk.ide.newWizards.category"
+            class="com.gorillalogic.monkeyconsole.wizard.NewTestSuiteWizard"
+            id="com.gorillalogic.monkeyconsole.wizard.NewTestSuiteWizard">
+      </wizard>
+      <wizard
+            name="Test Library"
+            icon="icons/mt-icon-16.png"
+            category="com.gorillalogic.monkeytalk.ide.newWizards.category"
+            class="com.gorillalogic.monkeyconsole.wizard.NewMtzWizard"
+            id="com.gorillalogic.monkeyconsole.wizard.NewMtzWizard">
+      </wizard>
+      <wizard
+            category="com.gorillalogic.monkeytalk.ide.newWizards.category"
+            class="com.gorillalogic.monkeyconsole.wizard.NewProjectWizard"
+            icon="icons/mt-icon-16.png"
+            id="com.gorillalogic.monkeyconsole.wizard.NewProjectWizard"
+            name="MonkeyTalk Project"
+            project="true">
+      </wizard>
+   </extension>
+   <!-- ############# END New Wizards ############## -->
+   
+   <!-- ############# MonkeyTalk IDE Navigator ############## -->
+   <extension  
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            contentProvider="com.gorillalogic.monkeyconsole.navigator.ContentProvider"
+            id="com.gorillalogic.monkeytalk.ide.navigatorContent"
+            labelProvider="com.gorillalogic.monkeyconsole.navigator.LabelProvider"
+            name="Monkey Navigator Content">
+         <triggerPoints>
+            <or>
+               <instanceof
+                  value="com.gorillalogic.monkeyconsole.navigator.CustomProjectWorkbenchRoot">
+               </instanceof>
+            </or>
+         </triggerPoints>
+      </navigatorContent>
+      <commonWizard
+            type="new"
+            wizardId="com.gorillalogic.monkeyconsole.wizard.NewProjectWizard">
+         <enablement>   
+            <or>
+               <adapt type="org.eclipse.core.resources.IFile" /> 
+               <adapt type="org.eclipse.core.resources.IFolder" />
+               <adapt type="org.eclipse.core.resources.IProject" /> 
+               <adapt type="org.eclipse.core.resources.IWorkspaceRoot" /> 
+            </or>
+         </enablement>
+      </commonWizard>
+      <commonWizard
+            type="new"
+            wizardId="com.gorillalogic.monkeyconsole.wizard.NewTestSuiteWizard">
+         <enablement>
+            <or>
+               <adapt type="org.eclipse.core.resources.IFile" /> 
+               <adapt type="org.eclipse.core.resources.IFolder" />
+               <adapt type="org.eclipse.core.resources.IProject" /> 
+               <adapt type="org.eclipse.core.resources.IWorkspaceRoot" /> 
+            </or>
+         </enablement>   
+      </commonWizard>
+      <commonWizard
+            type="new"
+            wizardId="com.gorillalogic.monkeyconsole.wizard.NewTestWizard">
+         <enablement>
+            <or>
+               <adapt type="org.eclipse.core.resources.IFile" /> 
+               <adapt type="org.eclipse.core.resources.IFolder" />
+               <adapt type="org.eclipse.core.resources.IProject" /> 
+               <adapt type="org.eclipse.core.resources.IWorkspaceRoot" /> 
+            </or>
+         </enablement>   
+      </commonWizard>
+      <commonWizard
+            type="new"
+            wizardId="com.gorillalogic.monkeyconsole.wizard.NewMtzWizard">
+         <enablement>
+            <or>
+               <and>
+            		<adapt type="org.eclipse.core.resources.IFile" />
+            		<or>
+                		<test property="org.eclipse.core.resources.extension" value="mt"/>
+                		<test property="org.eclipse.core.resources.extension" value="mts"/>
+                	</or>
+               </and>
+               <adapt type="org.eclipse.core.resources.IProject" />  
+            </or>
+         </enablement>   
+      </commonWizard>
+   </extension>    
+   <extension
+         id="com.gorillalogic.monkeyconsole.navigatorview"
+         name="Monkey Navigator"
+         point="org.eclipse.ui.views">
+      <view
+            category="com.gorillalogic.monkeytalk.ide.navigator.category"
+            class="com.gorillalogic.monkeyconsole.navigator.MonkeyNavigator"
+            icon="icons/mt-icon-16.png"
+            id="com.gorillalogic.monkeytalk.ide.navigator"
+            name="MonkeyTalk Navigator">
+      </view>
+      <category
+            id="com.gorillalogic.monkeytalk.ide.navigator.category"
+            name="Monkey projects">
+      </category>
+   </extension>
+     
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerActionBinding
+            viewerId="com.example.test">
+         <includes>
+            <actionExtension
+                  pattern="org.eclipse.ui.navigator.resources.*">
+            </actionExtension>
+         </includes>
+      </viewerActionBinding>
+      <viewerContentBinding
+            viewerId="com.example.test">
+         <includes>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resourceContent">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.filters.*">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.linkHelper">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.workingSets">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+      <viewerActionBinding
+            viewerId="com.gorillalogic.monkeytalk.ide.navigator">
+         <includes>
+            <actionExtension
+                  pattern="org.eclipse.ui.navigator.resources.*">
+            </actionExtension>
+         </includes>
+      </viewerActionBinding>
+      <viewerContentBinding
+            viewerId="com.gorillalogic.monkeytalk.ide.navigator">
+         <includes>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resourceContent">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.filters.*">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.linkHelper">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.workingSets">
+            </contentExtension>
+            <contentExtension
+                  pattern="com.gorillalogic.monkeytalk.ide.navigatorContent">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>    
+   <!-- ############# END MonkeyTalk IDE Navigator ############## -->
+   
+   <!-- ############# MonkeyTalk IDE Editors ############## -->
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com.gorillalogic.monkeyconsole.editors.FoneMonkeyTestEditor"
+            contributorClass="com.gorillalogic.monkeyconsole.editors.FoneMonkeyTestContributor"
+            extensions="mt, mts"
+            icon="icons/mt-icon-16.png"
+            id="com.gorillalogic.monkeyconsole.editors.FoneMonkeyTestEditor"
+            name="MonkeyTalk Test Editor">
+      </editor>
+       <editor
+            name="MonkeyTalk JS Editor"
+            icon="icons/mt-icon-16.png"
+            contributorClass="com.gorillalogic.monkeyconsole.editors.FoneMonkeyTestContributor"
+            class="com.gorillalogic.monkeyconsole.editors.FoneMonkeyJSEditor"
+            symbolicFontName="org.eclipse.wst.jsdt.ui.editors.textfont"
+            id="org.eclipse.wst.jsdt.ui.CompilationUnitEditor"
+            extensions="js">
+         <contentTypeBinding contentTypeId="org.eclipse.wst.jsdt.core.jsSource" />
+      </editor>
+       <editor
+             class="org.eclipse.wst.sse.ui.StructuredTextEditor"
+             default="false"
+             icon="icons/mt-icon-16.png"
+             id="org.eclipse.wst.sse.ui.StructuredTextEditor"
+             name="XML Editor">
+             <contentTypeBinding contentTypeId="org.eclipse.core.runtime.xml" />
+       </editor>
+       <editor
+             class="com.gorillalogic.monkeyconsole.editors.FoneMonkeyLibraryEditor"
+             contributorClass="com.gorillalogic.monkeyconsole.editors.FoneMonkeyTestContributor"
+             extensions="mtl"
+             icon="icons/mt-icon-16.png"
+             id="com.gorillalogic.monkeyconsole.editors.FoneMonkeyLibraryEditor"
+             name="MonkeyTalk Library Editor">
+       </editor>
+   </extension>
+   <!-- ############# END MonkeyTalk IDE Editors ############## -->
+   
+   <!-- ############# Test Perspective ############## -->
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            id="com.gorillalogic.monkeytalk.ide.TestPerspective"
+            class="com.gorillalogic.monkeyconsole.perspectives.TestPerspective"
+            icon="icons/mt-icon-16.png"
+            name="MonkeyTalk">
+      </perspective>
+   </extension>
+      <extension
+            point="org.eclipse.ui.perspectiveExtensions">
+         <perspectiveExtension
+               targetID="com.gorillalogic.monkeytalk.ide.TestPerspective">
+            <view
+                  id="com.gorillalogic.monkeytalk.ide.navigator"
+                  minimized="false"
+                  ratio="0.25"
+                  relationship="left"
+                  relative="org.eclipse.ui.editorss">
+            </view>
+         </perspectiveExtension>
+      </extension>
+   <!-- ############# END Test Perspective ############## -->
+   
+   <!-- ############# Views ############## -->
+   <extension
+         id="com.gorillalogic.monkeyconsole.componentview"
+         name="Component Tree"
+         point="org.eclipse.ui.views">
+      <view
+            name="Component Tree"
+            icon="icons/coolbaricons/tree.png"
+            class="com.gorillalogic.monkeyconsole.componentview.ui.UIContainerView"
+            id="com.gorillalogic.monkeyconsole.componentview.ui.UIContainerView">
+      </view>
+   </extension>
+   <!-- ############# END Views ############## -->
+   
+   <!-- ############ PROJECT Builder/Nature ########### -->
+   <extension
+         id="com.gorillalogic.monkeyconsole.builder.monkeyTalkBuilder"
+         name="MonkeyTalk Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="com.gorillalogic.monkeyconsole.builder.MonkeyTalkBuilder">
+         </run>
+      </builder>
+   </extension>
+    <extension
+         id="com.gorillalogic.monkeyconsole.builder.monkeyTalkNature"
+         name="MonkeyTalk Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="com.gorillalogic.monkeyconsole.builder.MonkeyTalkNature">
+         </run>
+      </runtime>
+      <builder
+            id="com.gorillalogic.monkeyconsole.builder.monkeyTalkBuilder">
+      </builder>
+   </extension>
+      <extension
+         id="com.gorillalogic.monkeyconsole.builder.monkeyTalkProblem"
+         name="MonkeyTalk Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <!-- ############ END PROJECT Builder/Nature ########### -->
+   
+	<!-- ############# COMMANDS ############  -->
+	<extension
+			point="org.eclipse.ui.commands">
+			
+		<!-- ####### New Wizard ##### -->	
+		<command
+				name="New MonkeyTalk Project" 
+				id="com.gorillalogic.monkeyconsole.commands.NewProjectHandler"
+				description="Create a new MonkeyTalk project to contains your automated tests, data, and results."
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.NewProjectHandler"							
+				>
+		</command>
+      			
+		<!-- ####### Script Editor ##### -->
+		<category
+				name="Edit"
+				id="com.gorillalogic.monkeyconsole.commands.category.scriptEditor">
+		</category>
+		<command
+				name="Clear All" 
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.scriptEditor" 
+                id="com.gorillalogic.monkeyconsole.commands.clearAllCommand"
+				description="delete all commands and comments from this script or suite"
+				helpContextId="">
+     	</command>
+     	
+		<!-- ####### Transport (Play-Stop-Record) ##### -->
+		<category
+				name="Transport Controls"
+				id="com.gorillalogic.monkeyconsole.commands.category.transportControls">
+		</category>
+		<command
+				name="Play All" 
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.transportControls" 
+                id="com.gorillalogic.monkeyconsole.commands.playAllCommand"
+				description="Play the contents of your script or suite"
+				helpContextId="">
+     	</command>
+		<command
+				name="Stop" 
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.transportControls" 
+                id="com.gorillalogic.monkeyconsole.commands.stopCommand"
+				description="Stop playing or recording"
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.StopHandler"
+				helpContextId="">
+     	</command>
+		<command
+				name="Record" 
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.transportControls" 
+                id="com.gorillalogic.monkeyconsole.commands.recordCommand"
+				description="Start recording interactions with your app"
+				helpContextId="">
+     	</command>
+		<!-- ####### END Transport (Play-Stop-Record) ##### -->
+		
+		<!-- ####### Record/Play Options ##### -->	
+		<category
+				name="Record/Play Options"
+				id="com.gorillalogic.monkeyconsole.commands.category.recordPlayOptions">
+		</category>
+		<command
+				name="Filter Record Actions" 
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.recordPlayOptions" 
+                id="com.gorillalogic.monkeyconsole.commands.filterRecordActionsCommand"                    
+				description="Tell MonkeyTalk to record moves, swipes, or drags"
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.FilterRecordActionsHandler"
+				helpContextId="">
+     	</command>
+		<command
+				name="Record Drag Actions" 
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.recordPlayOptions" 
+                id="com.gorillalogic.monkeyconsole.commands.toggleDragCommand"
+				description="Tell MonkeyTalk to record touch moves as Drag actions"
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.ToggleDragHandler"
+				helpContextId="">
+   			<state
+         			class="org.eclipse.ui.handlers.RegistryToggleState:true"
+         			id="org.eclipse.ui.commands.toggleState">
+			</state>			
+     	</command>
+		<command
+				name="Record Move Actions" 
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.recordPlayOptions" 
+                id="com.gorillalogic.monkeyconsole.commands.toggleMoveCommand"
+				description="Tell MonkeyTalk to record touch moves as Move actions"
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.ToggleMoveHandler"
+				helpContextId="">
+   			<state
+         			class="org.eclipse.ui.handlers.RegistryToggleState:true"
+         			id="org.eclipse.ui.commands.toggleState">
+			</state>			
+     	</command>
+		<command
+				name="Record Swipe Actions" 
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.recordPlayOptions" 
+                id="com.gorillalogic.monkeyconsole.commands.toggleSwipeCommand"
+				description="Tell MonkeyTalk to record touch moves as Swipe actions"
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.ToggleSwipeHandler"
+				helpContextId="">
+   			<state
+         			class="org.eclipse.ui.handlers.RegistryToggleState:true"
+         			id="org.eclipse.ui.commands.toggleState">
+			</state>			
+     	</command>
+		<command
+				name="Record Tap Coordinates" 
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.recordPlayOptions" 
+                id="com.gorillalogic.monkeyconsole.commands.toggleTapCoordinatesCommand"
+				description="Tell MonkeyTalk to record the co-ordinates of a Tap within its Component"
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.ToggleTapCoordinatesHandler"
+				helpContextId="">
+   			<state
+         			class="org.eclipse.ui.handlers.RegistryToggleState:true"
+         			id="org.eclipse.ui.commands.toggleState">
+			</state>			
+     	</command>
+		<command
+				name="Set Default Thinktime/Timeout"
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.recordPlayOptions"
+				id="com.gorillalogic.monkeyconsole.commands.timeSetupCommand"
+				description="Set the default thinktime and timeout"
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.TimeSetupHandler"
+				helpContextId="">
+		</command>
+		<command
+				name="Turn screenshot-on-error on/off"
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.recordPlayOptions"
+				id="com.gorillalogic.monkeyconsole.commands.toggleScreenshotOnErrorCommand"
+				description="Turn the screenshot-on-error feature on or off"
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.ToggleScreenshotOnErrorHandler"
+				helpContextId="">
+   			<state
+         			class="org.eclipse.ui.handlers.RegistryToggleState:true"
+         			id="org.eclipse.ui.commands.toggleState">
+			</state>			
+		</command>
+		<command
+				name="Turn screenshot-after-every-command on/off"
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.recordPlayOptions"
+				id="com.gorillalogic.monkeyconsole.commands.toggleScreenshotOnExecutionCommand"
+				description="Turn the screenshot-after-every-command feature on or off"
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.ToggleScreenshotOnExecutionHandler"
+				helpContextId="">
+   			<state
+         			class="org.eclipse.ui.handlers.RegistryToggleState:true"
+         			id="org.eclipse.ui.commands.toggleState">
+			</state>			
+		</command>
+		<command
+				name="Turn metrics-after-every-command on/off"
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.recordPlayOptions"
+				id="com.gorillalogic.monkeyconsole.commands.toggleMetricsOnExecutionCommand"
+				description="Turn the metrics-after-every-command feature on or off"
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.ToggleMetricsOnExecutionHandler"
+				helpContextId="">
+   			<state
+         			class="org.eclipse.ui.handlers.RegistryToggleState:true"
+         			id="org.eclipse.ui.commands.toggleState">
+			</state>			
+		</command>
+		
+		<!-- ####### Connect to already-running agent ##### -->	
+		<category
+				name="Connect to Agent"
+				id="com.gorillalogic.monkeyconsole.commands.category.connect">
+		</category>		
+		<command
+				name="Connect to Agent"
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.connect"
+				id="com.gorillalogic.monkeyconsole.commands.connectDropdownCommand"
+				description="Connect to your running app"
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.ConnectDropdownHandler"
+				returnTypeId=""
+				helpContextId="">
+			<commandParameter
+					id="org.eclipse.ui.commands.radioStateParameter"
+					name="org.eclipse.ui.commands.radioStateParameter"
+					optional="false">
+			</commandParameter>
+   			<state id="org.eclipse.ui.commands.radioState">
+				<class class="org.eclipse.ui.handlers.RadioState">
+					<parameter 
+							name="default" 
+							value="NoDevice"> 
+					</parameter> 
+					<parameter 
+							name="persisted" 
+							value="false"> 
+					</parameter> 
+				</class>
+			</state>
+   			<state id="com.gorillalogic.monkeyconsole.commands.DynamicUIRadioHandler.dropdownSubstitute">
+				<class class="org.eclipse.jface.menus.TextState">
+					<parameter 
+							name="default" 
+							value=""> 
+					</parameter> 
+					<parameter 
+							name="persisted" 
+							value="false"> 
+					</parameter> 
+				</class>
+			</state>
+   		</command>
+		<command
+				name="Connect to Agent"
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.connect"
+				id="com.gorillalogic.monkeyconsole.commands.connectToAgentCommand"
+				description="Connect to your running app"
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.ConnectToAgentHandler"
+				returnTypeId=""
+				helpContextId="">
+			<commandParameter
+					id="org.eclipse.ui.commands.radioStateParameter"
+					name="org.eclipse.ui.commands.radioStateParameter"
+					optional="false">
+			</commandParameter>
+   			<state id="org.eclipse.ui.commands.radioState">
+				<class class="org.eclipse.ui.handlers.RadioState">
+					<parameter 
+							name="default" 
+							value="NoDevice"> 
+					</parameter> 
+					<parameter 
+							name="persisted" 
+							value="false"> 
+					</parameter> 
+				</class>
+			</state>
+   		</command>
+		
+		<!-- ####### Component Tree ##### -->
+		<category
+				name="ComponentTree"
+				id="com.gorillalogic.monkeyconsole.commands.category.componentTree">
+		</category>
+		<command
+				name="Show Component Tree" 
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.componentTree" 
+                id="com.gorillalogic.monkeyconsole.commands.showComponentTreeCommand"
+				description="Fetch and display the current display components from your app"
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.ShowComponentTreeHandler"
+				helpContextId="">
+     	</command>
+     	     	
+		<!-- ####### Help ##### -->	
+		<category
+				name="Help"
+				id="com.gorillalogic.monkeyconsole.commands.category.help">
+		</category>		
+		<command
+				name="Having trouble getting started? Let us help!"
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.help"
+				id="com.gorillalogic.monkeyconsole.commands.goGorillaCommand"
+				description="Get a Gorilla!"
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.GoGorillaHandler"
+				returnTypeId=""
+				helpContextId="">
+		</command>
+		<command
+				name="MonkeyTalk Documentation"
+				categoryId="com.gorillalogic.monkeyconsole.commands.category.help"
+				id="com.gorillalogic.monkeyconsole.commands.showDocumentationCommand"
+				description="Get a Gorilla!"
+				defaultHandler="com.gorillalogic.monkeyconsole.commands.ShowDocumentationHandler"
+				returnTypeId=""
+				helpContextId="">
+		</command>
+	</extension>
+ <extension
+       point="org.eclipse.e4.ui.css.swt.theme">
+    <theme
+          basestylesheeturi="css/MonkeyTalkWin.css"
+          id="com.gorillalogic.monkeytalk.ide.theme"
+          label="MonkeyTalk Theme"
+          os="win32">
+    </theme>
+    <theme
+          basestylesheeturi="css/MonkeyTalk.css"
+          id="com.gorillalogic.monkeytalk.ide.theme"
+          label="MonkeyTalk Theme"
+          os="macosx">
+    </theme>
+ </extension>
+	<!-- ############# COMMANDS ############  -->
+
+	<!-- ############# CONDITIONS ############  -->
+	<extension point = "org.eclipse.core.expressions.definitions">
+		<definition id="com.gorillalogic.monkeyconsole.editors.activeMonkeyTalkEditor">
+			<with variable="activeEditorId">
+				<equals value="com.gorillalogic.monkeyconsole.editors.FoneMonkeyTestEditor"/>
+			</with>
+		</definition>
+		<definition id="com.gorillalogic.monkeyconsole.editors.activeJSEditor">
+			<with variable="activeEditorId">
+				<equals value="org.eclipse.wst.jsdt.ui.CompilationUnitEditor"/>
+			</with>
+		</definition>
+	</extension>
+	<!-- ############ END CONDITIONS ##########  -->
+
+
+	<!-- ############# HANDLERS ############  -->
+	<extension
+		point="org.eclipse.ui.handlers">
+		
+		<handler 
+			commandId="com.gorillalogic.monkeyconsole.commands.clearAllCommand"
+			class="com.gorillalogic.monkeyconsole.commands.ClearAllHandler">
+			<enabledWhen>
+				<reference definitionId="com.gorillalogic.monkeyconsole.editors.activeMonkeyTalkEditor"/>
+			</enabledWhen>
+		</handler>
+		
+		<handler 
+			commandId="com.gorillalogic.monkeyconsole.commands.playAllCommand"
+			class="com.gorillalogic.monkeyconsole.commands.PlayAllHandler">
+			<!-- We need these enabled at all times
+			<enabledWhen>
+				<reference definitionId="com.gorillalogic.monkeyconsole.editors.activeMonkeyTalkEditor"/>
+			</enabledWhen>
+			-->
+		</handler>
+
+		<handler 
+			commandId="com.gorillalogic.monkeyconsole.commands.stopCommand"
+			class="com.gorillalogic.monkeyconsole.commands.StopHandler">
+			<!-- We need these enabled at all times
+			<enabledWhen>
+				<reference definitionId="com.gorillalogic.monkeyconsole.editors.activeMonkeyTalkEditor"/>
+			</enabledWhen>
+			-->
+		</handler>
+
+		<handler 
+			commandId="com.gorillalogic.monkeyconsole.commands.recordCommand"
+			class="com.gorillalogic.monkeyconsole.commands.RecordHandler">
+			<!-- We need these enabled at all times
+			<enabledWhen>
+				<reference definitionId="com.gorillalogic.monkeyconsole.editors.activeMonkeyTalkEditor"/>
+			</enabledWhen>
+			-->
+		</handler>
+		
+	</extension>
+ <extension
+       point="org.eclipse.ui.editors">
+ </extension>
+	
+	<!-- ########### END HANDLERS ##########  -->
+
+</plugin>

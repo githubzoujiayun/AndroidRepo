@@ -1,0 +1,131 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MonkeyTalkIDE
+Bundle-SymbolicName: com.gorillalogic.monkeytalk.ide;singleton:=true
+Bundle-Version: 2.0.11.qualifier
+Bundle-ClassPath: libs/monkeytalk-core.jar,
+ libs/monkeytalk-meta.jar,
+ libs/monkeytalk-processor.jar,
+ libs/monkeytalk-js.jar,
+ libs/org.eclipse.jface.jar,
+ libs/org.eclipse.core.commands.jar,
+ libs/org.eclipse.equinox.common.jar,
+ libs/org.eclipse.swt.cocoa.macosx.x86_64.jar,
+ bin/,
+ libs/json.jar,
+ libs/qdox.jar,
+ libs/rhino.jar,
+ libs/selenium-android-driver.jar,
+ libs/selenium-api.jar,
+ libs/selenium-chrome-driver.jar,
+ libs/selenium-firefox-driver.jar,
+ libs/selenium-htmlunit-driver.jar,
+ libs/selenium-ie-driver.jar,
+ libs/selenium-iphone-driver.jar,
+ libs/selenium-java.jar,
+ libs/selenium-remote-driver.jar,
+ libs/selenium-support.jar,
+ libs/platform.jar,
+ libs/cglib-nodep.jar,
+ libs/com.ibm.icu.jar,
+ libs/commons-codec.jar,
+ libs/commons-collections.jar,
+ libs/commons-exec.jar,
+ libs/commons-io.jar,
+ libs/commons-lang.jar,
+ libs/commons-logging.jar,
+ libs/cssparser.jar,
+ libs/guava.jar,
+ libs/hamcrest-core.jar,
+ libs/htmlunit-core-js.jar,
+ libs/htmlunit.jar,
+ libs/httpclient.jar,
+ libs/httpcore.jar,
+ libs/httpmime.jar,
+ libs/jna.jar,
+ libs/jsr305.jar,
+ libs/junit.jar,
+ libs/nekohtml.jar,
+ libs/org.apache.lucene.analysis.jar,
+ libs/org.apache.lucene.jar,
+ libs/org.hamcrest.core.jar,
+ libs/org.junit-junit.jar.jar,
+ libs/org.mortbay.jetty.server.jar,
+ libs/org.mortbay.jetty.util.jar,
+ libs/sac.jar,
+ libs/serializer.jar,
+ libs/xalan.jar,
+ libs/xercesImpl.jar,
+ libs/xml-apis.jar,
+ libs/monkeytalk-agent-html.jar,
+ libs/selenium-safari-driver.jar,
+ libs/webbit.jar,
+ libs/netty.jar,
+ libs/swing2swt.jar,
+ libs/dom4j.jar
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.console,
+ org.eclipse.jdt.junit,
+ org.eclipse.ui.navigator.resources,
+ org.eclipse.jface.text,
+ org.eclipse.ui.navigator,
+ org.eclipse.ui.intro,
+ org.eclipse.ui.intro.universal,
+ org.eclipse.ui.forms,
+ org.eclipse.ui.browser,
+ org.eclipse.wst.jsdt.core,
+ org.eclipse.wst.jsdt.ui,
+ org.eclipse.jdt.ui,
+ org.eclipse.platform;bundle-version="4.2.2",
+ org.eclipse.e4.ui.css.swt.theme;bundle-version="0.9.4",
+ org.eclipse.swt,
+ org.eclipse.wst.xml.core,
+ org.eclipse.wst.xml.ui,
+ org.eclipse.wst.sse.core,
+ org.eclipse.wst.sse.doc.user,
+ org.eclipse.wst.sse.ui,
+ org.eclipse.wst.sse.ui.infopop,
+ org.eclipse.wst.xml.ui.infopop,
+ org.eclipse.wst.xmleditor.doc.user
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: com.gorillalogic.monkeyconsole.plugin.FoneMonkeyPlugin
+Export-Package: com.gorillalogic.monkeyconsole;uses:="org.eclipse.ui.a
+ pplication,org.eclipse.equinox.app",com.gorillalogic.monkeyconsole.ac
+ tions; uses:="org.eclipse.jface.action,  org.eclipse.ui,  org.eclipse
+ .jface.viewers,  org.eclipse.swt.widgets",com.gorillalogic.monkeycons
+ ole.cloudview.ui,com.gorillalogic.monkeyconsole.commands;uses:="org.e
+ clipse.core.commands",com.gorillalogic.monkeyconsole.connect,com.gori
+ llalogic.monkeyconsole.editors; uses:="org.eclipse.ui.texteditor,  or
+ g.eclipse.core.runtime,  org.eclipse.ui,  com.gorillalogic.monkeycons
+ ole.editors.utils,  org.eclipse.swt.custom,  org.eclipse.ui.part,  co
+ m.gorillalogic.monkeyconsole.actions,  org.eclipse.jface.action,  org
+ .eclipse.core.resources",com.gorillalogic.monkeyconsole.editors.utils
+ ,com.gorillalogic.monkeyconsole.perspectives;uses:="org.eclipse.ui",c
+ om.gorillalogic.monkeyconsole.plugin; uses:="org.eclipse.jface.resour
+ ce,  com.gorillalogic.monkeyconsole.editors.utils,  org.eclipse.ui.pl
+ ugin,  org.osgi.framework",com.gorillalogic.monkeyconsole.preferences
+ ; uses:="org.eclipse.jface.preference,  org.eclipse.ui,  org.eclipse.
+ jface.util,  org.eclipse.core.runtime.preferences",com.gorillalogic.m
+ onkeyconsole.tableview,com.gorillalogic.monkeyconsole.wizard; uses:="
+ org.eclipse.jface.wizard,  org.eclipse.core.runtime,  org.eclipse.ui,
+   org.eclipse.core.resources,  org.eclipse.jface.viewers",com.gorilla
+ logic.monkeytalk;uses:="com.gorillalogic.monkeytalk.api.meta,org.json
+ ",com.gorillalogic.monkeytalk.agents,com.gorillalogic.monkeytalk.api.
+ js.tools;uses:="com.gorillalogic.monkeytalk",com.gorillalogic.monkeyt
+ alk.api.meta,com.gorillalogic.monkeytalk.automators,com.gorillalogic.
+ monkeytalk.finder;uses:="com.gorillalogic.monkeytalk",com.gorillalogi
+ c.monkeytalk.parser,com.gorillalogic.monkeytalk.processor; uses:="com
+ .gorillalogic.monkeytalk.agents,  com.gorillalogic.monkeytalk.process
+ or.report,  com.gorillalogic.monkeytalk,  com.gorillalogic.monkeytalk
+ .sender",com.gorillalogic.monkeytalk.processor.report,com.gorillalogi
+ c.monkeytalk.processor.report.detail,com.gorillalogic.monkeytalk.send
+ er;uses:="com.gorillalogic.monkeytalk,org.json",com.gorillalogic.monk
+ eytalk.server;uses:="org.json",com.gorillalogic.monkeytalk.utils,com.
+ gorillalogic.monkeytalk.utils.exec,org.apache.commons.exec,org.apache
+ .commons.io,org.dom4j,org.json,swing2swt.layout
+Bundle-Vendor: Gorilla Logic, Inc.
+Bundle-Localization: plugin

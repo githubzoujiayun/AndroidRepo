@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jobcase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="jobtest.xsd" enabled="false">
+	<click>
+		<text>"简历中心"</text>
+	</click>
+	<wait waitType="wait_until_gone">
+		<text textMatches="数据加载中.*" />
+	</wait>
+	<swipe swipeCount="2">
+		<text resId="com.job.android:id/content_layout" swipeDirection="left" />
+	</swipe>
+	<click>
+		<text>"设置公开程度"</text>
+		<text>"对所有公开"</text>
+	</click>
+	<click condition="view_exist">
+		<text>"确定"</text>
+	</click>
+	<click>
+		<text>"刷新简历"</text>
+	</click>
+</jobcase>

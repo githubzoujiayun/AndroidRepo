@@ -1,0 +1,25 @@
+Button 登录 tap %shouldfail=true %thinktime=1000 %timeout=1000
+Input 手机号/用户名/Email haha EnterText %shouldfail=true
+Image username_content_clean tap %shouldfail=true
+Input 手机号/用户名/Email enterText qch5240
+Scroller * tap %shouldfail=true
+Input 6–16位数字字母区分大小写 tap
+Input 6–16位数字字母区分大小写 enterText qch123 %shouldfail=true
+Button "登 录" tap
+Grid home_page_gridview selectIndex 1
+Table searchParaList selectIndex 1
+Table hotcity_list selectIndex 6
+Table dict_data_list selectIndex 1 %shouldfail=true
+Label jobsearch_search_keywords tap
+Image search_keywords_clean tap
+Input 请输入关键字 enterText ""
+Device * back
+Device * back
+Button "搜 索" tap
+View #18 Tap
+Table dict_data_list selectIndex 5
+Button 注销 tap
+Label tv_msg_remind_left tap
+Button 登录 tap
+Input 手机号/用户名/Email tap
+Input 6–16位数字字母区分大小写 tap

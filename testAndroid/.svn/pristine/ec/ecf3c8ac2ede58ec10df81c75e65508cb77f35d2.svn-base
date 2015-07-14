@@ -1,0 +1,14 @@
+Grid home_page_gridview selectIndex 6
+View content_layout swipe left
+Image goback tap
+Grid home_page_gridview selectIndex 6
+View flipView swipe left
+View flipView swipe left
+Grid resume_home_gridview selectIndex 5
+Table dlv_operation_select selectIndex 3
+View content_layout tap
+Scroller #4 tap
+Button 修改名称 tap
+Input 请输入简历名称 enterText ummaryffd
+Button 保存 swipe right
+Image goback tap
