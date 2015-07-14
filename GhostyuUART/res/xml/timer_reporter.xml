@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference 
+        android:key="self_reporter_type"
+        android:title="@string/self_reporter_type"
+        android:entries="@array/self_reporter_type"
+        android:entryValues="@array/self_reporter_type_values"
+        />
+    <EditTextPreference 
+        android:key="self_reporter_interval"
+        android:title="@string/self_reporter_interval"
+        />
+    
+</PreferenceScreen>
+
