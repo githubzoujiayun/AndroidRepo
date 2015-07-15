@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+     <header android:key="params_entirety" 
+	        android:title="@string/params_entirety" 
+	        android:fragment="com.nordicsemi.nrfUARTv2.EntiretyParamsSettings"
+	        >
+	    </header>
+	    <header android:key="params_sensor"
+	        android:title="@string/params_sensor">
+	        
+	    </header>
+	    <header android:key="params_communication"
+	        android:title="@string/params_communication">
+	        
+	    </header>
+	    <header android:key="params_video"
+	        android:title="@string/params_video">
+	        
+	    </header>
+	    <header android:key="params_internal_dtu"
+	        android:title="@string/params_internal_dtu">
+	    </header>
+</preference-headers>
