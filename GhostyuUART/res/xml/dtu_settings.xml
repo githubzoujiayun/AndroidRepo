@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+	<EditTextPreference 
+	    android:key="transform_interval"
+	    android:title="@string/transform_interval"
+	    android:summary="ms (0~1024)"
+	    />    
+	<EditTextPreference 
+	    android:key="channel_ip_address"
+	    android:title="@string/channel_ip_address"
+	    android:summary="0.0.0.0"
+	    />
+	<EditTextPreference 
+	    android:key="channal_port"
+	    android:title="@string/channel_port"
+	    android:summary="0"
+	    />
+</PreferenceScreen>

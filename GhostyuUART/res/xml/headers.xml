@@ -2,22 +2,26 @@
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
      <header android:key="params_entirety" 
 	        android:title="@string/params_entirety" 
-	        android:fragment="com.nordicsemi.nrfUARTv2.EntiretyParamsSettings"
+	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$EntiretyParamsSettings"
 	        >
 	    </header>
 	    <header android:key="params_sensor"
-	        android:title="@string/params_sensor">
-	        
+	        android:title="@string/params_sensor"
+	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorParamsSettings"
+	        >
 	    </header>
 	    <header android:key="params_communication"
-	        android:title="@string/params_communication">
+	        android:title="@string/params_communication"
+	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$CommunicationParamsSettings">
 	        
 	    </header>
 	    <header android:key="params_video"
-	        android:title="@string/params_video">
+	        android:title="@string/params_video"
+	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$VideoParamsSettings">
 	        
 	    </header>
 	    <header android:key="params_internal_dtu"
-	        android:title="@string/params_internal_dtu">
+	        android:title="@string/params_internal_dtu"
+	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$DTUSettings">
 	    </header>
 </preference-headers>

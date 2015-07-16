@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <MultiSelectListPreference 
+        android:key="sensor_channels"
+        android:title="@string/sensor_channels"
+        android:entries="@array/sensor_channels"
+        android:entryValues="@array/sensor_channels_values"
+        />
+	<EditTextPreference 
+	    android:key="sensor_preheat_time"
+	    android:title="@string/sensor_preheat_time"
+	    android:defaultValue="0"
+	    android:summary="0"
+	    />
+</PreferenceScreen>

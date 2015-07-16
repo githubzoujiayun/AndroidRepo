@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:title="@string/show_catagory">
+        <Preference 
+            android:key="show_rtu_time"
+            android:title="@string/show_rtu_time"
+            android:defaultValue="0"
+            android:summary="00-00-00 星期日 00：00：00"
+            />
+        <Preference 
+            android:key="show_fram_count"
+            android:title="@string/show_fram_count"
+            android:defaultValue="0"
+            android:summary="0"
+            />
+    </PreferenceCategory>
 	<PreferenceCategory android:title="@string/catagory_report">
-	    <PreferenceScreen android:title="@string/catagory_report">
+	    <PreferenceScreen android:title="@string/catagory_report_settings">
 	        
 	    <MultiSelectListPreference 
 	        android:key="report_types"
@@ -17,7 +31,7 @@
 	        />
 	    </PreferenceScreen>
 	    <com.nordicsemi.nrfUARTv2.SwitchPreference
-	        android:key="timer_repoter"
+	        android:key="timer_reporter"
 	        android:title="@string/timer_reporter"
 	        android:widgetLayout="@layout/preference_switch"
 	        android:fragment="com.nordicsemi.nrfUARTv2.SwitchFragment"

@@ -26,6 +26,13 @@ public class SwitchEditTextPreference extends EditTextPreference implements OnCh
 		mSwitch = (Switch)view.findViewById(R.id.prf_switch);
 		mSwitch.setOnCheckedChangeListener(this);
 	}
+	
+	@Override
+	protected void onClick() {
+		if (mSwitch.isChecked()) {
+			super.onClick();
+		}
+	}
 
 	@Override
 	public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
