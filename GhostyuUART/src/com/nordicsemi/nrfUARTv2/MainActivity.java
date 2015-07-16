@@ -22,6 +22,8 @@ package com.nordicsemi.nrfUARTv2;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -40,7 +42,12 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -58,6 +65,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     private static final int UART_PROFILE_CONNECTED = 20;
     private static final int UART_PROFILE_DISCONNECTED = 21;
     private static final int STATE_OFF = 10;
+    private static final String REGEX = "[^\\d|a-f]";
 
     TextView mRemoteRssiVal;
     RadioGroup mRg;
@@ -68,7 +76,9 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     private ListView messageListView;
     private ArrayAdapter<String> listAdapter;
     private Button btnConnectDisconnect,btnSend;
+    private Button hexSend;
     private EditText edtMessage;
+    private EditText hexEditMessage;
     private Button mBtnSettings;
     
     
@@ -93,7 +103,25 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         messageListView.setDivider(null);
         btnConnectDisconnect=(Button) findViewById(R.id.btn_select);
         btnSend=(Button) findViewById(R.id.sendButton);
+        hexSend = (Button) findViewById(R.id.hex_btn);
         edtMessage = (EditText) findViewById(R.id.sendText);
+        hexEditMessage = (EditText) findViewById(R.id.hex_sendText);
+        hexEditMessage.setEnabled(true);
+        hexEditMessage.setFilters(new InputFilter[]{ new InputFilter() {
+			
+			@Override
+			public CharSequence filter(CharSequence src, int start, int end,
+					Spanned dest, int dstart, int dend) {
+				Pattern p = Pattern.compile(REGEX);
+				Matcher m = p.matcher(src);
+				StringBuffer sb = new StringBuffer();
+				while(m.find()) {
+					m.appendReplacement(sb, "");
+				}
+				m.appendTail(sb);
+				return sb.toString();
+			}
+		}});
         service_init();
         
         mBtnSettings = (Button) findViewById(R.id.btn_settings);
@@ -104,8 +132,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 				SettingsActivity.startSettings(MainActivity.this);
 			}
 		});
-     
-       
+        
         // Handler Disconnect & Connect button
         btnConnectDisconnect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,12 +183,57 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                 
             }
         });
+        
+        // Handler Send button  
+        hexSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            	EditText editText = (EditText) findViewById(R.id.sendText);
+            	String message = editText.getText().toString();
+            	byte[] value;
+				//send data to service
+//					value = message.getBytes("UTF-8");
+				value = Utils.toHexBytes(message);
+				mService.writeRXCharacteristic(value);
+				//Update the log with time stamp
+				String currentDateTimeString = DateFormat.getTimeInstance().format(new Date());
+				listAdapter.add("["+currentDateTimeString+"] TX: "+ message);
+				messageListView.smoothScrollToPosition(listAdapter.getCount() - 1);
+				hexEditMessage.setText("");
+                
+            }
+        });
      
         // Set initial UI state
         
     }
     
-    //UART service connected/disconnected
+    @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+    	MenuInflater inflater = getMenuInflater();  
+		inflater.inflate(R.menu.main, menu); 
+	    return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.btn_switch) {
+			if (hexSend.getVisibility() == View.GONE) {
+				hexSend.setVisibility(View.VISIBLE);
+				btnSend.setVisibility(View.GONE);
+				hexEditMessage.setVisibility(View.VISIBLE);
+				edtMessage.setVisibility(View.GONE);
+			} else {
+				hexSend.setVisibility(View.GONE);
+				btnSend.setVisibility(View.VISIBLE);
+				hexEditMessage.setVisibility(View.GONE);
+				edtMessage.setVisibility(View.VISIBLE);
+			}
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	//UART service connected/disconnected
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder rawBinder) {
         		mService = ((UartService.LocalBinder) rawBinder).getService();
@@ -202,7 +274,9 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                              Log.d(TAG, "UART_CONNECT_MSG");
                              btnConnectDisconnect.setText("Disconnect");
                              edtMessage.setEnabled(true);
+                             hexEditMessage.setEnabled(true);
                              btnSend.setEnabled(true);
+                             hexSend.setEnabled(true);
                              ((TextView) findViewById(R.id.deviceName)).setText(mDevice.getName()+ " - ready");
                              listAdapter.add("["+currentDateTimeString+"] Connected to: "+ mDevice.getName());
                         	 	messageListView.smoothScrollToPosition(listAdapter.getCount() - 1);
@@ -219,7 +293,9 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                              Log.d(TAG, "UART_DISCONNECT_MSG");
                              btnConnectDisconnect.setText("Connect");
                              edtMessage.setEnabled(false);
+//                             hexEditMessage.setEnabled(false);
                              btnSend.setEnabled(false);
+                             hexSend.setEnabled(false);
                              ((TextView) findViewById(R.id.deviceName)).setText("Not Connected");
                              listAdapter.add("["+currentDateTimeString+"] Disconnected to: "+ mDevice.getName());
                              mState = UART_PROFILE_DISCONNECTED;

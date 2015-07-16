@@ -10,6 +10,7 @@
 	</PreferenceScreen>
 	<Preference android:key="params_settings"
 	    android:title="@string/params_settings"
+	    android:widgetLayout="@layout/preference_array"
 	    />
 <!-- 	<PreferenceScreen android:key="params_settings" -->
 <!-- 	    android:title="@string/params_settings"> -->

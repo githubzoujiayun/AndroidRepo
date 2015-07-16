@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference android:key="timer_report_switch"
+        android:title="@string/timer_report_switch"
+        />
     <ListPreference 
         android:key="self_reporter_type"
         android:title="@string/self_reporter_type"

@@ -3,20 +3,25 @@
      <header android:key="params_entirety" 
 	        android:title="@string/params_entirety" 
 	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$EntiretyParamsSettings"
+	        android:widgetLayout="@layout/preference_array"
 	        >
 	    </header>
 	    <header android:key="params_sensor"
 	        android:title="@string/params_sensor"
 	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorParamsSettings"
+	        android:widgetLayout="@layout/preference_array"
 	        >
 	    </header>
 	    <header android:key="params_communication"
 	        android:title="@string/params_communication"
-	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$CommunicationParamsSettings">
+	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$CommunicationParamsSettings"
+	        android:widgetLayout="@layout/preference_array"
+	        >
 	        
 	    </header>
 	    <header android:key="params_video"
 	        android:title="@string/params_video"
+	        android:widgetLayout="@layout/preference_array"
 	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$VideoParamsSettings">
 	        
 	    </header>

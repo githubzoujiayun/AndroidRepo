@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <PreferenceScreen android:title="@string/whole_params_settings">
+    <PreferenceScreen 
+        android:widgetLayout="@layout/preference_array"
+        android:title="@string/whole_params_settings">
         
     <ListPreference 
         android:key="communication_protocal"
@@ -63,7 +65,9 @@
          android:title="@string/center_address4"
          />
     </PreferenceScreen>
-    <PreferenceScreen android:title="@string/gather_channel_settings">
+    <PreferenceScreen 
+        android:widgetLayout="@layout/preference_array"
+        android:title="@string/gather_channel_settings">
         <ListPreference 
             android:key="RS485"
             android:title="@string/RS485"
@@ -83,7 +87,10 @@
             android:entryValues="@array/RS_frequency_values"
             />
     </PreferenceScreen>
-    <PreferenceScreen android:title="@string/main_channel_settings">
+    <PreferenceScreen 
+        android:widgetLayout="@layout/preference_array"
+        android:title="@string/main_channel_settings">
+        
         <ListPreference 
             android:key="communication_way"
             android:title="@string/communication_way"
@@ -101,7 +108,9 @@
             android:title="@string/preheat_time"
             />
     </PreferenceScreen>
-    <PreferenceScreen android:title="@string/backup_channel_settings">
+    <PreferenceScreen 
+        android:widgetLayout="@layout/preference_array"
+        android:title="@string/backup_channel_settings">
         <ListPreference 
             android:key="backup_communication_way"
             android:title="@string/communication_way"
@@ -116,11 +125,13 @@
             />
     </PreferenceScreen>
     
-    <ListPreference 
+    <SwitchPreference 
         android:key="tsm_func"
         android:title="@string/tsm_func"
-        android:entries="@array/tsm_func"
-        android:entryValues="@array/tsm_func_values"
+        android:summaryOn="@string/tsm_summary_on"
+        android:summaryOff="@string/tsm_summary_off"
+        android:switchTextOn="@string/tsm_switch_on"
+        android:switchTextOff="@string/tsm_switch_off"
         />
 
 </PreferenceScreen>

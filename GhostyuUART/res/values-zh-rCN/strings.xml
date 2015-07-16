@@ -166,4 +166,10 @@
 	<string name="import_params">导入参数</string>
 	<string name="upload_params">上传参数</string>
 	<string name="save_params">保存参数</string>
+	<string name="tsm_summary_on">TSM 功能未启用</string>
+	<string name="tsm_summary_off">TSM 功能已启用</string>
+	<string name="tsm_switch_on">启用</string>
+	<string name="tsm_switch_off">不启用</string>
+	<string name="catagoray_report_switch">水资源分种类定时报</string>
+	<string name="timer_report_switch">定时报</string>
 </resources>

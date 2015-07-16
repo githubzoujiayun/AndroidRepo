@@ -53,6 +53,21 @@
                 android:maxLength="20"
                 android:maxLines="1"
                 android:shadowRadius="1" />
+            
+            <EditText
+                android:id="@+id/hex_sendText"
+                android:layout_width="102dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/hex_btn"
+                android:ems="10"
+                android:enabled="false"
+                android:fontFamily="1"
+                android:lines="1"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:shadowRadius="1" />
 
             <ListView
                 android:id="@+id/listMessage"
@@ -70,7 +85,18 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:enabled="false"
+                android:visibility="gone"
                 android:text="Send" />
+            
+            <Button
+                android:id="@+id/hex_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:enabled="false"
+                android:visibility="visible"
+                android:text="Send Hex" />
 
         </RelativeLayout>
     </LinearLayout>

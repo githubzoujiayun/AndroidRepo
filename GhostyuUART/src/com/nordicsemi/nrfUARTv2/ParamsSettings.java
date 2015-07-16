@@ -67,7 +67,6 @@ public abstract class ParamsSettings extends PreferenceFragment{
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
 
@@ -75,11 +74,11 @@ public abstract class ParamsSettings extends PreferenceFragment{
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
 			Preference preference) {
 		if (preference instanceof SwitchPreference) {
-			if (((SwitchPreference) preference).isSwitchOn()) {
-				return super.onPreferenceTreeClick(preferenceScreen, preference);
+			if (!((SwitchPreference) preference).isSwitchOn()) {
+				return false;
 			}
 		}
-		return false;
+		return super.onPreferenceTreeClick(preferenceScreen, preference);
 	}
 
 	
