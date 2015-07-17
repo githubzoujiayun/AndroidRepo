@@ -81,6 +81,8 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     private EditText hexEditMessage;
     private Button mBtnSettings;
     
+    private boolean isHexSend = true;
+    
     
     public static void startConnectActivity(Activity from) {
     	Intent intent = new Intent(from,MainActivity.class);
@@ -223,11 +225,13 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 				btnSend.setVisibility(View.GONE);
 				hexEditMessage.setVisibility(View.VISIBLE);
 				edtMessage.setVisibility(View.GONE);
+				isHexSend = true;
 			} else {
 				hexSend.setVisibility(View.GONE);
 				btnSend.setVisibility(View.VISIBLE);
 				hexEditMessage.setVisibility(View.GONE);
 				edtMessage.setVisibility(View.VISIBLE);
+				isHexSend = false;
 			}
 		}
 		return super.onOptionsItemSelected(item);
@@ -318,7 +322,12 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                  runOnUiThread(new Runnable() {
                      public void run() {
                          try {
-                         	String text = new String(txValue, "UTF-8");
+                         	String text = null;
+                         	if (isHexSend) {
+                         		text = Utils.toHexString(txValue);
+                         	} else {
+                         		text = new String(txValue, "UTF-8");
+                         	}
                          	String currentDateTimeString = DateFormat.getTimeInstance().format(new Date());
                         	 	listAdapter.add("["+currentDateTimeString+"] RX: "+text);
                         	 	messageListView.smoothScrollToPosition(listAdapter.getCount() - 1);

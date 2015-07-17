@@ -36,4 +36,14 @@ public class Utils {
 		}
 		return bytes;
 	}
+	
+	public static String toHexString(byte[] bytes) {
+		StringBuffer sb = new StringBuffer();
+		for (byte b: bytes) {
+			if (b != 0) {
+				sb.append(Integer.toHexString(b & 0xff));
+			}
+		}
+		return sb.toString();
+	}
 }

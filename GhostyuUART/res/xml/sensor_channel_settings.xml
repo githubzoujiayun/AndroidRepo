@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <SwitchPreference 
+        android:key="sensor_channel_switch"
+        android:title="@string/sensor_channels_switch"
+        />
+    <PreferenceCategory android:title="@string/data_definition">
+        <ListPreference 
+            android:key="gather_catagory"
+            android:title="@string/gather_catagory"
+            android:entries="@array/gather_catagory"
+            android:entryValues="@array/gather_catagory_values"
+            />
+        <ListPreference 
+            android:key="gather_number"
+            android:title="@string/gather_number"
+            android:entries="@array/gather_number"
+            android:entryValues="@array/gather_number_values"
+            />
+    </PreferenceCategory>
+	<PreferenceCategory android:title="@string/warning_added">
+	    <EditTextPreference 
+	        android:key="warning_max"
+	        android:title="@string/warning_max"
+	        />
+	    <EditTextPreference 
+	        android:key="warning_min"
+	        android:title="@string/warning_min"
+	        />
+	    <EditTextPreference 
+	        android:key="added_divide"
+	        android:title="@string/added_divide"
+	        />
+	    <EditTextPreference 
+	        android:key="added_divide_max"
+	        android:title="@string/added_divide_max"
+	        />
+	    <EditTextPreference 
+	        android:key="added_divide_min"
+	        android:title="@string/added_divide_min"
+	        />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/manual_correction">
+	    <EditTextPreference 
+	        android:title="@string/data_baseline"
+	        android:key="data_baseline"
+	        />
+	    <EditTextPreference 
+	        android:title="@string/data_correction"
+	        android:key="data_correction"
+	        />
+	    <EditTextPreference 
+	        android:key="wave_rate"
+	        android:title="@string/wave_rate"
+	        />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/data_mark">
+	    <EditTextPreference 
+	        android:key="data_zero"
+	        android:title="@string/data_zero"
+	        />
+	    <EditTextPreference 
+	        android:key="data_ratio"
+	        android:title="@string/data_ratio"
+	        android:summary="@string/per_wan"
+	        />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/sensor_settings">
+	    <ListPreference 
+	        android:key="device_model"
+	        android:title="@string/device_model"
+	        android:entries="@array/device_model"
+	        android:entryValues="@array/device_model_values"
+	        />
+	    <EditTextPreference 
+	        android:key="gather_duration"
+	        android:title="@string/gather_duration"
+	        android:summary="@string/second"
+	        />
+	    <ListPreference 
+	        android:key="communication_rate"
+	        android:title="@string/communication_speed"
+	        android:entries="@array/RS_frequency"
+	        android:entryValues="@array/RS_frequency_values"
+	        />
+	    <ListPreference 
+	        android:key="verify_way"
+	        android:title="@string/verify_way"
+	        android:entries="@array/verify_way"
+	        android:entryValues="@array/verify_way_values"
+	        />
+	    <EditTextPreference 
+	        android:key="communication_address"
+	        android:title="@string/communication_address"
+	        />
+	</PreferenceCategory>
+</PreferenceScreen>

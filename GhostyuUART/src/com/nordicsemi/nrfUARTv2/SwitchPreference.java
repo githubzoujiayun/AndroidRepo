@@ -21,10 +21,15 @@ public class SwitchPreference extends Preference implements OnCheckedChangeListe
 	@Override
 	protected void onBindView(View view) {
 		super.onBindView(view);
-		mSwitch = (Switch) view.findViewById(R.id.prf_switch);
-		mSwitch.setOnCheckedChangeListener(this);
+		setupSwitch(view);
 	}
 	
+	private void setupSwitch(View parent) {
+		mSwitch = (Switch) parent.findViewById(R.id.prf_switch);
+		if (mSwitch == null) return;
+		mSwitch.setOnCheckedChangeListener(this);
+	}
+
 	@Override
 	protected View onCreateView(ViewGroup parent) {
 		Bundle b = getExtras();

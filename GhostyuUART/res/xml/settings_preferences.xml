@@ -12,39 +12,4 @@
 	    android:title="@string/params_settings"
 	    android:widgetLayout="@layout/preference_array"
 	    />
-<!-- 	<PreferenceScreen android:key="params_settings" -->
-<!-- 	    android:title="@string/params_settings"> -->
-<!-- 	    <Preference android:key="params_entirety" -->
-<!-- 	        android:title="@string/params_entirety"  -->
-<!-- 	        android:fragment="com.nordicsemi.nrfUARTv2.EntiretyParamsSettings" -->
-<!-- 	        > -->
-<!-- 	    </Preference> -->
-<!-- 	    <PreferenceScreen android:key="params_sensor" -->
-<!-- 	        android:title="@string/params_sensor"> -->
-	        
-<!-- 	    </PreferenceScreen> -->
-<!-- 	    <PreferenceScreen android:key="params_communication" -->
-<!-- 	        android:title="@string/params_communication"> -->
-	        
-<!-- 	    </PreferenceScreen> -->
-<!-- 	    <PreferenceScreen android:key="params_video" -->
-<!-- 	        android:title="@string/params_video"> -->
-	        
-<!-- 	    </PreferenceScreen> -->
-<!-- 	    <PreferenceScreen android:key="params_internal_dtu" -->
-<!-- 	        android:title="@string/params_internal_dtu"> -->
-<!-- 	    </PreferenceScreen> -->
-<!-- 	    <Preference  -->
-<!-- 	        android:key="params_import" -->
-<!-- 	        android:title="@string/params_import"/> -->
-	    
-<!-- 	    <Preference  -->
-<!-- 	        android:key="params_upload" -->
-<!-- 	        android:title="@string/params_upload"/> -->
-	    
-<!-- 	    <Preference  -->
-<!-- 	        android:key="params_save" -->
-<!-- 	        android:title="@string/params_save"/> -->
-<!-- 	    <Preference /> -->
-<!-- 	</PreferenceScreen> -->
 </PreferenceScreen>

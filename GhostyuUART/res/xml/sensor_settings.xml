@@ -1,15 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <MultiSelectListPreference 
-        android:key="sensor_channels"
-        android:title="@string/sensor_channels"
-        android:entries="@array/sensor_channels"
-        android:entryValues="@array/sensor_channels_values"
-        />
-	<EditTextPreference 
-	    android:key="sensor_preheat_time"
-	    android:title="@string/sensor_preheat_time"
-	    android:defaultValue="0"
-	    android:summary="0"
-	    />
+
+    <EditTextPreference
+        android:defaultValue="0"
+        android:key="sensor_preheat_time"
+        android:summary="0"
+        android:title="@string/sensor_preheat_time" />
+
+    <PreferenceCategory android:title="@string/sensor_channels_catagory_title" >
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels1"
+            android:title="@string/sensor_channels1" 
+            android:widgetLayout="@layout/preference_switch_array"
+            />
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels2"
+            android:widgetLayout="@layout/preference_switch_array"
+            android:title="@string/sensor_channels2" />
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels3"
+            android:widgetLayout="@layout/preference_switch_array"
+            android:title="@string/sensor_channels3" />
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels4"
+            android:widgetLayout="@layout/preference_switch_array"
+            android:title="@string/sensor_channels4" />
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels5"
+            android:widgetLayout="@layout/preference_switch_array"
+            android:title="@string/sensor_channels5" />
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels6"
+            android:widgetLayout="@layout/preference_switch_array"
+            android:title="@string/sensor_channels6" />
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels7"
+            android:widgetLayout="@layout/preference_switch_array"
+            android:title="@string/sensor_channels7" />
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels8"
+            android:widgetLayout="@layout/preference_switch_array"
+            android:title="@string/sensor_channels8" />
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels9"
+            android:widgetLayout="@layout/preference_switch_array"
+            android:title="@string/sensor_channels9" />
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels10"
+            android:widgetLayout="@layout/preference_switch_array"
+            android:title="@string/sensor_channels10" />
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels11"
+            android:widgetLayout="@layout/preference_switch_array"
+            android:title="@string/sensor_channels11" />
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels12"
+            android:widgetLayout="@layout/preference_switch_array"
+            android:title="@string/sensor_channels12" />
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels13"
+            android:widgetLayout="@layout/preference_switch_array"
+            android:title="@string/sensor_channels13" />
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels14"
+            android:widgetLayout="@layout/preference_switch_array"
+            android:title="@string/sensor_channels14" />
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels15"
+            android:widgetLayout="@layout/preference_switch_array"
+            android:title="@string/sensor_channels15" />
+        <com.nordicsemi.nrfUARTv2.SwitchPreference
+            android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$SensorSettings"
+            android:key="sensor_channels16"
+            android:widgetLayout="@layout/preference_switch_array"
+            android:title="@string/sensor_channels16" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="addr_encoding_entries">
         <item>GB2260-2007</item>
         <item>SL 502</item>
@@ -76,29 +77,29 @@
     <string-array name="power_time_values">
         <item>0</item>
         <item>1</item>
-      	<item>2</item>
-      	<item>3</item>
-      	<item>4</item>
-      	<item>5</item>
-      	<item>6</item>
-      	<item>7</item>
-      	<item>8</item>
-      	<item>9</item>
-      	<item>10</item>
-      	<item>11</item>
-      	<item>12</item>
-      	<item>13</item>
-      	<item>14</item>
-      	<item>15</item>
-      	<item>16</item>
-      	<item>17</item>
-      	<item>18</item>
-      	<item>19</item>
-      	<item>20</item>
-      	<item>21</item>
-      	<item>22</item>
-      	<item>23</item>
-      	<item>24</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
     </string-array>
     <string-array name="rainfull_time">
         <item>00:00</item>
@@ -126,313 +127,473 @@
         <item>22:00</item>
         <item>23:00</item>
     </string-array>
-     <string-array name="rainfull_time_values">
+    <string-array name="rainfull_time_values">
         <item>0</item>
         <item>1</item>
-      	<item>2</item>
-      	<item>3</item>
-      	<item>4</item>
-      	<item>5</item>
-      	<item>6</item>
-      	<item>7</item>
-      	<item>8</item>
-      	<item>9</item>
-      	<item>10</item>
-      	<item>11</item>
-      	<item>12</item>
-      	<item>13</item>
-      	<item>14</item>
-      	<item>15</item>
-      	<item>16</item>
-      	<item>17</item>
-      	<item>18</item>
-      	<item>19</item>
-      	<item>20</item>
-      	<item>21</item>
-      	<item>22</item>
-      	<item>23</item>
-     </string-array>
-     <string-array name="hyetometer">
-         <item>0.1mm</item>
-         <item>0.2mm</item>
-         <item>0.5mm</item>
-         <item>1.0mm</item>
-     </string-array>
-     <string-array name="hyetometer_values">
-         <item>1</item>
-         <item>2</item>
-         <item>5</item>
-         <item>10</item>
-     </string-array>
-     <string-array name="evaporating">
-         <item>0.1mm</item>
-         <item>0.2mm</item>
-         <item>0.5mm</item>
-         <item>1.0mm</item>
-     </string-array>
-     <string-array name="evaporating_values">
-         <item>1</item>
-         <item>2</item>
-         <item>5</item>
-         <item>10</item>
-     </string-array>
-     <string-array name="interval">
-         <item>1分钟</item>
-         <item>2分钟</item>
-         <item>3分钟</item>
-         <item>4分钟</item>
-         <item>5分钟</item>
-         <item>6分钟</item>
-         <item>10分钟</item>
-         <item>12分钟</item>
-         <item>15分钟</item>
-         <item>20分钟</item>
-         <item>30分钟</item>
-         <item>60分钟</item>
-     </string-array>
-     <string-array name="interval_values">
-         <item>1</item>
-         <item>2</item>
-         <item>3</item>
-         <item>4</item>
-         <item>5</item>
-         <item>6</item>
-         <item>10</item>
-         <item>12</item>
-         <item>15</item>
-         <item>20</item>
-         <item>30</item>
-         <item>60</item>
-     </string-array>
-     <string-array name="report_types">
-         <item>水量</item>
-         <item>水位</item>
-         <item>水压</item>
-         <item>水质</item>
-         <item>雨量</item>
-         <item>闸位</item>
-         <item>报警</item>
-     </string-array>
-     <string-array name="report_type_values">
-         <item>0</item>
-         <item>1</item>
-         <item>2</item>
-         <item>3</item>
-         <item>4</item>
-         <item>5</item>
-         <item>6</item>
-     </string-array>
-      <string-array name="query_types">
-         <item>水量</item>
-         <item>水位</item>
-         <item>水压</item>
-         <item>水质</item>
-         <item>雨量</item>
-     </string-array>
-     <string-array name="query_type_values">
-         <item>0</item>
-         <item>1</item>
-         <item>2</item>
-         <item>3</item>
-         <item>4</item>
-     </string-array>
-     <string-array name="self_reporter_type">
-         <item>时段</item>
-         <item>瞬时</item>
-     </string-array>
-     <string-array name="self_reporter_type_values">
-         <item>0</item>
-         <item>1</item>
-     </string-array>
-     <string-array name="sensor_channels">
-         <item>通道1</item>
-         <item>通道2</item>
-         <item>通道3</item>
-         <item>通道4</item>
-         <item>通道5</item>
-         <item>通道6</item>
-         <item>通道7</item>
-         <item>通道8</item>
-         <item>通道9</item>
-         <item>通道10</item>
-         <item>通道11</item>
-         <item>通道12</item>
-         <item>通道13</item>
-         <item>通道14</item>
-         <item>通道15</item>
-         <item>通道16</item>
-     </string-array>
-     <string-array name="sensor_channels_values">
-         <item>0</item>
-         <item>1</item>
-         <item>2</item>
-         <item>3</item>
-         <item>4</item>
-         <item>5</item>
-         <item>6</item>
-         <item>7</item>
-         <item>8</item>
-         <item>9</item>
-         <item>10</item>
-         <item>11</item>
-         <item>12</item>
-         <item>13</item>
-         <item>14</item>
-         <item>15</item>
-     </string-array>
-     <string-array name="communication_protocal">
-         <item>水资源传输规约</item>
-         <item>水文通讯规约</item>
-         <item>精简协议</item>
-         <item>水情专用协议</item>
-         <item>水情通用协议</item>
-         <item>SDXHL协议</item>
-         <item>WH协议</item>
-         <item>南水协议</item>
-     </string-array>
-     <string-array name="communication_protocal_values">
-         <item>0</item>
-         <item>1</item>
-         <item>2</item>
-         <item>3</item>
-         <item>4</item>
-         <item>5</item>
-         <item>6</item>
-         <item>7</item>
-     </string-array>
-     <string-array name="compact_protocal">
-         <item>8000路由协议</item>
-         <item>A3A3协议</item>
-         <item>EBEB协议</item>
-     </string-array>
-     <string-array name="compact_protocal_values">
-         <item>0</item>
-         <item>1</item>
-         <item>2</item>
-     </string-array>
-     <string-array name="uniform_receipt">
-         <item>需要</item>
-         <item>不需要</item>
-     </string-array>
-     <string-array name="uniform_receipt_values">
-         <item>0</item>
-         <item>1</item>
-     </string-array>
-     <string-array name="heartbeat_func">
-         <item>关闭</item>
-         <item>打开</item>
-     </string-array>
-     <string-array name="heartbeat_func_values">
-         <item>0</item>
-         <item>1</item>
-     </string-array>
-     <string-array name="RS_frequency">
-         <item>300bps</item>
-         <item>600bps</item>
-         <item>1200bps</item>
-         <item>2400bps</item>
-         <item>4800bps</item>
-         <item>9600bps</item>
-         <item>19200bps</item>
-         <item>38400bps</item>
-         <item>57600bps</item>
-         <item>115200bps</item>
-     </string-array>
-     <string-array name="RS_frequency_values">
-         <item>0</item>
-         <item>1</item>
-         <item>2</item>
-         <item>3</item>
-         <item>4</item>
-         <item>5</item>
-         <item>6</item>
-         <item>7</item>
-         <item>8</item>
-         <item>9</item>
-     </string-array>
-     <string-array name="communication_way">
-         <item>电缆直连</item>
-         <item>GSM短信</item>
-         <item>GPRS/CDMA</item>
-         <item>超短波电台</item>
-     </string-array>
-     <string-array name="communication_way_values">
-         <item>0</item>
-         <item>1</item>
-         <item>2</item>
-         <item>3</item>
-     </string-array>
-     <string-array name="backup_communication_way">
-         <item>备用通道关闭</item>
-         <item>GSM短信</item>
-         <item>GPRS/CDMA</item>
-         <item>超短波电台</item>
-         <item>北斗卫星</item>
-     </string-array>
-     <string-array name="backup_communication_way_values">
-         <item>0</item>
-         <item>1</item>
-         <item>2</item>
-         <item>3</item>
-         <item>4</item>
-     </string-array>
-     <string-array name="tsm_func">
-         <item>不启用</item>
-         <item>启用</item>
-     </string-array>
-     <string-array name="tsm_func_values">
-         <item>0</item>
-         <item>1</item>
-     </string-array>
-     <string-array name="image_format">
-         <item>1280 x 960  质量：最好</item>
-         <item>1280 x 960  质量：较好</item>
-         <item>1280 x 960  质量：普通</item>
-         <item>1024 x 768  质量：最好</item>
-         <item>1024 x 768  质量：较好</item>
-         <item>1024 x 768  质量：普通</item>
-         <item>800 x 600  质量：最好</item>
-         <item>800 x 600  质量：较好</item>
-         <item>800 x 600  质量：普通</item>
-         <item>640 x 480(VGA)  质量：最好</item>
-         <item>640 x 480(VGA)  质量：较好</item>
-         <item>640 x 480(VGA)  质量：普通</item>
-         <item>320 x 240(QVGA)  质量：最好</item>
-         <item>320 x 240(QVGA)  质量：较好</item>
-         <item>320 x 240(QVGA)  质量：普通</item>
-         <item>160 x 120(QQVGA)  质量：最好</item>
-         <item>160 x 120(QQVGA)  质量：较好</item>
-         <item>160 x 120(QQVGA)  质量：普通</item>
-     </string-array>
-     <string-array name="image_format_values">
-	        <item>0</item>
-	        <item>1</item>
-	      	<item>2</item>
-	      	<item>3</item>
-	      	<item>4</item>
-	      	<item>5</item>
-	      	<item>6</item>
-	      	<item>7</item>
-	      	<item>8</item>
-	      	<item>9</item>
-	      	<item>10</item>
-	      	<item>11</item>
-	      	<item>12</item>
-	      	<item>13</item>
-	      	<item>14</item>
-	      	<item>15</item>
-	      	<item>16</item>
-	      	<item>17</item>
-	      	<item>18</item>
-     </string-array>
-     <string-array name="camera_model">
-         <item>水利专用FM-DSC03 RS485</item>
-         <item>通用摄像机图像适配器  RS485</item>
-         <item>深圳尚鑫航SXH-V1/V2 RS485</item>
-     </string-array>
-     <string-array name="camera_model_values">
-         <item>0</item>
-	     <item>1</item>
-	     <item>2</item>
-     </string-array>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+    </string-array>
+    <string-array name="hyetometer">
+        <item>0.1mm</item>
+        <item>0.2mm</item>
+        <item>0.5mm</item>
+        <item>1.0mm</item>
+    </string-array>
+    <string-array name="hyetometer_values">
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+    <string-array name="evaporating">
+        <item>0.1mm</item>
+        <item>0.2mm</item>
+        <item>0.5mm</item>
+        <item>1.0mm</item>
+    </string-array>
+    <string-array name="evaporating_values">
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+    <string-array name="interval">
+        <item>1分钟</item>
+        <item>2分钟</item>
+        <item>3分钟</item>
+        <item>4分钟</item>
+        <item>5分钟</item>
+        <item>6分钟</item>
+        <item>10分钟</item>
+        <item>12分钟</item>
+        <item>15分钟</item>
+        <item>20分钟</item>
+        <item>30分钟</item>
+        <item>60分钟</item>
+    </string-array>
+    <string-array name="interval_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>10</item>
+        <item>12</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+    </string-array>
+    <string-array name="report_types">
+        <item>水量</item>
+        <item>水位</item>
+        <item>水压</item>
+        <item>水质</item>
+        <item>雨量</item>
+        <item>闸位</item>
+        <item>报警</item>
+    </string-array>
+    <string-array name="report_type_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+    <string-array name="query_types">
+        <item>水量</item>
+        <item>水位</item>
+        <item>水压</item>
+        <item>水质</item>
+        <item>雨量</item>
+    </string-array>
+    <string-array name="query_type_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string-array name="self_reporter_type">
+        <item>时段</item>
+        <item>瞬时</item>
+    </string-array>
+    <string-array name="self_reporter_type_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="sensor_channels">
+        <item>通道1</item>
+        <item>通道2</item>
+        <item>通道3</item>
+        <item>通道4</item>
+        <item>通道5</item>
+        <item>通道6</item>
+        <item>通道7</item>
+        <item>通道8</item>
+        <item>通道9</item>
+        <item>通道10</item>
+        <item>通道11</item>
+        <item>通道12</item>
+        <item>通道13</item>
+        <item>通道14</item>
+        <item>通道15</item>
+        <item>通道16</item>
+    </string-array>
+    <string-array name="sensor_channels_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+    </string-array>
+    <string-array name="communication_protocal">
+        <item>水资源传输规约</item>
+        <item>水文通讯规约</item>
+        <item>精简协议</item>
+        <item>水情专用协议</item>
+        <item>水情通用协议</item>
+        <item>SDXHL协议</item>
+        <item>WH协议</item>
+        <item>南水协议</item>
+    </string-array>
+    <string-array name="communication_protocal_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+    <string-array name="compact_protocal">
+        <item>8000路由协议</item>
+        <item>A3A3协议</item>
+        <item>EBEB协议</item>
+    </string-array>
+    <string-array name="compact_protocal_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="uniform_receipt">
+        <item>需要</item>
+        <item>不需要</item>
+    </string-array>
+    <string-array name="uniform_receipt_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="heartbeat_func">
+        <item>关闭</item>
+        <item>打开</item>
+    </string-array>
+    <string-array name="heartbeat_func_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="RS_frequency">
+        <item>300bps</item>
+        <item>600bps</item>
+        <item>1200bps</item>
+        <item>2400bps</item>
+        <item>4800bps</item>
+        <item>9600bps</item>
+        <item>19200bps</item>
+        <item>38400bps</item>
+        <item>57600bps</item>
+        <item>115200bps</item>
+    </string-array>
+    <string-array name="RS_frequency_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+    <string-array name="communication_way">
+        <item>电缆直连</item>
+        <item>GSM短信</item>
+        <item>GPRS/CDMA</item>
+        <item>超短波电台</item>
+    </string-array>
+    <string-array name="communication_way_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="backup_communication_way">
+        <item>备用通道关闭</item>
+        <item>GSM短信</item>
+        <item>GPRS/CDMA</item>
+        <item>超短波电台</item>
+        <item>北斗卫星</item>
+    </string-array>
+    <string-array name="backup_communication_way_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string-array name="tsm_func">
+        <item>不启用</item>
+        <item>启用</item>
+    </string-array>
+    <string-array name="tsm_func_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="image_format">
+        <item>1280 x 960  质量：最好</item>
+        <item>1280 x 960  质量：较好</item>
+        <item>1280 x 960  质量：普通</item>
+        <item>1024 x 768  质量：最好</item>
+        <item>1024 x 768  质量：较好</item>
+        <item>1024 x 768  质量：普通</item>
+        <item>800 x 600  质量：最好</item>
+        <item>800 x 600  质量：较好</item>
+        <item>800 x 600  质量：普通</item>
+        <item>640 x 480(VGA)  质量：最好</item>
+        <item>640 x 480(VGA)  质量：较好</item>
+        <item>640 x 480(VGA)  质量：普通</item>
+        <item>320 x 240(QVGA)  质量：最好</item>
+        <item>320 x 240(QVGA)  质量：较好</item>
+        <item>320 x 240(QVGA)  质量：普通</item>
+        <item>160 x 120(QQVGA)  质量：最好</item>
+        <item>160 x 120(QQVGA)  质量：较好</item>
+        <item>160 x 120(QQVGA)  质量：普通</item>
+    </string-array>
+    <string-array name="image_format_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+    </string-array>
+    <string-array name="camera_model">
+        <item>水利专用FM-DSC03 RS485</item>
+        <item>通用摄像机图像适配器  RS485</item>
+        <item>深圳尚鑫航SXH-V1/V2 RS485</item>
+    </string-array>
+    <string-array name="camera_model_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="gather_catagory">
+        <item>水位</item>
+        <item>闸位</item>
+        <item>流量</item>
+        <item>压力</item>
+        <item>墒情</item>
+        <item>雨量</item>
+        <item>雨强</item>
+        <item>风速</item>
+        <item>风向</item>
+        <item>温度</item>
+        <item>气压</item>
+        <item>功率</item>
+        <item>水温</item>
+        <item>能见度</item>
+        <item>辐射</item>
+        <item>其他</item>
+    </string-array>
+    <string-array name="gather_catagory_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+    </string-array>
+    <string-array name="gather_number">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+    </string-array>
+    <string-array name="gather_number_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+    </string-array>
+	<string-array name="device_model">
+	    <item>01-内部格雷码-1</item>
+	    <item>02-内部格雷码-2</item>
+	    <item>03-内部4-20mA-1</item>
+	    <item>04-内部4-20mA-2</item>
+	    <item>05-内部4-20mA-3</item>
+	    <item>06-内部4-20mA-4</item>
+	    <item>07-蓄电池电压</item>
+	    <item>08-麦克数字压力水位计RS485</item>
+	    <item>09-标准 MODBUS RTU 传感器 RS485</item>
+	    <item>10-南自所格雷码转换器RS485</item>
+	    <item>11-KELLER DCX-22AA RS485数字压力水位计</item>
+	    <item>12-加拿大SOLINST BAROLOGGER RS232数字压力水位计</item>
+	    <item>13-OTT 气泡式和雷达 水位计 RS485</item>
+	    <item>14-哈尔滨 万达华 气泡式 RS232水位计</item>
+	    <item>15-NS-CS10M03超声波水位计 RS232 负水位</item>
+	    <item>16-古大GDRD98脉冲雷达水位计 RS485</item>
+	    <item>21-连利 大口径 水表 RS485</item>
+	    <item>22-上海肯特电磁流量表RS485/MODBUS_RTU</item>
+	    <item>23-上海肯特电磁流量表RS485/自定义协议</item>
+	    <item>24-上海肯特电磁流量表RS485/MODBUS_RTU瞬时</item>
+	    <item>25-江都水表RS485/MODBUS_RTU</item>
+	    <item>26-大连海丰TDS100W/RS485/MODBUS_RTU/正累积量</item>
+	    <item>27-大连海丰TDS100F/RS485/MODBUS_RTU/正累积量</item>
+	</string-array>
+	<string-array name="device_model_values">
+	    <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+	</string-array>
+	<string-array name="verify_way">
+	    <item>继电器组0 + 无校验</item>
+	    <item>继电器组0 + 奇校验</item>
+	    <item>继电器组0 + 偶校验</item>
+	    <item>继电器组1 + 无校验</item>
+	    <item>继电器组1 + 奇校验</item>
+	    <item>继电器组1 + 偶校验</item>
+	    <item>继电器组2 + 无校验</item>
+	    <item>继电器组2 + 奇校验</item>
+	    <item>继电器组2 + 偶校验</item>
+	    <item>继电器组3 + 无校验</item>
+	    <item>继电器组3 + 奇校验</item>
+	    <item>继电器组3 + 偶校验</item>
+	    <item>继电器组4 + 无校验</item>
+	    <item>继电器组4 + 奇校验</item>
+	    <item>继电器组4 + 偶校验</item>
+	</string-array>
+	<string-array name="verify_way_values">
+	    <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+	</string-array>
 </resources>
