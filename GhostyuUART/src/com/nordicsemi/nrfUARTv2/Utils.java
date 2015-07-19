@@ -1,29 +1,36 @@
 package com.nordicsemi.nrfUARTv2;
 
+import android.util.Log;
+
+
+
 public class Utils {
+	
+	private static final String TAG = "RTU";
 
 	public static byte[] toHexBytes(String source) {
-		StringBuffer sbuffer = new StringBuffer();
-		int zerolen = 16 - source.length();
-		for (int i = 0; i < zerolen; i++) {
-			sbuffer.append(0);
+		String _source = source;
+		int length = source.length();
+		
+		if (length % 2 == 1) {
+			_source = new StringBuffer("0").append(source).toString();
+			length = length + 1;
 		}
-		sbuffer.append(source);
-		String _source = sbuffer.toString();
-
-		String high = _source.substring(0, 6);
-		String midd = _source.substring(6, 12);
-		String low = _source.substring(12, 16);
-
-		byte bytes1[] = toHexBytesInner(high);
-		byte bytes2[] = toHexBytesInner(midd);
-		byte bytes3[] = toHexBytesInner(low);
-		byte bytes[] = new byte[8];
-		System.arraycopy(bytes1, 0, bytes, 0, bytes1.length);
-		System.arraycopy(bytes2, 0, bytes, bytes1.length, bytes2.length);
-		System.arraycopy(bytes3, 0, bytes, bytes1.length + bytes2.length,
-				bytes3.length);
-		return bytes;
+		byte result[] = new byte[_source.length()/2];
+		int segLen = (length % 6 == 0)?length/6:length/6+1;
+		for (int i = 0;i<segLen;i++) {
+			int start = i * 6;
+			int end = 0;
+			if (length - start >= 6) {
+				end = (i+1) * 6;
+			} else {
+				end = _source.length();
+			}
+			String segment = _source.substring(start,end);
+			byte bytes[] = toHexBytesInner(segment);
+			System.arraycopy(bytes, 0, result, i * 3 , bytes.length);
+		}
+		return result;
 	}
 
 	private static byte[] toHexBytesInner(String source) {
@@ -40,10 +47,38 @@ public class Utils {
 	public static String toHexString(byte[] bytes) {
 		StringBuffer sb = new StringBuffer();
 		for (byte b: bytes) {
-			if (b != 0) {
-				sb.append(Integer.toHexString(b & 0xff));
+			String hex = Integer.toHexString(b & 0xff).toUpperCase();
+			if (hex.length() == 1) {
+				sb.append(0);
 			}
+			sb.append(hex);
 		}
 		return sb.toString();
 	}
+	
+	public static String checksum(String suffix) {
+		byte checksum = checksum(Utils.toHexBytes(suffix));
+		return Utils.toHexString(new byte[]{checksum});
+	}
+	
+	public static byte checksum(byte bytes[]) {
+		byte sum = 0;
+		for (int i=0;i<bytes.length;i++) {
+			sum += bytes[i] & 0xff;
+		}
+		return sum;
+	}
+
+	public static int toInteger(byte[] datas) {
+		int result = 0;
+		for(byte b : datas) {
+			result += (b & 0xff) << 8;
+		}
+		return 0;
+	}
+
+	public static void log(String string) {
+		Log.w(TAG, string);
+	}
 }
+

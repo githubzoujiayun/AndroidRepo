@@ -2,6 +2,7 @@ package com.nordicsemi.nrfUARTv2;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -35,13 +36,6 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.settings);
-//		mListView = (ListView) findViewById(R.id.list);
-//		initData();
-//		mAdapter = new ArrayAdapter<String>(this, R.layout.settings_item,R.id.item, initData());
-//		mListView.setAdapter(mAdapter);
-//		mListView.setOnItemClickListener(this);
-		
 		ActionBar bar = getActionBar();
 		bar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP
 				| ActionBar.DISPLAY_SHOW_TITLE);
@@ -61,7 +55,7 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	
 	private String[] initData() {
 		return new String[]{
 				getString(R.string.refresh_time),

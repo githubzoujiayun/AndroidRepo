@@ -3,6 +3,7 @@ package com.nordicsemi.nrfUARTv2;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -54,9 +55,9 @@ public class ParamsSettingsActivity extends PreferenceActivity {
 		super.onDestroy();
 	}
 
-	public static void startParamsSettings(Settings settings) {
-		Intent intent = new Intent(settings.getActivity(),ParamsSettingsActivity.class);
-		settings.startActivity(intent);
+	public static void startParamsSettings(Context context) {
+		Intent intent = new Intent(context,ParamsSettingsActivity.class);
+		context.startActivity(intent);
 	}
 
 	

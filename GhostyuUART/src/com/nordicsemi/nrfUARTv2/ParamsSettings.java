@@ -2,6 +2,8 @@ package com.nordicsemi.nrfUARTv2;
 
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 public abstract class ParamsSettings extends PreferenceFragment {
 	
@@ -22,10 +25,25 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	
 	private String mKey;
 	
+	DataManager mDataManager;
+	
 	public static class EntiretyParamsSettings extends ParamsSettings {
+		
+		
+		
+		private EditTextPreference mAreaCode;
+		
+		
+		
 		@Override
 		protected void setupResource() {
 			addPreferencesFromResource(R.xml.entirety_settings);
+//			mAreaCode = (EditTextPreference)findPreference(KEY_AREA_CODE);
+		}
+		
+		void load() {
+//			mDataManager.getDataValue();
+//			mAreaCode.setText();
 		}
 	}
 	
@@ -93,6 +111,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		ActionBar bar = getActivity().getActionBar();
 		bar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP
 				| ActionBar.DISPLAY_SHOW_TITLE);
+		mDataManager = DataManager.getInstance(getActivity());
 		setupResource();
 	}
 	
@@ -120,6 +139,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
 	}
 
-	
-	
+	String getDataValue(String key) {
+		return mDataManager.getDataValue(key);
+	}
 }
