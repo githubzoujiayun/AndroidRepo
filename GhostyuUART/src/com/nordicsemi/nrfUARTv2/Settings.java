@@ -1,7 +1,5 @@
 package com.nordicsemi.nrfUARTv2;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +12,7 @@ import android.preference.PreferenceScreen;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.nordicsemi.nrfUARTv2.DataManager.DataListener;
 
@@ -27,6 +26,8 @@ public class Settings extends PreferenceFragment implements OnPreferenceClickLis
 	private PreferenceScreen mShowData;
 	private Preference mSettings;
 
+	private Toast mToast;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,6 +38,8 @@ public class Settings extends PreferenceFragment implements OnPreferenceClickLis
 		mRefreshTime.setOnPreferenceClickListener(this);
 		mClearData.setOnPreferenceClickListener(this);
 		mSettings.setOnPreferenceClickListener(this);
+		
+		mToast = Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT);
 	}
 
 	@Override
@@ -103,7 +106,7 @@ public class Settings extends PreferenceFragment implements OnPreferenceClickLis
 		}
 	}
 	
-	private class FetchTask extends AsyncTask<String, String, String>{
+	private class FetchTask extends AsyncTask<String, String, Boolean>{
 		
 		private Progress mProgressDialog;
 		
@@ -111,22 +114,26 @@ public class Settings extends PreferenceFragment implements OnPreferenceClickLis
 		protected void onPreExecute() {
 			super.onPreExecute();
 			mProgressDialog = new Progress(getActivity());
+			mProgressDialog.setMessage(getString(R.string.progress_downloading));
 			mProgressDialog.show();
 		}
 
 		@Override
-		protected String doInBackground(String... arg0) {
+		protected Boolean doInBackground(String... arg0) {
 			DataManager dm = DataManager.getInstance(getActivity());
 			dm.setDataListener(mDataListener);
-			dm.fetchAll();
-			return null;
+			return dm.fetchAll();
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(Boolean result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			mProgressDialog.dismiss();
+			if (!result) {
+				mToast.setText("please connect ble first.");
+	    		mToast.show();
+			}
 			ParamsSettingsActivity.startParamsSettings(getActivity());
 		}
 	}

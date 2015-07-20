@@ -215,4 +215,5 @@
 	<string name="communication_address">通讯地址</string>
 	<string name="data_mark">数据标定</string>
 	<string name="manual_correction">人工修正</string>
+	<string name="progress_downloading">正在下载...</string>
 </resources>

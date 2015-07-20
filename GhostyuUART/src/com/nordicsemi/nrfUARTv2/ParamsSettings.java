@@ -38,12 +38,11 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		@Override
 		protected void setupResource() {
 			addPreferencesFromResource(R.xml.entirety_settings);
-//			mAreaCode = (EditTextPreference)findPreference(KEY_AREA_CODE);
+			mAreaCode = (EditTextPreference)findPreference(RTUData.KEY_AREA_CODE);
 		}
 		
 		void load() {
-//			mDataManager.getDataValue();
-//			mAreaCode.setText();
+//			mAreaCode.setText(text);
 		}
 	}
 	

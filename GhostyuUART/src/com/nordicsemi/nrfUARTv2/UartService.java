@@ -32,6 +32,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.UUID;
@@ -73,13 +74,13 @@ public class UartService extends Service {
     public static final UUID DIS_UUID = UUID.fromString("0000180a-0000-1000-8000-00805f9b34fb");
     public static final UUID RX_SERVICE_UUID = UUID.fromString("0000fff0-0000-1000-8000-00805f9b34fb");
     
-    //×¢Òâ£¬ÕâÀïµÄRX¶ÔÓÚCC254xÀ´ËµµÄ½ÓÊÕ£¬Ò²¾ÍÊÇ0xfff1
+    //×¢ï¿½â£¬ï¿½ï¿½ï¿½ï¿½ï¿½RXï¿½ï¿½ï¿½ï¿½CC254xï¿½ï¿½Ëµï¿½Ä½ï¿½ï¿½Õ£ï¿½Ò²ï¿½ï¿½ï¿½ï¿½0xfff1
     public static final UUID RX_CHAR_UUID = UUID.fromString("0000fff1-0000-1000-8000-00805f9b34fb");
-  //×¢Òâ£¬ÕâÀïµÄTX¶ÔÓÚCC254xÀ´ËµµÄ·¢ËÍ£¬Ò²¾ÍÊÇ0xfff4£¬notify·½Ê½¡£
+  //×¢ï¿½â£¬ï¿½ï¿½ï¿½ï¿½ï¿½TXï¿½ï¿½ï¿½ï¿½CC254xï¿½ï¿½Ëµï¿½Ä·ï¿½ï¿½Í£ï¿½Ò²ï¿½ï¿½ï¿½ï¿½0xfff4ï¿½ï¿½notifyï¿½ï¿½Ê½ï¿½ï¿½
     public static final UUID TX_CHAR_UUID = UUID.fromString("0000fff4-0000-1000-8000-00805f9b34fb");
     
-   
-    // Implements callback methods for GATT events that the app cares about.  For example,
+    
+	// Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
         @Override
@@ -255,6 +256,10 @@ public class UartService extends Service {
         mBluetoothGatt.disconnect();
        // mBluetoothGatt.close();
     }
+    
+    public BluetoothGatt getGatt() {
+    	return mBluetoothGatt;
+    }
 
     /**
      * After using a given BLE device, the app must call this method to ensure resources are
@@ -343,27 +348,26 @@ public class UartService extends Service {
     	
     }
     
-    public void writeRXCharacteristic(byte[] value)
+    public boolean writeRXCharacteristic(byte[] value)
     {
-    
-    	
     	BluetoothGattService RxService = mBluetoothGatt.getService(RX_SERVICE_UUID);
     	showMessage("mBluetoothGatt null"+ mBluetoothGatt);
     	if (RxService == null) {
             showMessage("Rx service not found!");
             broadcastUpdate(DEVICE_DOES_NOT_SUPPORT_UART);
-            return;
+            return false;
         }
     	BluetoothGattCharacteristic RxChar = RxService.getCharacteristic(RX_CHAR_UUID);
         if (RxChar == null) {
             showMessage("Rx charateristic not found!");
             broadcastUpdate(DEVICE_DOES_NOT_SUPPORT_UART);
-            return;
+            return false;
         }
         RxChar.setValue(value);
     	boolean status = mBluetoothGatt.writeCharacteristic(RxChar);
     	
         Log.d(TAG, "write TXchar - status=" + status);  
+        return status;
     }
     
     private void showMessage(String msg) {

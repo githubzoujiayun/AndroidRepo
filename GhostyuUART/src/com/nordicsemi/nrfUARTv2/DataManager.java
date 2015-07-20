@@ -13,6 +13,7 @@ import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 public class DataManager {
 	
@@ -97,7 +98,7 @@ public class DataManager {
 			mDataListener.onDataReciver(intent.getAction(), intent);
 		}
 	};
-	
+
 	public void onDestroy() {
 		try {
         	LocalBroadcastManager.getInstance(mContext).unregisterReceiver(UARTStatusChangeReceiver);
@@ -113,8 +114,11 @@ public class DataManager {
 		
 	}
 	
-	public void write(byte[] bytes) {
-		mService.writeRXCharacteristic(bytes);
+	public boolean write(byte[] bytes) {
+		if (mService.getGatt() == null) {
+    		return false;
+    	}
+		return mService.writeRXCharacteristic(bytes);
 	}
 	
 	public BluetoothAdapter getBTAdapter(){
@@ -153,17 +157,29 @@ public class DataManager {
 		mService.close();
 	}
 
-	public void fetchAll() {
-		final int total = 376;
+	public boolean fetchAll() {
+		final int total = 376 * 4;
 		final int length = 16;
 		int times = total / length;
+		int failCount = 0;
 		for (int i=0;i<times;i++) {
 			int address = length * i;
-			fetch(String.valueOf(address), length);
+			if (!fetch(address, length)){
+				failCount ++;
+				if (failCount > 5) {
+					return false;
+				}
+			}
 		}
 		
-		fetch(String.valueOf(length * times), total - length * times);
+		if(fetch(length * times, total - length * times)){
+			failCount++;
+		}
 		mRtuData.showCache();
+		if (failCount > 5) {
+			return false;
+		}
+		return true;
 	}
 	
 //	private void fetchAllInner() {
@@ -181,22 +197,25 @@ public class DataManager {
 	
 	/**
 	 * 
-	 * @param addr   ÆðÊ¼µØÖ·
-	 * @param length ×Ö½Ú³¤¶È
+	 * @param addr   ï¿½ï¿½Ê¼ï¿½ï¿½Ö·
+	 * @param length ï¿½Ö½Ú³ï¿½ï¿½ï¿½
 	 */
-	public void fetch(String addr, int length) {
+	public boolean fetch(int addr, int length) {
 		SystemClock.sleep(1000);
 		Utils.log("fetch "+addr+", "+length);
 		StringBuffer buffer = new StringBuffer();
 		String len = zeroFormat(String.valueOf(Integer.toHexString(length)), 2);
 //		String data = zeroFormat("0", length * 2);
 		String data = "";
-		StringBuffer suffix = buffer.append(9).append(formatAddress(addr))
+		StringBuffer suffix = buffer.append(9).append(formatAddress(Integer.toHexString(addr)))
 				.append(len).append(data);
 		String checksum = Utils.checksum(suffix.toString());
 		String command = suffix.append(checksum).toString();
 		Utils.log("command : "+command);
-		write(Utils.toHexBytes(command));
+		if(!write(Utils.toHexBytes(command))) {
+    		return false;
+		}
+		return true;
 	}
 	
 	
