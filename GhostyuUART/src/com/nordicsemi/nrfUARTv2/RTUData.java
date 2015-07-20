@@ -18,6 +18,7 @@ public class RTUData {
 	public static final String KEY_ADD_REPORT = "add_report";
 	public static final String KEY_EQUATION_REPORT = "equation_report";
 	public static final String KEY_HOUR_REPORT = "hour_report";
+	
 	public static final String KEY_AREA_CODE = "area_code";
 	public static final String KEY_ADDR_ENCODING = "addr_encoding";
 	public static final String KEY_STATION_NO = "station_no";
@@ -76,8 +77,17 @@ public class RTUData {
 //		byte data[] = mDataCache.get(address);
 //	}
 	
-	public String getValue(int address) {
-		return null;
+	public byte[] getValue(String key) {
+		int address = mKeyTable.get(key);
+		byte[] value = getValue(address);
+		if (value == null) {
+			value = new byte[0];
+		}
+		return value;
+	}
+	
+	public byte[] getValue(int address) {
+		return mDataCache.get(address);
 	}
 
 	public void parse(byte[] txValue) {
@@ -88,11 +98,12 @@ public class RTUData {
 		int register = ((txValue[0] & 0x0f) << 8) + (txValue[1] & 0xff);
 		// parse length
 		int len = (txValue[2] & 0xff);
-		System.out.printf("%x\n", len);
+		Utils.log("length = " + len);
 		// parse data
 		byte[] datas = new byte[len];
 		System.arraycopy(txValue, 3, datas, 0, len);
-		System.out.println(Utils.toHexString(datas));
+		Utils.log(Utils.toHexString(datas));
+		Utils.log(Utils.toHexString(txValue));
 		// checksum
 		int length = txValue.length;
 		byte checksum = txValue[length - 1];
@@ -102,12 +113,12 @@ public class RTUData {
 		if (sum != checksum) {
 			Log.e(TAG, "check error");
 		}
-		for (int i = 0; i < len; i++) {
+		for (int i = 0; i < len / 4; i++) {
 			byte[] data = new byte[4];
 			System.arraycopy(datas, i * 4, data, 0, 4);
 			mDataCache.put(register + i, data);
 		}
-		mDataCache.put(register, datas);
+//		mDataCache.put(register, datas);
 	}
 
 	public void showCache() {

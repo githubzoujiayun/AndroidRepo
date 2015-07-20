@@ -11,17 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 public abstract class ParamsSettings extends PreferenceFragment {
-	
-	private static final String KEY_PARAMS_ENTIRETY = "params_entirety";
-	private static final String KEY_PARAMS_SENSOR = "params_sensor";
-	private static final String KEY_PARAMS_COMMUNICATION = "params_communication";
-	private static final String KEY_PARAMS_VIDEO = "params_video";
-	private static final String KEY_PARAMS_INTERNAL_DTU = "params_internal_dtu";
-	private static final String KEY_TIMER_REPORTER = "timer_reporter";
-	private static final String KEY_CATAGORY_TIMER_REPOTER = "catagory_timer_repoter";
 	
 	private String mKey;
 	
@@ -32,6 +23,9 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		
 		
 		private EditTextPreference mAreaCode;
+		private ListPreference mAddrEncoding;
+		private EditTextPreference mStationNo;
+		private ListPreference mStationType;
 		
 		
 		
@@ -39,11 +33,48 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		protected void setupResource() {
 			addPreferencesFromResource(R.xml.entirety_settings);
 			mAreaCode = (EditTextPreference)findPreference(RTUData.KEY_AREA_CODE);
+			mAddrEncoding = (ListPreference)findPreference(RTUData.KEY_ADDR_ENCODING);
+			mStationNo = (EditTextPreference)findPreference(RTUData.KEY_STATION_NO);
+			mStationType = (ListPreference)findPreference(RTUData.KEY_STATION_TYPE);
+			
+			mAreaCode = (EditTextPreference)findPreference(RTUData.KEY_AREA_CODE);
+			mAreaCode = (EditTextPreference)findPreference(RTUData.KEY_AREA_CODE);
+			
+			load();
 		}
 		
 		void load() {
-//			mAreaCode.setText(text);
+			RTUData rtu = mDataManager.getRTUData();
+			byte[] areaCodeData = rtu.getValue(RTUData.KEY_AREA_CODE);
+			String value = Utils.toIntegerString(areaCodeData);
+			mAreaCode.setText(value);
+			mAreaCode.setSummary(value);
+			byte[] encodingData = rtu.getValue(RTUData.KEY_ADDR_ENCODING);
+			int intValue = Utils.toInteger(encodingData);
+			mAddrEncoding.setValueIndex(intValue);
+			mAddrEncoding.setSummary(mAddrEncoding.getEntries()[intValue]);
+			byte datas[] = rtu.getValue(RTUData.KEY_STATION_NO);
+			value = Utils.toIntegerString(datas);
+			mStationNo.setText(value);
+			mStationNo.setSummary(value);
+			datas = rtu.getValue(RTUData.KEY_STATION_TYPE);
+			value = Utils.toHexString(datas[datas.length-1]);
+			Utils.log("station_type : " +value);
+			setPreferenceIndex(mStationType,value);
 		}
+	}
+		
+	private static void setPreferenceIndex(ListPreference preference,String value) {
+		CharSequence values[] = preference.getEntryValues();
+		int length = values.length;
+		for (int i=0;i<length;i++) {
+			if (values[i].toString().equalsIgnoreCase(value)) {
+				preference.setValueIndex(i);
+				preference.setSummary(preference.getEntries()[i]);
+				return;
+			}
+		}
+
 	}
 	
 	public static class SensorParamsSettings extends ParamsSettings {

@@ -9,6 +9,7 @@
         <item>0</item>
         <item>1</item>
     </string-array>
+    
     <string-array name="station_type">
         <item>降水</item>
         <item>河道</item>
@@ -23,17 +24,17 @@
         <item>排水口</item>
     </string-array>
     <string-array name="station_type_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
+        <item>50</item>
+        <item>48</item>
+        <item>4b</item>
+        <item>5a</item>
+        <item>44</item>
+        <item>54</item>
+        <item>4d</item>
+        <item>47</item>
+        <item>51</item>
+        <item>49</item>
+        <item>4f</item>
     </string-array>
     <string-array name="work_style">
         <item>兼容/调试维修</item>

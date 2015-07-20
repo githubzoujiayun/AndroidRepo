@@ -81,10 +81,7 @@ public class Settings extends PreferenceFragment implements OnPreferenceClickLis
 			} else if (action.equals(UartService.ACTION_GATT_SERVICES_DISCOVERED)) {
 				
 			} else if (action.equals(UartService.ACTION_DATA_AVAILABLE)) {
-				final byte[] txValue = intent
-						.getByteArrayExtra(UartService.EXTRA_DATA);
-				DataManager dm = DataManager.getInstance(getActivity());
-				dm.parse(txValue);
+				
 			} else if (action.equals(UartService.DEVICE_DOES_NOT_SUPPORT_UART)) {
 				
 			}

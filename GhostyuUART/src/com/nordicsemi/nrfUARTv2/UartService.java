@@ -121,6 +121,9 @@ public class UartService extends Service {
                                          int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+            	final byte[] txValue = characteristic.getValue();
+				DataManager dm = DataManager.getInstance(UartService.this);
+				dm.parse(txValue);
             }
         }
 
@@ -128,6 +131,9 @@ public class UartService extends Service {
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+            final byte[] txValue = characteristic.getValue();
+			DataManager dm = DataManager.getInstance(UartService.this);
+			dm.parse(txValue);
         }
     };
 

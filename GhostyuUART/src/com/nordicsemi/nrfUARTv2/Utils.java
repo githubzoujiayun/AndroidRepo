@@ -44,6 +44,10 @@ public class Utils {
 		return bytes;
 	}
 	
+	public static String toHexString(byte data) {
+		return Integer.toHexString(data & 0xff);
+	}
+	
 	public static String toHexString(byte[] bytes) {
 		StringBuffer sb = new StringBuffer();
 		for (byte b: bytes) {
@@ -68,13 +72,32 @@ public class Utils {
 		}
 		return sum;
 	}
-
+	
+	public static String toIntegerString(byte[] datas) {
+		return String.valueOf(toInteger(datas));
+	}
+	
+	public static int toInteger(byte data) {
+		return data & 0xff;
+	}
+	
+	/**
+	 * @param datas, length less than 3 
+	 */
 	public static int toInteger(byte[] datas) {
-		int result = 0;
-		for(byte b : datas) {
-			result += (b & 0xff) << 8;
+		if (datas == null) {
+			return 0;
 		}
-		return 0;
+		if (datas.length > 4 * 8 || (datas.length == 4*8 && (datas[0] & 0x80) != 0)) {
+			throw new IllegalArgumentException();
+		}
+		int result = 0;
+		int i=0;
+		for(byte b : datas) {
+			result = (result << 8) + (b & 0xff);
+			i++;
+		}
+		return result;
 	}
 
 	public static void log(String string) {

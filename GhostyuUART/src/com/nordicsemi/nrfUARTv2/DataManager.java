@@ -163,7 +163,7 @@ public class DataManager {
 		int times = total / length;
 		int failCount = 0;
 		for (int i=0;i<times;i++) {
-			int address = length * i;
+			int address = 4 * i;
 			if (!fetch(address, length)){
 				failCount ++;
 				if (failCount > 5) {
@@ -171,8 +171,8 @@ public class DataManager {
 				}
 			}
 		}
-		
-		if(fetch(length * times, total - length * times)){
+		int delta = total - length * times;
+		if(delta > 0 && fetch(length * times, delta * times)){
 			failCount++;
 		}
 		mRtuData.showCache();
@@ -201,7 +201,7 @@ public class DataManager {
 	 * @param length �ֽڳ���
 	 */
 	public boolean fetch(int addr, int length) {
-		SystemClock.sleep(1000);
+		SystemClock.sleep(100);
 		Utils.log("fetch "+addr+", "+length);
 		StringBuffer buffer = new StringBuffer();
 		String len = zeroFormat(String.valueOf(Integer.toHexString(length)), 2);
@@ -242,5 +242,9 @@ public class DataManager {
 
 	public String getDataValue(String key) {
 		return null;
+	}
+	
+	public RTUData getRTUData() {
+		return mRtuData;
 	}
 }
