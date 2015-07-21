@@ -13,6 +13,7 @@ import android.widget.Switch;
 public class MySwitchPreference extends Preference implements OnCheckedChangeListener{
 	
 	private Switch mSwitch;
+	private boolean mShouldChecked = false;
 	
 	public MySwitchPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -26,8 +27,8 @@ public class MySwitchPreference extends Preference implements OnCheckedChangeLis
 	
 	private void setupSwitch(View parent) {
 		mSwitch = (Switch) parent.findViewById(R.id.prf_switch);
-		if (mSwitch == null) return;
 		mSwitch.setOnCheckedChangeListener(this);
+		mSwitch.setChecked(mShouldChecked);
 	}
 
 	@Override
@@ -38,8 +39,7 @@ public class MySwitchPreference extends Preference implements OnCheckedChangeLis
 	}
 
 	@Override
-	public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-		
+	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
 	}
 	
 	public void setChecked(boolean on) {
@@ -49,6 +49,9 @@ public class MySwitchPreference extends Preference implements OnCheckedChangeLis
 	public boolean isSwitchOn() {
 		return mSwitch.isChecked();
 	}
-
+	
+	public void setShouldChecked(boolean checked){
+		mShouldChecked = checked;
+	}
 }
 

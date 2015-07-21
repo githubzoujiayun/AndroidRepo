@@ -14,7 +14,7 @@
 	    </header>
 	    <header android:id="@+id/params_communication"
 	        android:title="@string/params_communication"
-	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$CommunicationParamsSettings"
+	        android:fragment="com.nordicsemi.nrfUARTv2.CommunicationParamsSettings"
 	        android:widgetLayout="@layout/preference_array"
 	        >
 	        

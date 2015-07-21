@@ -41,9 +41,19 @@ public class SwitchEditTextPreference extends EditTextPreference implements OnCh
 	}
 
 	@Override
-	public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-		// TODO Auto-generated method stub
-		
+	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+		String value = null;
+		String key = getKey();
+		if (RTUData.KEY_ADD_REPORT.equals(key)
+				|| RTUData.KEY_EQUATION_REPORT.endsWith(key)) {
+			if (isChecked) {
+				value = "60";
+			} else {
+				value = "0";
+			}
+			setText(value);
+			setSummary(value);
+		}
 	}
 	
 	public void setChecked(boolean on) {

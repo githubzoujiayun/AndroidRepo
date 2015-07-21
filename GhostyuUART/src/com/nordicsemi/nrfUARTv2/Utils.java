@@ -64,6 +64,7 @@ public class Utils {
 			}
 		}
 		final int len = bytes.length - i;
+		if (len == 0) return "0";
 		byte[] value = new byte[bytes.length - i];
 		System.arraycopy(bytes, i, value, 0, len);
 		bytes = value;
@@ -89,6 +90,12 @@ public class Utils {
 			sum += bytes[i] & 0xff;
 		}
 		return sum;
+	}
+	
+	public static String toIntegerString(byte[] datas,int from,int len) {
+		byte[] value = new byte[len];
+		System.arraycopy(datas, from, value, 0, len);
+		return toIntegerString(value);
 	}
 	
 	public static String toIntegerString(byte[] datas) {

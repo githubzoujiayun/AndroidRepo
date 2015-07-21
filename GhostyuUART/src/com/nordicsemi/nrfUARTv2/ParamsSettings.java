@@ -29,8 +29,8 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	
 	void setupSwitchEditTextPreference(String key) {
 		SwitchEditTextPreference preference = (SwitchEditTextPreference) findPreference(key);
-//		byte[] areaCodeData = mData.getValue(key);
-		byte[] data = Utils.toHexBytes("00000020");
+		byte[] data = mData.getValue(key);
+//		byte[] data = Utils.toHexBytes("00000020");
 		String value = Utils.toIntegerString(data);
 		preference.setText(value);
 		preference.setSummary(value);
@@ -40,10 +40,10 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		MySwitchPreference preference = (MySwitchPreference) findPreference(key);
 		byte[] data = mData.getValue(key);
 		String value = Utils.toIntegerString(data);
-		if (value.equals(0)) {
-			preference.setChecked(false);
+		if (value.equals("0")) {
+			preference.setShouldChecked(false);
 		} else {
-			preference.setChecked(true);
+			preference.setShouldChecked(true);
 		}
 	}
 	
@@ -51,7 +51,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		SwitchPreference preference = (SwitchPreference) findPreference(key);
 		byte[] data = mData.getValue(key);
 		String value = Utils.toIntegerString(data);
-		if (value.equals(0)) {
+		if (value.equals("0")) {
 			preference.setChecked(false);
 		} else {
 			preference.setChecked(true);
@@ -150,14 +150,6 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		}
 	}
 
-	public static class CommunicationParamsSettings extends ParamsSettings {
-
-		@Override
-		protected void setupResource() {
-			addPreferencesFromResource(R.xml.communication_settings);
-		}
-	}
-
 	public static class VideoParamsSettings extends ParamsSettings {
 
 		@Override
@@ -199,6 +191,15 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		@Override
 		protected void setupResource() {
 			addPreferencesFromResource(R.xml.catagory_timer_reporter);
+		}
+
+		@Override
+		void load() {
+			byte[] datas = mData.getValue(RTUData.KEY_TIMER_REPORTER);
+			String value = Utils.toIntegerString(datas, 2, 2);
+			EditTextPreference interval = (EditTextPreference) findPreference("self_reporter_type");
+			interval.setText(value);
+			interval.setSummary(value);
 		}
 	}
 

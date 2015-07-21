@@ -133,26 +133,26 @@ public class RTUData {
 		mKeyTable.put(KEY_SENSOR_CHANNELS16,25);
 		
 		
-		public static final String KEY_SENSOR_CHANNEL_SWITCH = "sensor_channel_switch";
-		public static final String KEY_GATHER_CATAGORY = "gather_catagory";
-		public static final String KEY_GATHER_NUMBER = "gather_number";
-		public static final String KEY_WARNING_MAX = "warning_max";
-		public static final String KEY_WARNING_MIN = "warning_min";
-		public static final String KEY_ADDED_DIVIDE = "added_divide";
-		public static final String KEY_ADDED_DIVIDE_MAX = "added_divide_max";
-		public static final String KEY_ADDED_DIVIDE_MIN = "added_divide_min";
-		public static final String KEY_DATA_BASELINE = "data_baseline";
-		public static final String KEY_DATA_CORRECTION = "data_correction";
-		public static final String KEY_WAVE_RATE = "wave_rate";
-		public static final String KEY_DATA_ZERO = "data_zero";
-		public static final String KEY_DATA_RATIO = "data_ratio";
-		public static final String KEY_DEVICE_MODEL = "device_model";
-		public static final String KEY_GATHER_DURATION = "gather_duration";
-		public static final String KEY_COMMUNICATION_RATE = "communication_rate";
-		public static final String KEY_VERIFY_WAY = "verify_way";
-		public static final String KEY_COMMUNICATION_ADDRESS = "communication_address";
+//		public static final String KEY_SENSOR_CHANNEL_SWITCH = "sensor_channel_switch";
+//		public static final String KEY_GATHER_CATAGORY = "gather_catagory";
+//		public static final String KEY_GATHER_NUMBER = "gather_number";
+//		public static final String KEY_WARNING_MAX = "warning_max";
+//		public static final String KEY_WARNING_MIN = "warning_min";
+//		public static final String KEY_ADDED_DIVIDE = "added_divide";
+//		public static final String KEY_ADDED_DIVIDE_MAX = "added_divide_max";
+//		public static final String KEY_ADDED_DIVIDE_MIN = "added_divide_min";
+//		public static final String KEY_DATA_BASELINE = "data_baseline";
+//		public static final String KEY_DATA_CORRECTION = "data_correction";
+//		public static final String KEY_WAVE_RATE = "wave_rate";
+//		public static final String KEY_DATA_ZERO = "data_zero";
+//		public static final String KEY_DATA_RATIO = "data_ratio";
+//		public static final String KEY_DEVICE_MODEL = "device_model";
+//		public static final String KEY_GATHER_DURATION = "gather_duration";
+//		public static final String KEY_COMMUNICATION_RATE = "communication_rate";
+//		public static final String KEY_VERIFY_WAY = "verify_way";
+//		public static final String KEY_COMMUNICATION_ADDRESS = "communication_address";
 		//sensor channel settings
-		mKeyTable.put();
+//		mKeyTable.put();
 	}
 	
 	public int getAddress(String key) {
