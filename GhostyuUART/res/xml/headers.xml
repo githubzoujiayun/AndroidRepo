@@ -2,7 +2,7 @@
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
      <header android:id="@+id/params_entirety" 
 	        android:title="@string/params_entirety" 
-	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$EntiretyParamsSettings"
+	        android:fragment="com.nordicsemi.nrfUARTv2.EntiretyParamsSettings"
 	        android:widgetLayout="@layout/preference_array"
 	        >
 	    </header>

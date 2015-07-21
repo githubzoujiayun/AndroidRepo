@@ -73,7 +73,6 @@
         <item>21:00-21:59</item>
         <item>22:00-22:59</item>
         <item>23:00-23:59</item>
-        <item>00:00-00:59</item>
     </string-array>
     <string-array name="power_time_values">
         <item>0</item>
@@ -100,7 +99,6 @@
         <item>21</item>
         <item>22</item>
         <item>23</item>
-        <item>24</item>
     </string-array>
     <string-array name="rainfull_time">
         <item>00:00</item>
@@ -225,22 +223,22 @@
         <item>备用1</item>
     </string-array>
     <string-array name="report_type_values">
-        <item>0x4000</item>
-        <item>0x2000</item>
-        <item>0x1000</item>
-        <item>0x0800</item>
-        <item>0x0400</item>
-        <item>0x0200</item>
-        <item>0x0100</item>
-        <item>0x0080</item>
-        <item>0x0040</item>
-        <item>0x0020</item>
-        <item>0x0010</item>
-        <item>0x0008</item>
-        <item>0x0004</item>
-        <item>0x0002</item>
-        <item>0x0001</item>
-        <item>0x0000</item>
+        <item>8000</item>
+        <item>4000</item>
+        <item>2000</item>
+        <item>1000</item>
+        <item>800</item>
+        <item>400</item>
+        <item>200</item>
+        <item>100</item>
+        <item>80</item>
+        <item>40</item>
+        <item>20</item>
+        <item>10</item>
+        <item>8</item>
+        <item>4</item>
+        <item>2</item>
+        <item>1</item>
     </string-array>
     <string-array name="query_types">
         <item>雨量</item>
@@ -261,22 +259,22 @@
         <item>备用0</item>
     </string-array>
     <string-array name="query_type_values">
-        <item>0x4000</item>
-        <item>0x2000</item>
-        <item>0x1000</item>
-        <item>0x0800</item>
-        <item>0x0400</item>
-        <item>0x0200</item>
-        <item>0x0100</item>
-        <item>0x0080</item>
-        <item>0x0040</item>
-        <item>0x0020</item>
-        <item>0x0010</item>
-        <item>0x0008</item>
-        <item>0x0004</item>
-        <item>0x0002</item>
-        <item>0x0001</item>
-        <item>0x0000</item>
+        <item>8000</item>
+        <item>4000</item>
+        <item>2000</item>
+        <item>1000</item>
+        <item>800</item>
+        <item>400</item>
+        <item>200</item>
+        <item>100</item>
+        <item>80</item>
+        <item>40</item>
+        <item>20</item>
+        <item>10</item>
+        <item>8</item>
+        <item>4</item>
+        <item>2</item>
+        <item>1</item>
     </string-array>
     <string-array name="self_reporter_type">
         <item>时段</item>

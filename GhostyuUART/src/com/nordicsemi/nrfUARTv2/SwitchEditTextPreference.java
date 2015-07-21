@@ -25,13 +25,19 @@ public class SwitchEditTextPreference extends EditTextPreference implements OnCh
 		super.onBindView(view);
 		mSwitch = (Switch)view.findViewById(R.id.prf_switch);
 		mSwitch.setOnCheckedChangeListener(this);
+		if (getSummary().equals("0")) {
+			mSwitch.setChecked(false);
+		} else {
+			mSwitch.setChecked(true);
+		}
+		Utils.log("onbindView : switch = " +mSwitch);
 	}
 	
 	@Override
 	protected void onClick() {
-		if (mSwitch.isChecked()) {
+//		if (mSwitch.isChecked()) {
 			super.onClick();
-		}
+//		}
 	}
 
 	@Override
@@ -39,6 +45,8 @@ public class SwitchEditTextPreference extends EditTextPreference implements OnCh
 		// TODO Auto-generated method stub
 		
 	}
-
 	
+	public void setChecked(boolean on) {
+//		mSwitch.setChecked(on);
+	}
 }

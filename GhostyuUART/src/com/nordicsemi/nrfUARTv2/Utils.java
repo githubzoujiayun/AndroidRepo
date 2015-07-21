@@ -7,6 +7,12 @@ import android.util.Log;
 public class Utils {
 	
 	private static final String TAG = "RTU";
+	
+	public static String toHexString(String hex) {
+		hex = hex.replaceFirst("0x",hex);
+		byte[] value = toHexBytes(hex);
+		return toHexString(value);
+	}
 
 	public static byte[] toHexBytes(String source) {
 		String _source = source;
@@ -48,7 +54,19 @@ public class Utils {
 		return Integer.toHexString(data & 0xff);
 	}
 	
+	
 	public static String toHexString(byte[] bytes) {
+		int i = 0;
+		for (;i< bytes.length; i++) {
+			final byte b = bytes[i];
+			if ((b & 0xff) != 0) {
+				break;
+			}
+		}
+		final int len = bytes.length - i;
+		byte[] value = new byte[bytes.length - i];
+		System.arraycopy(bytes, i, value, 0, len);
+		bytes = value;
 		StringBuffer sb = new StringBuffer();
 		for (byte b: bytes) {
 			String hex = Integer.toHexString(b & 0xff).toUpperCase();
@@ -88,11 +106,22 @@ public class Utils {
 		if (datas == null) {
 			return 0;
 		}
+		int i = 0;
+		for (;i< datas.length; i++) {
+			final byte b = datas[i];
+			if ((b & 0xff) != 0) {
+				break;
+			}
+		}
+		final int len = datas.length - i;
+		byte[] value = new byte[datas.length - i];
+		System.arraycopy(datas, i, value, 0, len);
+		datas = value;
 		if (datas.length > 4 * 8 || (datas.length == 4*8 && (datas[0] & 0x80) != 0)) {
 			throw new IllegalArgumentException();
 		}
 		int result = 0;
-		int i=0;
+		i = 0;
 		for(byte b : datas) {
 			result = (result << 8) + (b & 0xff);
 			i++;

@@ -10,11 +10,11 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
 
-public class SwitchPreference extends Preference implements OnCheckedChangeListener{
+public class MySwitchPreference extends Preference implements OnCheckedChangeListener{
 	
 	private Switch mSwitch;
 	
-	public SwitchPreference(Context context, AttributeSet attrs) {
+	public MySwitchPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
@@ -40,6 +40,10 @@ public class SwitchPreference extends Preference implements OnCheckedChangeListe
 	@Override
 	public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 		
+	}
+	
+	public void setChecked(boolean on) {
+		mSwitch.setChecked(on);
 	}
 	
 	public boolean isSwitchOn() {

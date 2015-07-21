@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 public class TestRTU extends TestCase {
 
 	public void testToInteger() {
-		byte[] data = Utils.toHexBytes("ffff");
+		byte[] data = Utils.toHexBytes("0000ffff");
 		int num = Utils.toInteger(data);
 		assertEquals(num, 0xffff);
 	}
@@ -17,4 +17,5 @@ public class TestRTU extends TestCase {
 		String value = Utils.toIntegerString(datas);
 		System.out.println(value);
 	}
+	
 }

@@ -7,18 +7,20 @@ import android.util.SparseArray;
 
 public class RTUData {
 	/*
-	 * ȫ�ֲ���
+	 * EntierySettings
 	 */
 	public static final String KEY_SHOW_RTU_TIME = "show_rtu_time";
 	public static final String KEY_SHOW_FRAM_COUNT = "show_fram_count";
+	
 	public static final String KEY_REPORT_TYPES = "report_types";
 	public static final String KEY_QUERY_TYPES = "query_types";
+	
 	public static final String KEY_TIMER_REPORTER = "timer_reporter";
 	public static final String KEY_CATAGORY_TIMER_REPOTER = "catagory_timer_repoter";
+	
 	public static final String KEY_ADD_REPORT = "add_report";
 	public static final String KEY_EQUATION_REPORT = "equation_report";
 	public static final String KEY_HOUR_REPORT = "hour_report";
-	
 	public static final String KEY_AREA_CODE = "area_code";
 	public static final String KEY_ADDR_ENCODING = "addr_encoding";
 	public static final String KEY_STATION_NO = "station_no";
@@ -31,7 +33,51 @@ public class RTUData {
 	public static final String KEY_HYETOMETER = "hyetometer";
 	public static final String KEY_EVAPORATING = "evaporating";
 	public static final String KEY_STREAM_COUNT_STEP = "stream_count_step";
-
+	
+	
+	/*
+	 * SensorSettings
+	 */
+	public static final String KEY_SENSOR_PREHEAT_TIME = "sensor_preheat_time";
+	public static final String KEY_SENSOR_CHANNELS1 = "sensor_channels1";
+	public static final String KEY_SENSOR_CHANNELS2 = "sensor_channels2";
+	public static final String KEY_SENSOR_CHANNELS3 = "sensor_channels3";
+	public static final String KEY_SENSOR_CHANNELS4 = "sensor_channels4";
+	public static final String KEY_SENSOR_CHANNELS5 = "sensor_channels5";
+	public static final String KEY_SENSOR_CHANNELS6 = "sensor_channels6";
+	public static final String KEY_SENSOR_CHANNELS7 = "sensor_channels7";
+	public static final String KEY_SENSOR_CHANNELS8 = "sensor_channels8";
+	public static final String KEY_SENSOR_CHANNELS9 = "sensor_channels9";
+	public static final String KEY_SENSOR_CHANNELS10 = "sensor_channels10";
+	public static final String KEY_SENSOR_CHANNELS11 = "sensor_channels11";
+	public static final String KEY_SENSOR_CHANNELS12 = "sensor_channels12";
+	public static final String KEY_SENSOR_CHANNELS13 = "sensor_channels13";
+	public static final String KEY_SENSOR_CHANNELS14 = "sensor_channels14";
+	public static final String KEY_SENSOR_CHANNELS15 = "sensor_channels15";
+	public static final String KEY_SENSOR_CHANNELS16 = "sensor_channels16";
+	
+	//sensor channel settings
+	public static final String KEY_SENSOR_CHANNEL_SWITCH = "sensor_channel_switch";
+	public static final String KEY_GATHER_CATAGORY = "gather_catagory";
+	public static final String KEY_GATHER_NUMBER = "gather_number";
+	public static final String KEY_WARNING_MAX = "warning_max";
+	public static final String KEY_WARNING_MIN = "warning_min";
+	public static final String KEY_ADDED_DIVIDE = "added_divide";
+	public static final String KEY_ADDED_DIVIDE_MAX = "added_divide_max";
+	public static final String KEY_ADDED_DIVIDE_MIN = "added_divide_min";
+	public static final String KEY_DATA_BASELINE = "data_baseline";
+	public static final String KEY_DATA_CORRECTION = "data_correction";
+	public static final String KEY_WAVE_RATE = "wave_rate";
+	public static final String KEY_DATA_ZERO = "data_zero";
+	public static final String KEY_DATA_RATIO = "data_ratio";
+	public static final String KEY_DEVICE_MODEL = "device_model";
+	public static final String KEY_GATHER_DURATION = "gather_duration";
+	public static final String KEY_COMMUNICATION_RATE = "communication_rate";
+	public static final String KEY_VERIFY_WAY = "verify_way";
+	public static final String KEY_COMMUNICATION_ADDRESS = "communication_address";
+	
+	
+	
 	private static final String TAG = "RTUData";
 	/**
 	 * key : register address value : data
@@ -66,6 +112,47 @@ public class RTUData {
 		mKeyTable.put(KEY_HYETOMETER, 243);
 		mKeyTable.put(KEY_EVAPORATING, 232);
 		mKeyTable.put(KEY_STREAM_COUNT_STEP, 235);
+		
+		//sensor settings
+		mKeyTable.put(KEY_SENSOR_PREHEAT_TIME,226);
+		mKeyTable.put(KEY_SENSOR_CHANNELS1,10);
+		mKeyTable.put(KEY_SENSOR_CHANNELS2,11);
+		mKeyTable.put(KEY_SENSOR_CHANNELS3,12);
+		mKeyTable.put(KEY_SENSOR_CHANNELS4,13);
+		mKeyTable.put(KEY_SENSOR_CHANNELS5,14);
+		mKeyTable.put(KEY_SENSOR_CHANNELS6,15);
+		mKeyTable.put(KEY_SENSOR_CHANNELS7,16);
+		mKeyTable.put(KEY_SENSOR_CHANNELS8,17);
+		mKeyTable.put(KEY_SENSOR_CHANNELS9,18);
+		mKeyTable.put(KEY_SENSOR_CHANNELS10,19);
+		mKeyTable.put(KEY_SENSOR_CHANNELS11,20);
+		mKeyTable.put(KEY_SENSOR_CHANNELS12,21);
+		mKeyTable.put(KEY_SENSOR_CHANNELS13,22);
+		mKeyTable.put(KEY_SENSOR_CHANNELS14,23);
+		mKeyTable.put(KEY_SENSOR_CHANNELS15,24);
+		mKeyTable.put(KEY_SENSOR_CHANNELS16,25);
+		
+		
+		public static final String KEY_SENSOR_CHANNEL_SWITCH = "sensor_channel_switch";
+		public static final String KEY_GATHER_CATAGORY = "gather_catagory";
+		public static final String KEY_GATHER_NUMBER = "gather_number";
+		public static final String KEY_WARNING_MAX = "warning_max";
+		public static final String KEY_WARNING_MIN = "warning_min";
+		public static final String KEY_ADDED_DIVIDE = "added_divide";
+		public static final String KEY_ADDED_DIVIDE_MAX = "added_divide_max";
+		public static final String KEY_ADDED_DIVIDE_MIN = "added_divide_min";
+		public static final String KEY_DATA_BASELINE = "data_baseline";
+		public static final String KEY_DATA_CORRECTION = "data_correction";
+		public static final String KEY_WAVE_RATE = "wave_rate";
+		public static final String KEY_DATA_ZERO = "data_zero";
+		public static final String KEY_DATA_RATIO = "data_ratio";
+		public static final String KEY_DEVICE_MODEL = "device_model";
+		public static final String KEY_GATHER_DURATION = "gather_duration";
+		public static final String KEY_COMMUNICATION_RATE = "communication_rate";
+		public static final String KEY_VERIFY_WAY = "verify_way";
+		public static final String KEY_COMMUNICATION_ADDRESS = "communication_address";
+		//sensor channel settings
+		mKeyTable.put();
 	}
 	
 	public int getAddress(String key) {
@@ -81,12 +168,12 @@ public class RTUData {
 		int address = mKeyTable.get(key);
 		byte[] value = getValue(address);
 		if (value == null) {
-			value = new byte[0];
+			value = new byte[4];
 		}
 		return value;
 	}
 	
-	public byte[] getValue(int address) {
+	private byte[] getValue(int address) {
 		return mDataCache.get(address);
 	}
 

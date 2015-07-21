@@ -115,6 +115,9 @@ public class DataManager {
 	}
 	
 	public boolean write(byte[] bytes) {
+		if (mService == null) {
+			return false;
+		}
 		if (mService.getGatt() == null) {
     		return false;
     	}
