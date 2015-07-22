@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     <SwitchPreference 
-        android:key="vedio_switch"
-        android:title="@string/vedio_switch"
+        android:key="video_switch"
+        android:title="@string/video_switch"
         android:switchTextOn="@string/opened"
 		android:switchTextOff="@string/closed"
-		android:summaryOn="@string/vedio_open"
-		android:summaryOff="@string/vedio_off"
+		android:summaryOn="@string/video_open"
+		android:summaryOff="@string/video_off"
         />
 	<EditTextPreference 
 	    android:key="shooting_interval"
@@ -23,7 +23,7 @@
 	    android:entryValues="@array/image_format_values"
 	    />
 	<EditTextPreference 
-	    android:key="preheat_time"
+	    android:key="video_preheat_time"
 	    android:title="@string/preheat_time"
 	    />
 	<EditTextPreference 
@@ -46,28 +46,28 @@
 	    android:key="execute_time"
 	    android:title="@string/execute_time"
 	    />
-	<SwitchPreference 
+	<ListPreference 
 	    android:key="shoot_location1"
 	    android:title="@string/shoot_location1"
-	    android:switchTextOn="@string/opened"
-	    android:switchTextOff="@string/closed"
+	    android:entries="@array/shoot_location"
+	    android:entryValues="@array/shoot_location_values"
 	    />
-	<SwitchPreference 
+	<ListPreference 
 	    android:key="shoot_location2"
 	    android:title="@string/shoot_location2"
-	    android:switchTextOn="@string/opened"
-	    android:switchTextOff="@string/closed"
+	    android:entries="@array/shoot_location"
+	    android:entryValues="@array/shoot_location_values"
 	    />
-	<SwitchPreference 
+	<ListPreference 
 	    android:key="shoot_location3"
 	    android:title="@string/shoot_location3"
-	    android:switchTextOn="@string/opened"
-	    android:switchTextOff="@string/closed"
+	    android:entries="@array/shoot_location"
+	    android:entryValues="@array/shoot_location_values"
 	    />
-	<SwitchPreference 
+	<ListPreference 
 	    android:key="shoot_location4"
 	    android:title="@string/shoot_location4"
-	    android:switchTextOn="@string/opened"
-	    android:switchTextOff="@string/closed"
+	    android:entries="@array/shoot_location"
+	    android:entryValues="@array/shoot_location_values"
 	    />
 </PreferenceScreen>

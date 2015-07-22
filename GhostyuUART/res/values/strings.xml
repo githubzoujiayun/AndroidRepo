@@ -153,6 +153,7 @@
 	<string name="center_address4">中心4地址</string>
 	<string name="RS485">RS485</string>
 	<string name="RS232_1">RS232_1</string>
+	<string name="RS232_2">RS232_2</string>
 	<string name="RS232_3">RS232_3</string>
 	<string name="gather_channel_settings">采集通道设置</string>
 	<string name="main_channel_settings">主信道设置</string>
@@ -161,9 +162,9 @@
 	<string name="preheat_time">预热时间</string>
 	<string name="backup_channel_settings">备用信道设置</string>
 	<string name="tsm_func">TSM 功能</string>
-	<string name="vedio_switch">视频功能</string>
-	<string name="vedio_open">视频已启用</string>
-	<string name="vedio_off">视频已关闭</string>
+	<string name="video_switch">视频功能</string>
+	<string name="video_open">视频已启用</string>
+	<string name="video_off">视频已关闭</string>
 	<string name="opened">开启</string>
 	<string name="closed">关闭</string>
 	<string name="shooting_interval">拍摄间隔</string>
@@ -216,4 +217,9 @@
 	<string name="data_mark">数据标定</string>
 	<string name="manual_correction">人工修正</string>
 	<string name="progress_downloading">正在下载...</string>
+	<string name="wave_check">载波检测</string>
+	<string name="uniform_switch_on">需要</string>
+	<string name="uniform_switch_off">不需要</string>
+	<string name="heartbeat_switch_on">打开</string>
+	<string name="heartbeat_switch_off">关闭</string>
 </resources>

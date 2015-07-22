@@ -15,7 +15,8 @@ public class SwitchEditTextPreference extends EditTextPreference implements OnCh
 	private static final String KEY_EQUATION_REPORT = "equation_report";
 	
 	private Switch mSwitch;
-
+	private boolean mShouldChecked = false;
+	
 	public SwitchEditTextPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -25,7 +26,7 @@ public class SwitchEditTextPreference extends EditTextPreference implements OnCh
 		super.onBindView(view);
 		mSwitch = (Switch)view.findViewById(R.id.prf_switch);
 		mSwitch.setOnCheckedChangeListener(this);
-		if (getSummary().equals("0")) {
+		if (!mShouldChecked) {
 			mSwitch.setChecked(false);
 		} else {
 			mSwitch.setChecked(true);
@@ -51,12 +52,14 @@ public class SwitchEditTextPreference extends EditTextPreference implements OnCh
 			} else {
 				value = "0";
 			}
-			setText(value);
-			setSummary(value);
+		} else if (!isChecked) {
+			value = "0";
 		}
+		setText(value);
+		setSummary(value);
 	}
 	
-	public void setChecked(boolean on) {
-//		mSwitch.setChecked(on);
+	public void setShouldChecked(boolean on) {
+		mShouldChecked = on;
 	}
 }

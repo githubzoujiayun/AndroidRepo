@@ -32,6 +32,11 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		byte[] data = mData.getValue(key);
 //		byte[] data = Utils.toHexBytes("00000020");
 		String value = Utils.toIntegerString(data);
+		if (value.equals("0")) {
+			preference.setShouldChecked(false);
+		} else {
+			preference.setShouldChecked(true);
+		}
 		preference.setText(value);
 		preference.setSummary(value);
 	}
@@ -58,31 +63,39 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		}
 	}
 	
-	void setupEditTextPreference(String key) {
+	void setupEditTextPreference(String key,int from,int len) {
 		EditTextPreference preference = (EditTextPreference) findPreference(key);
 		byte[] areaCodeData = mData.getValue(key);
-		String value = Utils.toIntegerString(areaCodeData);
+		String value = Utils.toIntegerString(areaCodeData,from,len);
 		preference.setText(value);
 		preference.setSummary(value);
 	}
 	
-	void setupListPreference(String key) {
-		setupListPreference(key, VALUE_TYPE_INTEGER);
+	void setupEditTextPreference(String key) {
+		setupEditTextPreference(key,0,3);
 	}
 	
-	void setupListPreference(String key,int valueType) {
+	void setupListPreference(String key,int from,int len) {
+		setupListPreference(key,VALUE_TYPE_INTEGER,from,len);
+	}
+	
+	void setupListPreference(String key) {
+		setupListPreference(key, VALUE_TYPE_INTEGER,0,4);
+	}
+	
+	void setupListPreference(String key,int valueType,int from,int len) {
 		RTUData rtu = mDataManager.getRTUData();
 		ListPreference preference = (ListPreference) findPreference(key);
 		byte[] datas = rtu.getValue(key);
 		switch (valueType) {
 		case VALUE_TYPE_INTEGER:
-			String value = Utils.toIntegerString(datas);
+			String value = Utils.toIntegerString(datas,from,len);
 			setPreferenceIndex(preference, value);
 			break;
 		case VALUE_TYPE_STRING:
 			break;
 		case VALUE_TYPE_HEX:
-			value = Utils.toHexString(datas);
+			value = Utils.toHexString(datas,0,len);
 			setPreferenceIndex(preference, value);
 			break;
 		}
@@ -147,14 +160,6 @@ public abstract class ParamsSettings extends PreferenceFragment {
 			setupMySwitchPreference(RTUData.KEY_SENSOR_CHANNELS14);
 			setupMySwitchPreference(RTUData.KEY_SENSOR_CHANNELS15);
 			setupMySwitchPreference(RTUData.KEY_SENSOR_CHANNELS16);
-		}
-	}
-
-	public static class VideoParamsSettings extends ParamsSettings {
-
-		@Override
-		protected void setupResource() {
-			addPreferencesFromResource(R.xml.vedio_settings);
 		}
 	}
 

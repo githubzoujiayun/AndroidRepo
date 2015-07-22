@@ -379,28 +379,30 @@
         <item>115200bps</item>
     </string-array>
     <string-array name="RS_frequency_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
+        <item>300</item>
+        <item>600</item>
+        <item>1200</item>
+        <item>2400</item>
+        <item>4800</item>
+        <item>9600</item>
+        <item>19200</item>
+        <item>38400</item>
+        <item>57600</item>
+        <item>115200</item>
     </string-array>
     <string-array name="communication_way">
         <item>电缆直连</item>
         <item>GSM短信</item>
         <item>GPRS/CDMA</item>
         <item>超短波电台</item>
+        <item>卫星</item>
     </string-array>
     <string-array name="communication_way_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>4</item>
     </string-array>
     <string-array name="backup_communication_way">
         <item>备用通道关闭</item>
@@ -463,7 +465,6 @@
         <item>15</item>
         <item>16</item>
         <item>17</item>
-        <item>18</item>
     </string-array>
     <string-array name="camera_model">
         <item>水利专用FM-DSC03 RS485</item>
@@ -635,5 +636,36 @@
         <item>13</item>
         <item>14</item>
     </string-array>
-
+    <string-array name="wave_check">
+        <item>低电平在线</item>
+        <item>高电平在线</item>
+        <item>载波检测关闭</item>
+    </string-array>
+    <string-array name="wave_check_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+	<string-array name="shoot_location">
+	    <item>关闭</item>
+	    <item>位置1</item>
+	    <item>位置2</item>
+	    <item>位置3</item>
+	    <item>位置4</item>
+	    <item>位置5</item>
+	    <item>位置6</item>
+	    <item>位置7</item>
+	    <item>位置8</item>
+	</string-array>
+	<string-array name="shoot_location_values">
+	    <item>0</item>
+	    <item>1</item>
+	    <item>2</item>
+	    <item>3</item>
+	    <item>4</item>
+	    <item>5</item>
+	    <item>6</item>
+	    <item>7</item>
+	    <item>8</item>
+	</string-array>
 </resources>

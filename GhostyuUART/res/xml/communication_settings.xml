@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <SwitchPreference 
+        android:key="tsm_func"
+        android:title="@string/tsm_func"
+        android:summaryOn="@string/tsm_summary_on"
+        android:summaryOff="@string/tsm_summary_off"
+        android:switchTextOn="@string/tsm_switch_on"
+        android:switchTextOff="@string/tsm_switch_off"
+        />
     <PreferenceScreen 
         android:widgetLayout="@layout/preference_array"
         android:title="@string/whole_params_settings">
@@ -24,29 +32,21 @@
         android:key="response_time"
         android:title="@string/response_time"
         />
-    <ListPreference
-        android:key="uniform_receipt"
-        android:title="@string/uniform_receipt"
-        entries="@array/uniform_receipt"
-        entryValues="@array/uniform_receipt_values"
-        />
-     <EditTextPreference
+     <com.nordicsemi.nrfUARTv2.SwitchEditTextPreference
         android:key="uniform_interval"
         android:title="@string/uniform_interval"
+        android:switchTextOn="@string/uniform_switch_on"
+        android:switchTextOff="@string/uniform_switch_off"
         />
      <EditTextPreference 
          android:key="communication_password"
          android:title="@string/communication_password"
          />
-     <ListPreference 
-         android:key="heartbeat_func"
-         android:title="@string/heartbeat_func"
-         android:entries="@array/heartbeat_func"
-         android:entryValues="@array/heartbeat_func_values"
-         />
-      <EditTextPreference 
+      <com.nordicsemi.nrfUARTv2.SwitchEditTextPreference 
          android:key="heartbeat_interval"
          android:title="@string/heartbeat_interval"
+         android:switchTextOn="@string/heartbeat_switch_on"
+         android:switchTextOff="@string/heartbeat_switch_off"
          />
       <EditTextPreference 
          android:key="center_address1"
@@ -65,7 +65,7 @@
          android:title="@string/center_address4"
          />
     </PreferenceScreen>
-    <PreferenceScreen 
+    <PreferenceCategory
         android:widgetLayout="@layout/preference_array"
         android:title="@string/gather_channel_settings">
         <ListPreference 
@@ -86,8 +86,8 @@
             android:entries="@array/RS_frequency"
             android:entryValues="@array/RS_frequency_values"
             />
-    </PreferenceScreen>
-    <PreferenceScreen 
+    </PreferenceCategory>
+    <PreferenceCategory 
         android:widgetLayout="@layout/preference_array"
         android:title="@string/main_channel_settings">
         
@@ -107,8 +107,14 @@
             android:key="preheat_time"
             android:title="@string/preheat_time"
             />
-    </PreferenceScreen>
-    <PreferenceScreen 
+        <ListPreference 
+            android:key="wave_check"
+            android:title="@string/wave_check"
+            android:entries="@array/wave_check"
+            android:entryValues="@array/wave_check_value"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory 
         android:widgetLayout="@layout/preference_array"
         android:title="@string/backup_channel_settings">
         <ListPreference 
@@ -123,15 +129,5 @@
             android:entries="@array/RS_frequency"
             android:entryValues="@array/RS_frequency_values"
             />
-    </PreferenceScreen>
-    
-    <SwitchPreference 
-        android:key="tsm_func"
-        android:title="@string/tsm_func"
-        android:summaryOn="@string/tsm_summary_on"
-        android:summaryOff="@string/tsm_summary_off"
-        android:switchTextOn="@string/tsm_switch_on"
-        android:switchTextOff="@string/tsm_switch_off"
-        />
-
+    </PreferenceCategory>
 </PreferenceScreen>

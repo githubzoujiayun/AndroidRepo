@@ -8,6 +8,12 @@ public class Utils {
 	
 	private static final String TAG = "RTU";
 	
+	public static String toHexString(byte[] datas,int from,int len) {
+		byte[] value = new byte[len];
+		System.arraycopy(datas, from, value, 0, len);
+		return toHexString(value);
+	}
+	
 	public static String toHexString(String hex) {
 		hex = hex.replaceFirst("0x",hex);
 		byte[] value = toHexBytes(hex);

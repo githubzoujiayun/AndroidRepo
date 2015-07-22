@@ -76,7 +76,46 @@ public class RTUData {
 	public static final String KEY_VERIFY_WAY = "verify_way";
 	public static final String KEY_COMMUNICATION_ADDRESS = "communication_address";
 	
+	//communication settings
+	public static final String KEY_COMMUNICATION_PROTOCAL = "communication_protocal";
+	public static final String KEY_COMPACT_PROTOCAL = "compact_protocal";
+	public static final String KEY_BIAS_TIME = "bias_time";
+	public static final String KEY_RESPONSE_TIME = "response_time";
+	public static final String KEY_UNIFORM_RECEIPT = "uniform_receipt";
+	public static final String KEY_UNIFORM_INTERVAL = "uniform_interval";
+	public static final String KEY_COMMUNICATION_PASSWORD = "communication_password";
+	public static final String KEY_HEARTBEAT_FUNC = "heartbeat_func";
+	public static final String KEY_HEARTBEAT_INTERVAL = "heartbeat_interval";
+	public static final String KEY_CENTER_ADDRESS1 = "center_address1";
+	public static final String KEY_CENTER_ADDRESS2 = "center_address2";
+	public static final String KEY_CENTER_ADDRESS3 = "center_address3";
+	public static final String KEY_CENTER_ADDRESS4 = "center_address4";
+	public static final String KEY_RS485 = "RS485";
+	public static final String KEY_RS232_1 = "RS232_1";
+	public static final String KEY_RS232_3 = "RS232_3";
+	public static final String KEY_COMMUNICATION_WAY = "communication_way";
+	public static final String KEY_COMMUNICATION_SPEED = "communication_speed";
+	public static final String KEY_PREHEAT_TIME = "preheat_time";
+	public static final String KEY_WAVE_CHECK = "wave_check";
+	public static final String KEY_BACKUP_COMMUNICATION_WAY = "backup_communication_way";
+	public static final String KEY_BACKUP_COMMUNICATION_SPEED = "backup_communication_speed";
+	public static final String KEY_TSM_FUNC = "tsm_func";
+
 	
+	//video settings
+	public static final String KEY_VIDEO_SWITCH = "video_switch";
+	public static final String KEY_SHOOTING_INTERVAL = "shooting_interval";
+	public static final String KEY_SEND_INTERVAL = "send_interval";
+	public static final String KEY_IMAGE_FORMAT = "image_format";
+	public static final String KEY_VIDEO_PREHEAT_TIME = "video_preheat_time";
+	public static final String KEY_RS485_ADDRESS = "rs485_address";
+	public static final String KEY_CAMERA_RATE = "camera_rate";
+	public static final String KEY_CAMERA_MODEL = "camera_model";
+	public static final String KEY_EXECUTE_TIME = "execute_time";
+	public static final String KEY_SHOOT_LOCATION1 = "shoot_location1";
+	public static final String KEY_SHOOT_LOCATION2 = "shoot_location2";
+	public static final String KEY_SHOOT_LOCATION3 = "shoot_location3";
+	public static final String KEY_SHOOT_LOCATION4 = "shoot_location4";
 	
 	private static final String TAG = "RTUData";
 	/**
@@ -153,6 +192,49 @@ public class RTUData {
 //		public static final String KEY_COMMUNICATION_ADDRESS = "communication_address";
 		//sensor channel settings
 //		mKeyTable.put();
+		
+		//communication settings
+		mKeyTable.put(KEY_COMMUNICATION_PROTOCAL,9); //d3
+		mKeyTable.put(KEY_COMPACT_PROTOCAL,296);
+		mKeyTable.put(KEY_BIAS_TIME,245); //d3
+		mKeyTable.put(KEY_RESPONSE_TIME,8); // ;1-255
+//		mKeyTable.put(KEY_UNIFORM_RECEIPT,237); //
+		mKeyTable.put(KEY_UNIFORM_INTERVAL,237); //;0-15
+		mKeyTable.put(KEY_COMMUNICATION_PASSWORD,224); //;0-65535
+		mKeyTable.put(KEY_HEARTBEAT_FUNC,230); //;30-250s
+		mKeyTable.put(KEY_HEARTBEAT_INTERVAL,229); //;0,1
+		mKeyTable.put(KEY_CENTER_ADDRESS1,223); //d3
+		mKeyTable.put(KEY_CENTER_ADDRESS2,223); //d2
+		mKeyTable.put(KEY_CENTER_ADDRESS3,223); //d1
+		mKeyTable.put(KEY_CENTER_ADDRESS4,223); //d0
+		
+		mKeyTable.put(KEY_RS485,242);
+		mKeyTable.put(KEY_RS232_1,239);
+		mKeyTable.put(KEY_RS232_3,241); //;;list
+		
+		mKeyTable.put(KEY_COMMUNICATION_WAY,246); //;;list
+		mKeyTable.put(KEY_COMMUNICATION_SPEED,240);
+		mKeyTable.put(KEY_PREHEAT_TIME,245); //d2
+		mKeyTable.put(KEY_WAVE_CHECK,236);
+		
+		mKeyTable.put(KEY_BACKUP_COMMUNICATION_WAY,244);
+		mKeyTable.put(KEY_BACKUP_COMMUNICATION_SPEED,239);//;;enable=false
+		mKeyTable.put(KEY_TSM_FUNC,9); //0-2
+		
+		//Video settings
+		mKeyTable.put(KEY_VIDEO_SWITCH,218); //;0,1
+		mKeyTable.put(KEY_SHOOTING_INTERVAL,219); //;1-1440minutes
+		mKeyTable.put(KEY_SEND_INTERVAL,231); //;0,1-1440
+		mKeyTable.put(KEY_IMAGE_FORMAT,220);
+		mKeyTable.put(KEY_VIDEO_PREHEAT_TIME,319); //;0-63s
+		mKeyTable.put(KEY_RS485_ADDRESS,222); //;0-16777215r
+		mKeyTable.put(KEY_CAMERA_RATE,243);
+		mKeyTable.put(KEY_CAMERA_MODEL,221);
+		mKeyTable.put(KEY_EXECUTE_TIME,328); //;0-63s
+		mKeyTable.put(KEY_SHOOT_LOCATION1,320); //;0-8
+		mKeyTable.put(KEY_SHOOT_LOCATION2,321);
+		mKeyTable.put(KEY_SHOOT_LOCATION3,322);
+		mKeyTable.put(KEY_SHOOT_LOCATION4,323);
 	}
 	
 	public int getAddress(String key) {

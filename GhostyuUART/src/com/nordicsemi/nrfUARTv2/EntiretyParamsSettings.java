@@ -77,12 +77,12 @@ public class EntiretyParamsSettings extends ParamsSettings implements OnPreferen
 	@Override
 	void load() {
 		setupEditTextPreference(RTUData.KEY_AREA_CODE);
-		setupListPreference(RTUData.KEY_ADDR_ENCODING, VALUE_TYPE_INTEGER);
+		setupListPreference(RTUData.KEY_ADDR_ENCODING);
 		setupEditTextPreference(RTUData.KEY_STATION_NO);
-		setupListPreference(RTUData.KEY_STATION_TYPE, VALUE_TYPE_HEX);//
-		setupListPreference(RTUData.KEY_INTERVAL_STORAGE, VALUE_TYPE_INTEGER);
-		setupListPreference(RTUData.KEY_INTERVAL_SAMPLING, VALUE_TYPE_INTEGER);
-		setupListPreference(RTUData.KEY_WORK_STYLE,VALUE_TYPE_INTEGER);
+		setupListPreference(RTUData.KEY_STATION_TYPE);//
+		setupListPreference(RTUData.KEY_INTERVAL_STORAGE);
+		setupListPreference(RTUData.KEY_INTERVAL_SAMPLING);
+		setupListPreference(RTUData.KEY_WORK_STYLE);
 		setupListPreference(RTUData.KEY_POWER_TIME);
 		setupListPreference(RTUData.KEY_RAINFULL_TIME);
 		setupListPreference(RTUData.KEY_HYETOMETER);
