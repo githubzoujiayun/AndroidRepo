@@ -22,7 +22,7 @@
 	    <header android:id="@+id/params_video"
 	        android:title="@string/params_video"
 	        android:widgetLayout="@layout/preference_array"
-	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$VideoParamsSettings">
+	        android:fragment="com.nordicsemi.nrfUARTv2.VideoParamsSettings">
 	        
 	    </header>
 	    <header android:id="@+id/params_internal_dtu"

@@ -10,9 +10,6 @@ import android.widget.Switch;
 
 public class SwitchEditTextPreference extends EditTextPreference implements OnCheckedChangeListener{
 	
-	private static final String KEY_ADD_REPORT = "add_report";
-	private static final String KEY_HOUR_REPORT = "hour_report";
-	private static final String KEY_EQUATION_REPORT = "equation_report";
 	
 	private Switch mSwitch;
 	private boolean mShouldChecked = false;

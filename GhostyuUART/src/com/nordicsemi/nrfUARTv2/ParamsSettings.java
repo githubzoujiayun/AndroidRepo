@@ -72,7 +72,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	}
 	
 	void setupEditTextPreference(String key) {
-		setupEditTextPreference(key,0,3);
+		setupEditTextPreference(key,0,4);
 	}
 	
 	void setupListPreference(String key,int from,int len) {

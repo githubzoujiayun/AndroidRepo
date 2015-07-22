@@ -2,7 +2,6 @@ package com.nordicsemi.nrfUARTv2;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -13,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-import com.nordicsemi.nrfUARTv2.DataManager.DataListener;
 
 public class Settings extends PreferenceFragment implements OnPreferenceClickListener{
 	
@@ -70,24 +67,6 @@ public class Settings extends PreferenceFragment implements OnPreferenceClickLis
 		return false;
 	}
 
-	private DataListener mDataListener = new DataListener() {
-		
-		@Override
-		public void onDataReciver(String action, Intent intent) {
-			final Intent mIntent = intent;
-
-			if (action.equals(UartService.ACTION_GATT_DISCONNECTED)) {
-				
-			} else if (action.equals(UartService.ACTION_GATT_SERVICES_DISCOVERED)) {
-				
-			} else if (action.equals(UartService.ACTION_DATA_AVAILABLE)) {
-				
-			} else if (action.equals(UartService.DEVICE_DOES_NOT_SUPPORT_UART)) {
-				
-			}
-		}
-	};
-	
 	private static class Progress extends ProgressDialog {
 
 		public Progress(Context context) {
@@ -118,7 +97,6 @@ public class Settings extends PreferenceFragment implements OnPreferenceClickLis
 		@Override
 		protected Boolean doInBackground(String... arg0) {
 			DataManager dm = DataManager.getInstance(getActivity());
-			dm.setDataListener(mDataListener);
 			return dm.fetchAll();
 		}
 

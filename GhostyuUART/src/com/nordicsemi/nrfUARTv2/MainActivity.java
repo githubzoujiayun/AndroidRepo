@@ -74,6 +74,8 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     private static final int UART_PROFILE_DISCONNECTED = 21;
     private static final int STATE_OFF = 10;
     private static final String REGEX = "[^\\d|A-F|a-f]";
+    
+    private Handler mHandler = new Handler();
 
     TextView mRemoteRssiVal;
     RadioGroup mRg;
@@ -247,7 +249,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 				String currentDateTimeString = DateFormat.getTimeInstance().format(new Date());
 				listAdapter.add("["+currentDateTimeString+"] TX: "+ message);
 				messageListView.smoothScrollToPosition(listAdapter.getCount() - 1);
-				hexEditMessage.setText("");
+//				hexEditMessage.setText("");
                 
             }
         });
@@ -396,6 +398,35 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
             .show();
         }
     }
+    
+
+	@Override
+	public void onDataReciver(final byte[] data) {
+//		Message m = mHandler.obtainMessage();
+//		m.obj = data;
+//		m.sendToTarget();
+//		runOnUiThread(new Runnable() {
+//			public void run() {
+//				try {
+//					String text = null;
+//					if (isHexSend) {
+//						text = Utils.toHexString(data);
+//					} else {
+//						text = new String(data, "UTF-8");
+//					}
+//					String currentDateTimeString = DateFormat
+//							.getTimeInstance().format(new Date());
+//					listAdapter.add("[" + currentDateTimeString
+//							+ "] RX: " + text);
+//					messageListView.smoothScrollToPosition(listAdapter
+//							.getCount() - 1);
+//
+//				} catch (Exception e) {
+//					Log.e(TAG, e.toString());
+//				}
+//			}
+//		});
+	}
 
 	@Override
 	public void onDataReciver(String action,Intent intent) {

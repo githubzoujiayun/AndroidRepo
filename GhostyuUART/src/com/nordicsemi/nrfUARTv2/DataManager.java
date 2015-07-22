@@ -8,12 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.Toast;
 
 public class DataManager {
 	
@@ -30,6 +28,7 @@ public class DataManager {
 	private RTUData mRtuData;
 	
 	public interface DataListener{
+		public void onDataReciver(byte[] data);
 		public void onDataReciver(String action,Intent intent);
 	}
 	
@@ -116,9 +115,11 @@ public class DataManager {
 	
 	public boolean write(byte[] bytes) {
 		if (mService == null) {
+			Utils.log("Warning : service is not started!");
 			return false;
 		}
 		if (mService.getGatt() == null) {
+			Utils.log("Warning : gatt is not ready!");
     		return false;
     	}
 		return mService.writeRXCharacteristic(bytes);
@@ -133,6 +134,9 @@ public class DataManager {
 	}
 	
 	public String getDeviceName(){
+		if (mDevice == null) {
+			return null;
+		}
 		return mDevice.getName();
 	}
 	
@@ -154,6 +158,7 @@ public class DataManager {
 			mService.disconnect();
 			
 		}
+		mDevice = null;
 	}
 	
 	public void closeService() {
@@ -166,6 +171,9 @@ public class DataManager {
 		int times = total / length;
 		int failCount = 0;
 		for (int i=0;i<times;i++) {
+			if (!isBTEnable() || mDevice == null) {
+				return false;
+			}
 			int address = 4 * i;
 			if (!fetch(address, length)){
 				failCount ++;
@@ -199,12 +207,12 @@ public class DataManager {
 	
 	
 	/**
-	 * 
+	 *  
 	 * @param addr   ��ʼ��ַ
 	 * @param length �ֽڳ���
 	 */
 	public boolean fetch(int addr, int length) {
-		SystemClock.sleep(100);
+		SystemClock.sleep(200);
 		Utils.log("fetch "+addr+", "+length);
 		StringBuffer buffer = new StringBuffer();
 		String len = zeroFormat(String.valueOf(Integer.toHexString(length)), 2);
@@ -239,7 +247,15 @@ public class DataManager {
 		return zeroFormat(addr, 3);
 	}
 	
-	public void parse(byte[] txValue) {
+	public void onDataReciver(byte[] datas) {
+		if (mDataListener != null) {
+			mDataListener.onDataReciver(datas);
+		}
+		parse(datas);
+	}
+	
+	private void parse(byte[] txValue) {
+		Utils.log("recive : " + Utils.toHexString(txValue));
 		mRtuData.parse(txValue);
 	}
 

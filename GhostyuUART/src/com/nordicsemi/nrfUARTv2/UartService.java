@@ -119,21 +119,23 @@ public class UartService extends Service {
         public void onCharacteristicRead(BluetoothGatt gatt,
                                          BluetoothGattCharacteristic characteristic,
                                          int status) {
+        	Utils.log("onCharacteristicRead : " + status+ ", "+Utils.toHexString(characteristic.getValue()));
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
             	final byte[] txValue = characteristic.getValue();
 				DataManager dm = DataManager.getInstance(UartService.this);
-				dm.parse(txValue);
+				dm.onDataReciver(txValue);
             }
         }
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
+        	Utils.log("onCharacteristicRead : " + Utils.toHexString(characteristic.getValue()));
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
             final byte[] txValue = characteristic.getValue();
 			DataManager dm = DataManager.getInstance(UartService.this);
-			dm.parse(txValue);
+			dm.onDataReciver(txValue);
         }
     };
 
@@ -372,12 +374,12 @@ public class UartService extends Service {
         RxChar.setValue(value);
     	boolean status = mBluetoothGatt.writeCharacteristic(RxChar);
     	
-        Log.d(TAG, "write TXchar - status=" + status);  
+        Utils.log("write TXchar - status=" + status);  
         return status;
     }
     
     private void showMessage(String msg) {
-        Log.e(TAG, msg);
+        Utils.log(msg);
     }
     /**
      * Retrieves a list of supported GATT services on the connected device. This should be

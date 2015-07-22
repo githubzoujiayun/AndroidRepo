@@ -14,8 +14,6 @@ public class CommunicationParamsSettings extends ParamsSettings {
 		setupEditTextPreference(RTUData.KEY_BIAS_TIME);
 		setupEditTextPreference(RTUData.KEY_RESPONSE_TIME);
 		setupSwitchEditTextPreference(RTUData.KEY_UNIFORM_INTERVAL);
-		setupEditTextPreference(RTUData.KEY_UNIFORM_INTERVAL);
-		setupSwitchEditTextPreference(RTUData.KEY_UNIFORM_INTERVAL,RTUData.KEY_UNIFORM_RECEIPT);
 		setupEditTextPreference(RTUData.KEY_COMMUNICATION_PASSWORD);
 		setupSwitchEditTextPreference(RTUData.KEY_HEARTBEAT_INTERVAL,RTUData.KEY_HEARTBEAT_FUNC);
 		setupEditTextPreference(RTUData.KEY_CENTER_ADDRESS1,3,1);

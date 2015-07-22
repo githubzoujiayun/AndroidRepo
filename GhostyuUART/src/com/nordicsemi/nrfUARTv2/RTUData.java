@@ -81,7 +81,6 @@ public class RTUData {
 	public static final String KEY_COMPACT_PROTOCAL = "compact_protocal";
 	public static final String KEY_BIAS_TIME = "bias_time";
 	public static final String KEY_RESPONSE_TIME = "response_time";
-	public static final String KEY_UNIFORM_RECEIPT = "uniform_receipt";
 	public static final String KEY_UNIFORM_INTERVAL = "uniform_interval";
 	public static final String KEY_COMMUNICATION_PASSWORD = "communication_password";
 	public static final String KEY_HEARTBEAT_FUNC = "heartbeat_func";
@@ -198,7 +197,6 @@ public class RTUData {
 		mKeyTable.put(KEY_COMPACT_PROTOCAL,296);
 		mKeyTable.put(KEY_BIAS_TIME,245); //d3
 		mKeyTable.put(KEY_RESPONSE_TIME,8); // ;1-255
-//		mKeyTable.put(KEY_UNIFORM_RECEIPT,237); //
 		mKeyTable.put(KEY_UNIFORM_INTERVAL,237); //;0-15
 		mKeyTable.put(KEY_COMMUNICATION_PASSWORD,224); //;0-65535
 		mKeyTable.put(KEY_HEARTBEAT_FUNC,230); //;30-250s
@@ -271,8 +269,6 @@ public class RTUData {
 		// parse data
 		byte[] datas = new byte[len];
 		System.arraycopy(txValue, 3, datas, 0, len);
-		Utils.log(Utils.toHexString(datas));
-		Utils.log(Utils.toHexString(txValue));
 		// checksum
 		int length = txValue.length;
 		byte checksum = txValue[length - 1];
