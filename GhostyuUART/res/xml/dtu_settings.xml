@@ -11,7 +11,7 @@
             android:entries="@array/gprs"
             android:entryValues="@array/gprs"
             android:key="gprs_1"
-            android:title="@string/gprs" />
+            android:title="@string/gprs1" />
 
         <EditTextPreference
             android:key="channel_ip_address_1"
@@ -28,7 +28,7 @@
             android:entries="@array/gprs"
             android:entryValues="@array/gprs"
             android:key="gprs_2"
-            android:title="@string/gprs" />
+            android:title="@string/gprs2" />
 
         <EditTextPreference
             android:key="channel_ip_address_2"
@@ -45,7 +45,7 @@
             android:entries="@array/gprs"
             android:entryValues="@array/gprs"
             android:key="gprs_3"
-            android:title="@string/gprs" />
+            android:title="@string/gprs3" />
 
         <EditTextPreference
             android:key="channel_ip_address_3"
@@ -62,7 +62,7 @@
             android:entries="@array/gprs"
             android:entryValues="@array/gprs"
             android:key="gprs_4"
-            android:title="@string/gprs" />
+            android:title="@string/gprs4" />
 
         <EditTextPreference
             android:key="channel_ip_address_4"

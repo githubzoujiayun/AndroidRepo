@@ -124,14 +124,15 @@ public class UartService extends Service {
                 broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
             	final byte[] txValue = characteristic.getValue();
 				DataManager dm = DataManager.getInstance(UartService.this);
-				dm.onDataReciver(txValue);
+//				dm.onDataReciver(txValue);
+				Utils.log("*********************onCharacteristicRead ************************");
             }
         }
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
-        	Utils.log("onCharacteristicRead : " + Utils.toHexString(characteristic.getValue()));
+        	Utils.log("onCharacteristicChanged : " + Utils.toHexString(characteristic.getValue()));
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
             final byte[] txValue = characteristic.getValue();
 			DataManager dm = DataManager.getInstance(UartService.this);

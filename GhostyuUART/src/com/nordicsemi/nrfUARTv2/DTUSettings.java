@@ -29,6 +29,24 @@ public class DTUSettings extends ParamsSettings {
 		setupIPAddressEditText(RTUData.KEY_CHANNEL_IP_ADDRESS_4);
 		setupEditTextPreference(RTUData.KEY_CHANNAL_PORT_4,2,2);
 	}
+	
+	@Override
+	void setupListPreference(String key, int valueType, int from, int len) {
+		byte[] datas = getValue(key);
+		Utils.log("setupLis: value : " + Utils.toHexString(datas));
+		Utils.log("setupLis: value : " + Utils.toHexString(datas,from,len));
+		super.setupListPreference(key, valueType, from, len);
+	}
+	
+	
+
+	@Override
+	void setupEditTextPreference(String key, int from, int len) {
+		byte[] datas = getValue(key);
+		Utils.log("setupEditText: value : " + Utils.toHexString(datas));
+		Utils.log("setupEditText: value : " + Utils.toHexString(datas,from,len));
+		super.setupEditTextPreference(key, from, len);
+	}
 
 	private void setupIPAddressEditText(String key) {
 		EditTextPreference preference = (EditTextPreference) findPreference(key);

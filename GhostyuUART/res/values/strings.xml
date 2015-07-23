@@ -223,7 +223,10 @@
 	<string name="heartbeat_switch_on">打开</string>
 	<string name="heartbeat_switch_off">关闭</string>
 	<string name="channal_settings1">通道1 设置</string>
-	<string name="gprs">GPRS 1</string>
+	<string name="gprs1">GPRS 1</string>
+	<string name="gprs2">GPRS 2</string>
+	<string name="gprs3">GPRS 3</string>
+	<string name="gprs4">GPRS 4</string>
 	<string name="channal_settings2">通道2 设置</string>
 	<string name="channal_settings3">通道3 设置</string>
 	<string name="channal_settings4">通道4 设置</string>

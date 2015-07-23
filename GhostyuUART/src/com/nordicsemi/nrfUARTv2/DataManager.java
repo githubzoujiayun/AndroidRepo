@@ -212,12 +212,12 @@ public class DataManager {
 	 * @param length �ֽڳ���
 	 */
 	public boolean fetch(int addr, int length) {
-		SystemClock.sleep(200);
+		SystemClock.sleep(500);
 		Utils.log("fetch "+addr+", "+length);
 		StringBuffer buffer = new StringBuffer();
 		String len = zeroFormat(String.valueOf(Integer.toHexString(length)), 2);
-//		String data = zeroFormat("0", length * 2);
-		String data = "";
+		String data = zeroFormat("0", length * 2);
+//		String data = "";
 		StringBuffer suffix = buffer.append(9).append(formatAddress(Integer.toHexString(addr)))
 				.append(len).append(data);
 		String checksum = Utils.checksum(suffix.toString());

@@ -2,6 +2,9 @@ package com.nordicsemi.nrfUARTv2;
 
 import java.util.HashMap;
 
+import android.content.SharedPreferences;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -141,6 +144,7 @@ public class RTUData {
 	public RTUData() {
 		initTable();
 		byte[] data = new byte[4];
+		mDataCache.clear();
 		for (int i = 0; i < 337; i++) {
 			mDataCache.put(i, data);
 		}
@@ -317,11 +321,15 @@ public class RTUData {
 		if (sum != checksum) {
 			Log.e(TAG, "check error");
 		}
+		mDataCache.clear();
 		for (int i = 0; i < len / 4; i++) {
 			byte[] data = new byte[4];
 			System.arraycopy(datas, i * 4, data, 0, 4);
 			mDataCache.put(register + i, data);
 		}
+//		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this).;
+//		sp.edit().put
+		
 		// mDataCache.put(register, datas);
 	}
 
