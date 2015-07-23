@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <SwitchPreference 
-        android:key="sensor_channel_switch"
-        android:title="@string/sensor_channels_switch"
-        />
+<!--     <SwitchPreference  -->
+<!--         android:key="sensor_channel_switch" -->
+<!--         android:title="@string/sensor_channels_switch" -->
+<!--         /> -->
     <PreferenceCategory android:title="@string/data_definition">
         <ListPreference 
             android:key="gather_catagory"

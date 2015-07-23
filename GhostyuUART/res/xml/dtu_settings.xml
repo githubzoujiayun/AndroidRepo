@@ -1,18 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-	<EditTextPreference 
-	    android:key="transform_interval"
-	    android:title="@string/transform_interval"
-	    android:summary="ms (0~1024)"
-	    />    
-	<EditTextPreference 
-	    android:key="channel_ip_address"
-	    android:title="@string/channel_ip_address"
-	    android:summary="0.0.0.0"
-	    />
-	<EditTextPreference 
-	    android:key="channal_port"
-	    android:title="@string/channel_port"
-	    android:summary="0"
-	    />
+
+    <EditTextPreference
+        android:key="transform_interval"
+        android:summary="ms (0~1024)"
+        android:title="@string/transform_interval" />
+
+    <PreferenceCategory android:title="@string/channal_settings1" >
+        <ListPreference
+            android:entries="@array/gprs"
+            android:entryValues="@array/gprs"
+            android:key="gprs_1"
+            android:title="@string/gprs" />
+
+        <EditTextPreference
+            android:key="channel_ip_address_1"
+            android:summary="0.0.0.0"
+            android:title="@string/channel_ip_address" />
+        <EditTextPreference
+            android:key="channal_port_1"
+            android:summary="0"
+            android:title="@string/channel_port" />
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="@string/channal_settings2" >
+        <ListPreference
+            android:entries="@array/gprs"
+            android:entryValues="@array/gprs"
+            android:key="gprs_2"
+            android:title="@string/gprs" />
+
+        <EditTextPreference
+            android:key="channel_ip_address_2"
+            android:summary="0.0.0.0"
+            android:title="@string/channel_ip_address" />
+        <EditTextPreference
+            android:key="channal_port_2"
+            android:summary="0"
+            android:title="@string/channel_port" />
+    </PreferenceCategory>
+    
+     <PreferenceCategory android:title="@string/channal_settings3" >
+        <ListPreference
+            android:entries="@array/gprs"
+            android:entryValues="@array/gprs"
+            android:key="gprs_3"
+            android:title="@string/gprs" />
+
+        <EditTextPreference
+            android:key="channel_ip_address_3"
+            android:summary="0.0.0.0"
+            android:title="@string/channel_ip_address" />
+        <EditTextPreference
+            android:key="channal_port_3"
+            android:summary="0"
+            android:title="@string/channel_port" />
+    </PreferenceCategory>
+
+      <PreferenceCategory android:title="@string/channal_settings4" >
+        <ListPreference
+            android:entries="@array/gprs"
+            android:entryValues="@array/gprs"
+            android:key="gprs_4"
+            android:title="@string/gprs" />
+
+        <EditTextPreference
+            android:key="channel_ip_address_4"
+            android:summary="0.0.0.0"
+            android:title="@string/channel_ip_address" />
+        <EditTextPreference
+            android:key="channal_port_4"
+            android:summary="0"
+            android:title="@string/channel_port" />
+    </PreferenceCategory>
 </PreferenceScreen>

@@ -27,6 +27,6 @@
 	    </header>
 	    <header android:id="@+id/params_internal_dtu"
 	        android:title="@string/params_internal_dtu"
-	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$DTUSettings">
+	        android:fragment="com.nordicsemi.nrfUARTv2.DTUSettings">
 	    </header>
 </preference-headers>

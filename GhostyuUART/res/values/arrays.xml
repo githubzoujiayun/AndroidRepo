@@ -604,20 +604,20 @@
     </string-array>
     <string-array name="verify_way">
         <item>继电器组0 + 无校验</item>
-        <item>继电器组0 + 奇校验</item>
         <item>继电器组0 + 偶校验</item>
+        <item>继电器组0 + 奇校验</item>
         <item>继电器组1 + 无校验</item>
-        <item>继电器组1 + 奇校验</item>
         <item>继电器组1 + 偶校验</item>
+        <item>继电器组1 + 奇校验</item>
         <item>继电器组2 + 无校验</item>
-        <item>继电器组2 + 奇校验</item>
         <item>继电器组2 + 偶校验</item>
+        <item>继电器组2 + 奇校验</item>
         <item>继电器组3 + 无校验</item>
-        <item>继电器组3 + 奇校验</item>
         <item>继电器组3 + 偶校验</item>
+        <item>继电器组3 + 奇校验</item>
         <item>继电器组4 + 无校验</item>
-        <item>继电器组4 + 奇校验</item>
         <item>继电器组4 + 偶校验</item>
+        <item>继电器组4 + 奇校验</item>
     </string-array>
     <string-array name="verify_way_values">
         <item>0</item>
@@ -667,5 +667,15 @@
 	    <item>6</item>
 	    <item>7</item>
 	    <item>8</item>
+	</string-array>
+	<string-array name="gprs">
+		<item>关闭</item>    
+		<item>网络</item>
+		<item>短信</item>
+	</string-array>
+	<string-array name="gprs_values">
+	    <item>0</item>
+	    <item>1</item>
+	    <item>2</item>
 	</string-array>
 </resources>

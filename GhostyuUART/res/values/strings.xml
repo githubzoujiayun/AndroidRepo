@@ -179,8 +179,8 @@
 	<string name="shoot_location3">拍摄位置3</string>
 	<string name="shoot_location4">拍摄位置4</string>
 	<string name="transform_interval">最大传输间隔</string>
-	<string name="channel_ip_address">通道1 IP地址</string>
-	<string name="channel_port">通道1 端口号</string>
+	<string name="channel_ip_address">IP地址</string>
+	<string name="channel_port">端口号</string>
 	<string name="import_params">导入参数</string>
 	<string name="upload_params">上传参数</string>
 	<string name="save_params">保存参数</string>
@@ -222,4 +222,10 @@
 	<string name="uniform_switch_off">不需要</string>
 	<string name="heartbeat_switch_on">打开</string>
 	<string name="heartbeat_switch_off">关闭</string>
+	<string name="channal_settings1">通道1 设置</string>
+	<string name="gprs">GPRS 1</string>
+	<string name="channal_settings2">通道2 设置</string>
+	<string name="channal_settings3">通道3 设置</string>
+	<string name="channal_settings4">通道4 设置</string>
+	<string name="download_params">下载参数</string>
 </resources>

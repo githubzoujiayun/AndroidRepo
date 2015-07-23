@@ -4,12 +4,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 import android.app.ActionBar;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.view.LayoutInflater;
@@ -17,8 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public abstract class ParamsSettings extends PreferenceFragment {
-
-	private String mKey;
 
 	DataManager mDataManager;
 	RTUData mData;
@@ -29,7 +30,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	
 	void setupSwitchEditTextPreference(String key) {
 		SwitchEditTextPreference preference = (SwitchEditTextPreference) findPreference(key);
-		byte[] data = mData.getValue(key);
+		byte[] data = getValue(key);
 //		byte[] data = Utils.toHexBytes("00000020");
 		String value = Utils.toIntegerString(data);
 		if (value.equals("0")) {
@@ -43,7 +44,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	
 	void setupMySwitchPreference(String key) {
 		MySwitchPreference preference = (MySwitchPreference) findPreference(key);
-		byte[] data = mData.getValue(key);
+		byte[] data = getValue(key);
 		String value = Utils.toIntegerString(data);
 		if (value.equals("0")) {
 			preference.setShouldChecked(false);
@@ -54,7 +55,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	
 	void setupSwitchPreference(String key) {
 		SwitchPreference preference = (SwitchPreference) findPreference(key);
-		byte[] data = mData.getValue(key);
+		byte[] data = getValue(key);
 		String value = Utils.toIntegerString(data);
 		if (value.equals("0")) {
 			preference.setChecked(false);
@@ -65,8 +66,8 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	
 	void setupEditTextPreference(String key,int from,int len) {
 		EditTextPreference preference = (EditTextPreference) findPreference(key);
-		byte[] areaCodeData = mData.getValue(key);
-		String value = Utils.toIntegerString(areaCodeData,from,len);
+		byte[] data = getValue(key);
+		String value = Utils.toIntegerString(data,from,len);
 		preference.setText(value);
 		preference.setSummary(value);
 	}
@@ -83,10 +84,13 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		setupListPreference(key, VALUE_TYPE_INTEGER,0,4);
 	}
 	
+	protected byte[] getValue(String key) {
+		return mData.getValue(key);
+	}
+	
 	void setupListPreference(String key,int valueType,int from,int len) {
-		RTUData rtu = mDataManager.getRTUData();
 		ListPreference preference = (ListPreference) findPreference(key);
-		byte[] datas = rtu.getValue(key);
+		byte[] datas = getValue(key);
 		switch (valueType) {
 		case VALUE_TYPE_INTEGER:
 			String value = Utils.toIntegerString(datas,from,len);
@@ -116,7 +120,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	 
 	void setupMultiSelectPreference(String key) {
 		MultiSelectListPreference preference = (MultiSelectListPreference) findPreference(key);
-		byte data[] = mData.getValue(key);
+		byte data[] = getValue(key);
 		int len = 2;
 		byte[] value = new byte[len];
 		System.arraycopy(data, 2, value, 0, len);
@@ -161,26 +165,17 @@ public abstract class ParamsSettings extends PreferenceFragment {
 			setupMySwitchPreference(RTUData.KEY_SENSOR_CHANNELS15);
 			setupMySwitchPreference(RTUData.KEY_SENSOR_CHANNELS16);
 		}
-	}
-
-	public static class DTUSettings extends ParamsSettings {
 
 		@Override
-		protected void setupResource() {
-			addPreferencesFromResource(R.xml.dtu_settings);
+		public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
+				Preference preference) {
+			Intent intent = new Intent();
+			intent.putExtra("key", preference.getKey());
+			preference.setIntent(intent);
+			return super.onPreferenceTreeClick(preferenceScreen, preference);
 		}
-	}
-
-	public static class SensorSettings extends ParamsSettings {
-
-		@Override
-		protected void setupResource() {
-			addPreferencesFromResource(R.xml.sensor_channel_settings);
-		}
-
-		@Override
-		void load() {
-		}
+		
+		
 	}
 
 	public static class TimerReport extends ParamsSettings {
@@ -200,7 +195,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 
 		@Override
 		void load() {
-			byte[] datas = mData.getValue(RTUData.KEY_TIMER_REPORTER);
+			byte[] datas = getValue(RTUData.KEY_TIMER_REPORTER);
 			String value = Utils.toIntegerString(datas, 2, 2);
 			EditTextPreference interval = (EditTextPreference) findPreference("self_reporter_type");
 			interval.setText(value);
@@ -218,7 +213,17 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		mDataManager = DataManager.getInstance(getActivity());
 		mData = mDataManager.getRTUData();
 		setupResource();
-		load();
+		
+		SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		if (true || p.getBoolean("preference_update", true)) {
+			try {
+				load();
+			} finally {
+				SharedPreferences.Editor editor = p.edit();
+				editor.putBoolean("preference_update", false);
+				editor.commit();
+			}
+		}
 	}
 
 	void load(){

@@ -11,13 +11,13 @@ public class RTUData {
 	 */
 	public static final String KEY_SHOW_RTU_TIME = "show_rtu_time";
 	public static final String KEY_SHOW_FRAM_COUNT = "show_fram_count";
-	
+
 	public static final String KEY_REPORT_TYPES = "report_types";
 	public static final String KEY_QUERY_TYPES = "query_types";
-	
+
 	public static final String KEY_TIMER_REPORTER = "timer_reporter";
 	public static final String KEY_CATAGORY_TIMER_REPOTER = "catagory_timer_repoter";
-	
+
 	public static final String KEY_ADD_REPORT = "add_report";
 	public static final String KEY_EQUATION_REPORT = "equation_report";
 	public static final String KEY_HOUR_REPORT = "hour_report";
@@ -33,8 +33,7 @@ public class RTUData {
 	public static final String KEY_HYETOMETER = "hyetometer";
 	public static final String KEY_EVAPORATING = "evaporating";
 	public static final String KEY_STREAM_COUNT_STEP = "stream_count_step";
-	
-	
+
 	/*
 	 * SensorSettings
 	 */
@@ -55,9 +54,9 @@ public class RTUData {
 	public static final String KEY_SENSOR_CHANNELS14 = "sensor_channels14";
 	public static final String KEY_SENSOR_CHANNELS15 = "sensor_channels15";
 	public static final String KEY_SENSOR_CHANNELS16 = "sensor_channels16";
-	
-	//sensor channel settings
-	public static final String KEY_SENSOR_CHANNEL_SWITCH = "sensor_channel_switch";
+
+	// sensor channel settings
+//	public static final String KEY_SENSOR_CHANNEL_SWITCH = "sensor_channel_switch";
 	public static final String KEY_GATHER_CATAGORY = "gather_catagory";
 	public static final String KEY_GATHER_NUMBER = "gather_number";
 	public static final String KEY_WARNING_MAX = "warning_max";
@@ -75,8 +74,8 @@ public class RTUData {
 	public static final String KEY_COMMUNICATION_RATE = "communication_rate";
 	public static final String KEY_VERIFY_WAY = "verify_way";
 	public static final String KEY_COMMUNICATION_ADDRESS = "communication_address";
-	
-	//communication settings
+
+	// communication settings
 	public static final String KEY_COMMUNICATION_PROTOCAL = "communication_protocal";
 	public static final String KEY_COMPACT_PROTOCAL = "compact_protocal";
 	public static final String KEY_BIAS_TIME = "bias_time";
@@ -100,8 +99,7 @@ public class RTUData {
 	public static final String KEY_BACKUP_COMMUNICATION_SPEED = "backup_communication_speed";
 	public static final String KEY_TSM_FUNC = "tsm_func";
 
-	
-	//video settings
+	// video settings
 	public static final String KEY_VIDEO_SWITCH = "video_switch";
 	public static final String KEY_SHOOTING_INTERVAL = "shooting_interval";
 	public static final String KEY_SEND_INTERVAL = "send_interval";
@@ -115,7 +113,23 @@ public class RTUData {
 	public static final String KEY_SHOOT_LOCATION2 = "shoot_location2";
 	public static final String KEY_SHOOT_LOCATION3 = "shoot_location3";
 	public static final String KEY_SHOOT_LOCATION4 = "shoot_location4";
-	
+
+	// dtu settings
+	public static final String KEY_TRANSFORM_INTERVAL = "transform_interval";
+	public static final String KEY_GPRS_1 = "gprs_1";
+	public static final String KEY_CHANNEL_IP_ADDRESS_1 = "channel_ip_address_1";
+	public static final String KEY_CHANNAL_PORT_1 = "channal_port_1";
+	public static final String KEY_GPRS_2 = "gprs_2";
+	public static final String KEY_CHANNEL_IP_ADDRESS_2 = "channel_ip_address_2";
+	public static final String KEY_CHANNAL_PORT_2 = "channal_port_2";
+	public static final String KEY_GPRS_3 = "gprs_3";
+	public static final String KEY_CHANNEL_IP_ADDRESS_3 = "channel_ip_address_3";
+	public static final String KEY_CHANNAL_PORT_3 = "channal_port_3";
+
+	public static final String KEY_GPRS_4 = "gprs_4";
+	public static final String KEY_CHANNEL_IP_ADDRESS_4 = "channel_ip_address_4";
+	public static final String KEY_CHANNAL_PORT_4 = "channal_port_4";
+
 	private static final String TAG = "RTUData";
 	/**
 	 * key : register address value : data
@@ -126,11 +140,15 @@ public class RTUData {
 
 	public RTUData() {
 		initTable();
+		byte[] data = new byte[4];
+		for (int i = 0; i < 337; i++) {
+			mDataCache.put(i, data);
+		}
 	}
 
 	private void initTable() {
-//		mKeyTable.put(KEY_SHOW_RTU_TIME, value);
-//		mKeyTable.put(KEY_SHOW_FRAM_COUNT, value);
+		// mKeyTable.put(KEY_SHOW_RTU_TIME, value);
+		// mKeyTable.put(KEY_SHOW_FRAM_COUNT, value);
 		mKeyTable.put(KEY_REPORT_TYPES, 4);
 		mKeyTable.put(KEY_QUERY_TYPES, 6);
 		mKeyTable.put(KEY_TIMER_REPORTER, 5);
@@ -150,100 +168,121 @@ public class RTUData {
 		mKeyTable.put(KEY_HYETOMETER, 243);
 		mKeyTable.put(KEY_EVAPORATING, 232);
 		mKeyTable.put(KEY_STREAM_COUNT_STEP, 235);
+
+		// sensor settings
+		mKeyTable.put(KEY_SENSOR_PREHEAT_TIME, 226);
+		mKeyTable.put(KEY_SENSOR_CHANNELS1, 10);
+		mKeyTable.put(KEY_SENSOR_CHANNELS2, 11);
+		mKeyTable.put(KEY_SENSOR_CHANNELS3, 12);
+		mKeyTable.put(KEY_SENSOR_CHANNELS4, 13);
+		mKeyTable.put(KEY_SENSOR_CHANNELS5, 14);
+		mKeyTable.put(KEY_SENSOR_CHANNELS6, 15);
+		mKeyTable.put(KEY_SENSOR_CHANNELS7, 16);
+		mKeyTable.put(KEY_SENSOR_CHANNELS8, 17);
+		mKeyTable.put(KEY_SENSOR_CHANNELS9, 18);
+		mKeyTable.put(KEY_SENSOR_CHANNELS10, 19);
+		mKeyTable.put(KEY_SENSOR_CHANNELS11, 20);
+		mKeyTable.put(KEY_SENSOR_CHANNELS12, 21);
+		mKeyTable.put(KEY_SENSOR_CHANNELS13, 22);
+		mKeyTable.put(KEY_SENSOR_CHANNELS14, 23);
+		mKeyTable.put(KEY_SENSOR_CHANNELS15, 24);
+		mKeyTable.put(KEY_SENSOR_CHANNELS16, 25);
+
+		// sensor channel settings
+		mKeyTable.put(KEY_GATHER_CATAGORY, 26); // d4,0;26-41
+		mKeyTable.put(KEY_GATHER_NUMBER, 26); // d4,1;26-41
+		mKeyTable.put(KEY_WARNING_MAX, 138); // ;138-153l
+		mKeyTable.put(KEY_WARNING_MIN, 154); // ;154-169
+		mKeyTable.put(KEY_ADDED_DIVIDE, 264);// 264-279
+		mKeyTable.put(KEY_ADDED_DIVIDE_MAX, 170); // ;170-185
+		mKeyTable.put(KEY_ADDED_DIVIDE_MIN, 248); // ;248-263
+		mKeyTable.put(KEY_WAVE_RATE, 303); // ;303-318
 		
-		//sensor settings
-		mKeyTable.put(KEY_SENSOR_PREHEAT_TIME,226);
-		mKeyTable.put(KEY_SENSOR_CHANNELS1,10);
-		mKeyTable.put(KEY_SENSOR_CHANNELS2,11);
-		mKeyTable.put(KEY_SENSOR_CHANNELS3,12);
-		mKeyTable.put(KEY_SENSOR_CHANNELS4,13);
-		mKeyTable.put(KEY_SENSOR_CHANNELS5,14);
-		mKeyTable.put(KEY_SENSOR_CHANNELS6,15);
-		mKeyTable.put(KEY_SENSOR_CHANNELS7,16);
-		mKeyTable.put(KEY_SENSOR_CHANNELS8,17);
-		mKeyTable.put(KEY_SENSOR_CHANNELS9,18);
-		mKeyTable.put(KEY_SENSOR_CHANNELS10,19);
-		mKeyTable.put(KEY_SENSOR_CHANNELS11,20);
-		mKeyTable.put(KEY_SENSOR_CHANNELS12,21);
-		mKeyTable.put(KEY_SENSOR_CHANNELS13,22);
-		mKeyTable.put(KEY_SENSOR_CHANNELS14,23);
-		mKeyTable.put(KEY_SENSOR_CHANNELS15,24);
-		mKeyTable.put(KEY_SENSOR_CHANNELS16,25);
+		mKeyTable.put(KEY_DATA_BASELINE, 90); // ;90-105
+		mKeyTable.put(KEY_DATA_CORRECTION, 280); // ;280-295
+		mKeyTable.put(KEY_DATA_ZERO, 122); // ;122-137
+		mKeyTable.put(KEY_DATA_RATIO, 106); // ;106-121
 		
+		mKeyTable.put(KEY_DEVICE_MODEL, 26); // 26-41
 		
-//		public static final String KEY_SENSOR_CHANNEL_SWITCH = "sensor_channel_switch";
-//		public static final String KEY_GATHER_CATAGORY = "gather_catagory";
-//		public static final String KEY_GATHER_NUMBER = "gather_number";
-//		public static final String KEY_WARNING_MAX = "warning_max";
-//		public static final String KEY_WARNING_MIN = "warning_min";
-//		public static final String KEY_ADDED_DIVIDE = "added_divide";
-//		public static final String KEY_ADDED_DIVIDE_MAX = "added_divide_max";
-//		public static final String KEY_ADDED_DIVIDE_MIN = "added_divide_min";
-//		public static final String KEY_DATA_BASELINE = "data_baseline";
-//		public static final String KEY_DATA_CORRECTION = "data_correction";
-//		public static final String KEY_WAVE_RATE = "wave_rate";
-//		public static final String KEY_DATA_ZERO = "data_zero";
-//		public static final String KEY_DATA_RATIO = "data_ratio";
-//		public static final String KEY_DEVICE_MODEL = "device_model";
-//		public static final String KEY_GATHER_DURATION = "gather_duration";
-//		public static final String KEY_COMMUNICATION_RATE = "communication_rate";
-//		public static final String KEY_VERIFY_WAY = "verify_way";
-//		public static final String KEY_COMMUNICATION_ADDRESS = "communication_address";
-		//sensor channel settings
-//		mKeyTable.put();
+		mKeyTable.put(KEY_GATHER_DURATION, 202); // d3;202-217
+		mKeyTable.put(KEY_COMMUNICATION_RATE, 74); // d1-d3;74-89
 		
-		//communication settings
-		mKeyTable.put(KEY_COMMUNICATION_PROTOCAL,9); //d3
-		mKeyTable.put(KEY_COMPACT_PROTOCAL,296);
-		mKeyTable.put(KEY_BIAS_TIME,245); //d3
-		mKeyTable.put(KEY_RESPONSE_TIME,8); // ;1-255
-		mKeyTable.put(KEY_UNIFORM_INTERVAL,237); //;0-15
-		mKeyTable.put(KEY_COMMUNICATION_PASSWORD,224); //;0-65535
-		mKeyTable.put(KEY_HEARTBEAT_FUNC,230); //;30-250s
-		mKeyTable.put(KEY_HEARTBEAT_INTERVAL,229); //;0,1
-		mKeyTable.put(KEY_CENTER_ADDRESS1,223); //d3
-		mKeyTable.put(KEY_CENTER_ADDRESS2,223); //d2
-		mKeyTable.put(KEY_CENTER_ADDRESS3,223); //d1
-		mKeyTable.put(KEY_CENTER_ADDRESS4,223); //d0
+		mKeyTable.put(KEY_VERIFY_WAY, 186); //186-201
 		
-		mKeyTable.put(KEY_RS485,242);
-		mKeyTable.put(KEY_RS232_1,239);
-		mKeyTable.put(KEY_RS232_3,241); //;;list
+		mKeyTable.put(KEY_COMMUNICATION_ADDRESS, 58); // 58-73
+		// mKeyTable.put();
+
 		
-		mKeyTable.put(KEY_COMMUNICATION_WAY,246); //;;list
-		mKeyTable.put(KEY_COMMUNICATION_SPEED,240);
-		mKeyTable.put(KEY_PREHEAT_TIME,245); //d2
-		mKeyTable.put(KEY_WAVE_CHECK,236);
-		
-		mKeyTable.put(KEY_BACKUP_COMMUNICATION_WAY,244);
-		mKeyTable.put(KEY_BACKUP_COMMUNICATION_SPEED,239);//;;enable=false
-		mKeyTable.put(KEY_TSM_FUNC,9); //0-2
-		
-		//Video settings
-		mKeyTable.put(KEY_VIDEO_SWITCH,218); //;0,1
-		mKeyTable.put(KEY_SHOOTING_INTERVAL,219); //;1-1440minutes
-		mKeyTable.put(KEY_SEND_INTERVAL,231); //;0,1-1440
-		mKeyTable.put(KEY_IMAGE_FORMAT,220);
-		mKeyTable.put(KEY_VIDEO_PREHEAT_TIME,319); //;0-63s
-		mKeyTable.put(KEY_RS485_ADDRESS,222); //;0-16777215r
-		mKeyTable.put(KEY_CAMERA_RATE,243);
-		mKeyTable.put(KEY_CAMERA_MODEL,221);
-		mKeyTable.put(KEY_EXECUTE_TIME,328); //;0-63s
-		mKeyTable.put(KEY_SHOOT_LOCATION1,320); //;0-8
-		mKeyTable.put(KEY_SHOOT_LOCATION2,321);
-		mKeyTable.put(KEY_SHOOT_LOCATION3,322);
-		mKeyTable.put(KEY_SHOOT_LOCATION4,323);
+		// communication settings
+		mKeyTable.put(KEY_COMMUNICATION_PROTOCAL, 9); // d3
+		mKeyTable.put(KEY_COMPACT_PROTOCAL, 296);
+		mKeyTable.put(KEY_BIAS_TIME, 245); // d3
+		mKeyTable.put(KEY_RESPONSE_TIME, 8); // ;1-255
+		mKeyTable.put(KEY_UNIFORM_INTERVAL, 237); // ;0-15
+		mKeyTable.put(KEY_COMMUNICATION_PASSWORD, 224); // ;0-65535
+		mKeyTable.put(KEY_HEARTBEAT_FUNC, 230); // ;30-250s
+		mKeyTable.put(KEY_HEARTBEAT_INTERVAL, 229); // ;0,1
+		mKeyTable.put(KEY_CENTER_ADDRESS1, 223); // d3
+		mKeyTable.put(KEY_CENTER_ADDRESS2, 223); // d2
+		mKeyTable.put(KEY_CENTER_ADDRESS3, 223); // d1
+		mKeyTable.put(KEY_CENTER_ADDRESS4, 223); // d0
+
+		mKeyTable.put(KEY_RS485, 242);
+		mKeyTable.put(KEY_RS232_1, 239);
+		mKeyTable.put(KEY_RS232_3, 241); // ;;list
+
+		mKeyTable.put(KEY_COMMUNICATION_WAY, 246); // ;;list
+		mKeyTable.put(KEY_COMMUNICATION_SPEED, 240);
+		mKeyTable.put(KEY_PREHEAT_TIME, 245); // d2
+		mKeyTable.put(KEY_WAVE_CHECK, 236);
+
+		mKeyTable.put(KEY_BACKUP_COMMUNICATION_WAY, 244);
+		mKeyTable.put(KEY_BACKUP_COMMUNICATION_SPEED, 239);// ;;enable=false
+		mKeyTable.put(KEY_TSM_FUNC, 9); // 0-2
+
+		// Video settings
+		mKeyTable.put(KEY_VIDEO_SWITCH, 218); // ;0,1
+		mKeyTable.put(KEY_SHOOTING_INTERVAL, 219); // ;1-1440minutes
+		mKeyTable.put(KEY_SEND_INTERVAL, 231); // ;0,1-1440
+		mKeyTable.put(KEY_IMAGE_FORMAT, 220);
+		mKeyTable.put(KEY_VIDEO_PREHEAT_TIME, 319); // ;0-63s
+		mKeyTable.put(KEY_RS485_ADDRESS, 222); // ;0-16777215r
+		mKeyTable.put(KEY_CAMERA_RATE, 243);
+		mKeyTable.put(KEY_CAMERA_MODEL, 221);
+		mKeyTable.put(KEY_EXECUTE_TIME, 328); // ;0-63s
+		mKeyTable.put(KEY_SHOOT_LOCATION1, 320); // ;0-8
+		mKeyTable.put(KEY_SHOOT_LOCATION2, 321);
+		mKeyTable.put(KEY_SHOOT_LOCATION3, 322);
+		mKeyTable.put(KEY_SHOOT_LOCATION4, 323);
+
+		// dtu settings
+		// mKeyTable.put()
+		mKeyTable.put(KEY_TRANSFORM_INTERVAL, 297);// ;0-1024
+		mKeyTable.put(KEY_GPRS_1, 300);// d0-d1;0-2
+		mKeyTable.put(KEY_CHANNEL_IP_ADDRESS_1, 298);// 289,299
+		mKeyTable.put(KEY_CHANNAL_PORT_1, 300);// d2-d3;0-9999
+		mKeyTable.put(KEY_GPRS_2, 331); // d0-d1
+		mKeyTable.put(KEY_CHANNEL_IP_ADDRESS_2, 329);// 329,330;192.168.0.1
+		mKeyTable.put(KEY_CHANNAL_PORT_2, 331); // d2-d3;0-9999
+		mKeyTable.put(KEY_GPRS_3, 334); // d0-d1;
+		mKeyTable.put(KEY_CHANNEL_IP_ADDRESS_3, 332); // 332,333;
+		mKeyTable.put(KEY_CHANNAL_PORT_3, 334);// d2-d3
+
+		mKeyTable.put(KEY_GPRS_4, 337); // d0-d1;
+		mKeyTable.put(KEY_CHANNEL_IP_ADDRESS_4, 335); // 335,336;
+		mKeyTable.put(KEY_CHANNAL_PORT_4, 337);// d2-d3
 	}
-	
+
 	public int getAddress(String key) {
 		return mKeyTable.get(key);
 	}
-	
-//	public String getValue(String key) {
-//		int address = getAddress(key);
-//		byte data[] = mDataCache.get(address);
-//	}
-	
+
+	// public String getValue(String key) {
+	// int address = getAddress(key);
+	// byte data[] = mDataCache.get(address);
+	// }
+
 	public byte[] getValue(String key) {
 		int address = mKeyTable.get(key);
 		byte[] value = getValue(address);
@@ -252,8 +291,8 @@ public class RTUData {
 		}
 		return value;
 	}
-	
-	private byte[] getValue(int address) {
+
+	byte[] getValue(int address) {
 		return mDataCache.get(address);
 	}
 
@@ -283,7 +322,7 @@ public class RTUData {
 			System.arraycopy(datas, i * 4, data, 0, 4);
 			mDataCache.put(register + i, data);
 		}
-//		mDataCache.put(register, datas);
+		// mDataCache.put(register, datas);
 	}
 
 	public void showCache() {
