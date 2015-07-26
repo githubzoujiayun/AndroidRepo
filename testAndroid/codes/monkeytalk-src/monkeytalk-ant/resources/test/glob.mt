@@ -1,1 +1,0 @@
-Button ${foo} Tap ${bar}
