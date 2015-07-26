@@ -60,5 +60,10 @@ public class ParamsSettingsActivity extends PreferenceActivity {
 		context.startActivity(intent);
 	}
 
+	@Override
+	public void onHeaderClick(Header header, int position) {
+		super.onHeaderClick(header, position);
+	}
+
 	
 }

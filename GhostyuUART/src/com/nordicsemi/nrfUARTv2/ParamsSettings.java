@@ -215,7 +215,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		setupResource();
 		
 		SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		if (/*true ||*/ p.getBoolean("preference_update", false)) {
+		if (true || p.getBoolean("preference_update", false)) {
 			try {
 				Utils.log("load...");
 				load();

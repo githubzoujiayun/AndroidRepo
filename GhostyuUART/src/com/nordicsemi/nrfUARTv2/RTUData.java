@@ -289,15 +289,16 @@ public class RTUData {
 
 	public byte[] getValue(String key) {
 		int address = mKeyTable.get(key);
-		byte[] value = getValue(address);
+		return getValue(address);
+		
+	}
+
+	byte[] getValue(int address) {
+		byte[] value = mDataCache.get(address);
 		if (value == null) {
 			value = new byte[4];
 		}
 		return value;
-	}
-
-	byte[] getValue(int address) {
-		return mDataCache.get(address);
 	}
 
 	public void parse(byte[] txValue) {
@@ -308,7 +309,7 @@ public class RTUData {
 		int register = ((txValue[0] & 0x0f) << 8) + (txValue[1] & 0xff);
 		// parse length
 		int len = (txValue[2] & 0xff);
-		Utils.log("length = " + len);
+//		Utils.log("length = " + len);
 		// parse data
 		byte[] datas = new byte[len];
 		System.arraycopy(txValue, 3, datas, 0, len);
@@ -319,9 +320,8 @@ public class RTUData {
 		System.arraycopy(txValue, 0, checkValue, 0, length - 1);
 		byte sum = Utils.checksum(checkValue);
 		if (sum != checksum) {
-			Log.e(TAG, "check error");
+			Utils.log("check error");
 		}
-		mDataCache.clear();
 		for (int i = 0; i < len / 4; i++) {
 			byte[] data = new byte[4];
 			System.arraycopy(datas, i * 4, data, 0, 4);
@@ -329,7 +329,7 @@ public class RTUData {
 		}
 //		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this).;
 //		sp.edit().put
-		
+		Utils.log("\n\n");
 		// mDataCache.put(register, datas);
 	}
 
@@ -339,5 +339,9 @@ public class RTUData {
 			byte[] data = mDataCache.valueAt(i);
 			Utils.log(i + ". " + Utils.toHexString(data));
 		}
+	}
+
+	public void clearCache() {
+		mDataCache.clear();
 	}
 }

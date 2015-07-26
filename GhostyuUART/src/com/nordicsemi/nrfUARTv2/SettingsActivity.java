@@ -80,22 +80,22 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 		return super.onOptionsItemSelected(item);
 	}
 	
-	private static class Progress extends ProgressDialog {
+	public class FetchTask extends AsyncTask<String, String, Boolean>{
+		
+		private class Progress extends ProgressDialog {
 
-		public Progress(Context context) {
-			super(context);
-		}
+			public Progress(Context context) {
+				super(context);
+			}
 
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-			setCancelable(false);
-			setCanceledOnTouchOutside(false);
-			setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			@Override
+			public void onCreate(Bundle savedInstanceState) {
+				super.onCreate(savedInstanceState);
+				setCancelable(false);
+				setCanceledOnTouchOutside(false);
+				setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			}
 		}
-	}
-	
-	private class FetchTask extends AsyncTask<String, String, Boolean>{
 		
 		private Progress mProgressDialog;
 		

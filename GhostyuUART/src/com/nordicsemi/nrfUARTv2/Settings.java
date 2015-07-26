@@ -1,13 +1,19 @@
 package com.nordicsemi.nrfUARTv2;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 public class Settings extends PreferenceFragment implements OnPreferenceClickListener{
 	
@@ -53,10 +59,65 @@ public class Settings extends PreferenceFragment implements OnPreferenceClickLis
 			
 			return true;
 		} else if ("params_settings".equals(preference.getKey())) {
-//			new FetchTask().execute();
-			ParamsSettingsActivity.startParamsSettings(getActivity());
+			new FetchTask().execute();
 			return true;
 		}
 		return false;
+	}
+	
+	public class FetchTask extends AsyncTask<String, String, Boolean> {
+
+		private Progress mProgressDialog;
+		private Toast mToast;
+
+		private class Progress extends ProgressDialog {
+
+			public Progress(Context context) {
+				super(context);
+				mToast = Toast.makeText(context, "", Toast.LENGTH_SHORT);
+			}
+
+			@Override
+			public void onCreate(Bundle savedInstanceState) {
+				super.onCreate(savedInstanceState);
+				setCancelable(false);
+				setCanceledOnTouchOutside(false);
+				setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			mProgressDialog = new Progress(getActivity());
+			mProgressDialog
+					.setMessage(getString(R.string.progress_downloading));
+			mProgressDialog.show();
+		}
+
+		@Override
+		protected Boolean doInBackground(String... arg0) {
+			DataManager dm = DataManager.getInstance(getActivity());
+			dm.initQueue();
+			return dm.fetchAll();
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			mProgressDialog.dismiss();
+			if (!result) {
+				mToast.setText("please connect ble first.");
+				mToast.show();
+			} else {
+				SharedPreferences p = PreferenceManager
+						.getDefaultSharedPreferences(getActivity());
+				SharedPreferences.Editor editor = p.edit();
+				editor.putBoolean("preference_update", true);
+				editor.commit();
+			}
+			ParamsSettingsActivity.startParamsSettings(getActivity());
+		}
 	}
 }

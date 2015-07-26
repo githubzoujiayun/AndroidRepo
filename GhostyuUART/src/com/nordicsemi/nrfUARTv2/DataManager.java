@@ -1,5 +1,8 @@
 package com.nordicsemi.nrfUARTv2;
 
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -26,6 +29,9 @@ public class DataManager {
 	private static DataManager mDataManager;
 	
 	private RTUData mRtuData;
+	
+	private Queue<Command> mQueue = new ConcurrentLinkedQueue<Command>(); 
+//	private BlockingQueue<Command> mQueue = new LinkedBlockingQueue<Command>();
 	
 	public interface DataListener{
 		public void onDataReciver(byte[] data);
@@ -164,34 +170,53 @@ public class DataManager {
 	public void closeService() {
 		mService.close();
 	}
-
+	
 	public boolean fetchAll() {
-		final int total = 376 * 4;
-		final int length = 16;
-		int times = total / length;
-		int failCount = 0;
-		for (int i=0;i<times;i++) {
-			if (!isBTEnable() || mDevice == null) {
-				return false;
-			}
-			int address = 4 * i;
-			if (!fetch(address, length)){
-				failCount ++;
-				if (failCount > 5) {
+		if (!isBTEnable() || mDevice == null) {
+			return false;
+		}
+		Command cmd = null;
+		int count = 0;
+		while((cmd = mQueue.peek()) != null) {
+			SystemClock.sleep(100);
+			boolean succed = write(Utils.toHexBytes(cmd.toCommand()));
+			if (!succed) {
+				if (count ++ > 5) {
 					return false;
 				}
 			}
 		}
-		int delta = total - length * times;
-		if(delta > 0 && fetch(length * times, delta * times)){
-			failCount++;
-		}
-		mRtuData.showCache();
-		if (failCount > 5) {
-			return false;
-		}
 		return true;
 	}
+
+//	public boolean fetchAll() {
+//		final int total = 376 * 4;
+//		final int length = 16;
+//		int times = total / length;
+//		int failCount = 0;
+//		mRtuData.clearCache();
+//		for (int i=0;i<times;i++) {
+//			if (!isBTEnable() || mDevice == null) {
+//				return false;
+//			}
+//			int address = 4 * i;
+//			if (!fetch(address, length)){
+//				failCount ++;
+//				if (failCount > 5) {
+//					return false;
+//				}
+//			}
+//		}
+//		int delta = total - length * times;
+//		if(delta > 0 && fetch(length * times, delta * times)){
+//			failCount++;
+//		}
+//		mRtuData.showCache();
+//		if (failCount > 5) {
+//			return false;
+//		}
+//		return true;
+//	}
 	
 //	private void fetchAllInner() {
 //		final int total = 376;
@@ -205,6 +230,28 @@ public class DataManager {
 //		fetch(String.valueOf(length * times), total - length * times);
 //	}
 	
+	private class Command {
+		
+		public static final int ACTION_WRITE = 8;
+		public static final int ACTION_READ = 9;
+		public static final int ACION_WRITE_ACK = 10;
+		public static final int ACTION_READ_ACK = 11;
+		int action;
+		int length;
+		int address;
+		private String checksum;
+		
+		public String toCommand() {
+			StringBuffer buffer = new StringBuffer();
+			String len = zeroFormat(String.valueOf(Integer.toHexString(length)), 2);
+			String data = zeroFormat("0", length * 2);
+			StringBuffer suffix = buffer.append(action).append(formatAddress(Integer.toHexString(address)))
+					.append(len).append(data);
+			checksum = Utils.checksum(suffix.toString());
+			String command = suffix.append(checksum).toString();
+			return command;
+		}
+	}
 	
 	/**
 	 *  
@@ -227,6 +274,31 @@ public class DataManager {
     		return false;
 		}
 		return true;
+	}
+	
+	public void initQueue() {
+		
+		final int total = 376 * 4;
+		final int length = 16;
+		int times = total / length;
+//		mRtuData.clearCache();
+		mQueue.clear();
+		for (int i=0;i<times;i++) {
+			if (!isBTEnable() || mDevice == null) {
+				return;
+			}
+			int address = 4 * i;
+			add(address,length);
+		}
+	}
+	
+	private void add(int addr, int length) {
+		Command command = new Command();
+		command.action = Command.ACTION_READ;
+		command.address = addr;
+		command.length = length;
+		
+		mQueue.add(command);
 	}
 	
 	
@@ -255,7 +327,9 @@ public class DataManager {
 	}
 	
 	private void parse(byte[] txValue) {
-		Utils.log("recive : " + Utils.toHexString(txValue));
+//		Utils.log("recive : " + Utils.toHexString(txValue));
+//		int register = ((txValue[0] & 0x0f) << 8) + (txValue[1] & 0xff);
+		mQueue.remove();
 		mRtuData.parse(txValue);
 	}
 
