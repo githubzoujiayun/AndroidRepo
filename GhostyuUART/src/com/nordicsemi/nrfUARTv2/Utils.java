@@ -87,7 +87,11 @@ public class Utils {
 	
 	public static String checksum(String suffix) {
 		byte checksum = checksum(Utils.toHexBytes(suffix));
-		return Utils.toHexString(new byte[]{checksum});
+		String check = Utils.toHexString(new byte[]{checksum});
+		if (check.length() == 1) {
+			check = "0" + check; 
+		}
+		return check;
 	}
 	
 	public static byte checksum(byte bytes[]) {

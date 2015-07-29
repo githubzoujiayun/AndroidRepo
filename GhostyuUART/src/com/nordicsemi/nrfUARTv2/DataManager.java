@@ -31,6 +31,7 @@ public class DataManager {
 	private RTUData mRtuData;
 	
 	private Queue<Command> mQueue = new ConcurrentLinkedQueue<Command>(); 
+	private boolean mRecivered = false;
 //	private BlockingQueue<Command> mQueue = new LinkedBlockingQueue<Command>();
 	
 	public interface DataListener{
@@ -178,13 +179,13 @@ public class DataManager {
 		Command cmd = null;
 		int count = 0;
 		while((cmd = mQueue.peek()) != null) {
-			SystemClock.sleep(100);
 			boolean succed = write(Utils.toHexBytes(cmd.toCommand()));
 			if (!succed) {
 				if (count ++ > 5) {
 					return false;
 				}
 			}
+			SystemClock.sleep(50);
 		}
 		return true;
 	}
@@ -249,7 +250,40 @@ public class DataManager {
 					.append(len).append(data);
 			checksum = Utils.checksum(suffix.toString());
 			String command = suffix.append(checksum).toString();
+			Utils.log("command : " + command);
 			return command;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result + address;
+			result = prime * result + length;
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Command other = (Command) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (address != other.address)
+				return false;
+			if (length != other.length)
+				return false;
+			return true;
+		}
+
+		private DataManager getOuterType() {
+			return DataManager.this;
 		}
 	}
 	
@@ -259,7 +293,7 @@ public class DataManager {
 	 * @param length �ֽڳ���
 	 */
 	public boolean fetch(int addr, int length) {
-		SystemClock.sleep(500);
+		SystemClock.sleep(50);
 		Utils.log("fetch "+addr+", "+length);
 		StringBuffer buffer = new StringBuffer();
 		String len = zeroFormat(String.valueOf(Integer.toHexString(length)), 2);
@@ -328,8 +362,12 @@ public class DataManager {
 	
 	private void parse(byte[] txValue) {
 //		Utils.log("recive : " + Utils.toHexString(txValue));
-//		int register = ((txValue[0] & 0x0f) << 8) + (txValue[1] & 0xff);
-		mQueue.remove();
+		int register = ((txValue[0] & 0x0f) << 8) + (txValue[1] & 0xff);
+		int len = (txValue[2] & 0xff);
+		Command cmd = new Command();
+		cmd.address = register;
+		cmd.length = len;
+		mQueue.remove(cmd);
 		mRtuData.parse(txValue);
 	}
 

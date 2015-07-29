@@ -193,6 +193,7 @@
 	<string name="settings">设置</string>
 	<string name="data_settings">参数设置</string>
 	<string name="btn_switch">切换发送</string>
+	<string name="btn_clear_list">清空列表</string>
 	<string name="per_wan">/万</string>
 	<string name="data_ratio">数据系数</string>
 	<string name="warning_added">警报与加报</string>

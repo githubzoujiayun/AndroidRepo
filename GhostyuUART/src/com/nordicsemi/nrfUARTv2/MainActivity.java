@@ -166,12 +166,16 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 					Spanned dest, int dstart, int dend) {
 				Pattern p = Pattern.compile(REGEX);
 				Matcher m = p.matcher(src);
-				StringBuffer sb = new StringBuffer();
+				StringBuffer sb = new StringBuffer(1);
 				while(m.find()) {
 					m.appendReplacement(sb, "");
 				}
 				m.appendTail(sb);
-				return sb.toString();
+				String result = sb.toString();
+				if (dest.length() >= 40) {
+					result = "";
+				}
+				return result;
 			}
 		}});
         mDataManager.service_init();
@@ -264,7 +268,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 		inflater.inflate(R.menu.main, menu); 
 	    return true;
 	}
-
+//906010 0000 0000 0000 0000 0000 0000 0000 0000 0
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.btn_switch) {
@@ -281,6 +285,9 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 				edtMessage.setVisibility(View.VISIBLE);
 				isHexSend = false;
 			}
+		} else if (item.getItemId() == R.id.btn_clear_list) {
+			listAdapter.clear();
+			listAdapter.notifyDataSetChanged();
 		}
 		return super.onOptionsItemSelected(item);
 	}
