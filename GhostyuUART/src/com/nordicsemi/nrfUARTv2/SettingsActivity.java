@@ -1,5 +1,11 @@
 package com.nordicsemi.nrfUARTv2;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Date;
+import java.util.HashMap;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -8,8 +14,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -29,11 +37,15 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 	private static final int POSITION_CLEAR_DATA = 2;
 	private static final int POSITION_DATA_SETTINGS = 3;
 	
+	private static final int FILE_SELECT_CODE = 0;
+	
 	private ListView mListView;
 	
 	private Toast mToast;
 	
 	ArrayAdapter<String> mAdapter = null;
+	
+	DataManager mDataManager = null;
 	
 	public static void startSettings(Activity from) {
 		Intent i = new Intent(from,SettingsActivity.class);
@@ -53,6 +65,7 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
         ft.replace(android.R.id.content, settings);          
         ft.commit();
         
+        mDataManager = DataManager.getInstance(this);
         mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 	}
 	
@@ -69,21 +82,33 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 		if (id == android.R.id.home) {
 			onBackPressed();
 		} else if (id == R.id.import_params) {
-			
+			showFileChooser();
 		} else if (id == R.id.upload_params) {
 			
 		} else if (id == R.id.save_params) {
-			
+			// showFileChooser();
+//			new Thread(new Runnable() {
+//				
+//				@Override
+//				public void run() {
+//					mDataManager.saveParams();
+//				}
+//			}).start();
+			new FetchTask().execute(FetchTask.TASK_TYPE_SAVE_PARAMS);
 		} else if (id == R.id.download_params) {
-			new FetchTask().execute();
+			new FetchTask().execute(FetchTask.TASK_TYPE_FETCH);
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public class FetchTask extends AsyncTask<String, String, Boolean>{
+	public class FetchTask extends AsyncTask<Integer, String, Boolean>{
+		
+		private static final int TASK_TYPE_SAVE_PARAMS = 0;
+		private static final int TASK_TYPE_READ_PARAMS = 1;
+		private static final int TASK_TYPE_FETCH = 2;
 		
 		private class Progress extends ProgressDialog {
-
+			
 			public Progress(Context context) {
 				super(context);
 			}
@@ -98,6 +123,20 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 		}
 		
 		private Progress mProgressDialog;
+		private HashMap<String,String> mExtra;
+		private int mType;
+		
+		public FetchTask() {
+			mExtra = new HashMap<String,String>();
+		}
+		
+		public void putString(String key,String value) {
+			mExtra.put(key, value);
+		}
+		
+		public String getStringExtra(String key) {
+			return mExtra.get(key);
+		}
 		
 		@Override
 		protected void onPreExecute() {
@@ -108,9 +147,26 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 		}
 
 		@Override
-		protected Boolean doInBackground(String... arg0) {
+		protected Boolean doInBackground(Integer... args) {
 			DataManager dm = DataManager.getInstance(SettingsActivity.this);
-			return dm.fetchAll();
+			boolean succed = false;
+			int type = args[0];
+			mType = type;
+			switch(type) {
+			case TASK_TYPE_FETCH:
+				succed = dm.fetchAll();
+				break;
+			case TASK_TYPE_READ_PARAMS:
+				dm.importParams(getStringExtra("params"));
+				succed = true;
+				break;
+			case TASK_TYPE_SAVE_PARAMS:
+				dm.saveParams();
+				succed = true;
+				break;
+				
+			}
+			return succed;
 		}
 
 		@Override
@@ -118,6 +174,9 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			mProgressDialog.dismiss();
+			if (mType == TASK_TYPE_READ_PARAMS) {
+				ParamsSettingsActivity.startParamsSettings(SettingsActivity.this);
+			}
 			if (!result) {
 				mToast.setText("please connect ble first.");
 	    		mToast.show();
@@ -159,6 +218,35 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 		default:
 			break;
 		}
+	}
+	
+	private void showFileChooser() {
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		intent.setType("*/*");
+		intent.addCategory(Intent.CATEGORY_OPENABLE);
+		try {
+			startActivityForResult(Intent.createChooser(intent, "请选择一个要上传的文件"),
+					FILE_SELECT_CODE);
+		} catch (android.content.ActivityNotFoundException ex) {
+			// Potentially direct the user to the Market with a Dialog
+			Toast.makeText(this, "请安装文件管理器", Toast.LENGTH_SHORT)
+					.show();
+		}
+	}
+	
+	/** 根据返回选择的文件，来进行上传操作 **/
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		if (resultCode == Activity.RESULT_OK) {
+			if (requestCode == FILE_SELECT_CODE) {
+				String path = data.getData().getPath();
+				FetchTask task = new FetchTask();
+				task.putString("params", path);
+				task.execute(FetchTask.TASK_TYPE_READ_PARAMS);
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 }

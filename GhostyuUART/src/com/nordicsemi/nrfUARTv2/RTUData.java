@@ -396,7 +396,9 @@ public class RTUData {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			printer.close();
+			if (printer != null) {
+				printer.close();
+			}
 		}
 	}
 

@@ -1,5 +1,9 @@
 package com.nordicsemi.nrfUARTv2;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -11,10 +15,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 public class DataManager {
 	
@@ -76,6 +82,8 @@ public class DataManager {
 	    }
 
 	protected static final String TAG = "DataManager";
+
+	private static final String FILE_SELECT_CODE = null;
 
 	private ServiceConnection mServiceConnection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className,
@@ -377,5 +385,38 @@ public class DataManager {
 	
 	public RTUData getRTUData() {
 		return mRtuData;
+	}
+
+	public void saveParams() {
+		String path = null;
+		String root = Environment.getExternalStorageDirectory()
+				.getAbsolutePath();
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(root).append(File.separator).append("RFUART")
+				.append(File.separator).append("params");
+		String parent = buffer.toString();
+		// String parent = root;
+		Utils.log("path = " + parent);
+		File parentFile = new File(parent);
+		if (!parentFile.exists()) {
+			if (!parentFile.mkdirs()) {
+				if (parentFile.getParentFile().mkdir()) {
+					parentFile.mkdir();
+				} else {
+					throw new RuntimeException();
+				}
+			}
+
+		}
+		// path = File.createTempFile("params",
+		// "dat",parentFile).getAbsolutePath();
+		SimpleDateFormat sFormat = new SimpleDateFormat("yyyyMMdd-hhmmss",Locale.CHINA);
+		String date = sFormat.format(new Date());
+		path = parent + File.separator + "params-"+date + ".dat";
+		mRtuData.saveCache(path);
+	}
+
+	public void importParams(String path) {
+		mRtuData.readCache(path);
 	}
 }
