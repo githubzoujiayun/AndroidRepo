@@ -1,11 +1,13 @@
 package com.nordicsemi.nrfUARTv2;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Scanner;
 
-import android.content.SharedPreferences;
-import android.preference.Preference;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.util.SparseArray;
 
 public class RTUData {
@@ -150,6 +152,14 @@ public class RTUData {
 		}
 	}
 
+	public RTUData(SparseArray<byte[]> data) {
+//		mDataCache = data.clone();
+		int len = data.size();
+		for (int i=0;i<len;i++) {
+			mDataCache.put(data.keyAt(i), data.valueAt(i));
+		}
+	}
+	
 	private void initTable() {
 		// mKeyTable.put(KEY_SHOW_RTU_TIME, value);
 		// mKeyTable.put(KEY_SHOW_FRAM_COUNT, value);
@@ -338,6 +348,55 @@ public class RTUData {
 		for (int i = 0; i < length; i++) {
 			byte[] data = mDataCache.valueAt(i);
 			Utils.log(i + ". " + Utils.toHexString(data));
+		}
+	}
+	
+	public void readCache(String path) {
+		File f = new File(path);
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(f);
+			mDataCache.clear();
+			while(scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				if (line.trim().length() > 0) {
+					String[] value = line.split("=");
+					mDataCache.put(Integer.valueOf(value[0]), value[1].getBytes());
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			scanner.close();
+		}
+		
+	}
+	
+	public void saveCache(String path){
+		File f = new File(path);
+		if (!f.exists()) {
+			try {
+				f.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		PrintWriter printer = null;
+		try {
+			printer = new PrintWriter(path);
+			int length = mDataCache.size();
+			for (int i=0;i<length;i++) {
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(mDataCache.keyAt(i))
+					.append("=")
+					.append(new String(mDataCache.valueAt(i)));
+				printer.println(buffer.toString());
+				printer.flush();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			printer.close();
 		}
 	}
 
