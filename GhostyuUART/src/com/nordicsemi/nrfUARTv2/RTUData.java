@@ -362,6 +362,9 @@ public class RTUData {
 				if (line.trim().length() > 0) {
 					String[] value = line.split("=");
 					mDataCache.put(Integer.valueOf(value[0]), value[1].getBytes());
+//					Utils.log("buffer : "+buffer.toString());
+					Utils.log("value[0] = " + value[0] + " value[1] = "+ Utils.toHexString(value[1].getBytes()));
+					Utils.log("****************************************\n\n");
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -390,6 +393,9 @@ public class RTUData {
 				buffer.append(mDataCache.keyAt(i))
 					.append("=")
 					.append(new String(mDataCache.valueAt(i)));
+				Utils.log("buffer : "+buffer.toString());
+				Utils.log("key = " + mDataCache.keyAt(i) + " value = "+mDataCache.valueAt(i));
+				Utils.log("=====================================\n\n");
 				printer.println(buffer.toString());
 				printer.flush();
 			}

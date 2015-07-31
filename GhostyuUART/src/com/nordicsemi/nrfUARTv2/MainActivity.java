@@ -115,26 +115,15 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         String[]  hisArrays = longhistory.split(",");  
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,  
                 android.R.layout.simple_dropdown_item_1line, hisArrays);  
-        //只保留最近的50条的记录  
         if(hisArrays.length > 50){  
             String[] newArrays = new String[50];  
-            System.arraycopy(hisArrays, 0, newArrays, 0, 50);  
+            System.arraycopy(hisArrays, 0, newArrays, 0, 50);
             adapter = new ArrayAdapter<String>(this,  
                     android.R.layout.simple_dropdown_item_1line, newArrays);  
         }  
         auto.setAdapter(adapter);  
         auto.setDropDownHeight(350);  
         auto.setThreshold(1);  
-        auto.setCompletionHint("最近的5条记录");  
-        auto.setOnFocusChangeListener(new OnFocusChangeListener() {  
-            @Override  
-            public void onFocusChange(View v, boolean hasFocus) {  
-                AutoCompleteTextView view = (AutoCompleteTextView) v;  
-                if (hasFocus) {  
-                        view.showDropDown();  
-                }  
-            }  
-        });  
     }  
     
     @Override
