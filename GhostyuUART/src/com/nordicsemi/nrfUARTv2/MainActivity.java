@@ -397,7 +397,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     
 
 	@Override
-	public void onDataReciver(final byte[] data) {
+	public boolean onDataReciver(final byte[] data) {
 //		Message m = mHandler.obtainMessage();
 //		m.obj = data;
 //		m.sendToTarget();
@@ -422,6 +422,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 //				}
 //			}
 //		});
+		return false;
 	}
 
 	@Override

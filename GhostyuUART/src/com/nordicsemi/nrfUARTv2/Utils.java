@@ -1,6 +1,10 @@
 package com.nordicsemi.nrfUARTv2;
 
+import com.nordicsemi.nrfUARTv2.R.string;
+
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 
 
@@ -145,9 +149,53 @@ public class Utils {
 		}
 		return result;
 	}
+	
+	public static String zeroFormat(String target,int length) {
+		if (target.length() > length) {
+			throw new IllegalArgumentException("target string length must be shorter," + target.length()+", "+length);
+		}
+		int zerolen = length - target.length();
+		StringBuffer buffer = new StringBuffer();
+		for (int i=0;i<zerolen;i++) {
+			buffer.append(0);
+		}
+		return buffer.append(target).toString();
+	}
+	
+	
+	public static String formatAddress(String addr) {
+		return zeroFormat(addr, 3);
+	}
+	
+	public static void toast(Context context,String msg) {
+		Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+	}
 
 	public static void log(String string) {
 		Log.w(TAG, string);
+	}
+
+	public static String zeroFormat(int i, int length) {
+		return zeroFormat(String.valueOf(i), length);
+	}
+	
+	public static byte[] getDataPart(byte[] data) {
+		int len = getDataLength(data);
+		byte[] value = new byte[len];
+		System.arraycopy(data, 3, value, 0, len);
+		return value;
+	}
+	
+	public static int getAction(byte[] data) {
+		return data[0] & 0xf0 >> 4;
+	}
+	
+	public static int getDataRegister(byte[] data) {
+		return ((data[0] & 0x0f) << 8) + (data[1] & 0xff);
+	}
+	
+	public static int getDataLength(byte[] data) {
+		return (data[2] & 0xff);
 	}
 }
 

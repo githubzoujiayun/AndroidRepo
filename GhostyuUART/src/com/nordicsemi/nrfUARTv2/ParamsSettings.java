@@ -269,7 +269,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
 	}
 
-	String getDataValue(String key) {
-		return mDataManager.getDataValue(key);
-	}
+//	String getDataValue(String key) {
+//		return mDataManager.getDataValue(key);
+//	}
 }

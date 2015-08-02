@@ -1,25 +1,16 @@
 package com.nordicsemi.nrfUARTv2;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Date;
 import java.util.HashMap;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.preference.Preference;
-import android.preference.PreferenceManager;
+import android.os.Handler;
+import android.os.Message;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,6 +20,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.nordicsemi.nrfUARTv2.DataManager.DataListener;
 
 
 public class SettingsActivity extends GeneralActivity implements OnItemClickListener{
@@ -43,6 +36,108 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 	
 	private Toast mToast;
 	
+	private SparseArray<byte[]> mShowCache = new SparseArray<byte[]>();
+	
+	private Settings mSettingFragment;
+	
+	private static final int MSG_REFRESH_TIME = 0;
+	private static final int MSG_LOCAL_TIME = 1;
+	private static final int MSG_CLEAR_DATA = 2;
+	
+	private final static String[] DAY_OF_WEEK = new String[] { "星期日", "星期一",
+			"星期二", "星期三", "星期四", "星期五", "星期六" };
+	
+	private Handler mHandler = new Handler() {
+		
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			int what = msg.what;
+			if (what == MSG_REFRESH_TIME) {
+				Toast.makeText(SettingsActivity.this, getString(R.string.toast_refresh_succed),Toast.LENGTH_SHORT).show();
+			} else if(what == MSG_LOCAL_TIME) {
+				mSettingFragment.showLocalTime(msg.obj.toString());
+			} else if(what == MSG_CLEAR_DATA) {
+				Toast.makeText(SettingsActivity.this, getString(R.string.toast_clear_succed),Toast.LENGTH_SHORT).show();
+			}
+		}
+		
+	};
+	
+	private DataListener mDataListener = new DataListener() {
+		
+		
+		@Override
+		public void onDataReciver(String action, Intent intent) {
+			
+		}
+		
+		@Override
+		public boolean onDataReciver(byte[] txValue) {
+			// parse high address
+			byte firstByte = (byte) ((txValue[0] & 0xf0) >> 4);
+			int register = ((txValue[0] & 0x0f) << 8) + (txValue[1] & 0xff);
+
+			if (firstByte == 0xA) {
+				// write ack
+				if (register == 0xA00) {
+					// ack write date
+					Utils.log("ack write data ok!");
+					
+					Message msg = mHandler.obtainMessage(MSG_REFRESH_TIME);
+					msg.sendToTarget();
+					return true;
+				} else if(register == 0xA01) {//clear data
+					Message msg = mHandler.obtainMessage(MSG_CLEAR_DATA);
+					msg.sendToTarget();
+					return true;
+				} else if(register == 0xA02) {
+					return true;
+				}
+			} else if (firstByte == 0xB) {
+					//read ack
+					if (register == 0xA00) {
+						//local time
+						String year = Utils.zeroFormat(txValue[3] & 0xff, 2);
+						String month = Utils.zeroFormat(txValue[4] & 0xff, 2);;
+						String day = Utils.zeroFormat(txValue[5] & 0xff, 2);;
+						String hour = Utils.zeroFormat(txValue[6] & 0xff, 2);;
+						String min = Utils.zeroFormat(txValue[7] & 0xff, 2);;
+						String sec = Utils.zeroFormat(txValue[8] & 0xff, 2);;
+						int week = txValue[9] & 0xff;
+//						StringBuffer buffer = new StringBuffer();
+//						buffer.append("20").append(year).append("");
+						String time = getString(R.string.local_time_summery, year,month,day,hour,min,sec,DAY_OF_WEEK[week - 1]);
+						Message msg = mHandler.obtainMessage(MSG_LOCAL_TIME);
+						msg.obj = time;
+						msg.sendToTarget();
+						return true;
+					} else if (register >= 0x800 && register <= 0x813) {
+						//show data part
+						int len = 4;
+						byte[] datas = new byte[len];
+						System.arraycopy(txValue, 3, datas, 0, len);
+						mShowCache.put(register, datas);
+						return true;
+					} else if (register == 0xA02) {
+						final int data = txValue[txValue.length - 2] & 0xff;
+						Utils.log("\n");
+						Utils.log("data = " + data);
+						Utils.log("txValue : " + Utils.toHexString(txValue));
+						Utils.log("======================================");
+						if (data == 1) {
+							Utils.log("***");
+							mDataManager.initReadDatas();
+							return true;
+						}
+						return false;
+					}
+				}
+			
+			return false;
+		}
+	};
+	
 	ArrayAdapter<String> mAdapter = null;
 	
 	DataManager mDataManager = null;
@@ -53,6 +148,14 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 	}
 	
 	@Override
+	protected void onResume() {
+		super.onResume();
+		mDataManager.setDataListener(mDataListener);
+	}
+
+
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ActionBar bar = getActionBar();
@@ -61,12 +164,21 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 		
 		FragmentManager fm = getFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
-		Settings settings = new Settings();  
-        ft.replace(android.R.id.content, settings);          
+		mSettingFragment = new Settings();  
+        ft.replace(android.R.id.content, mSettingFragment);          
         ft.commit();
         
         mDataManager = DataManager.getInstance(this);
         mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
+        mShowCache.clear();
+	}
+	
+	public void clearShowCache() {
+		mShowCache.clear();
+	}
+	
+	public SparseArray<byte[]> getShowCache() {
+		return mShowCache;
 	}
 	
 	@Override
@@ -94,100 +206,13 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 //					mDataManager.saveParams();
 //				}
 //			}).start();
-			new FetchTask().execute(FetchTask.TASK_TYPE_SAVE_PARAMS);
+			new FetchTask(this).execute(FetchTask.TASK_TYPE_SAVE_PARAMS);
 		} else if (id == R.id.download_params) {
-			new FetchTask().execute(FetchTask.TASK_TYPE_FETCH);
+			new FetchTask(this).execute(FetchTask.TASK_TYPE_FETCH);
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	public class FetchTask extends AsyncTask<Integer, String, Boolean>{
-		
-		private static final int TASK_TYPE_SAVE_PARAMS = 0;
-		private static final int TASK_TYPE_READ_PARAMS = 1;
-		private static final int TASK_TYPE_FETCH = 2;
-		
-		private class Progress extends ProgressDialog {
-			
-			public Progress(Context context) {
-				super(context);
-			}
 
-			@Override
-			public void onCreate(Bundle savedInstanceState) {
-				super.onCreate(savedInstanceState);
-				setCancelable(false);
-				setCanceledOnTouchOutside(false);
-				setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			}
-		}
-		
-		private Progress mProgressDialog;
-		private HashMap<String,String> mExtra;
-		private int mType;
-		
-		public FetchTask() {
-			mExtra = new HashMap<String,String>();
-		}
-		
-		public void putString(String key,String value) {
-			mExtra.put(key, value);
-		}
-		
-		public String getStringExtra(String key) {
-			return mExtra.get(key);
-		}
-		
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			mProgressDialog = new Progress(SettingsActivity.this);
-			mProgressDialog.setMessage(getString(R.string.progress_downloading));
-			mProgressDialog.show();
-		}
-
-		@Override
-		protected Boolean doInBackground(Integer... args) {
-			DataManager dm = DataManager.getInstance(SettingsActivity.this);
-			boolean succed = false;
-			int type = args[0];
-			mType = type;
-			switch(type) {
-			case TASK_TYPE_FETCH:
-				succed = dm.fetchAll();
-				break;
-			case TASK_TYPE_READ_PARAMS:
-				dm.importParams(getStringExtra("params"));
-				succed = true;
-				break;
-			case TASK_TYPE_SAVE_PARAMS:
-				dm.saveParams();
-				succed = true;
-				break;
-				
-			}
-			return succed;
-		}
-
-		@Override
-		protected void onPostExecute(Boolean result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-			mProgressDialog.dismiss();
-			if (mType == TASK_TYPE_READ_PARAMS) {
-				ParamsSettingsActivity.startParamsSettings(SettingsActivity.this);
-			}
-			if (!result) {
-				mToast.setText("please connect ble first.");
-	    		mToast.show();
-			} else {
-				SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
-				SharedPreferences.Editor editor = p.edit();
-				editor.putBoolean("preference_update", true);
-				editor.commit();
-			}
-		}
-	}
 	
 	private String[] initData() {
 		return new String[]{
@@ -241,7 +266,7 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 		if (resultCode == Activity.RESULT_OK) {
 			if (requestCode == FILE_SELECT_CODE) {
 				String path = data.getData().getPath();
-				FetchTask task = new FetchTask();
+				FetchTask task = new FetchTask(this);
 				task.putString("params", path);
 				task.execute(FetchTask.TASK_TYPE_READ_PARAMS);
 			}

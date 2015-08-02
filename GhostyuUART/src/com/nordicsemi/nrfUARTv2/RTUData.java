@@ -2,7 +2,6 @@ package com.nordicsemi.nrfUARTv2;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -312,11 +311,10 @@ public class RTUData {
 	}
 
 	public void parse(byte[] txValue) {
-		// parse high address
-		byte firstByte = (byte) ((txValue[0] & 0xf0) >> 4);
-		System.out.println(firstByte);
+		
 		// parse register address
 		int register = ((txValue[0] & 0x0f) << 8) + (txValue[1] & 0xff);
+
 		// parse length
 		int len = (txValue[2] & 0xff);
 //		Utils.log("length = " + len);
@@ -342,7 +340,7 @@ public class RTUData {
 		Utils.log("\n\n");
 		// mDataCache.put(register, datas);
 	}
-
+	
 	public void showCache() {
 		int length = mDataCache.size();
 		for (int i = 0; i < length; i++) {

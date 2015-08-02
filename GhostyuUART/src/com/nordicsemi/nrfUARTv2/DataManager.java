@@ -2,11 +2,13 @@ package com.nordicsemi.nrfUARTv2;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import android.R.integer;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -41,7 +43,7 @@ public class DataManager {
 //	private BlockingQueue<Command> mQueue = new LinkedBlockingQueue<Command>();
 	
 	public interface DataListener{
-		public void onDataReciver(byte[] data);
+		public boolean onDataReciver(byte[] data);
 		public void onDataReciver(String action,Intent intent);
 	}
 	
@@ -180,19 +182,67 @@ public class DataManager {
 		mService.close();
 	}
 	
+	public boolean refreshTime() {
+		if (!isBTEnable() || mDevice == null) {
+			return false;
+		}
+		
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR) % 100;
+		int month = c.get(Calendar.MONTH) + 1;
+		int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+		
+		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+		
+		int hour = c.get(Calendar.HOUR_OF_DAY);
+		int min = c.get(Calendar.MINUTE);
+		int sec = c.get(Calendar.SECOND);
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(Utils.zeroFormat(Integer.toHexString(year), 2))
+			.append(Utils.zeroFormat(Integer.toHexString(month), 2))
+			.append(Utils.zeroFormat(Integer.toHexString(dayOfMonth), 2))
+			.append(Utils.zeroFormat(Integer.toHexString(hour), 2))
+			.append(Utils.zeroFormat(Integer.toHexString(min), 2))
+			.append(Utils.zeroFormat(Integer.toHexString(sec), 2))
+			.append(Utils.zeroFormat(Integer.toHexString(dayOfWeek), 2));
+		
+		Command cmd = new Command();
+		cmd.action = Command.ACTION_WRITE;
+		cmd.addrValue = "A00";
+		cmd.length = 7;
+		cmd.data = buffer.toString();
+		
+		int count = 0;
+		while(!write(Utils.toHexBytes(cmd.toCommand()))) {
+			if (count++ > 5) {
+				return false;
+			}
+			SystemClock.sleep(100);
+		}
+		return true;
+		
+	}
+	
 	public boolean fetchAll() {
 		if (!isBTEnable() || mDevice == null) {
 			return false;
 		}
 		Command cmd = null;
 		int count = 0;
+		Command lastCommand = null;
 		while((cmd = mQueue.peek()) != null) {
 			boolean succed = write(Utils.toHexBytes(cmd.toCommand()));
 			if (!succed) {
+				Utils.log("count = " + count);
 				if (count ++ > 5) {
 					return false;
 				}
 			}
+			if (lastCommand != null && lastCommand.equals(cmd)) {
+				count ++;
+			}
+			lastCommand = cmd;
 			SystemClock.sleep(50);
 		}
 		return true;
@@ -248,13 +298,18 @@ public class DataManager {
 		int action;
 		int length;
 		int address;
+		String data;
+		String addrValue = null;
 		private String checksum;
 		
 		public String toCommand() {
 			StringBuffer buffer = new StringBuffer();
-			String len = zeroFormat(String.valueOf(Integer.toHexString(length)), 2);
-			String data = zeroFormat("0", length * 2);
-			StringBuffer suffix = buffer.append(action).append(formatAddress(Integer.toHexString(address)))
+			String len = Utils.zeroFormat(String.valueOf(Integer.toHexString(length)), 2);
+//			String data = zeroFormat("0", length * 2);
+			if (action == ACTION_READ) {
+				data = "";
+			}
+			StringBuffer suffix = buffer.append(action).append(addrValue != null?addrValue:Utils.formatAddress(Integer.toHexString(address)))
 					.append(len).append(data);
 			checksum = Utils.checksum(suffix.toString());
 			String command = suffix.append(checksum).toString();
@@ -267,6 +322,9 @@ public class DataManager {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + getOuterType().hashCode();
+			result = prime * result + action;
+			result = prime * result
+					+ ((addrValue == null) ? 0 : addrValue.hashCode());
 			result = prime * result + address;
 			result = prime * result + length;
 			return result;
@@ -283,15 +341,30 @@ public class DataManager {
 			Command other = (Command) obj;
 			if (!getOuterType().equals(other.getOuterType()))
 				return false;
+			if (addrValue != null) {
+				address = Utils.toInteger(Utils.toHexBytes(addrValue));
+			} 
+			if (other.addrValue != null) {
+				other.address = Utils.toInteger(Utils.toHexBytes(other.addrValue));
+			}
+			if (action != other.action)
+				return false;
 			if (address != other.address)
 				return false;
-			if (length != other.length)
-				return false;
+//			if (length != other.length)
+//				return false;
 			return true;
 		}
 
 		private DataManager getOuterType() {
 			return DataManager.this;
+		}
+
+		@Override
+		public String toString() {
+			return "Command [action=" + action + ", length=" + length
+					+ ", address=" + address + ", data=" + data
+					+ ", addrValue=" + addrValue + "]";
 		}
 	}
 	
@@ -304,10 +377,10 @@ public class DataManager {
 		SystemClock.sleep(50);
 		Utils.log("fetch "+addr+", "+length);
 		StringBuffer buffer = new StringBuffer();
-		String len = zeroFormat(String.valueOf(Integer.toHexString(length)), 2);
-		String data = zeroFormat("0", length * 2);
+		String len = Utils.zeroFormat(String.valueOf(Integer.toHexString(length)), 2);
+		String data = Utils.zeroFormat("0", length * 2);
 //		String data = "";
-		StringBuffer suffix = buffer.append(9).append(formatAddress(Integer.toHexString(addr)))
+		StringBuffer suffix = buffer.append(9).append(Utils.formatAddress(Integer.toHexString(addr)))
 				.append(len).append(data);
 		String checksum = Utils.checksum(suffix.toString());
 		String command = suffix.append(checksum).toString();
@@ -344,43 +417,72 @@ public class DataManager {
 	}
 	
 	
-	private String zeroFormat(String target,int length) {
-		if (target.length() > length) {
-			throw new IllegalArgumentException("target string length must be shorter," + target.length()+", "+length);
-		}
-		int zerolen = length - target.length();
-		StringBuffer buffer = new StringBuffer();
-		for (int i=0;i<zerolen;i++) {
-			buffer.append(0);
-		}
-		return buffer.append(target).toString();
-	}
-	
-	
-	private String formatAddress(String addr) {
-		return zeroFormat(addr, 3);
-	}
-	
 	public void onDataReciver(byte[] datas) {
+		boolean deal = true;
 		if (mDataListener != null) {
-			mDataListener.onDataReciver(datas);
+			deal = mDataListener.onDataReciver(datas);
 		}
-		parse(datas);
+		
+		byte firstByte = (byte) ((datas[0] & 0xf0) >> 4);
+		int register = ((datas[0] & 0x0f) << 8) + (datas[1] & 0xff);
+		int len = (datas[2] & 0xff);
+		
+		if ( !deal) {
+			if (firstByte == 0xB && register == 0xA02) {
+				return;
+			}
+			parse(datas);
+		} else {
+			Command cmd = new Command();
+			
+			cmd.action = (firstByte & 0xff) - 2;
+			cmd.address = register;
+			cmd.length = len;
+			boolean remove = mQueue.remove(cmd);
+//			if (firstByte == 0xB && register == 0xA02) {
+//				new FetchTask(mContext).execute(FetchTask.TASK_TYPE_READ_DATAS);
+//			}
+		}
 	}
 	
-	private void parse(byte[] txValue) {
-//		Utils.log("recive : " + Utils.toHexString(txValue));
+	public void parse(byte[] txValue) {
+		// Utils.log("recive : " + Utils.toHexString(txValue));
+		// parse high address
+		byte firstByte = (byte) ((txValue[0] & 0xf0) >> 4);
 		int register = ((txValue[0] & 0x0f) << 8) + (txValue[1] & 0xff);
 		int len = (txValue[2] & 0xff);
 		Command cmd = new Command();
+		cmd.action = (firstByte & 0xff) - 2;
 		cmd.address = register;
 		cmd.length = len;
-		mQueue.remove(cmd);
-		mRtuData.parse(txValue);
+		
+		//ack write
+		if (firstByte == 0x0A) {
+			return;
+		}
+
+		if (check(txValue)) {
+			mQueue.remove(cmd);
+			mRtuData.parse(txValue);
+		} else {
+			Utils.log("check err!");
+			return;
+		}
+	}
+	
+	private boolean check(byte value[]) {
+		byte[] suffix = new byte[value.length - 1];
+		System.arraycopy(value, 0, suffix, 0, value.length - 1);
+		byte sum = Utils.checksum(suffix);
+		return sum == value[value.length - 1];
 	}
 
-	public String getDataValue(String key) {
-		return null;
+	public byte[] getDataValue(String key) {
+		return mRtuData.getValue(key);
+	}
+	
+	public byte[] getDataValue(int address) {
+		return mRtuData.getValue(address);
 	}
 	
 	public RTUData getRTUData() {
@@ -418,5 +520,56 @@ public class DataManager {
 
 	public void importParams(String path) {
 		mRtuData.readCache(path);
+	}
+
+	public void initLocalTime() {
+		Command cmd = new Command();
+		cmd.action = Command.ACTION_READ;
+		cmd.length = 7;
+		cmd.addrValue = "A00";
+		cmd.data = "";
+		mQueue.clear();
+		mQueue.add(cmd);
+	}
+
+	public void initClearData() {
+		Command cmd = new Command();
+		cmd.action = Command.ACTION_WRITE;
+		cmd.length = 0;
+		cmd.addrValue = "A01";
+		cmd.data = "";
+		mQueue.clear();
+		mQueue.add(cmd);
+	}
+
+	public void initShowData() {
+		mQueue.clear();
+		
+		Command cmd = new Command();
+		cmd.action = Command.ACTION_WRITE;
+		cmd.length = 0;
+		cmd.addrValue = "A02";
+		cmd.data = "";
+		mQueue.add(cmd);
+		
+		cmd = new Command();
+		cmd.action = Command.ACTION_READ;
+		cmd.length = 0;
+		cmd.addrValue = "A02";
+		cmd.data = "";
+		mQueue.add(cmd);
+	}
+
+	public void initReadDatas() {
+		int register = 0x800;
+		mQueue.clear();
+		for (int i=register;i<=0x813;i++) {
+			Command cmd = new Command();
+			cmd.action = Command.ACTION_READ;
+			cmd.address = i;
+			cmd.data = "";
+			cmd.length = 0x4;
+			mQueue.add(cmd);
+		}
 	}
 }

@@ -64,6 +64,7 @@
     <string name="scan">Scan</string>
     <string name="cancel">Cancel</string>
     <string name="refresh_time">刷新时间</string>
+    <string name="local_time">本地时间</string>
     <string name="clear_temp_data">清楚临时数据</string>
     <string name="show_data">显示数据</string>
     <string name="params_settings">参数设置</string>
@@ -232,4 +233,7 @@
 	<string name="channal_settings3">通道3 设置</string>
 	<string name="channal_settings4">通道4 设置</string>
 	<string name="download_params">下载参数</string>
+	<string name="local_time_summery">20%1$s年%2$s月%3$s日 %4$s:%5$s:%6$s %7$s</string>
+	<string name="toast_clear_succed">清楚数据成功！</string>
+	<string name="toast_refresh_succed">刷新时间成功！</string>
 </resources>
