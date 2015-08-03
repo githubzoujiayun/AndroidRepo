@@ -245,6 +245,7 @@ public class DataManager {
 		}
 	}
 	
+	//8000 10 3206 0000 0000 0000 0005 0000 0001 CE
 	private void addWriteQuue(int address, int length, byte[] data) {
 		Command command = new Command();
 		command.action = Command.ACTION_WRITE;
@@ -269,8 +270,10 @@ public class DataManager {
 			}
 			if (lastCommand != null && lastCommand.equals(cmd)) {
 				count ++;
+			} else if (succed){
+				count = 0;
 			}
-			if (count > 10) {
+			if (count > 50) {
 				return false;
 			}
 			lastCommand = cmd;
@@ -319,7 +322,7 @@ public class DataManager {
 //		
 //		fetch(String.valueOf(length * times), total - length * times);
 //	}
-	
+	//8000 10 0000 0005 0000 0001 96
 	private class Command {
 		
 		public static final int ACTION_WRITE = 8;
@@ -340,6 +343,9 @@ public class DataManager {
 //			String data = zeroFormat("0", length * 2);
 			if (dataBytes != null) {
 				data = Utils.toHexString(dataBytes);
+			}
+			if (data != null) {
+				data = Utils.zeroFormat(data,length * 2);
 			}
 			if (action == ACTION_READ) {
 				data = "";
@@ -474,9 +480,9 @@ public class DataManager {
 			cmd.address = register;
 			cmd.length = len;
 			boolean remove = mQueue.remove(cmd);
-//			if (firstByte == 0xB && register == 0xA02) {
-//				new FetchTask(mContext).execute(FetchTask.TASK_TYPE_READ_DATAS);
-//			}
+			if (remove) {
+				System.out.println(remove);
+			}
 		}
 	}
 	

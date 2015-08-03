@@ -104,8 +104,7 @@ public class FetchTask extends AsyncTask<Integer, String, Boolean>{
 			return dm.sendAllCommands();
 		case TASK_TYPE_WRITE_PARAMS:
 			dm.initWriteQueue();
-			dm.sendAllCommands();
-			break;
+			return dm.sendAllCommands();
 		}
 		return succed;
 	}

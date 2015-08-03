@@ -94,6 +94,7 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 				} else if(register == 0xA02) {
 					return true;
 				}
+				return true;
 			} else if (firstByte == 0xB) {
 					//read ack
 					if (register == 0xA00) {
