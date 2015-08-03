@@ -58,10 +58,19 @@ public class ShowDataFragment extends Fragment {
 		Utils.log("showCache : " + showCache);
 		int start = 0x800;
 		mDataList.clear();
+		if (showCache.size() == 0) {
+			for (int i=start;i< start + 19;i++) {
+				showCache.put(i, new byte[]{0});
+			}
+		}
+		
 		for (int i=0;i<showCache.size();i++) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			byte[] datas = showCache.get(start + i);
 //			byte[] dataPart = Utils.getDataPart(datas);
+			if (datas == null) {
+				continue;
+			}
 			if (datas.length > 4) {
 				Utils.log("warnning : data length must be less than 4.");
 			}
@@ -74,10 +83,6 @@ public class ShowDataFragment extends Fragment {
 			map.put("unit",unit);
 			mDataList.add(map);
 		}
-		mAdapter = new SimpleAdapter(getActivity(), mDataList,
-				R.layout.show_data_item, new String[] { "title", "unit" },
-				new int[] { R.id.data_part, R.id.unit_part });
-		mListView.setAdapter(mAdapter);
 	}
 	
 	
