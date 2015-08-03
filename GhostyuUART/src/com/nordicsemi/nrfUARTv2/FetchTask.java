@@ -24,6 +24,7 @@ public class FetchTask extends AsyncTask<Integer, String, Boolean>{
 	public static final int TASK_TYPE_CLEAR_DATA = 5;
 	public static final int TASK_TYPE_SHOW_DATAS = 6;
 	public static final int TASK_TYPE_READ_DATAS = 7;
+	public static final int TASK_TYPE_WRITE_PARAMS = 8;
 	
 	private class Progress extends ProgressDialog {
 		
@@ -77,7 +78,7 @@ public class FetchTask extends AsyncTask<Integer, String, Boolean>{
 		switch(type) {
 		case TASK_TYPE_FETCH:
 			dm.initQueue();
-			succed = dm.fetchAll();
+			succed = dm.sendAllCommands();
 			break;
 		case TASK_TYPE_READ_PARAMS:
 			dm.importParams(getStringExtra("params"));
@@ -91,16 +92,20 @@ public class FetchTask extends AsyncTask<Integer, String, Boolean>{
 			return dm.refreshTime();
 		case TASK_TYPE_LOCAL_TIME:
 			dm.initLocalTime();
-			return dm.fetchAll();
+			return dm.sendAllCommands();
 		case TASK_TYPE_CLEAR_DATA:
 			dm.initClearData();
-			return dm.fetchAll();
+			return dm.sendAllCommands();
 		case TASK_TYPE_SHOW_DATAS:
 			dm.initShowData();
-			return dm.fetchAll();
+			return dm.sendAllCommands();
 		case TASK_TYPE_READ_DATAS:
 			dm.initReadDatas();
-			return dm.fetchAll();
+			return dm.sendAllCommands();
+		case TASK_TYPE_WRITE_PARAMS:
+			dm.initWriteQueue();
+			dm.sendAllCommands();
+			break;
 		}
 		return succed;
 	}

@@ -196,7 +196,7 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 		} else if (id == R.id.import_params) {
 			showFileChooser();
 		} else if (id == R.id.upload_params) {
-			
+			new FetchTask(this).execute(FetchTask.TASK_TYPE_WRITE_PARAMS);
 		} else if (id == R.id.save_params) {
 			// showFileChooser();
 //			new Thread(new Runnable() {

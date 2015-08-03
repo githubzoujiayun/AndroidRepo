@@ -224,7 +224,37 @@ public class DataManager {
 		
 	}
 	
-	public boolean fetchAll() {
+	public void initWriteQueue() {
+		mQueue.clear();
+		
+		final int total = 376 * 4;
+		final int length = 16;
+		int times = total / length;
+		for (int i=0;i<times;i++) {
+			if (!isBTEnable() || mDevice == null) {
+				return;
+			}
+			int address = 4 * i;
+			byte[] data = new byte[16];
+			for (int j=0;j<4;j++) {
+				int addr = address + 4 * j;
+				byte[] value = mRtuData.getValue(addr);
+				System.arraycopy(value, 0, data, 4 * j, 4);
+			}
+			addWriteQuue(address,length,data);
+		}
+	}
+	
+	private void addWriteQuue(int address, int length, byte[] data) {
+		Command command = new Command();
+		command.action = Command.ACTION_WRITE;
+		command.address = address;
+		command.length = length;
+		command.dataBytes = data;
+		mQueue.add(command);
+	}
+
+	public boolean sendAllCommands() {
 		if (!isBTEnable() || mDevice == null) {
 			return false;
 		}
@@ -235,12 +265,13 @@ public class DataManager {
 			boolean succed = write(Utils.toHexBytes(cmd.toCommand()));
 			if (!succed) {
 				Utils.log("count = " + count);
-				if (count ++ > 5) {
-					return false;
-				}
+				count++;
 			}
 			if (lastCommand != null && lastCommand.equals(cmd)) {
 				count ++;
+			}
+			if (count > 10) {
+				return false;
 			}
 			lastCommand = cmd;
 			SystemClock.sleep(50);
@@ -299,6 +330,7 @@ public class DataManager {
 		int length;
 		int address;
 		String data;
+		byte[] dataBytes;
 		String addrValue = null;
 		private String checksum;
 		
@@ -306,6 +338,9 @@ public class DataManager {
 			StringBuffer buffer = new StringBuffer();
 			String len = Utils.zeroFormat(String.valueOf(Integer.toHexString(length)), 2);
 //			String data = zeroFormat("0", length * 2);
+			if (dataBytes != null) {
+				data = Utils.toHexString(dataBytes);
+			}
 			if (action == ACTION_READ) {
 				data = "";
 			}
@@ -403,11 +438,11 @@ public class DataManager {
 				return;
 			}
 			int address = 4 * i;
-			add(address,length);
+			addReadQueue(address,length);
 		}
 	}
 	
-	private void add(int addr, int length) {
+	private void addReadQueue(int addr, int length) {
 		Command command = new Command();
 		command.action = Command.ACTION_READ;
 		command.address = addr;
