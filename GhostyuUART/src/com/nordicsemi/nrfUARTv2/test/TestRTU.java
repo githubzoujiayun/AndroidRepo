@@ -43,4 +43,29 @@ public class TestRTU extends AndroidTestCase {
 		data.showCache();
 
 	}
+	
+	public void testSparseArray() {
+		SparseArray<String> cache = new SparseArray<String>();
+		cache.put(1, "hello");
+		cache.put(1, "horld!");
+		System.out.println(cache);
+		assertEquals(cache.size(), 1);
+	}
+	
+	public void testSetValue() {
+		RTUData rtu = new RTUData();
+		rtu.setValue(RTUData.KEY_TIMER_REPORTER, Utils.toHexBytes("ffffffff"));
+		byte[] value = rtu.getValue(RTUData.KEY_TIMER_REPORTER);
+		
+		final int len = 4;
+		assertEquals(value.length, len);
+		for (int i=0;i<len;i++) {
+			assertEquals(-1, value[i]);
+		}
+		
+		rtu.setValue(RTUData.KEY_TIMER_REPORTER, Utils.toHexBytes("aabb"),2,2);
+		assertEquals(value[1] & 0xff, 0xff);
+		assertEquals(value[2] & 0xff, 0xaa);
+		assertEquals(value[3] & 0xff,0xbb);
+	}
 }

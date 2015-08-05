@@ -79,7 +79,7 @@ public class EntiretyParamsSettings extends ParamsSettings implements OnPreferen
 		setupEditTextPreference(RTUData.KEY_AREA_CODE);
 		setupListPreference(RTUData.KEY_ADDR_ENCODING);
 		setupEditTextPreference(RTUData.KEY_STATION_NO);
-		setupListPreference(RTUData.KEY_STATION_TYPE);//
+//		setupListPreference(RTUData.KEY_STATION_TYPE,VALUE_TYPE_HEX,0,4);//
 		setupListPreference(RTUData.KEY_INTERVAL_STORAGE);
 		setupListPreference(RTUData.KEY_INTERVAL_SAMPLING);
 		setupListPreference(RTUData.KEY_WORK_STYLE);

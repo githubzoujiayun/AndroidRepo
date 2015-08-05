@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <PreferenceCategory android:title="@string/show_catagory">
+    <!--<PreferenceCat egory android:title="@string/show_catagory" >
         <Preference 
             android:key="show_rtu_time"
             android:title="@string/show_rtu_time"
@@ -13,7 +13,7 @@
             android:defaultValue="0"
             android:summary="0"
             />
-    </PreferenceCategory>
+    </PreferenceCategory> -->
 	<PreferenceCategory android:title="@string/catagory_report">
 	    <PreferenceScreen android:title="@string/catagory_report_settings"
 	        android:widgetLayout="@layout/preference_array"

@@ -64,6 +64,7 @@ public class SwitchEditTextPreference extends EditTextPreference implements OnCh
 	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
 		String value = null;
 		String key = getKey();
+		Utils.log("onCheckedchaged");
 		mShouldChecked = isChecked;
 		if (RTUData.KEY_ADD_REPORT.equals(key)
 				|| RTUData.KEY_EQUATION_REPORT.endsWith(key)) {

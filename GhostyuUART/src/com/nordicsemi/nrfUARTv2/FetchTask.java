@@ -98,13 +98,13 @@ public class FetchTask extends AsyncTask<Integer, String, Boolean>{
 			return dm.sendAllCommands();
 		case TASK_TYPE_SHOW_DATAS:
 			dm.initShowData();
-			return dm.sendAllCommands();
+			return dm.sendAllCommands(true);
 		case TASK_TYPE_READ_DATAS:
 			dm.initReadDatas();
 			return dm.sendAllCommands();
 		case TASK_TYPE_WRITE_PARAMS:
 			dm.initWriteQueue();
-			return dm.sendAllCommands(true);
+			return dm.sendAllCommands();
 		}
 		return succed;
 	}

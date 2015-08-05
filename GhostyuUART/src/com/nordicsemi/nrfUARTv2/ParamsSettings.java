@@ -11,13 +11,16 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 public abstract class ParamsSettings extends PreferenceFragment {
 
@@ -29,7 +32,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	static final int VALUE_TYPE_HEX = 2;
 	
 	void setupSwitchEditTextPreference(String key) {
-		SwitchEditTextPreference preference = (SwitchEditTextPreference) findPreference(key);
+		final SwitchEditTextPreference preference = (SwitchEditTextPreference) findPreference(key);
 		byte[] data = getValue(key);
 //		byte[] data = Utils.toHexBytes("00000020");
 		String value = Utils.toIntegerString(data);
@@ -40,10 +43,21 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		}
 		preference.setText(value);
 		preference.setSummary(value);
+		preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference pref, Object value) {
+				String text = value.toString();
+				mData.setValue(pref.getKey(), Integer.valueOf(text));
+				preference.setText(text);
+				preference.setSummary(text);
+				return true;
+			}
+		});
 	}
 	
 	void setupMySwitchPreference(String key) {
-		MySwitchPreference preference = (MySwitchPreference) findPreference(key);
+		final MySwitchPreference preference = (MySwitchPreference) findPreference(key);
 		byte[] data = getValue(key);
 		String value = Utils.toIntegerString(data);
 		if (value.equals("0")) {
@@ -51,6 +65,17 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		} else {
 			preference.setShouldChecked(true);
 		}
+		preference
+				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+					@Override
+					public boolean onPreferenceChange(Preference pref,
+							Object value) {
+						
+						mData.setValue(pref.getKey(), (Integer) value);
+						return true;
+					}
+				});
 	}
 	
 	void setupSwitchPreference(String key) {
@@ -62,14 +87,39 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		} else {
 			preference.setChecked(true);
 		}
+		preference
+				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+					@Override
+					public boolean onPreferenceChange(Preference pref,
+							Object value) {
+						int data = 0;
+						if (value.equals(true)) {
+							data = 1;
+						}
+						mData.setValue(pref.getKey(), data);
+						return true;
+					}
+				});
 	}
 	
 	void setupEditTextPreference(String key,int from,int len) {
-		EditTextPreference preference = (EditTextPreference) findPreference(key);
+		final EditTextPreference preference = (EditTextPreference) findPreference(key);
+//		preference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		byte[] data = getValue(key);
 		String value = Utils.toIntegerString(data,from,len);
 		preference.setText(value);
 		preference.setSummary(value);
+		preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference pref, Object value) {
+				mData.setValue(pref.getKey(), Integer.valueOf(value.toString()));
+				preference.setText(value.toString());
+				preference.setSummary(value.toString());
+				return true;
+			}
+		});
 	}
 	
 	void setupEditTextPreference(String key) {
@@ -88,21 +138,44 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		return mData.getValue(key);
 	}
 	
-	void setupListPreference(String key,int valueType,int from,int len) {
-		ListPreference preference = (ListPreference) findPreference(key);
+	void setupListPreference(String key,final int valueType,final int from,final int len) {
+		final ListPreference preference = (ListPreference) findPreference(key);
 		byte[] datas = getValue(key);
 		switch (valueType) {
 		case VALUE_TYPE_INTEGER:
 			String value = Utils.toIntegerString(datas,from,len);
 			setPreferenceIndex(preference, value);
+			if (key.equals(RTUData.KEY_INTERVAL_STORAGE)) {
+				System.out.println();
+			}
 			break;
 		case VALUE_TYPE_STRING:
 			break;
 		case VALUE_TYPE_HEX:
-			value = Utils.toHexString(datas,0,len);
+			value = Utils.toHexString(datas,from,len);
 			setPreferenceIndex(preference, value);
 			break;
 		}
+		preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference arg0, Object value) {
+				switch (valueType) {
+				case VALUE_TYPE_INTEGER:
+					mData.setValue(preference.getKey(), Integer.valueOf(value.toString()),from,len);
+					setPreferenceIndex(preference, String.valueOf(value));
+					break;
+				case VALUE_TYPE_HEX:
+					mData.setValue(preference.getKey(), Utils.toHexBytes(value.toString()),from,len);
+					setPreferenceIndex(preference, String.valueOf(value));
+					break;
+				default:
+					break;
+				}
+				
+				return false;
+			}
+		});
 	}
 
 	 void setPreferenceIndex(ListPreference preference,
@@ -119,23 +192,56 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	}
 	 
 	void setupMultiSelectPreference(String key) {
-		MultiSelectListPreference preference = (MultiSelectListPreference) findPreference(key);
+		final MultiSelectListPreference preference = (MultiSelectListPreference) findPreference(key);
 		byte data[] = getValue(key);
 		int len = 2;
 		byte[] value = new byte[len];
 		System.arraycopy(data, 2, value, 0, len);
 		int intValue = ((value[0] & 0xff) << 8) + (value[1] & 0xff);
-		System.out.println(Integer.toBinaryString(intValue));
 		// boolean values[] = new boolean[len * 8];
 		Set<String> valueSet = new HashSet<String>();
 		int mask = 0x8000;
+		StringBuffer buffer = new StringBuffer();
 		for (int i = 0; i < len * 8; i++) {
 			if ((intValue & mask) == mask) {
 				valueSet.add(Integer.toHexString(mask));
+				int index = preference.findIndexOfValue(Integer.toHexString(mask));
+				if (index == -1) {
+					assert false;
+				}
+				buffer.append(preference.getEntries()[index]).append(",");
 			}
 			mask = mask >> 1;
 		}
 		preference.setValues(valueSet);
+		String summary = buffer.toString();
+		if (summary.endsWith(",")) {
+			summary = summary.substring(0,summary.length()-1);
+		}
+		preference.setSummary(summary);
+		
+		preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference arg0, Object arg1) {
+				HashSet<String> set = (HashSet<String>) arg1;
+				int value = 0;
+				StringBuffer buffer = new StringBuffer();
+				for (String setValue: set) {
+					value |= Utils.toInteger(Utils.toHexBytes(setValue));
+					int index = preference.findIndexOfValue(setValue);
+					buffer.append(preference.getEntries()[index]).append(",");
+				}
+				preference.setValues(set);
+				String summary = buffer.toString();
+				if (summary.endsWith(",")) {
+					summary = summary.substring(0,summary.length()-1);
+				}
+				preference.setSummary(summary);
+				mData.setValue(preference.getKey(), value,2,2);
+				return false;
+			}
+		});
 	}
 
 	public static class SensorParamsSettings extends ParamsSettings {
@@ -197,9 +303,9 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		void load() {
 			byte[] datas = getValue(RTUData.KEY_TIMER_REPORTER);
 			String value = Utils.toIntegerString(datas, 2, 2);
-			EditTextPreference interval = (EditTextPreference) findPreference("self_reporter_type");
-			interval.setText(value);
-			interval.setSummary(value);
+//			EditTextPreference interval = (EditTextPreference) findPreference("self_reporter_type");
+//			interval.setText(value);
+//			interval.setSummary(value);
 		}
 	}
 

@@ -89,7 +89,7 @@ public class ShowDataFragment extends Fragment {
 				}
 			} else if (i== 16 || i==17) {
 //				unit="0.1V";
-				map.put("title", TITLES[i] + " : " + (value * 0.1) + "V");
+				map.put("title", TITLES[i] + " : " + (value < 0?value:(value * 0.1)) + "V");
 			}
 			map.put("summary",unit);
 			mDataList.add(map);

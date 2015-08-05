@@ -135,6 +135,7 @@ public class RTUData {
 	public static final String KEY_CHANNAL_PORT_4 = "channal_port_4";
 
 	private static final String TAG = "RTUData";
+	private static final boolean DEBUG = true;
 	/**
 	 * key : register address value : data
 	 */
@@ -408,5 +409,40 @@ public class RTUData {
 
 	public void clearCache() {
 		mDataCache.clear();
+	}
+	
+	public void setValue(String key,int value) {
+		setValue(key,value,0,4);
+	}
+	
+	public void setValue(String key,int value, int from, int len) {
+		setValue(key, Utils.toHexBytes(Integer.toHexString(value)),0,4);
+	}
+	
+	public void setValue(String key,byte[] value) {
+		if (value.length > 4) {
+			throw new RuntimeException("value length must less than 4.");
+		}
+		setValue(key, value,0,4);
+	}
+
+	public void setValue(String key, byte[] value,int from,int len) {
+		if (value.length > 4) {
+			throw new RuntimeException("value length must less than 4.");
+		}
+		if (len > 4) {
+			throw new RuntimeException("len must less than 4.");
+		}
+		
+		int address = mKeyTable.get(key);
+		byte[] oldValue = mDataCache.get(address);
+		if (DEBUG) {
+			assert oldValue.length == 4;
+		}
+		if (len > value.length) {
+			from = len - value.length;
+		}
+		System.arraycopy(value, 0, oldValue, from, value.length);
+		mDataCache.put(address, oldValue);
 	}
 }
