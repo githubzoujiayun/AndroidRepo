@@ -245,7 +245,7 @@ public class DataManager {
 		}
 	}
 	
-	//8000 10 3206 0000 0000 0000 0005 0000 0001 CE
+	//
 	private void addWriteQuue(int address, int length, byte[] data) {
 		Command command = new Command();
 		command.action = Command.ACTION_WRITE;
@@ -254,8 +254,12 @@ public class DataManager {
 		command.dataBytes = data;
 		mQueue.add(command);
 	}
-
+	
 	public boolean sendAllCommands() {
+		return sendAllCommands(false);
+	}
+
+	public boolean sendAllCommands(boolean waitFor) {
 		if (!isBTEnable() || mDevice == null) {
 			return false;
 		}
@@ -273,7 +277,7 @@ public class DataManager {
 			} else if (succed){
 				count = 0;
 			}
-			if (count > 50) {
+			if (!waitFor && count > 10) {
 				return false;
 			}
 			lastCommand = cmd;

@@ -236,4 +236,6 @@
 	<string name="local_time_summery">20%1$s年%2$s月%3$s日 %4$s:%5$s:%6$s %7$s</string>
 	<string name="toast_clear_succed">清楚数据成功！</string>
 	<string name="toast_refresh_succed">刷新时间成功！</string>
+	<string name="tennal_closed">关闭</string>
+	<string name="tennal_failed">招测失败</string>
 </resources>

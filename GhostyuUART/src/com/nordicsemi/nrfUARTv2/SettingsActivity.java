@@ -1,7 +1,5 @@
 package com.nordicsemi.nrfUARTv2;
 
-import java.util.HashMap;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
