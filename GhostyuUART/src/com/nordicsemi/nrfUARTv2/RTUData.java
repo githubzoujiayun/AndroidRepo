@@ -345,7 +345,7 @@ public class RTUData {
 		int length = mDataCache.size();
 		for (int i = 0; i < length; i++) {
 			byte[] data = mDataCache.valueAt(i);
-			Utils.log(i + ". " + Utils.toHexString(data));
+			Utils.log(mDataCache.keyAt(i) + ". " + Utils.toHexString(data));
 		}
 	}
 	
@@ -455,16 +455,24 @@ public class RTUData {
 		if (len > 4) {
 			throw new RuntimeException("len must less than 4.");
 		}
-		
+		//80e8 10 0000 0001 0000 0002 0000 2580 20
 		int address = mKeyTable.get(key);
 		byte[] oldValue = mDataCache.get(address);
+		Utils.log("address : "+ address);
+		Utils.log("oldValue = "+Utils.toHexString(oldValue));
 		if (DEBUG) {
 			assert oldValue.length == 4;
 		}
 		if (len > value.length) {
 			from = len - value.length;
 		}
-		System.arraycopy(value, 0, oldValue, from, len);
+		System.arraycopy(value, 0, oldValue, from, value.length);
 		mDataCache.put(address, oldValue);
+		if (DEBUG) {
+			byte[] data = mDataCache.get(address);
+			Utils.log("data.length = "+ data.length);
+			Utils.log("data = " + Utils.toHexString(data));
+			showCache();
+		}
 	}
 }

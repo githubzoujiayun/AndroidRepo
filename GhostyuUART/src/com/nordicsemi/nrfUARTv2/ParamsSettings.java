@@ -145,9 +145,6 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		case VALUE_TYPE_INTEGER:
 			String value = Utils.toIntegerString(datas,from,len);
 			setPreferenceIndex(preference, value);
-			if (key.equals(RTUData.KEY_INTERVAL_STORAGE)) {
-				System.out.println();
-			}
 			break;
 		case VALUE_TYPE_STRING:
 			break;

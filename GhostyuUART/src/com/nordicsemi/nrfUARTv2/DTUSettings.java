@@ -50,7 +50,7 @@ public class DTUSettings extends ParamsSettings {
 		super.setupEditTextPreference(key, from, len);
 	}
 
-	private void setupIPAddressEditText(String key) {
+	private void setupIPAddressEditText(final String key) {
 		final EditTextPreference preference = (EditTextPreference) findPreference(key);
 		int address = mData.getAddress(key);
 		byte[] data = mData.getValue(address);
@@ -74,11 +74,11 @@ public class DTUSettings extends ParamsSettings {
 					Utils.toast(getActivity(), R.string.toast_err_ip);
 					return false;
 				}
-				int address = mData.getAddress(preference.getKey());
+				int address = mData.getAddress(key);
 				mData.setValue(address, Integer.valueOf(ip[0]), 2, 1);
 				mData.setValue(address, Integer.valueOf(ip[1]), 3, 1);
-				mData.setValue(address + 1, Integer.valueOf(ip[0]), 2, 1);
-				mData.setValue(address + 1, Integer.valueOf(ip[1]), 3, 1);
+				mData.setValue(address + 1, Integer.valueOf(ip[2]), 2, 1);
+				mData.setValue(address + 1, Integer.valueOf(ip[3]), 3, 1);
 				
 				preference.setText(value);
 				preference.setSummary(value);

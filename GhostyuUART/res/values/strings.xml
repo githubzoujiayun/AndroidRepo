@@ -239,4 +239,8 @@
 	<string name="tennal_closed">关闭</string>
 	<string name="tennal_failed">招测失败</string>
 	<string name="toast_err_ip">ip 格式错误</string>
+	<string name="toast_upload_succed">参数上传成功</string>
+	<string name="toast_connected_failed">请检查设备蓝牙连接</string>
+	<string name="message_show_datas">正在下载显示数据...</string>
+	<string name="message_upload_params">正在上传数据...</string>
 </resources>

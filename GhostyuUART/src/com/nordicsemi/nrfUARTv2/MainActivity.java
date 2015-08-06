@@ -131,7 +131,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         mDataManager = DataManager.getInstance(this);
-        
+        mDataManager.registerDataListener(this);
         if (mDataManager.getBTAdapter() == null) {
             Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
             finish();
@@ -289,7 +289,8 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 
     @Override
     public void onDestroy() {
-    	 super.onDestroy();
+    	super.onDestroy();
+    	mDataManager.unregisterDataListener(this);
         Log.d(TAG, "onDestroy()");
     }
 
@@ -315,7 +316,6 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
-        mDataManager.setDataListener(this);
         if (!mDataManager.isBTEnable()) {
             Log.i(TAG, "onResume - BT not enabled yet");
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);

@@ -9,7 +9,7 @@
     <PreferenceCategory android:title="@string/channal_settings1" >
         <ListPreference
             android:entries="@array/gprs"
-            android:entryValues="@array/gprs"
+            android:entryValues="@array/gprs_values"
             android:key="gprs_1"
             android:title="@string/gprs1" />
 
@@ -26,7 +26,7 @@
     <PreferenceCategory android:title="@string/channal_settings2" >
         <ListPreference
             android:entries="@array/gprs"
-            android:entryValues="@array/gprs"
+            android:entryValues="@array/gprs_values"
             android:key="gprs_2"
             android:title="@string/gprs2" />
 
@@ -43,7 +43,7 @@
      <PreferenceCategory android:title="@string/channal_settings3" >
         <ListPreference
             android:entries="@array/gprs"
-            android:entryValues="@array/gprs"
+            android:entryValues="@array/gprs_values"
             android:key="gprs_3"
             android:title="@string/gprs3" />
 
@@ -60,7 +60,7 @@
       <PreferenceCategory android:title="@string/channal_settings4" >
         <ListPreference
             android:entries="@array/gprs"
-            android:entryValues="@array/gprs"
+            android:entryValues="@array/gprs_values"
             android:key="gprs_4"
             android:title="@string/gprs4" />
 

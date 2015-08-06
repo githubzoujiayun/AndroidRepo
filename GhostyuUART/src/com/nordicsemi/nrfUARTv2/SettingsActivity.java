@@ -149,7 +149,7 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mDataManager.setDataListener(mDataListener);
+		
 	}
 
 
@@ -168,6 +168,7 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
         ft.commit();
         
         mDataManager = DataManager.getInstance(this);
+        mDataManager.registerDataListener(mDataListener);
         mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
         mShowCache.clear();
 	}
@@ -225,6 +226,7 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		mDataManager.unregisterDataListener(mDataListener);
 	}
 
 	@Override

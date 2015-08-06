@@ -68,6 +68,12 @@ public class FetchTask extends AsyncTask<Integer, String, Boolean>{
 		mProgressDialog.setMessage(mContext.getString(R.string.progress_downloading));
 		mProgressDialog.show();
 	}
+	
+	@Override
+	protected void onProgressUpdate(String... values) {
+		super.onProgressUpdate(values);
+		mProgressDialog.setMessage(values[0]);
+	}
 
 	@Override
 	protected Boolean doInBackground(Integer... args) {
@@ -75,6 +81,13 @@ public class FetchTask extends AsyncTask<Integer, String, Boolean>{
 		boolean succed = false;
 		int type = args[0];
 		mType = type;
+		String message = mContext.getString(R.string.progress_downloading);
+		if (mType == TASK_TYPE_SHOW_DATAS) {
+			message = mContext.getString(R.string.message_show_datas);
+		} else if (mType == TASK_TYPE_WRITE_PARAMS) {
+			message = mContext.getString(R.string.message_upload_params);
+		}
+		publishProgress(message);
 		switch(type) {
 		case TASK_TYPE_FETCH:
 			dm.initQueue();
@@ -98,6 +111,7 @@ public class FetchTask extends AsyncTask<Integer, String, Boolean>{
 			return dm.sendAllCommands();
 		case TASK_TYPE_SHOW_DATAS:
 			dm.initShowData();
+			
 			return dm.sendAllCommands(true);
 		case TASK_TYPE_READ_DATAS:
 			dm.initReadDatas();
@@ -129,9 +143,12 @@ public class FetchTask extends AsyncTask<Integer, String, Boolean>{
 			fragment.setData(a.getShowCache());
 		}
 		if (!result) {
-			mToast.setText("please connect ble first.");
-    		mToast.show();
+			Utils.toast(mContext, R.string.toast_connected_failed);
 		} else {
+			if (mType == TASK_TYPE_WRITE_PARAMS) {
+				Utils.toast(mContext, R.string.toast_upload_succed);
+			}
+			
 			SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(mContext);
 			SharedPreferences.Editor editor = p.edit();
 			editor.putBoolean("preference_update", true);

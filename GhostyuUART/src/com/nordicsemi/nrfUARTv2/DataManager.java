@@ -2,6 +2,7 @@ package com.nordicsemi.nrfUARTv2;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -32,8 +33,6 @@ public class DataManager {
     private BluetoothDevice mDevice = null;
     private BluetoothAdapter mBtAdapter = null;
 
-	private DataListener mDataListener;
-
 	private static DataManager mDataManager;
 	
 	private RTUData mRtuData;
@@ -42,13 +41,21 @@ public class DataManager {
 	private boolean mRecivered = false;
 //	private BlockingQueue<Command> mQueue = new LinkedBlockingQueue<Command>();
 	
+	private ArrayList<DataListener> mListeners = new ArrayList<DataListener>();
+	
 	public interface DataListener{
 		public boolean onDataReciver(byte[] data);
 		public void onDataReciver(String action,Intent intent);
 	}
 	
-	public void setDataListener(DataListener listener){
-		mDataListener = listener;
+	public void registerDataListener(DataListener listener){
+		if (!mListeners.contains(listener)) {
+			mListeners.add(listener);
+		}
+	}
+	
+	public void unregisterDataListener(DataListener listener) {
+		mListeners.remove(listener);
 	}
 	
 	public static DataManager getInstance(Context context){
@@ -111,7 +118,9 @@ public class DataManager {
 	private final BroadcastReceiver UARTStatusChangeReceiver = new BroadcastReceiver() {
 
 		public void onReceive(Context context, Intent intent) {
-			mDataListener.onDataReciver(intent.getAction(), intent);
+			for (DataListener listener: mListeners) {
+				listener.onDataReciver(intent.getAction(), intent);
+			}
 		}
 	};
 
@@ -237,7 +246,7 @@ public class DataManager {
 			int address = 4 * i;
 			byte[] data = new byte[16];
 			for (int j=0;j<4;j++) {
-				int addr = address + 4 * j;
+				int addr = address + j;
 				byte[] value = mRtuData.getValue(addr);
 				System.arraycopy(value, 0, data, 4 * j, 4);
 			}
@@ -464,10 +473,11 @@ public class DataManager {
 	
 	public void onDataReciver(byte[] datas) {
 		boolean deal = true;
-		if (mDataListener != null) {
-			deal = mDataListener.onDataReciver(datas);
+		for (DataListener listener : mListeners) {
+			if (listener != null) {
+				deal = listener.onDataReciver(datas);
+			}
 		}
-		
 		byte firstByte = (byte) ((datas[0] & 0xf0) >> 4);
 		int register = ((datas[0] & 0x0f) << 8) + (datas[1] & 0xff);
 		int len = (datas[2] & 0xff);
