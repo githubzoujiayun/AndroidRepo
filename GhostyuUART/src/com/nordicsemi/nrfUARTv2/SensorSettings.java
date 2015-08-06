@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceScreen;
 
 public class SensorSettings extends ParamsSettings {
@@ -103,7 +104,7 @@ public class SensorSettings extends ParamsSettings {
 	 *  d1-d3, value
 	 */
 	private void setupEditTextPreference2(String key) {
-		EditTextPreference pref = (EditTextPreference) findPreference(key);
+		final EditTextPreference pref = (EditTextPreference) findPreference(key);
 		
 		byte[] data = getValue(key);
 		int symbol = Utils.toInteger(data[0]);
@@ -113,16 +114,60 @@ public class SensorSettings extends ParamsSettings {
 		}
 		pref.setText(String.valueOf(value));
 		pref.setSummary(String.valueOf(value));
+		
+		pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference arg0, Object arg1) {
+				final int value = Integer.valueOf(arg1.toString());
+				int symbol = 0;
+				if (value < 0) {
+					symbol = 1;
+				}
+				pref.setText(String.valueOf(value));
+				pref.setSummary(String.valueOf(value));
+				mData.setValue(pref.getKey(), symbol,0,1);
+				mData.setValue(pref.getKey(), value,1,3);
+				return false;
+			}
+		});
 	}
 	
 	private void setupListPreferenceHalfbit(String key,String key2) {
-		ListPreference preference = (ListPreference) findPreference(key);
+		final ListPreference preference = (ListPreference) findPreference(key);
 		byte[] datas = getValue(key);
-		int value = (datas[3] & 0xf0) >> 4;
+		int value = ((datas[3] & 0xf0) >> 4);
 		setPreferenceIndex(preference, String.valueOf(value));
-		preference = (ListPreference) findPreference(key2);
+		
+		final ListPreference preference2 = (ListPreference) findPreference(key2);
 		value = datas[3] & 0x0f;
-		setPreferenceIndex(preference, String.valueOf(value));
+		setPreferenceIndex(preference2, String.valueOf(value));
+		
+		preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference arg0, Object arg1) {
+				setPreferenceIndex(preference, arg1.toString());
+				
+				int v2 = Integer.valueOf(preference2.getValue());
+				
+				int value = Integer.valueOf(arg1.toString()) << 4 + v2;
+				mData.setValue(preference.getKey(), value,3,1);
+				return false;
+			}
+		});
+		preference2.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference arg0, Object arg1) {
+				setPreferenceIndex(preference2, arg1.toString());
+				
+				int v2 = Integer.valueOf(arg1.toString());
+				
+				int value = Integer.valueOf(preference.getValue()) << 4 + v2;
+				mData.setValue(preference.getKey(), value,3,1);
+				return false;
+			}
+		});
 	}
-	
 }

@@ -367,11 +367,6 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	@Override
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
 			Preference preference) {
-		// if (preference instanceof SwitchPreference) {
-		// if (!((SwitchPreference) preference).isSwitchOn()) {
-		// return false;
-		// }
-		// }
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
 	}
 

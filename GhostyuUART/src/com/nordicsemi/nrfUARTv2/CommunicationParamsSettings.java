@@ -1,5 +1,8 @@
 package com.nordicsemi.nrfUARTv2;
 
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
+
 public class CommunicationParamsSettings extends ParamsSettings {
 
 	@Override
@@ -40,8 +43,8 @@ public class CommunicationParamsSettings extends ParamsSettings {
 		setupSwitchPreference(RTUData.KEY_TSM_FUNC);
 	}
 
-	void setupSwitchEditTextPreference(String valueKey,String switchKey) {
-		SwitchEditTextPreference preference = (SwitchEditTextPreference) findPreference(valueKey);
+	void setupSwitchEditTextPreference(String valueKey,final String switchKey) {
+		final SwitchEditTextPreference preference = (SwitchEditTextPreference) findPreference(valueKey);
 		byte[] data = mData.getValue(valueKey);
 		String value = Utils.toIntegerString(data);
 		preference.setText(value);
@@ -54,6 +57,21 @@ public class CommunicationParamsSettings extends ParamsSettings {
 		} else {
 			preference.setShouldChecked(true);
 		}
+		preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference arg0, Object arg1) {
+				// TODO Auto-generated method stub
+				int value = (Integer) arg1;
+				if(value == 0) {
+					preference.setChecked(false);
+				} else {
+					preference.setChecked(true);
+				}
+				mData.setValue(switchKey, value);
+				return false;
+			}
+		});
 	}
 	
 	

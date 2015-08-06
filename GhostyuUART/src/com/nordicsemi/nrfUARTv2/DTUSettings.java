@@ -1,6 +1,8 @@
 package com.nordicsemi.nrfUARTv2;
 
 import android.preference.EditTextPreference;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 
 public class DTUSettings extends ParamsSettings {
 
@@ -49,7 +51,7 @@ public class DTUSettings extends ParamsSettings {
 	}
 
 	private void setupIPAddressEditText(String key) {
-		EditTextPreference preference = (EditTextPreference) findPreference(key);
+		final EditTextPreference preference = (EditTextPreference) findPreference(key);
 		int address = mData.getAddress(key);
 		byte[] data = mData.getValue(address);
 		StringBuffer sb = new StringBuffer();
@@ -61,5 +63,27 @@ public class DTUSettings extends ParamsSettings {
 		String value = sb.toString();
 		preference.setText(value);
 		preference.setSummary(value);
+		preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference arg0, Object arg1) {
+				Utils.log(arg1.toString());
+				String value = arg1.toString();
+				String ip[] = value.split("\\.");
+				if (ip.length != 4) {
+					Utils.toast(getActivity(), R.string.toast_err_ip);
+					return false;
+				}
+				int address = mData.getAddress(preference.getKey());
+				mData.setValue(address, Integer.valueOf(ip[0]), 2, 1);
+				mData.setValue(address, Integer.valueOf(ip[1]), 3, 1);
+				mData.setValue(address + 1, Integer.valueOf(ip[0]), 2, 1);
+				mData.setValue(address + 1, Integer.valueOf(ip[1]), 3, 1);
+				
+				preference.setText(value);
+				preference.setSummary(value);
+				return false;
+			}
+		});
 	}
 }

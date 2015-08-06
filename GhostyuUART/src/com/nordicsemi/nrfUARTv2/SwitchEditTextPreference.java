@@ -83,4 +83,8 @@ public class SwitchEditTextPreference extends EditTextPreference implements OnCh
 	public void setShouldChecked(boolean on) {
 		mShouldChecked = on;
 	}
+	
+	public void setChecked(boolean checked) {
+		mSwitch.setChecked(checked);
+	}
 }

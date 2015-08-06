@@ -197,5 +197,9 @@ public class Utils {
 	public static int getDataLength(byte[] data) {
 		return (data[2] & 0xff);
 	}
+	
+	public static void toast(Context context,int toast) {
+		Toast.makeText(context, context.getString(toast), Toast.LENGTH_SHORT).show();
+	}
 }
 

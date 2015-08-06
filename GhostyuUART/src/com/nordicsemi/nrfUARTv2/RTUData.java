@@ -134,7 +134,6 @@ public class RTUData {
 	public static final String KEY_CHANNEL_IP_ADDRESS_4 = "channel_ip_address_4";
 	public static final String KEY_CHANNAL_PORT_4 = "channal_port_4";
 
-	private static final String TAG = "RTUData";
 	private static final boolean DEBUG = true;
 	/**
 	 * key : register address value : data
@@ -416,7 +415,7 @@ public class RTUData {
 	}
 	
 	public void setValue(String key,int value, int from, int len) {
-		setValue(key, Utils.toHexBytes(Integer.toHexString(value)),0,4);
+		setValue(key, Utils.toHexBytes(Integer.toHexString(value)),from,len);
 	}
 	
 	public void setValue(String key,byte[] value) {
@@ -424,6 +423,29 @@ public class RTUData {
 			throw new RuntimeException("value length must less than 4.");
 		}
 		setValue(key, value,0,4);
+	}
+	
+	public void setValue(int address,int value, int from, int len) {
+		setValue(address, Utils.toHexBytes(Integer.toHexString(value)),from,len);
+	}
+	
+	public void setValue(int address, byte[] value,int from,int len) {
+		if (value.length > 4) {
+			throw new RuntimeException("value length must less than 4.");
+		}
+		if (len > 4) {
+			throw new RuntimeException("len must less than 4.");
+		}
+		
+		byte[] oldValue = mDataCache.get(address);
+		if (DEBUG) {
+			assert oldValue.length == 4;
+		}
+		if (len > value.length) {
+			from = len - value.length;
+		}
+		System.arraycopy(value, 0, oldValue, from, value.length);
+		mDataCache.put(address, oldValue);
 	}
 
 	public void setValue(String key, byte[] value,int from,int len) {
@@ -442,7 +464,7 @@ public class RTUData {
 		if (len > value.length) {
 			from = len - value.length;
 		}
-		System.arraycopy(value, 0, oldValue, from, value.length);
+		System.arraycopy(value, 0, oldValue, from, len);
 		mDataCache.put(address, oldValue);
 	}
 }

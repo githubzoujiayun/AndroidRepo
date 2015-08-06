@@ -238,4 +238,5 @@
 	<string name="toast_refresh_succed">刷新时间成功！</string>
 	<string name="tennal_closed">关闭</string>
 	<string name="tennal_failed">招测失败</string>
+	<string name="toast_err_ip">ip 格式错误</string>
 </resources>
