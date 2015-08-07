@@ -3,6 +3,7 @@ package com.nordicsemi.nrfUARTv2;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +11,11 @@ import android.preference.PreferenceActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class ParamsSettingsActivity extends PreferenceActivity {
 
+	private static final int FILE_SELECT_CODE = 0;
 	
 	@Override
 	public void onBuildHeaders(List<Header> target) {
@@ -30,7 +33,7 @@ public class ParamsSettingsActivity extends PreferenceActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();  
-//		inflater.inflate(R.menu.settings, menu); 
+		inflater.inflate(R.menu.params_settings, menu); 
 	    return true;
 	}
 
@@ -40,13 +43,30 @@ public class ParamsSettingsActivity extends PreferenceActivity {
 		if (id == android.R.id.home) {
 			onBackPressed();
 		} else if (id == R.id.import_params) {
-			
+			showFileChooser();
 		} else if (id == R.id.upload_params) {
-			
+			new FetchTask(this).execute(FetchTask.TASK_TYPE_WRITE_PARAMS);
 		} else if (id == R.id.save_params) {
-			
+			new FetchTask(this).execute(FetchTask.TASK_TYPE_SAVE_PARAMS);
+		} else if (id == R.id.download_params) {
+			new FetchTask(this).execute(FetchTask.TASK_TYPE_FETCH);
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	
+	private void showFileChooser() {
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		intent.setType("*/*");
+		intent.addCategory(Intent.CATEGORY_OPENABLE);
+		try {
+			startActivityForResult(Intent.createChooser(intent, "请选择一个要上传的文件"),
+					FILE_SELECT_CODE);
+		} catch (android.content.ActivityNotFoundException ex) {
+			// Potentially direct the user to the Market with a Dialog
+			Toast.makeText(this, "请安装文件管理器", Toast.LENGTH_SHORT)
+					.show();
+		}
 	}
 
 	@Override
@@ -65,5 +85,18 @@ public class ParamsSettingsActivity extends PreferenceActivity {
 		super.onHeaderClick(header, position);
 	}
 
-	
+	/** 根据返回选择的文件，来进行上传操作 **/
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		if (resultCode == Activity.RESULT_OK) {
+			if (requestCode == FILE_SELECT_CODE) {
+				String path = data.getData().getPath();
+				FetchTask task = new FetchTask(this);
+				task.putString("params", path);
+				task.execute(FetchTask.TASK_TYPE_READ_PARAMS);
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 }

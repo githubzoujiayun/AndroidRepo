@@ -19,7 +19,7 @@ public class ShowDataFragment extends Fragment {
 	
 	private static final String[] TITLES = new String[]{
 		"通道1","通道2","通道3","通道4",
-		"通道5","通道6","通道7","通道10",
+		"通道5","通道6","通道7","通道8",
 		"通道9","通道10","通道11","通道12",
 		"通道13","通道14","通道15","通道16",
 		"充电电压", "电池电压" ,"" ,""
@@ -83,9 +83,9 @@ public class ShowDataFragment extends Fragment {
 			String unit = "";
 			if (i >= 0 && i <= 15) {
 				if (value == 0xffffffff) {
-					map.put("title", TITLES[i] + " : " + getString(R.string.tennal_closed));
-				} else if (value == 0xffffffee) {
 					map.put("title", TITLES[i] + " : " + getString(R.string.tennal_failed));
+				} else if (value == 0xffffffee) {
+					map.put("title", TITLES[i] + " : " + getString(R.string.tennal_closed));
 				}
 			} else if (i== 16 || i==17) {
 //				unit="0.1V";

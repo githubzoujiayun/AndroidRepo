@@ -2,16 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item  
         android:id="@+id/import_params"
-        android:showAsAction="never"  
+        android:showAsAction="never"
+        android:visible="false"
         android:title="@string/import_params"/>
     <item  
         android:id="@+id/upload_params"
         android:showAsAction="never"
-        android:visible="false"
         android:title="@string/upload_params"/>
     <item  
         android:id="@+id/save_params"
-        android:showAsAction="never"  
+        android:showAsAction="never"
+        android:visible="false"
         android:title="@string/save_params"/>
     <item  
         android:id="@+id/download_params"
