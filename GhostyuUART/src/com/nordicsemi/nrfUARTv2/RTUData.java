@@ -37,6 +37,22 @@ public class RTUData {
 	public static final String KEY_HYETOMETER = "hyetometer";
 	public static final String KEY_EVAPORATING = "evaporating";
 	public static final String KEY_STREAM_COUNT_STEP = "stream_count_step";
+	
+	public static final String KEY_CATAGORY_RAINFULL = "catagory_rainfull";
+	public static final String KEY_CATAGORY_WATER_LEVEL = "catagory_water_level";
+	public static final String KEY_CATAGORY_VELOCITY = "catagory_velocity";
+	public static final String KEY_CATAGORY_GATE_POSITION = "catagory_gate_position";
+	public static final String KEY_CATAGORY_CAPACITY = "catagory_capacity";
+	public static final String KEY_CATAGORY_AIR_PRESSURE = "catagory_air_pressure";
+	public static final String KEY_CATAGORY_WATER_TEMPERATURE = "catagory_water_temperature";
+	public static final String KEY_CATAGORY_WATER_QUALITY = "catagory_water_quality";
+	public static final String KEY_CATAGORY_SOIL_MOISTURE = "catagory_soil_moisture";
+	public static final String KEY_CATAGORY_EVAPORATION = "catagory_evaporation";
+	public static final String KEY_CATAGORY_WATER_PRESSURE = "catagory_water_pressure";
+	public static final String KEY_CATAGORY_OTHERS = "catagory_others";
+	public static final String KEY_CATAGORY_WATER_FLOW = "catagory_water_flow";
+	public static final String KEY_CATAGORY_WIND_DIRECTION_SPEED = "catagory_wind_direction_speed";
+	public static final String KEY_CATAGORY_STATUE = "catagory_statue";
 
 	/*
 	 * SensorSettings
@@ -133,6 +149,8 @@ public class RTUData {
 	public static final String KEY_GPRS_4 = "gprs_4";
 	public static final String KEY_CHANNEL_IP_ADDRESS_4 = "channel_ip_address_4";
 	public static final String KEY_CHANNAL_PORT_4 = "channal_port_4";
+	public static final String KEY_SELF_REPORTER_TYPE = "self_reporter_type";
+	public static final String KEY_SELF_REPORTER_INTERVAL = "self_reporter_interval";
 
 	private static final boolean DEBUG = true;
 	/**
@@ -181,6 +199,25 @@ public class RTUData {
 		mKeyTable.put(KEY_HYETOMETER, 243);
 		mKeyTable.put(KEY_EVAPORATING, 232);
 		mKeyTable.put(KEY_STREAM_COUNT_STEP, 235);
+		mKeyTable.put(KEY_SELF_REPORTER_TYPE,245); //d0.2
+		mKeyTable.put(KEY_SELF_REPORTER_INTERVAL,5);//d3d4
+		
+		mKeyTable.put(KEY_CATAGORY_RAINFULL,202);
+		mKeyTable.put(KEY_CATAGORY_WATER_LEVEL,203);
+		mKeyTable.put(KEY_CATAGORY_VELOCITY,205);
+		mKeyTable.put(KEY_CATAGORY_GATE_POSITION,206);
+		mKeyTable.put(KEY_CATAGORY_CAPACITY,207);
+		mKeyTable.put(KEY_CATAGORY_AIR_PRESSURE,208);
+		mKeyTable.put(KEY_CATAGORY_WATER_TEMPERATURE,210);
+		mKeyTable.put(KEY_CATAGORY_WATER_QUALITY,211);
+		mKeyTable.put(KEY_CATAGORY_SOIL_MOISTURE,212);
+		mKeyTable.put(KEY_CATAGORY_EVAPORATION,213);
+		mKeyTable.put(KEY_CATAGORY_WATER_PRESSURE,214);
+//		mKeyTable.put(KEY_CATAGORY_OTHERS)
+		mKeyTable.put(KEY_CATAGORY_WATER_FLOW,204);
+		mKeyTable.put(KEY_CATAGORY_WIND_DIRECTION_SPEED,209);
+		mKeyTable.put(KEY_CATAGORY_STATUE,215);
+		
 
 		// sensor settings
 		mKeyTable.put(KEY_SENSOR_PREHEAT_TIME, 226);
@@ -202,8 +239,8 @@ public class RTUData {
 		mKeyTable.put(KEY_SENSOR_CHANNELS16, 25);
 
 		// sensor channel settings
-		mKeyTable.put(KEY_GATHER_CATAGORY, 26); // d4,0;26-41
-		mKeyTable.put(KEY_GATHER_NUMBER, 26); // d4,1;26-41
+		mKeyTable.put(KEY_GATHER_CATAGORY, 42); // d4,0;42-58
+		mKeyTable.put(KEY_GATHER_NUMBER, 42); // d4,1;42-58
 		mKeyTable.put(KEY_WARNING_MAX, 138); // ;138-153l
 		mKeyTable.put(KEY_WARNING_MIN, 154); // ;154-169
 		mKeyTable.put(KEY_ADDED_DIVIDE, 264);// 264-279
@@ -261,7 +298,7 @@ public class RTUData {
 		mKeyTable.put(KEY_IMAGE_FORMAT, 220);
 		mKeyTable.put(KEY_VIDEO_PREHEAT_TIME, 319); // ;0-63s
 		mKeyTable.put(KEY_RS485_ADDRESS, 222); // ;0-16777215r
-		mKeyTable.put(KEY_CAMERA_RATE, 243);
+		mKeyTable.put(KEY_CAMERA_RATE, 242);
 		mKeyTable.put(KEY_CAMERA_MODEL, 221);
 		mKeyTable.put(KEY_EXECUTE_TIME, 328); // ;0-63s
 		mKeyTable.put(KEY_SHOOT_LOCATION1, 320); // ;0-8
@@ -358,10 +395,14 @@ public class RTUData {
 			while(scanner.hasNextLine()) {
 				String line = scanner.nextLine();
 				if (line.trim().length() > 0) {
-					String[] value = line.split("=");
-					mDataCache.put(Integer.valueOf(value[0]), value[1].getBytes());
+					String[] value = line.split(" , ");
+						String data = Integer.toHexString(Integer.valueOf(value[1]));
+					byte datas[] = Utils.toHexBytes(data);
+					byte[] dst = new byte[4];
+					System.arraycopy(datas, 0, dst, 4 - datas.length, datas.length);
+					mDataCache.put(Integer.valueOf(value[0]), dst);
 //					Utils.log("buffer : "+buffer.toString());
-					Utils.log("value[0] = " + value[0] + " value[1] = "+ Utils.toHexString(value[1].getBytes()));
+					Utils.log("value[0] = " + value[0] + " value[1] = "+ data);
 					Utils.log("****************************************\n\n");
 				}
 			}
@@ -389,10 +430,10 @@ public class RTUData {
 			for (int i=0;i<length;i++) {
 				StringBuffer buffer = new StringBuffer();
 				buffer.append(mDataCache.keyAt(i))
-					.append("=")
-					.append(new String(mDataCache.valueAt(i)));
+					.append(" , ")
+					.append(Utils.toInteger(mDataCache.valueAt(i)));
 				Utils.log("buffer : "+buffer.toString());
-				Utils.log("key = " + mDataCache.keyAt(i) + " value = "+mDataCache.valueAt(i));
+				Utils.log("key = " + mDataCache.keyAt(i) + " value = "+Utils.toInteger(mDataCache.valueAt(i)));
 				Utils.log("=====================================\n\n");
 				printer.println(buffer.toString());
 				printer.flush();

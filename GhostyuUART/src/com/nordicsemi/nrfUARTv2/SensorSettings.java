@@ -14,7 +14,6 @@ public class SensorSettings extends ParamsSettings {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		Bundle b = getArguments();
 		mKey = b.getString("key");
 		if (RTUData.KEY_SENSOR_CHANNELS1.equals(mKey)) {
@@ -50,6 +49,7 @@ public class SensorSettings extends ParamsSettings {
 		} else if (RTUData.KEY_SENSOR_CHANNELS16.equals(mKey)) {
 			mOffset = 15;
 		}
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class SensorSettings extends ParamsSettings {
 		setupEditTextPreference2(RTUData.KEY_DATA_ZERO);
 		setupEditTextPreference2(RTUData.KEY_DATA_RATIO);
 		
-		setupListPreference(RTUData.KEY_DEVICE_MODEL);
+		setupListPreference(RTUData.KEY_DEVICE_MODEL,ParamsSettings.VALUE_TYPE_HEX,0,4);
 		
 		setupEditTextPreference(RTUData.KEY_GATHER_DURATION,3,1);
 		setupListPreference(RTUData.KEY_COMMUNICATION_RATE,1,3);

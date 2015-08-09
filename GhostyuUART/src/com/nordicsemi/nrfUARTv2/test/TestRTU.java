@@ -23,26 +23,26 @@ public class TestRTU extends AndroidTestCase {
 		System.out.println(value);
 	}
 
-	public void testCache() {
-		SparseArray<byte[]> cache = new SparseArray<byte[]>();
-		cache.put(0, new byte[] { 0x7f, 0x6f, 0x5f, 0x4f });
-		cache.put(1, new byte[] { 0x6f, 0x6f, 0x5f, 0x4f });
-		cache.put(2, new byte[] { 0x5f, 0x6f, 0x5f, 0x4f });
-		cache.put(30, new byte[] { 0x4f, 0x6f, 0x5f, 0x4f });
-
-		RTUData data = new RTUData(cache);
-		String root = Environment.getExternalStorageDirectory().getAbsolutePath();
-		data.saveCache(root + "/file_tmp");
-		data.showCache();
-		Utils.log("**********************************");
-		cache.clear();
-		data.clearCache();
-		Utils.log("=================clear=============");
-
-		data.readCache(root+"/file_tmp");
-		data.showCache();
-
-	}
+//	public void testCache() {
+//		SparseArray<byte[]> cache = new SparseArray<byte[]>();
+//		cache.put(0, new byte[] { 0x7f, 0x6f, 0x5f, 0x4f });
+//		cache.put(1, new byte[] { 0x6f, 0x6f, 0x5f, 0x4f });
+//		cache.put(2, new byte[] { 0x5f, 0x6f, 0x5f, 0x4f });
+//		cache.put(30, new byte[] { 0x4f, 0x6f, 0x5f, 0x4f });
+//
+//		RTUData data = new RTUData(cache);
+//		String root = Environment.getExternalStorageDirectory().getAbsolutePath();
+//		data.saveCache(root + "/file_tmp");
+//		data.showCache();
+//		Utils.log("**********************************");
+//		cache.clear();
+//		data.clearCache();
+//		Utils.log("=================clear=============");
+//
+//		data.readCache(root+"/file_tmp");
+//		data.showCache();
+//
+//	}
 	
 	public void testSparseArray() {
 		SparseArray<String> cache = new SparseArray<String>();
@@ -67,5 +67,12 @@ public class TestRTU extends AndroidTestCase {
 		assertEquals(value[1] & 0xff, 0xff);
 		assertEquals(value[2] & 0xff, 0xaa);
 		assertEquals(value[3] & 0xff,0xbb);
+	}
+	
+	public void testChecksum() {
+		String target = "914B04";
+		byte[] value = Utils.toHexBytes(target);
+		int check = Utils.checksum(value) & 0xff;
+		Utils.log("checksum : "+ target+", " + Integer.toHexString(check));
 	}
 }

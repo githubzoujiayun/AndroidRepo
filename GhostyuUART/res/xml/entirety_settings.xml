@@ -42,7 +42,7 @@
 	        android:key="catagory_timer_repoter"
 	        android:title="@string/catagory_timer_repoter"
 	        android:widgetLayout="@layout/preference_switch_array"
-	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$CatagoryReport"
+	        android:fragment="com.nordicsemi.nrfUARTv2.CatagoryReport"
 	        />
 	    <com.nordicsemi.nrfUARTv2.SwitchEditTextPreference
 	        android:key="add_report"

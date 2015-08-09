@@ -128,7 +128,7 @@ public class FetchTask extends AsyncTask<Integer, String, Boolean>{
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
 		mProgressDialog.dismiss();
-		if (mType == TASK_TYPE_READ_PARAMS || mType == TASK_TYPE_FETCH) {
+		if (mType == TASK_TYPE_FETCH) {
 			ParamsSettingsActivity.startParamsSettings(mContext);
 		}
 		

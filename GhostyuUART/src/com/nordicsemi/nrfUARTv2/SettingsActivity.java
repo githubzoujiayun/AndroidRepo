@@ -184,7 +184,7 @@ public class SettingsActivity extends GeneralActivity implements OnItemClickList
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();  
-		inflater.inflate(R.menu.settings, menu); 
+//		inflater.inflate(R.menu.settings, menu); 
 	    return true;
 	}
 

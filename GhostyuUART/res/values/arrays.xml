@@ -9,7 +9,6 @@
         <item>0</item>
         <item>1</item>
     </string-array>
-    
     <string-array name="station_type">
         <item>降水</item>
         <item>河道</item>
@@ -467,9 +466,9 @@
         <item>17</item>
     </string-array>
     <string-array name="camera_model">
+        <item>深圳尚鑫航SXH-V1/V2 RS485</item>
         <item>水利专用FM-DSC03 RS485</item>
         <item>通用摄像机图像适配器  RS485</item>
-        <item>深圳尚鑫航SXH-V1/V2 RS485</item>
     </string-array>
     <string-array name="camera_model_values">
         <item>0</item>
@@ -549,29 +548,136 @@
         <item>15</item>
     </string-array>
     <string-array name="device_model">
-        <item>01-内部格雷码-1</item>
-        <item>02-内部格雷码-2</item>
-        <item>03-内部4-20mA-1</item>
-        <item>04-内部4-20mA-2</item>
-        <item>05-内部4-20mA-3</item>
-        <item>06-内部4-20mA-4</item>
-        <item>07-蓄电池电压</item>
-        <item>08-麦克数字压力水位计RS485</item>
-        <item>09-标准 MODBUS RTU 传感器 RS485</item>
-        <item>10-南自所格雷码转换器RS485</item>
-        <item>11-KELLER DCX-22AA RS485数字压力水位计</item>
-        <item>12-加拿大SOLINST BAROLOGGER RS232数字压力水位计</item>
-        <item>13-OTT 气泡式和雷达 水位计 RS485</item>
-        <item>14-哈尔滨 万达华 气泡式 RS232水位计</item>
-        <item>15-NS-CS10M03超声波水位计 RS232 负水位</item>
-        <item>16-古大GDRD98脉冲雷达水位计 RS485</item>
-        <item>21-连利 大口径 水表 RS485</item>
-        <item>22-上海肯特电磁流量表RS485/MODBUS_RTU</item>
-        <item>23-上海肯特电磁流量表RS485/自定义协议</item>
-        <item>24-上海肯特电磁流量表RS485/MODBUS_RTU瞬时</item>
-        <item>25-江都水表RS485/MODBUS_RTU</item>
-        <item>26-大连海丰TDS100W/RS485/MODBUS_RTU/正累积量</item>
-        <item>27-大连海丰TDS100F/RS485/MODBUS_RTU/正累积量</item>
+        <item>对应的传感器</item>
+        <item>水位-内部格雷码接口1</item>
+        <item>水位-内部格雷码接口2</item>
+        <item>内部模拟量1</item>
+        <item>内部模拟量2</item>
+        <item>内部模拟量3</item>
+        <item>内部模拟量4</item>
+        <item>蓄电池电池电压</item>
+        <item>麦克数字压力水位计RS485</item>
+        <item>标准 MODBUS_RTU 传感器   RS485</item>
+        <item>南自所格雷码RS485转换器</item>
+        <item>KELLER DCX-22AA RS485数字压力水位计</item>
+        <item>加拿大 SOLINST BAROLOGGER RS232数字压力水位计</item>
+        <item>OTT 气泡式和雷达 水位计 RS485（SDI12协议）</item>
+        <item>哈尔滨 万达华 气泡式 RS232水位计</item>
+        <item>NS-CS10M03超声波水位计 RS232 负水位</item>
+        <item>古大GDRD98脉冲雷达水位计 RS485 负水位</item>
+        <item>连利大口径水表RS485</item>
+        <item>上海肯特电磁流量表RS485/MODBUS_RTU</item>
+        <item>上海肯特电磁流量表RS485/自定义协议</item>
+        <item>上海肯特电磁流量表RS485/MODBUS_RTU瞬时</item>
+        <item>江都水表RS485/MODBUS_RTU</item>
+        <item>大连海丰TDS100W/RS485/MODBUS_RTU通讯协议/正累积量</item>
+        <item>大连海丰TDS100F/RS232/MODBUS_RTU通讯协议/正累积量</item>
+        <item>唐山大方汇中仪表LCZ-803流量计</item>
+        <item>大连海丰TDS100/RS485/FUJI扩展通讯协议/正累积量</item>
+        <item>大连海丰TDS100/RS485/FUJI扩展通讯协议/净累积量</item>
+        <item>大连海丰TDS100W/RS485/MODBUS_RTU通讯协议/净累积量</item>
+        <item>大连海丰TDS100F/RS232/MODBUS_RTU通讯协议/净累积量</item>
+        <item>大连海丰TDS100/RS232/FUJI扩展通讯协议/净累积量</item>
+        <item>大连海丰TDS100/RS232/FUJI扩展通讯协议/正累积量</item>
+        <item>上海肯特电磁流量表RS485新MODBUS_RTU正累积量</item>
+        <item>内部流量计(水表)(光电输入口3)</item>
+        <item>KDF-2100流量计(水表) RS485</item>
+        <item>RS485/MODBUS电磁流量仪协议</item>
+        <item>MODBUS电磁流量仪协议(仪表地址固定为01;地址为寄存器地址)</item>
+        <item>南京信卓 XZ1008 RS485超声波流量计</item>
+        <item>南京亚南RS232接口流量水表</item>
+        <item>ABB电磁流量仪/RS485/PROFIBUS-DP协议/召测</item>
+        <item>ABB电磁流量仪/RS485/PROFIBUS-DP协议/侦听</item>
+        <item>太阳能充电电压</item>
+        <item>内部锂电池电压</item>
+        <item>E+H超声波流量计 RS485 累计量 除以1000</item>
+        <item>E+H超声波流量计 RS485 瞬时量</item>
+        <item>E+H超声波流量计 RS485 累计量 没有处理</item>
+        <item>RV-100系列超声波流量计 RS485 正累积量</item>
+        <item>RV-100系列超声波流量计 RS485 净累积量</item>
+        <item>Ｅ-mag电磁转换器MUDBUS通讯协议 RS485 正累积量</item>
+        <item>E380变频器</item>
+        <item>SVF3000变频器</item>
+        <item>VM05变频器</item>
+        <item>SVF-EV变频器</item>
+        <item>北京昆仑海岸 JWSK-6 温度</item>
+        <item>北京昆仑海岸 JWSK-6 湿度</item>
+        <item>北京昆仑海岸 JYB-A 大气压</item>
+        <item>风向 -内部格雷码接口1</item>
+        <item>风向 -内部格雷码接口2</item>
+        <item>内部风速(光电输入口3)</item>
+        <item>ADCP Argonaut-SL RS232 流速</item>
+        <item>ADCP Argonaut-SL RS232 温度</item>
+        <item>ADCP Argonaut-SL RS232 面积</item>
+        <item>ADCP Argonaut-SL RS232 流量</item>
+        <item>上海肯特电磁流量表RS485新MODBUS_RTU反累积量</item>
+        <item>上海肯特电磁流量表RS485新MODBUS_RTU瞬时流量</item>
+        <item>上海肯特电磁流量表RS485旧MODBUS_RTU正累积量</item>
+        <item>上海肯特电磁流量表RS485旧MODBUS_RTU反累积量</item>
+        <item>上海肯特电磁流量表RS485旧MODBUS_RTU瞬时流量</item>
+        <item>南京宏沐 HM29数字压力传感器 RS485水位计</item>
+        <item>KM水表累计量</item>
+        <item>RISEN-RP超声波液位计 RS485</item>
+        <item>RISEN-RP超声波液位计 RS485 负水位</item>
+        <item>RISEN-RP超声波液位计 RS232</item>
+        <item>RISEN-RP超声波液位计 RS232 负水位</item>
+        <item>江都数字水位机 RS232</item>
+        <item>沃泰雷达 RS485 modbus 空高 cm</item>
+        <item>宜昌亿立能气泡水位计 RS232 modbus</item>
+        <item>OTT 气泡式和雷达 水位计 RS232（nimbus协议）</item>
+        <item>OTT 气泡式和雷达 水位计 RS485（SDI12协议） 负水位</item>
+        <item>苏州讯鹏综合电力监测仪 RS485 MODBUS_RTU A相电流</item>
+        <item>苏州讯鹏综合电力监测仪 RS485 MODBUS_RTU B相电流</item>
+        <item>苏州讯鹏综合电力监测仪 RS485 MODBUS_RTU C相电流</item>
+        <item>苏州讯鹏综合电力监测仪 RS485 MODBUS_RTU A相电压</item>
+        <item>苏州讯鹏综合电力监测仪 RS485 MODBUS_RTU AB线电压</item>
+        <item>内部IO口 CD YL2 YL1 IN2 IN1</item>
+        <item>陶瓷电容水位计 RS485 MODBUS－RTU</item>
+        <item> 脉冲计数-内部格雷码接口1</item>
+        <item> 脉冲计数-内部格雷码接口2</item>
+        <item> 脉冲计数-内部格雷码接口3</item>
+        <item> 脉冲计数-内部格雷码接口4</item>
+        <item> 脉冲计数-内部格雷码接口5</item>
+        <item> 脉冲计数-内部格雷码接口6</item>
+        <item>WYH-2A型压力式水位计 RS485 MODBUS_RTU 水位</item>
+        <item>WYH-2A型压力式水位计 RS486 MODBUS_RTU 温度</item>
+        <item>康宇 磁致伸缩 水位计 RS485 MODBUS_RTU 水位</item>
+        <item>武汉数字气压传感器 RS485 MODBUS_RTU 大气压</item>
+        <item>OTT 称重雨量计 RS485 雨量</item>
+        <item>Stalker SVR 测速雷达传感器 RS232 当前流速</item>
+        <item>连利冷水表RS485</item>
+        <item>德国进口水位计 RS485 MODBUS_RTU 水位</item>
+        <item>德国进口水位计 RS486 MODBUS_RTU 温度</item>
+        <item>In-Situ Level TROLL RS485 MODBUS_RTU 水位</item>
+        <item>In-Situ Level TROLL RS485 MODBUS_RTU 温度</item>
+        <item>OTT 压力 水位计 RS485（SDI12协议） 温度</item>
+        <item>安科瑞PZ系列电测表 RS485 MODBUS_RTU A相电流</item>
+        <item>安科瑞PZ系列电测表 RS485 MODBUS_RTU A相电压</item>
+        <item>安科瑞PZ系列电测表 RS485 MODBUS_RTU AB线电压</item>
+        <item>内部雨量</item>
+        <item>EasyPro编码器 自由协议 RS485 MODBUS_RTU 水位</item>
+        <item>斯菲尔DTS1946电能表 RS485 MODBUS_RTU A相电压</item>
+        <item>斯菲尔DTS1946电能表 RS485 MODBUS_RTU AB线电压</item>
+        <item>斯菲尔DTS1946电能表 RS485 MODBUS_RTU A相电流</item>
+        <item>宜昌亿立能气泡水位计 RS485 modbus 水位</item>
+        <item>南瑞格雷码水位计模块 RS485（SDI12协议）水位</item>
+        <item>南京亚楠压力式水位计 RS485 MODBUS_RTU 水位</item>
+        <item>南京亚楠压力式水位计 RS485 MODBUS_RTU 温度</item>
+        <item>KROHNE IFC300电磁流量计 RS485 MODBUS_RTU 累积量</item>
+        <item>大连海丰TDS100/RS485/FUJI扩展通讯协议/小时流量</item>
+        <item>STEVENS HYDRA-PROBE II 土壤墒情传感器 RS485 含水量</item>
+        <item>STEVENS HYDRA-PROBE II 土壤墒情传感器 RS485 电导率</item>
+        <item>STEVENS HYDRA-PROBE II 土壤墒情传感器 RS485 温度</item>
+        <item>康宇 磁致伸缩 水位计 RS485 MODBUS_RTU 流量</item>
+        <item>上海肯特电磁流量表RS485 MODBUS_RTU 瞬时流量</item>
+        <item>上海肯特电磁流量表RS485 MODBUS_RTU 正累积量</item>
+        <item>北京博伦经纬 RS232 MODBUS_RTU 温度</item>
+        <item>北京博伦经纬 RS232 MODBUS_RTU 湿度</item>
+        <item>北京博伦经纬 RS232 MODBUS_RTU 风速</item>
+        <item>北京博伦经纬 RS232 MODBUS_RTU 风向</item>
+        <item>北京博伦经纬 RS232 MODBUS_RTU 能见度</item>
+        <item>北京博伦经纬 RS232 MODBUS_RTU 辐射</item>
+        <item>北京博伦经纬 RS232 MODBUS_RTU 雨强</item>
     </string-array>
     <string-array name="device_model_values">
         <item>1</item>
@@ -590,10 +696,6 @@
         <item>14</item>
         <item>15</item>
         <item>16</item>
-        <item>17</item>
-        <item>18</item>
-        <item>19</item>
-        <item>20</item>
         <item>21</item>
         <item>22</item>
         <item>23</item>
@@ -601,7 +703,112 @@
         <item>25</item>
         <item>26</item>
         <item>27</item>
-    </string-array>
+        <item>28</item>
+        <item>29</item>
+        <item>2A</item>
+        <item>2B</item>
+        <item>2C</item>
+        <item>2D</item>
+        <item>2E</item>
+        <item>2F</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>3A</item>
+        <item>3B</item>
+        <item>3C</item>
+        <item>3D</item>
+        <item>3E</item>
+        <item>3F</item>
+        <item>41</item>
+        <item>42</item>
+        <item>43</item>
+        <item>44</item>
+        <item>45</item>
+        <item>46</item>
+        <item>47</item>
+        <item>48</item>
+        <item>49</item>
+        <item>50</item>
+        <item>51</item>
+        <item>52</item>
+        <item>53</item>
+        <item>54</item>
+        <item>55</item>
+        <item>56</item>
+        <item>57</item>
+        <item>58</item>
+        <item>59</item>
+        <item>5A</item>
+        <item>5B</item>
+        <item>5C</item>
+        <item>5D</item>
+        <item>5E</item>
+        <item>5F</item>
+        <item>60</item>
+        <item>61</item>
+        <item>62</item>
+        <item>63</item>
+        <item>64</item>
+        <item>65</item>
+        <item>66</item>
+        <item>67</item>
+        <item>68</item>
+        <item>69</item>
+        <item>6A</item>
+        <item>6B</item>
+        <item>6C</item>
+        <item>6D</item>
+        <item>6E</item>
+        <item>6F</item>
+        <item>70</item>
+        <item>71</item>
+        <item>72</item>
+        <item>73</item>
+        <item>74</item>
+        <item>75</item>
+        <item>76</item>
+        <item>77</item>
+        <item>78</item>
+        <item>79</item>
+        <item>7A</item>
+        <item>7B</item>
+        <item>7C</item>
+        <item>7D</item>
+        <item>7E</item>
+        <item>7F</item>
+        <item>80</item>
+        <item>81</item>
+        <item>82</item>
+        <item>83</item>
+        <item>84</item>
+        <item>85</item>
+        <item>86</item>
+        <item>87</item>
+        <item>88</item>
+        <item>89</item>
+        <item>8A</item>
+        <item>8B</item>
+        <item>8C</item>
+        <item>8D</item>
+        <item>8E</item>
+        <item>8F</item>
+        <item>90</item>
+        <item>91</item>
+        <item>92</item>
+        <item>93</item>
+        <item>94</item>
+        <item>95</item>
+        <item>96</item>
+        <item>97</item>
+98</string-array>
     <string-array name="verify_way">
         <item>继电器组0 + 无校验</item>
         <item>继电器组0 + 偶校验</item>
@@ -646,36 +853,37 @@
         <item>1</item>
         <item>2</item>
     </string-array>
-	<string-array name="shoot_location">
-	    <item>关闭</item>
-	    <item>位置1</item>
-	    <item>位置2</item>
-	    <item>位置3</item>
-	    <item>位置4</item>
-	    <item>位置5</item>
-	    <item>位置6</item>
-	    <item>位置7</item>
-	    <item>位置8</item>
-	</string-array>
-	<string-array name="shoot_location_values">
-	    <item>0</item>
-	    <item>1</item>
-	    <item>2</item>
-	    <item>3</item>
-	    <item>4</item>
-	    <item>5</item>
-	    <item>6</item>
-	    <item>7</item>
-	    <item>8</item>
-	</string-array>
-	<string-array name="gprs">
-		<item>关闭</item>    
-		<item>网络</item>
-		<item>短信</item>
-	</string-array>
-	<string-array name="gprs_values">
-	    <item>0</item>
-	    <item>1</item>
-	    <item>2</item>
-	</string-array>
+    <string-array name="shoot_location">
+        <item>关闭</item>
+        <item>位置1</item>
+        <item>位置2</item>
+        <item>位置3</item>
+        <item>位置4</item>
+        <item>位置5</item>
+        <item>位置6</item>
+        <item>位置7</item>
+        <item>位置8</item>
+    </string-array>
+    <string-array name="shoot_location_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+    <string-array name="gprs">
+        <item>关闭</item>
+        <item>网络</item>
+        <item>短信</item>
+    </string-array>
+    <string-array name="gprs_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>

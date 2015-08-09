@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference 
+  <!--   <SwitchPreference 
         android:title="@string/catagoray_report_switch"
         android:key="catagoray_report_switch"
-        />
+        /> -->
     <EditTextPreference 
         android:key="catagory_rainfull"
         android:title="@string/catagory_rainfull"

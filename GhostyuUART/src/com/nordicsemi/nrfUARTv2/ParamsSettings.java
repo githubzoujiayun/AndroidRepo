@@ -18,6 +18,8 @@ import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -272,9 +274,11 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		@Override
 		public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
 				Preference preference) {
-			Intent intent = new Intent();
-			intent.putExtra("key", preference.getKey());
-			preference.setIntent(intent);
+			if (!RTUData.KEY_SENSOR_PREHEAT_TIME.equals(preference.getKey())) {
+				Intent intent = new Intent();
+				intent.putExtra("key", preference.getKey());
+				preference.setIntent(intent);
+			}
 			return super.onPreferenceTreeClick(preferenceScreen, preference);
 		}
 		
@@ -287,24 +291,25 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		protected void setupResource() {
 			addPreferencesFromResource(R.xml.timer_reporter);
 		}
-	}
-
-	public static class CatagoryReport extends ParamsSettings {
-
-		@Override
-		protected void setupResource() {
-			addPreferencesFromResource(R.xml.catagory_timer_reporter);
-		}
 
 		@Override
 		void load() {
-			byte[] datas = getValue(RTUData.KEY_TIMER_REPORTER);
-			String value = Utils.toIntegerString(datas, 2, 2);
-//			EditTextPreference interval = (EditTextPreference) findPreference("self_reporter_type");
-//			interval.setText(value);
-//			interval.setSummary(value);
+			setupListPreference(RTUData.KEY_SELF_REPORTER_TYPE);
+			setupEditTextPreference(RTUData.KEY_SELF_REPORTER_INTERVAL,2,2);
 		}
+
+		@Override
+		void setupListPreference(String key) {
+			final ListPreference preference = (ListPreference) findPreference(key);
+			byte data = getValue(key)[0];//first byte
+			int value = data & 0x20; //mask -> 0010 0000;
+			
+			setPreferenceIndex(preference, String.valueOf(value));
+		}
+		
+		
 	}
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -313,6 +318,8 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		ActionBar bar = getActivity().getActionBar();
 		bar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP
 				| ActionBar.DISPLAY_SHOW_TITLE);
+		
+		setHasOptionsMenu(true);
 		mDataManager = DataManager.getInstance(getActivity());
 		mData = mDataManager.getRTUData();
 		setupResource();
@@ -333,6 +340,13 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	void load(){
 		//do nothing
 		//child class can override to load datas
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.null_menu, menu); 
+		menu.clear();
 	}
 
 	@Override
