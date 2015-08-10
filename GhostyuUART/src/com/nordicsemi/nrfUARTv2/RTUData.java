@@ -151,20 +151,28 @@ public class RTUData {
 	public static final String KEY_CHANNAL_PORT_4 = "channal_port_4";
 	public static final String KEY_SELF_REPORTER_TYPE = "self_reporter_type";
 	public static final String KEY_SELF_REPORTER_INTERVAL = "self_reporter_interval";
+	
+	
+	
+	public final static String UNIT_NAME_SECOND = "秒";
+	public final static String UNIT_NAME_MINUTE = "分钟";
+	public final static String UNIT_NAME_HOUR ="小时";
+	public final static String UNIT_NAME_PER_10K = "/万";
+	public static final String UNIT_NAME_MILLISECOND = "毫秒";
 
-	private static final boolean DEBUG = true;
 	/**
 	 * key : register address value : data
 	 */
 	private SparseArray<byte[]> mDataCache = new SparseArray<byte[]>();
 
-	private HashMap<String, Integer> mKeyTable = new HashMap<String, Integer>();
+	private RTUMap mKeyTable = new RTUMap();
 
 	public RTUData() {
 		initTable();
 		byte[] data = new byte[4];
 		mDataCache.clear();
 		for (int i = 0; i < 337; i++) {
+			data = new byte[4];
 			mDataCache.put(i, data);
 		}
 	}
@@ -184,8 +192,8 @@ public class RTUData {
 		mKeyTable.put(KEY_QUERY_TYPES, 6);
 		mKeyTable.put(KEY_TIMER_REPORTER, 5);
 		mKeyTable.put(KEY_CATAGORY_TIMER_REPOTER, 5);
-		mKeyTable.put(KEY_ADD_REPORT, 301);
-		mKeyTable.put(KEY_EQUATION_REPORT, 233);
+		mKeyTable.put(KEY_ADD_REPORT, 301,UNIT_NAME_MINUTE,1);
+		mKeyTable.put(KEY_EQUATION_REPORT, 233,UNIT_NAME_MINUTE,1);
 		mKeyTable.put(KEY_HOUR_REPORT, 238);
 		mKeyTable.put(KEY_AREA_CODE, 0);
 		mKeyTable.put(KEY_ADDR_ENCODING, 302);
@@ -220,7 +228,7 @@ public class RTUData {
 		
 
 		// sensor settings
-		mKeyTable.put(KEY_SENSOR_PREHEAT_TIME, 226);
+		mKeyTable.put(KEY_SENSOR_PREHEAT_TIME, 226,UNIT_NAME_SECOND,1);
 		mKeyTable.put(KEY_SENSOR_CHANNELS1, 10);
 		mKeyTable.put(KEY_SENSOR_CHANNELS2, 11);
 		mKeyTable.put(KEY_SENSOR_CHANNELS3, 12);
@@ -251,11 +259,11 @@ public class RTUData {
 		mKeyTable.put(KEY_DATA_BASELINE, 90); // ;90-105
 		mKeyTable.put(KEY_DATA_CORRECTION, 280); // ;280-295
 		mKeyTable.put(KEY_DATA_ZERO, 122); // ;122-137
-		mKeyTable.put(KEY_DATA_RATIO, 106); // ;106-121
+		mKeyTable.put(KEY_DATA_RATIO, 106,UNIT_NAME_PER_10K,1); // ;106-121
 		
 		mKeyTable.put(KEY_DEVICE_MODEL, 26); // 26-41
 		
-		mKeyTable.put(KEY_GATHER_DURATION, 202); // d3;202-217
+		mKeyTable.put(KEY_GATHER_DURATION, 202,UNIT_NAME_SECOND,1); // d3;202-217
 		mKeyTable.put(KEY_COMMUNICATION_RATE, 74); // d1-d3;74-89
 		
 		mKeyTable.put(KEY_VERIFY_WAY, 186); //186-201
@@ -267,12 +275,12 @@ public class RTUData {
 		// communication settings
 		mKeyTable.put(KEY_COMMUNICATION_PROTOCAL, 9); // d3
 		mKeyTable.put(KEY_COMPACT_PROTOCAL, 296);
-		mKeyTable.put(KEY_BIAS_TIME, 245); // d3
-		mKeyTable.put(KEY_RESPONSE_TIME, 8); // ;1-255
-		mKeyTable.put(KEY_UNIFORM_INTERVAL, 237); // ;0-15
+		mKeyTable.put(KEY_BIAS_TIME, 245,UNIT_NAME_SECOND,1); // d3
+		mKeyTable.put(KEY_RESPONSE_TIME, 8,UNIT_NAME_SECOND,1); // ;1-255
+		mKeyTable.put(KEY_UNIFORM_INTERVAL, 237,UNIT_NAME_SECOND,1); // ;0-15
 		mKeyTable.put(KEY_COMMUNICATION_PASSWORD, 224); // ;0-65535
 		mKeyTable.put(KEY_HEARTBEAT_FUNC, 230); // ;30-250s
-		mKeyTable.put(KEY_HEARTBEAT_INTERVAL, 229); // ;0,1
+		mKeyTable.put(KEY_HEARTBEAT_INTERVAL, 229,UNIT_NAME_SECOND,1); // ;0,1
 		mKeyTable.put(KEY_CENTER_ADDRESS1, 223); // d3
 		mKeyTable.put(KEY_CENTER_ADDRESS2, 223); // d2
 		mKeyTable.put(KEY_CENTER_ADDRESS3, 223); // d1
@@ -284,7 +292,7 @@ public class RTUData {
 
 		mKeyTable.put(KEY_COMMUNICATION_WAY, 246); // ;;list
 		mKeyTable.put(KEY_COMMUNICATION_SPEED, 240);
-		mKeyTable.put(KEY_PREHEAT_TIME, 245); // d2
+		mKeyTable.put(KEY_PREHEAT_TIME, 245,UNIT_NAME_SECOND,1); // d2
 		mKeyTable.put(KEY_WAVE_CHECK, 236);
 
 		mKeyTable.put(KEY_BACKUP_COMMUNICATION_WAY, 244);
@@ -293,14 +301,14 @@ public class RTUData {
 
 		// Video settings
 		mKeyTable.put(KEY_VIDEO_SWITCH, 218); // ;0,1
-		mKeyTable.put(KEY_SHOOTING_INTERVAL, 219); // ;1-1440minutes
-		mKeyTable.put(KEY_SEND_INTERVAL, 231); // ;0,1-1440
+		mKeyTable.put(KEY_SHOOTING_INTERVAL, 219,UNIT_NAME_MINUTE,1); // ;1-1440minutes
+		mKeyTable.put(KEY_SEND_INTERVAL, 231,UNIT_NAME_MINUTE,1); // ;0,1-1440
 		mKeyTable.put(KEY_IMAGE_FORMAT, 220);
-		mKeyTable.put(KEY_VIDEO_PREHEAT_TIME, 319); // ;0-63s
+		mKeyTable.put(KEY_VIDEO_PREHEAT_TIME, 319,UNIT_NAME_SECOND,1); // ;0-63s
 		mKeyTable.put(KEY_RS485_ADDRESS, 222); // ;0-16777215r
 		mKeyTable.put(KEY_CAMERA_RATE, 242);
 		mKeyTable.put(KEY_CAMERA_MODEL, 221);
-		mKeyTable.put(KEY_EXECUTE_TIME, 328); // ;0-63s
+		mKeyTable.put(KEY_EXECUTE_TIME, 328,UNIT_NAME_SECOND,0.1); // ;0-63s
 		mKeyTable.put(KEY_SHOOT_LOCATION1, 320); // ;0-8
 		mKeyTable.put(KEY_SHOOT_LOCATION2, 321);
 		mKeyTable.put(KEY_SHOOT_LOCATION3, 322);
@@ -308,7 +316,7 @@ public class RTUData {
 
 		// dtu settings
 		// mKeyTable.put()
-		mKeyTable.put(KEY_TRANSFORM_INTERVAL, 297);// ;0-1024
+		mKeyTable.put(KEY_TRANSFORM_INTERVAL, 297,UNIT_NAME_MILLISECOND,1);// ;0-1024
 		mKeyTable.put(KEY_GPRS_1, 300);// d0-d1;0-2
 		mKeyTable.put(KEY_CHANNEL_IP_ADDRESS_1, 298);// 289,299
 		mKeyTable.put(KEY_CHANNAL_PORT_1, 300);// d2-d3;0-9999
@@ -325,7 +333,7 @@ public class RTUData {
 	}
 
 	public int getAddress(String key) {
-		return mKeyTable.get(key);
+		return mKeyTable.getAddress(key);
 	}
 
 	// public String getValue(String key) {
@@ -334,7 +342,7 @@ public class RTUData {
 	// }
 
 	public byte[] getValue(String key) {
-		int address = mKeyTable.get(key);
+		int address = mKeyTable.getAddress(key);
 		return getValue(address);
 		
 	}
@@ -479,7 +487,7 @@ public class RTUData {
 		}
 		
 		byte[] oldValue = mDataCache.get(address);
-		if (DEBUG) {
+		if (Utils.debugOn()) {
 			assert oldValue.length == 4;
 		}
 		if (len > value.length) {
@@ -496,12 +504,11 @@ public class RTUData {
 		if (len > 4) {
 			throw new RuntimeException("len must less than 4.");
 		}
-		//80e8 10 0000 0001 0000 0002 0000 2580 20
-		int address = mKeyTable.get(key);
+		int address = mKeyTable.getAddress(key);
 		byte[] oldValue = mDataCache.get(address);
 		Utils.log("address : "+ address);
 		Utils.log("oldValue = "+Utils.toHexString(oldValue));
-		if (DEBUG) {
+		if (Utils.debugOn()) {
 			assert oldValue.length == 4;
 		}
 		if (len > value.length) {
@@ -509,11 +516,15 @@ public class RTUData {
 		}
 		System.arraycopy(value, 0, oldValue, from, value.length);
 		mDataCache.put(address, oldValue);
-		if (DEBUG) {
+		if (Utils.debugOn()) {
 			byte[] data = mDataCache.get(address);
 			Utils.log("data.length = "+ data.length);
 			Utils.log("data = " + Utils.toHexString(data));
 			showCache();
 		}
+	}
+
+	public RTU getRTU(String key) {
+		return mKeyTable.get(key);
 	}
 }

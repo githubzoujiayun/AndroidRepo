@@ -3,6 +3,7 @@ package com.nordicsemi.nrfUARTv2;
 import android.content.Context;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,21 +64,19 @@ public class SwitchEditTextPreference extends EditTextPreference implements OnCh
 	@Override
 	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
 		String value = null;
+		String summary = null;
 		String key = getKey();
 		Utils.log("onCheckedchaged");
 		mShouldChecked = isChecked;
-		if (RTUData.KEY_ADD_REPORT.equals(key)
-				|| RTUData.KEY_EQUATION_REPORT.endsWith(key)) {
-			if (isChecked) {
-				value = "60";
-			} else {
-				value = "0";
-			}
-		} else if (!isChecked) {
-			value = "0";
+		RTUData data = DataManager.getInstance(getContext()).getRTUData();
+		if (!isChecked) {
+			summary = "0" + data.getRTU(key).getUnit();
+			value ="0";
 		}
-		setText(value);
-		setSummary(value);
+		if (!TextUtils.isEmpty(value)) {
+			setText(value);
+			setSummary(summary);
+		}
 	}
 	
 	public void setShouldChecked(boolean on) {

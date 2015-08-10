@@ -243,4 +243,8 @@
 	<string name="toast_connected_failed">请检查设备蓝牙连接</string>
 	<string name="message_show_datas">正在下载显示数据...</string>
 	<string name="message_upload_params">正在上传数据...</string>
+	<string name="unit_name_second">秒</string>
+	<string name="unit_name_minute">分</string>
+	<string name="unit_name_hour">时</string>
+	<string name="show_cache_menu">show cache</string>
 </resources>

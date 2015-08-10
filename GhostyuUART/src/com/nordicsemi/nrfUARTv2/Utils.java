@@ -1,7 +1,5 @@
 package com.nordicsemi.nrfUARTv2;
 
-import com.nordicsemi.nrfUARTv2.R.string;
-
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -11,6 +9,7 @@ import android.widget.Toast;
 public class Utils {
 	
 	private static final String TAG = "RTU";
+	private static final boolean DEBUG = false;
 	
 	public static String toHexString(byte[] datas,int from,int len) {
 		byte[] value = new byte[len];
@@ -200,6 +199,10 @@ public class Utils {
 	
 	public static void toast(Context context,int toast) {
 		Toast.makeText(context, context.getString(toast), Toast.LENGTH_SHORT).show();
+	}
+
+	public static boolean debugOn() {
+		return DEBUG;
 	}
 }
 

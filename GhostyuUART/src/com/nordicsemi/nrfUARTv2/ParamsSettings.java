@@ -17,15 +17,17 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
 public abstract class ParamsSettings extends PreferenceFragment {
-
+	
 	DataManager mDataManager;
 	RTUData mData;
 	
@@ -35,16 +37,18 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	
 	void setupSwitchEditTextPreference(String key) {
 		final SwitchEditTextPreference preference = (SwitchEditTextPreference) findPreference(key);
+		preference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		final RTU rtu = mData.getRTU(key);
 		byte[] data = getValue(key);
 //		byte[] data = Utils.toHexBytes("00000020");
-		String value = Utils.toIntegerString(data);
-		if (value.equals("0")) {
+		int value = Utils.toInteger(data);
+		if (value == 0) {
 			preference.setShouldChecked(false);
 		} else {
 			preference.setShouldChecked(true);
 		}
-		preference.setText(value);
-		preference.setSummary(value);
+		preference.setText(String.valueOf(value));
+		preference.setSummary(getSummary(value, rtu));
 		preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			
 			@Override
@@ -52,10 +56,30 @@ public abstract class ParamsSettings extends PreferenceFragment {
 				String text = value.toString();
 				mData.setValue(pref.getKey(), Integer.valueOf(text));
 				preference.setText(text);
-				preference.setSummary(text);
+				preference.setSummary(getSummary(text, rtu));
 				return true;
 			}
 		});
+	}
+	
+	String getSummary(String summary,RTU rtu) {
+		int value = Integer.valueOf(summary);
+		return getSummary(value, rtu);
+	}
+	
+	String getSummary(int value,RTU rtu) {
+		String unit = rtu.getUnit();
+		String summary = String.valueOf(value * rtu.getUnitMeasure());
+		
+		if (rtu.getFlag() == RTU.FLAG_DOUBLE) {
+			summary = String.valueOf(value * rtu.getMeasure());
+		}
+		
+		if (!TextUtils.isEmpty(unit)) {
+			summary += rtu.getUnit();
+		} 
+		
+		return summary;
 	}
 	
 	void setupMySwitchPreference(String key) {
@@ -107,18 +131,19 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	
 	void setupEditTextPreference(String key,int from,int len) {
 		final EditTextPreference preference = (EditTextPreference) findPreference(key);
-//		preference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		preference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		final RTU rtu = mData.getRTU(key);
 		byte[] data = getValue(key);
 		String value = Utils.toIntegerString(data,from,len);
 		preference.setText(value);
-		preference.setSummary(value);
+		preference.setSummary(getSummary(value, rtu));
 		preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			
 			@Override
 			public boolean onPreferenceChange(Preference pref, Object value) {
 				mData.setValue(pref.getKey(), Integer.valueOf(value.toString()));
 				preference.setText(value.toString());
-				preference.setSummary(value.toString());
+				preference.setSummary(getSummary(value.toString(), rtu));
 				return true;
 			}
 		});
@@ -320,6 +345,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 				| ActionBar.DISPLAY_SHOW_TITLE);
 		
 		setHasOptionsMenu(true);
+		
 		mDataManager = DataManager.getInstance(getActivity());
 		mData = mDataManager.getRTUData();
 		setupResource();
@@ -345,8 +371,22 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.null_menu, menu); 
 		menu.clear();
+		if (Utils.debugOn()) {
+			inflater.inflate(R.menu.null_menu, menu); 
+		}
+	}
+	
+	
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.show_cache_menu:
+			mData.showCache();
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override

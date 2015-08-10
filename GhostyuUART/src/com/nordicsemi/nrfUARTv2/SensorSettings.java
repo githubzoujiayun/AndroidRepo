@@ -105,7 +105,7 @@ public class SensorSettings extends ParamsSettings {
 	 */
 	private void setupEditTextPreference2(String key) {
 		final EditTextPreference pref = (EditTextPreference) findPreference(key);
-		
+		final RTU rtu = mData.getRTU(key);
 		byte[] data = getValue(key);
 		int symbol = Utils.toInteger(data[0]);
 		int value = Utils.toInteger(new byte[]{data[1],data[2],data[3]});
@@ -113,7 +113,7 @@ public class SensorSettings extends ParamsSettings {
 			value = -1 * value;
 		}
 		pref.setText(String.valueOf(value));
-		pref.setSummary(String.valueOf(value));
+		pref.setSummary(getSummary(value, rtu));
 		
 		pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			
@@ -125,7 +125,7 @@ public class SensorSettings extends ParamsSettings {
 					symbol = 1;
 				}
 				pref.setText(String.valueOf(value));
-				pref.setSummary(String.valueOf(value));
+				pref.setSummary(getSummary(value, rtu));
 				mData.setValue(pref.getKey(), symbol,0,1);
 				mData.setValue(pref.getKey(), value,1,3);
 				return false;
