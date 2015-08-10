@@ -222,22 +222,22 @@
         <item>备用1</item>
     </string-array>
     <string-array name="report_type_values">
-        <item>8000</item>
-        <item>4000</item>
-        <item>2000</item>
-        <item>1000</item>
-        <item>800</item>
-        <item>400</item>
-        <item>200</item>
-        <item>100</item>
-        <item>80</item>
-        <item>40</item>
-        <item>20</item>
-        <item>10</item>
-        <item>8</item>
-        <item>4</item>
-        <item>2</item>
         <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>8</item>
+        <item>10</item>
+        <item>20</item>
+        <item>40</item>
+        <item>80</item>
+        <item>100</item>
+        <item>200</item>
+        <item>400</item>
+        <item>800</item>
+        <item>1000</item>
+        <item>2000</item>
+        <item>4000</item>
+        <item>8000</item>
     </string-array>
     <string-array name="query_types">
         <item>雨量</item>
@@ -258,22 +258,22 @@
         <item>备用0</item>
     </string-array>
     <string-array name="query_type_values">
-        <item>8000</item>
-        <item>4000</item>
-        <item>2000</item>
-        <item>1000</item>
-        <item>800</item>
-        <item>400</item>
-        <item>200</item>
-        <item>100</item>
-        <item>80</item>
-        <item>40</item>
-        <item>20</item>
-        <item>10</item>
-        <item>8</item>
-        <item>4</item>
-        <item>2</item>
         <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>8</item>
+        <item>10</item>
+        <item>20</item>
+        <item>40</item>
+        <item>80</item>
+        <item>100</item>
+        <item>200</item>
+        <item>400</item>
+        <item>800</item>
+        <item>1000</item>
+        <item>2000</item>
+        <item>4000</item>
+        <item>8000</item>
     </string-array>
     <string-array name="self_reporter_type">
         <item>时段</item>
