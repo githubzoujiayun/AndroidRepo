@@ -334,8 +334,10 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		@Override
 		void setupListPreference(String key) {
 			final ListPreference preference = (ListPreference) findPreference(key);
-			byte data = getValue(key)[1];//2nd byte
-			int value = data & 0x04; //mask -> 0000 0100;
+			byte datas[] = Utils.toHexBytes("00020000");
+			byte data = datas[1];
+//			byte data = getValue(key)[1];//2nd byte
+			int value = (data & 0x04) >> 2; //mask -> 0000 0100;
 			
 			setPreferenceIndex(preference, String.valueOf(value));
 		}
