@@ -41,6 +41,7 @@ public class MySwitchPreference extends Preference implements OnCheckedChangeLis
 	@Override
 	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
 		mShouldChecked = isChecked;
+		callChangeListener(isChecked);
 	}
 	
 	public void setChecked(boolean on) {

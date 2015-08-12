@@ -96,9 +96,27 @@ public class EntiretyParamsSettings extends ParamsSettings implements OnPreferen
 		setupSwitchAddImmediately();
 		setupSwitchEditTextPreference(RTUData.KEY_EQUATION_REPORT);
 		setupSwitchPreference(RTUData.KEY_HOUR_REPORT);
+		
+		setupCatagoryReport();
 	}
 	
 	
+	private void setupCatagoryReport() {
+		final String key = RTUData.KEY_CATAGORY_TIMER_REPOTER;
+		MySwitchPreference preference = (MySwitchPreference) findPreference(key);
+		byte[] value = getValue(key);
+		preference.setShouldChecked(value[1] == 1);
+		preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference arg0, Object newValue) {
+				int value = Boolean.valueOf(newValue.toString())?1:0;
+//				setValue(key, value,0,2);
+				return true;
+			}
+		});
+	}
+
 	private void setupSwitchAddImmediately() {
 		final String key = RTUData.KEY_ADD_REPORT_IMMEDIATELY;
 		SwitchPreference preference = (SwitchPreference) findPreference(key);

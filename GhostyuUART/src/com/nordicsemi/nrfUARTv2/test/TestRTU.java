@@ -1,6 +1,7 @@
 package com.nordicsemi.nrfUARTv2.test;
 
-import android.os.Environment;
+import java.util.Arrays;
+
 import android.test.AndroidTestCase;
 import android.util.SparseArray;
 
@@ -21,6 +22,16 @@ public class TestRTU extends AndroidTestCase {
 		byte[] datas = Utils.toHexBytes("100");
 		String value = Utils.toIntegerString(datas);
 		System.out.println(value);
+	}
+	
+	public void testToHexBytes() {
+		String text = "00000ff";
+		byte[] b = Utils.toHexBytes(text);
+		System.out.println(Arrays.toString(b));
+		
+		assertEquals(b[0],0);
+		assertEquals(b[1],0);
+		assertEquals(b[2],-1);
 	}
 
 //	public void testCache() {

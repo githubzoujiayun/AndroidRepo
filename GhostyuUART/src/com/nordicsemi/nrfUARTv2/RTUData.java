@@ -525,7 +525,8 @@ public class RTUData {
 			from = len - value.length;
 		}
 		System.arraycopy(value, 0, oldValue, from, value.length);
-		mDataCache.put(address, oldValue);
+		byte[] newValue = oldValue;
+		mDataCache.put(address, newValue);
 		
 		if (Utils.debugOn()) {
 			byte[] data = mDataCache.get(address);

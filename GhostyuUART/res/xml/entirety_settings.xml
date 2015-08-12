@@ -38,10 +38,10 @@
 	        android:widgetLayout="@layout/preference_array"
 	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$TimerReport"
 	        />
-	    <Preference
+	    <com.nordicsemi.nrfUARTv2.MySwitchPreference
 	        android:key="catagory_timer_repoter"
 	        android:title="@string/catagory_timer_repoter"
-	        android:widgetLayout="@layout/preference_array"
+	        android:widgetLayout="@layout/preference_switch_array"
 	        android:fragment="com.nordicsemi.nrfUARTv2.CatagoryReport"
 	        />
 	    <com.nordicsemi.nrfUARTv2.SwitchEditTextPreference

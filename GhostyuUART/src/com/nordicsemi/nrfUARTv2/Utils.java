@@ -23,6 +23,13 @@ public class Utils {
 		return toHexString(value);
 	}
 
+//	public static byte[] toHexBytes(String source, int len) {
+//		byte[] value = new byte[len];
+//		byte[] src = toHexBytes(source);
+//		System.arraycopy(src, 0, value, len - src.length, src.length);
+//		return value;
+//	}
+	
 	public static byte[] toHexBytes(String source) {
 		String _source = source;
 		int length = source.length();
