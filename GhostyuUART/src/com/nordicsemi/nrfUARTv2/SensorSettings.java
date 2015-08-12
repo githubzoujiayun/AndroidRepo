@@ -72,7 +72,7 @@ public class SensorSettings extends ParamsSettings {
 		setupEditTextPreference2(RTUData.KEY_DATA_ZERO);
 		setupEditTextPreference2(RTUData.KEY_DATA_RATIO);
 		
-		setupListPreference(RTUData.KEY_DEVICE_MODEL,ParamsSettings.VALUE_TYPE_HEX,0,4);
+		setupListPreference(RTUData.KEY_DEVICE_MODEL,VALUE_TYPE_HEX,0,4);
 		
 		setupEditTextPreference(RTUData.KEY_GATHER_DURATION,3,1);
 		setupListPreference(RTUData.KEY_COMMUNICATION_RATE,1,3);
@@ -137,7 +137,11 @@ public class SensorSettings extends ParamsSettings {
 		final ListPreference preference = (ListPreference) findPreference(key);
 		byte[] datas = getValue(key);
 		int value = ((datas[3] & 0xf0) >> 4);
-		setPreferenceIndex(preference, String.valueOf(value));
+		if (value < 7) {
+			setPreferenceIndex(preference, String.valueOf(value));
+		} else {
+			setPreferenceIndex(preference, Utils.toHexString(datas));
+		}
 		
 		final ListPreference preference2 = (ListPreference) findPreference(key2);
 		value = datas[3] & 0x0f;
@@ -146,26 +150,40 @@ public class SensorSettings extends ParamsSettings {
 		preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			
 			@Override
-			public boolean onPreferenceChange(Preference arg0, Object arg1) {
-				setPreferenceIndex(preference, arg1.toString());
+			public boolean onPreferenceChange(Preference arg0, Object newValue) {
+				setPreferenceIndex(preference, newValue.toString());
 				
-				int v2 = Integer.valueOf(preference2.getValue());
+				int v2 = Utils.h2d(preference2.getValue());
 				
-				int value = Integer.valueOf(arg1.toString()) << 4 + v2;
-				mData.setValue(preference.getKey(), value,3,1);
+				
+				int type = Utils.h2d(newValue.toString());
+				int value = (type << 4) + v2;
+				if (type < 7) {
+					mData.setValue(preference.getKey(), value);
+					return false;
+				}
+				mData.setValue(preference.getKey(), type,3,1);
 				return false;
 			}
 		});
 		preference2.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			
 			@Override
-			public boolean onPreferenceChange(Preference arg0, Object arg1) {
-				setPreferenceIndex(preference2, arg1.toString());
+			public boolean onPreferenceChange(Preference arg0, Object newValue) {
 				
-				int v2 = Integer.valueOf(arg1.toString());
+				int v2 = Utils.h2d(newValue.toString());
 				
-				int value = Integer.valueOf(preference.getValue()) << 4 + v2;
-				mData.setValue(preference.getKey(), value,3,1);
+				int type = Utils.h2d(preference.getValue());
+				int value = (type << 4) + v2;
+				Utils.log("pref2.value = " + preference2.getValue());
+				Utils.log("v2 = "+v2);
+				Utils.log("type = " + type);
+				Utils.log("value = "+value);
+				if (type < 7) {
+					setPreferenceIndex(preference2, String.valueOf(newValue.toString()));
+					mData.setValue(preference.getKey(), value,3,1);
+				}
+//				mData.setValue(preference.getKey(),type,3,1);
 				return false;
 			}
 		});

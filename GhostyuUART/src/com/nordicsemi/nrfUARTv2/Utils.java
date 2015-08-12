@@ -204,5 +204,13 @@ public class Utils {
 	public static boolean debugOn() {
 		return DEBUG;
 	}
+
+	public static byte[] toHexBytes(int intValue) {
+		return toHexBytes(Integer.toHexString(intValue));
+	}
+
+	public static int h2d(String value) {
+		return toInteger(toHexBytes(value));
+	}
 }
 

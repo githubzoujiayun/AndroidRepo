@@ -23,6 +23,7 @@ public class RTUData {
 	public static final String KEY_CATAGORY_TIMER_REPOTER = "catagory_timer_repoter";
 
 	public static final String KEY_ADD_REPORT = "add_report";
+	public static final String KEY_ADD_REPORT_IMMEDIATELY = "add_report_immediately";
 	public static final String KEY_EQUATION_REPORT = "equation_report";
 	public static final String KEY_HOUR_REPORT = "hour_report";
 	public static final String KEY_AREA_CODE = "area_code";
@@ -53,6 +54,7 @@ public class RTUData {
 	public static final String KEY_CATAGORY_WATER_FLOW = "catagory_water_flow";
 	public static final String KEY_CATAGORY_WIND_DIRECTION_SPEED = "catagory_wind_direction_speed";
 	public static final String KEY_CATAGORY_STATUE = "catagory_statue";
+	
 
 	/*
 	 * SensorSettings
@@ -117,6 +119,7 @@ public class RTUData {
 	public static final String KEY_WAVE_CHECK = "wave_check";
 	public static final String KEY_BACKUP_COMMUNICATION_WAY = "backup_communication_way";
 	public static final String KEY_BACKUP_COMMUNICATION_SPEED = "backup_communication_speed";
+	public static final String KEY_PREHEAT_TIME_BACKUP = "preheat_time_backup";
 	public static final String KEY_TSM_FUNC = "tsm_func";
 
 	// video settings
@@ -172,7 +175,7 @@ public class RTUData {
 		byte[] data = new byte[4];
 		mDataCache.clear();
 		for (int i = 0; i < 337; i++) {
-			data = new byte[4];
+			data = new byte[]{0,0,0,0};
 			mDataCache.put(i, data);
 		}
 	}
@@ -193,6 +196,7 @@ public class RTUData {
 		mKeyTable.put(KEY_TIMER_REPORTER, 5);
 		mKeyTable.put(KEY_CATAGORY_TIMER_REPOTER, 5);
 		mKeyTable.put(KEY_ADD_REPORT, 301,UNIT_NAME_MINUTE,1);
+		mKeyTable.put(KEY_ADD_REPORT_IMMEDIATELY,245); //;d0
 		mKeyTable.put(KEY_EQUATION_REPORT, 233,UNIT_NAME_MINUTE,1);
 		mKeyTable.put(KEY_HOUR_REPORT, 238);
 		mKeyTable.put(KEY_AREA_CODE, 0);
@@ -208,7 +212,7 @@ public class RTUData {
 		mKeyTable.put(KEY_EVAPORATING, 232);
 		mKeyTable.put(KEY_STREAM_COUNT_STEP, 235);
 		mKeyTable.put(KEY_SELF_REPORTER_TYPE,245); //d0.2
-		mKeyTable.put(KEY_SELF_REPORTER_INTERVAL,5);//d3d4
+		mKeyTable.put(KEY_SELF_REPORTER_INTERVAL,5,RTUData.UNIT_NAME_MINUTE,1);//d3d4
 		
 		mKeyTable.put(KEY_CATAGORY_RAINFULL,202);
 		mKeyTable.put(KEY_CATAGORY_WATER_LEVEL,203);
@@ -221,10 +225,12 @@ public class RTUData {
 		mKeyTable.put(KEY_CATAGORY_SOIL_MOISTURE,212);
 		mKeyTable.put(KEY_CATAGORY_EVAPORATION,213);
 		mKeyTable.put(KEY_CATAGORY_WATER_PRESSURE,214);
-//		mKeyTable.put(KEY_CATAGORY_OTHERS)
+		mKeyTable.put(KEY_CATAGORY_OTHERS,216);
 		mKeyTable.put(KEY_CATAGORY_WATER_FLOW,204);
 		mKeyTable.put(KEY_CATAGORY_WIND_DIRECTION_SPEED,209);
 		mKeyTable.put(KEY_CATAGORY_STATUE,215);
+		
+		mKeyTable.put(KEY_PREHEAT_TIME_BACKUP,338);
 		
 
 		// sensor settings
@@ -459,6 +465,10 @@ public class RTUData {
 		mDataCache.clear();
 	}
 	
+	public void setValue(String key,String value) {
+		setValue(key,Integer.valueOf(value),0,4);
+	}
+	
 	public void setValue(String key,int value) {
 		setValue(key,value,0,4);
 	}
@@ -516,11 +526,14 @@ public class RTUData {
 		}
 		System.arraycopy(value, 0, oldValue, from, value.length);
 		mDataCache.put(address, oldValue);
+		
 		if (Utils.debugOn()) {
 			byte[] data = mDataCache.get(address);
 			Utils.log("data.length = "+ data.length);
+			Utils.log("newValue = " + Utils.toHexString(oldValue));
 			Utils.log("data = " + Utils.toHexString(data));
-			showCache();
+			Utils.log("***********************************************\n\n");
+//			showCache();
 		}
 	}
 

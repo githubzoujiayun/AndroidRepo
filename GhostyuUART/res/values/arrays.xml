@@ -481,35 +481,38 @@
         <item>流量</item>
         <item>压力</item>
         <item>墒情</item>
+        <item>流速</item>
         <item>雨量</item>
+        
         <item>雨强</item>
         <item>风速</item>
         <item>风向</item>
         <item>温度</item>
+        <item>湿度</item>
         <item>气压</item>
         <item>功率</item>
         <item>水温</item>
         <item>能见度</item>
         <item>辐射</item>
-        <item>其他</item>
     </string-array>
     <string-array name="gather_catagory_values">
-        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
         <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-        <item>13</item>
-        <item>14</item>
-        <item>15</item>
+        <item>81</item>
+        <item>90</item>
+        <item>91</item>
+        <item>92</item>
+        <item>93</item>
+        <item>94</item>
+        <item>95</item>
+        <item>96</item>
+        <item>97</item>
+        <item>98</item>
+        <item>99</item>
     </string-array>
     <string-array name="gather_number">
         <item>0</item>
@@ -540,15 +543,14 @@
         <item>7</item>
         <item>8</item>
         <item>9</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-        <item>13</item>
-        <item>14</item>
-        <item>15</item>
+        <item>a</item>
+        <item>b</item>
+        <item>c</item>
+        <item>d</item>
+        <item>e</item>
+        <item>f</item>
     </string-array>
     <string-array name="device_model">
-        <item>对应的传感器</item>
         <item>水位-内部格雷码接口1</item>
         <item>水位-内部格雷码接口2</item>
         <item>内部模拟量1</item>
@@ -680,15 +682,15 @@
         <item>北京博伦经纬 RS232 MODBUS_RTU 雨强</item>
     </string-array>
     <string-array name="device_model_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
         <item>10</item>
         <item>11</item>
         <item>12</item>
@@ -808,7 +810,7 @@
         <item>95</item>
         <item>96</item>
         <item>97</item>
-98</string-array>
+        <item>98</item></string-array>
     <string-array name="verify_way">
         <item>继电器组0 + 无校验</item>
         <item>继电器组0 + 偶校验</item>

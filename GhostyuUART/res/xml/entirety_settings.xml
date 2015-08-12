@@ -32,22 +32,26 @@
 	        android:entryValues="@array/query_type_values"
 	        />
 	    </PreferenceScreen>
-	    <com.nordicsemi.nrfUARTv2.MySwitchPreference
+	    <Preference
 	        android:key="timer_reporter"
 	        android:title="@string/timer_reporter"
-	        android:widgetLayout="@layout/preference_switch_array"
+	        android:widgetLayout="@layout/preference_array"
 	        android:fragment="com.nordicsemi.nrfUARTv2.ParamsSettings$TimerReport"
 	        />
-	    <com.nordicsemi.nrfUARTv2.MySwitchPreference
+	    <Preference
 	        android:key="catagory_timer_repoter"
 	        android:title="@string/catagory_timer_repoter"
-	        android:widgetLayout="@layout/preference_switch_array"
+	        android:widgetLayout="@layout/preference_array"
 	        android:fragment="com.nordicsemi.nrfUARTv2.CatagoryReport"
 	        />
 	    <com.nordicsemi.nrfUARTv2.SwitchEditTextPreference
 	        android:key="add_report"
 	        android:title="@string/add_report"
 	        android:widgetLayout="@layout/preference_switch"
+	        />
+	    <SwitchPreference
+	        android:key="add_report_immediately"
+	        android:title="@string/add_report_immediately"
 	        />
 	    <com.nordicsemi.nrfUARTv2.SwitchEditTextPreference
 	        android:key="equation_report"

@@ -23,6 +23,7 @@ public class CatagoryReport extends ParamsSettings {
 		setupEditTextPreference(RTUData.KEY_CATAGORY_WATER_FLOW);
 		setupEditTextPreference(RTUData.KEY_CATAGORY_WIND_DIRECTION_SPEED);
 		setupEditTextPreference(RTUData.KEY_CATAGORY_STATUE);
+		setupEditTextPreference(RTUData.KEY_CATAGORY_OTHERS);
 	}
 
 	@Override

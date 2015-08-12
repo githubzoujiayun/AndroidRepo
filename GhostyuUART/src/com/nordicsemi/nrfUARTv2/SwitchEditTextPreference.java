@@ -76,6 +76,7 @@ public class SwitchEditTextPreference extends EditTextPreference implements OnCh
 		if (!TextUtils.isEmpty(value)) {
 			setText(value);
 			setSummary(summary);
+			callChangeListener(value);
 		}
 	}
 	

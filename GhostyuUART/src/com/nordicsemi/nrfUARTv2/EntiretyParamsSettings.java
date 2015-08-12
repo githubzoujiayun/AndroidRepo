@@ -6,6 +6,7 @@ import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.SwitchPreference;
+import android.text.InputType;
 
 public class EntiretyParamsSettings extends ParamsSettings implements OnPreferenceChangeListener {
 
@@ -26,8 +27,8 @@ public class EntiretyParamsSettings extends ParamsSettings implements OnPreferen
 	private EditTextPreference mEquationReport;
 	private EditTextPreference mAddReport;
 	private SwitchPreference mHourReport;
-	private MySwitchPreference mTimeReport;
-	private MySwitchPreference mCatagoryReport;
+	private Preference mTimeReport;
+	private Preference mCatagoryReport;
 
 	@Override
 	protected void setupResource() {
@@ -50,8 +51,8 @@ public class EntiretyParamsSettings extends ParamsSettings implements OnPreferen
 		mEquationReport = (EditTextPreference) findPreference(RTUData.KEY_EQUATION_REPORT);
 		mHourReport = (SwitchPreference) findPreference(RTUData.KEY_HOUR_REPORT);
 		
-		mTimeReport = (MySwitchPreference)findPreference(RTUData.KEY_TIMER_REPORTER);
-		mCatagoryReport = (MySwitchPreference)findPreference(RTUData.KEY_CATAGORY_TIMER_REPOTER);
+//		mTimeReport = findPreference(RTUData.KEY_TIMER_REPORTER);
+//		mCatagoryReport = findPreference(RTUData.KEY_CATAGORY_TIMER_REPOTER);
 		
 		mAreaCode.setOnPreferenceChangeListener(this);
 		mAddrEncoding.setOnPreferenceChangeListener(this);
@@ -90,21 +91,40 @@ public class EntiretyParamsSettings extends ParamsSettings implements OnPreferen
 		setupEditTextPreference(RTUData.KEY_STREAM_COUNT_STEP);
 		setupMultiSelectPreference(RTUData.KEY_REPORT_TYPES);
 		setupMultiSelectPreference(RTUData.KEY_QUERY_TYPES);
+		
 		setupSwitchEditTextPreference(RTUData.KEY_ADD_REPORT);
+		setupSwitchAddImmediately();
 		setupSwitchEditTextPreference(RTUData.KEY_EQUATION_REPORT);
 		setupSwitchPreference(RTUData.KEY_HOUR_REPORT);
+	}
+	
+	
+	private void setupSwitchAddImmediately() {
+		final String key = RTUData.KEY_ADD_REPORT_IMMEDIATELY;
+		SwitchPreference preference = (SwitchPreference) findPreference(key);
+		int value = getValue(key)[1] & 0x1; //245,byte[0,1],d0
 		
-		byte[] datas = mData.getValue(RTUData.KEY_TIMER_REPORTER);
-		String value = Utils.toIntegerString(datas, 0, 2);
-		Utils.log("value[] = " + Utils.toHexString(datas));
-		Utils.log("value = " + value);
-		if ("0".equals(value)) {
-			mTimeReport.setShouldChecked(true);
-			mCatagoryReport.setShouldChecked(false);
+		if (value == 0) {
+			preference.setChecked(false);
 		} else {
-			mTimeReport.setShouldChecked(false);
-			mCatagoryReport.setShouldChecked(true);
+			preference.setChecked(true);
 		}
+		preference
+				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+					@Override
+					public boolean onPreferenceChange(Preference pref,
+							Object value) {
+						int data = 0;
+						if (value.equals(true)) {
+							data = 1;
+						}
+						int intValue = Utils.toInteger(getValue(key));
+						intValue = intValue | 0x10000 & data;//
+						setValue(key,Utils.toHexBytes(intValue));
+						return true;
+					}
+				});
 	}
 
 	@Override

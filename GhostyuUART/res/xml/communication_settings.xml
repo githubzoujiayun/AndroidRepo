@@ -1,135 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <SwitchPreference 
+
+    <SwitchPreference
         android:key="tsm_func"
-        android:title="@string/tsm_func"
-        android:summaryOn="@string/tsm_summary_on"
         android:summaryOff="@string/tsm_summary_off"
-        android:switchTextOn="@string/tsm_switch_on"
+        android:summaryOn="@string/tsm_summary_on"
         android:switchTextOff="@string/tsm_switch_off"
-        />
-    <PreferenceScreen 
-        android:widgetLayout="@layout/preference_array"
-        android:title="@string/whole_params_settings">
-        
-    <ListPreference 
-        android:key="communication_protocal"
-        android:title="@string/communication_protocal"
-        android:entries="@array/communication_protocal"
-        android:entryValues="@array/communication_protocal_values"
-        />
-    <ListPreference 
-        android:key="compact_protocal"
-        android:title="@string/compact_protocal"
-        android:entries="@array/compact_protocal"
-        android:entryValues="@array/compact_protocal_values"
-        />
-    <EditTextPreference
-        android:key="bias_time"
-        android:title="@string/bias_time"
-        />
-    <EditTextPreference 
-        android:key="response_time"
-        android:title="@string/response_time"
-        />
-     <com.nordicsemi.nrfUARTv2.SwitchEditTextPreference
-        android:key="uniform_interval"
-        android:title="@string/uniform_interval"
-        android:switchTextOn="@string/uniform_switch_on"
-        android:switchTextOff="@string/uniform_switch_off"
-        android:widgetLayout="@layout/preference_switch_array"
-        />
-     <EditTextPreference 
-         android:key="communication_password"
-         android:title="@string/communication_password"
-         />
-      <com.nordicsemi.nrfUARTv2.SwitchEditTextPreference 
-         android:key="heartbeat_interval"
-         android:title="@string/heartbeat_interval"
-         android:switchTextOn="@string/heartbeat_switch_on"
-         android:switchTextOff="@string/heartbeat_switch_off"
-         android:widgetLayout="@layout/preference_switch_array"
-         />
-      <EditTextPreference 
-         android:key="center_address1"
-         android:title="@string/center_address1"
-         />
-      <EditTextPreference 
-         android:key="center_address2"
-         android:title="@string/center_address2"
-         />
-      <EditTextPreference 
-         android:key="center_address3"
-         android:title="@string/center_address3"
-         />
-      <EditTextPreference 
-         android:key="center_address4"
-         android:title="@string/center_address4"
-         />
+        android:switchTextOn="@string/tsm_switch_on"
+        android:title="@string/tsm_func" />
+
+    <PreferenceScreen
+        android:title="@string/whole_params_settings"
+        android:widgetLayout="@layout/preference_array" >
+        <ListPreference
+            android:entries="@array/communication_protocal"
+            android:entryValues="@array/communication_protocal_values"
+            android:key="communication_protocal"
+            android:title="@string/communication_protocal" />
+        <ListPreference
+            android:entries="@array/compact_protocal"
+            android:entryValues="@array/compact_protocal_values"
+            android:key="compact_protocal"
+            android:title="@string/compact_protocal" />
+
+        <EditTextPreference
+            android:key="bias_time"
+            android:title="@string/bias_time" />
+        <EditTextPreference
+            android:key="response_time"
+            android:title="@string/response_time" />
+
+        <com.nordicsemi.nrfUARTv2.SwitchEditTextPreference
+            android:key="uniform_interval"
+            android:switchTextOff="@string/uniform_switch_off"
+            android:switchTextOn="@string/uniform_switch_on"
+            android:title="@string/uniform_interval"
+            android:widgetLayout="@layout/preference_switch_array" />
+
+        <EditTextPreference
+            android:key="communication_password"
+            android:title="@string/communication_password" />
+
+        <com.nordicsemi.nrfUARTv2.SwitchEditTextPreference
+            android:key="heartbeat_interval"
+            android:switchTextOff="@string/heartbeat_switch_off"
+            android:switchTextOn="@string/heartbeat_switch_on"
+            android:title="@string/heartbeat_interval"
+            android:widgetLayout="@layout/preference_switch_array" />
+
+        <EditTextPreference
+            android:key="center_address1"
+            android:title="@string/center_address1" />
+        <EditTextPreference
+            android:key="center_address2"
+            android:title="@string/center_address2" />
+        <EditTextPreference
+            android:key="center_address3"
+            android:title="@string/center_address3" />
+        <EditTextPreference
+            android:key="center_address4"
+            android:title="@string/center_address4" />
     </PreferenceScreen>
+
     <PreferenceCategory
-        android:widgetLayout="@layout/preference_array"
-        android:title="@string/gather_channel_settings">
-        <ListPreference 
+        android:title="@string/gather_channel_settings"
+        android:widgetLayout="@layout/preference_array" >
+        <ListPreference
+            android:entries="@array/RS_frequency"
+            android:entryValues="@array/RS_frequency_values"
             android:key="RS485"
-            android:title="@string/RS485"
+            android:title="@string/RS485" />
+        <ListPreference
             android:entries="@array/RS_frequency"
             android:entryValues="@array/RS_frequency_values"
-            />
-         <ListPreference 
             android:key="RS232_1"
-            android:title="@string/RS232_1"
+            android:title="@string/RS232_1" />
+        <ListPreference
             android:entries="@array/RS_frequency"
             android:entryValues="@array/RS_frequency_values"
-            />
-          <ListPreference 
             android:key="RS232_3"
-            android:title="@string/RS232_3"
-            android:entries="@array/RS_frequency"
-            android:entryValues="@array/RS_frequency_values"
-            />
+            android:title="@string/RS232_3" />
     </PreferenceCategory>
-    <PreferenceCategory 
-        android:widgetLayout="@layout/preference_array"
-        android:title="@string/main_channel_settings">
-        
-        <ListPreference 
-            android:key="communication_way"
-            android:title="@string/communication_way"
+    <PreferenceCategory
+        android:title="@string/main_channel_settings"
+        android:widgetLayout="@layout/preference_array" >
+        <ListPreference
             android:entries="@array/communication_way"
             android:entryValues="@array/communication_way_values"
-            />
-        <ListPreference 
-            android:key="communication_speed"
-            android:title="@string/communication_speed"
+            android:key="communication_way"
+            android:title="@string/communication_way" />
+        <ListPreference
             android:entries="@array/RS_frequency"
             android:entryValues="@array/RS_frequency_values"
-            />
-        <EditTextPreference 
+            android:key="communication_speed"
+            android:title="@string/communication_speed" />
+
+        <EditTextPreference
             android:key="preheat_time"
-            android:title="@string/preheat_time"
-            />
-        <ListPreference 
-            android:key="wave_check"
-            android:title="@string/wave_check"
+            android:title="@string/preheat_time" />
+
+        <ListPreference
             android:entries="@array/wave_check"
             android:entryValues="@array/wave_check_value"
-            />
+            android:key="wave_check"
+            android:title="@string/wave_check" />
     </PreferenceCategory>
-    <PreferenceCategory 
-        android:widgetLayout="@layout/preference_array"
-        android:title="@string/backup_channel_settings">
-        <ListPreference 
-            android:key="backup_communication_way"
-            android:title="@string/communication_way"
+    <PreferenceCategory
+        android:title="@string/backup_channel_settings"
+        android:widgetLayout="@layout/preference_array" >
+        <ListPreference
             android:entries="@array/backup_communication_way"
             android:entryValues="@array/backup_communication_way_values"
-            />
-        <ListPreference 
-            android:key="backup_communication_speed"
-            android:title="@string/communication_speed"
+            android:key="backup_communication_way"
+            android:title="@string/communication_way" />
+        <ListPreference
             android:entries="@array/RS_frequency"
             android:entryValues="@array/RS_frequency_values"
-            />
+            android:key="backup_communication_speed"
+            android:title="@string/communication_speed" />
+
+        <EditTextPreference
+            android:key="preheat_time_backup"
+            android:title="@string/preheat_time_backup" />
     </PreferenceCategory>
+
 </PreferenceScreen>

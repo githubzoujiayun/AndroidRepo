@@ -98,6 +98,7 @@
 	<string name="self_reporter_interval">定时自报间隔</string>
 	<string name="catagory_timer_repoter">水资源分种类定时报（单位：分钟）</string>
 	<string name="hour_report">小时报</string>
+	<string name="add_report_immediately">有雨立即加报</string>
 	<string name="add_report">加报</string>
 	<string name="equation_report">均匀报</string>
 	<string name="catagory_report_settings">查询/自报种类</string>
@@ -247,4 +248,7 @@
 	<string name="unit_name_minute">分</string>
 	<string name="unit_name_hour">时</string>
 	<string name="show_cache_menu">show cache</string>
+	<string name="preheat_time_backup">预热时间</string>
+	<string name="shutdown">关闭</string>
+	<string name="report_now">雨量立即报</string>
 </resources>

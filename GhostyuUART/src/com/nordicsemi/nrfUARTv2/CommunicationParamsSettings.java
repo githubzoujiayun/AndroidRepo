@@ -38,6 +38,7 @@ public class CommunicationParamsSettings extends ParamsSettings {
 		//backup tunnel
 		setupListPreference(RTUData.KEY_BACKUP_COMMUNICATION_WAY);
 		setupListPreference(RTUData.KEY_BACKUP_COMMUNICATION_SPEED);
+		setupEditTextPreference(RTUData.KEY_PREHEAT_TIME_BACKUP);
 		
 		//tsm
 		setupSwitchPreference(RTUData.KEY_TSM_FUNC);
