@@ -97,8 +97,11 @@ public abstract class ParamsSettings extends PreferenceFragment {
 					@Override
 					public boolean onPreferenceChange(Preference pref,
 							Object value) {
-						
-						mData.setValue(pref.getKey(), (Integer) value);
+						int result = 0;
+						if (Boolean.valueOf(value.toString()).equals(true)) {
+							result = 1;
+						}
+						mData.setValue(pref.getKey(), result);
 						return true;
 					}
 				});
@@ -129,7 +132,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 				});
 	}
 	
-	void setupEditTextPreference(String key,int from,int len) {
+	void setupEditTextPreference(String key,final int from,final int len) {
 		final EditTextPreference preference = (EditTextPreference) findPreference(key);
 		preference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		final RTU rtu = mData.getRTU(key);
@@ -141,7 +144,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 			
 			@Override
 			public boolean onPreferenceChange(Preference pref, Object value) {
-				mData.setValue(pref.getKey(), Integer.valueOf(value.toString()));
+				mData.setValue(pref.getKey(), Integer.valueOf(value.toString()),from,len);
 				preference.setText(value.toString());
 				preference.setSummary(getSummary(value.toString(), rtu));
 				return true;
@@ -332,14 +335,26 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		}
 
 		@Override
-		void setupListPreference(String key) {
+		void setupListPreference(final String key) {
 			final ListPreference preference = (ListPreference) findPreference(key);
-			byte datas[] = Utils.toHexBytes("00020000");
-			byte data = datas[1];
-//			byte data = getValue(key)[1];//2nd byte
+//			byte datas[] = Utils.toHexBytes("00020000");
+//			byte data = datas[1];
+			byte data = getValue(key)[1];//2nd byte
 			int value = (data & 0x04) >> 2; //mask -> 0000 0100;
 			
 			setPreferenceIndex(preference, String.valueOf(value));
+			preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+				
+				@Override
+				public boolean onPreferenceChange(Preference arg, Object newValue) {
+					setPreferenceIndex(preference, newValue.toString());
+					int value = Utils.toInteger(getValue(key));
+					int data = Integer.valueOf(newValue.toString());
+					value = (value | 0x40000) & (data << 18);
+					mData.setValue(key, value);
+					return false;
+				}
+			});
 		}
 
 		@Override
@@ -356,7 +371,6 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Utils.log("EntiretyParamsSettings.onCreate");
 		ActionBar bar = getActivity().getActionBar();
 		bar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP
 				| ActionBar.DISPLAY_SHOW_TITLE);

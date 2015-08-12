@@ -1,11 +1,13 @@
 package com.nordicsemi.nrfUARTv2;
 
+import android.R.integer;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceScreen;
+import android.text.InputType;
 
 public class SensorSettings extends ParamsSettings {
 	
@@ -85,6 +87,7 @@ public class SensorSettings extends ParamsSettings {
 	@Override
 	protected byte[] getValue(String key) {
 		int address = mData.getAddress(key);
+		Utils.log("getValue.key = "+key);
 		return mData.getValue(address + mOffset);
 	}
 
@@ -105,6 +108,7 @@ public class SensorSettings extends ParamsSettings {
 	 */
 	private void setupEditTextPreference2(String key) {
 		final EditTextPreference pref = (EditTextPreference) findPreference(key);
+		pref.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		final RTU rtu = mData.getRTU(key);
 		byte[] data = getValue(key);
 		int symbol = Utils.toInteger(data[0]);
@@ -145,7 +149,8 @@ public class SensorSettings extends ParamsSettings {
 		
 		final ListPreference preference2 = (ListPreference) findPreference(key2);
 		value = datas[3] & 0x0f;
-		setPreferenceIndex(preference2, String.valueOf(value));
+		String a = Integer.toHexString(value);
+		setPreferenceIndex(preference2, Integer.toHexString(value));
 		
 		preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			

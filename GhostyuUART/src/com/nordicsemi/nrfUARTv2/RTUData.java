@@ -358,6 +358,10 @@ public class RTUData {
 		if (value == null) {
 			value = new byte[4];
 		}
+		if (Utils.debugOn()) {
+			Utils.log("getValue.address = "+address);
+			Utils.log("getValue.value = "+Utils.toHexString(value));
+		}
 		return value;
 	}
 
@@ -500,42 +504,27 @@ public class RTUData {
 		if (Utils.debugOn()) {
 			assert oldValue.length == 4;
 		}
+		System.arraycopy(new byte[len], 0, oldValue, from, len);
 		if (len > value.length) {
-			from = len - value.length;
+			from = (len + from) - value.length;
 		}
 		System.arraycopy(value, 0, oldValue, from, value.length);
 		mDataCache.put(address, oldValue);
+
+		if (Utils.debugOn()) {
+			byte[] data = mDataCache.get(address);
+			Utils.log("address = "+address);
+			Utils.log("data.length = "+ data.length);
+			Utils.log("newValue = 0x" + Utils.toHexString(oldValue));
+			Utils.log("data = 0x" + Utils.toHexString(data));
+			Utils.log("from,len = "+from+","+len);
+			Utils.log("***********************************************\n\n");
+		}
 	}
 
 	public void setValue(String key, byte[] value,int from,int len) {
-		if (value.length > 4) {
-			throw new RuntimeException("value length must less than 4.");
-		}
-		if (len > 4) {
-			throw new RuntimeException("len must less than 4.");
-		}
-		int address = mKeyTable.getAddress(key);
-		byte[] oldValue = mDataCache.get(address);
-		Utils.log("address : "+ address);
-		Utils.log("oldValue = "+Utils.toHexString(oldValue));
-		if (Utils.debugOn()) {
-			assert oldValue.length == 4;
-		}
-		if (len > value.length) {
-			from = len - value.length;
-		}
-		System.arraycopy(value, 0, oldValue, from, value.length);
-		byte[] newValue = oldValue;
-		mDataCache.put(address, newValue);
-		
-		if (Utils.debugOn()) {
-			byte[] data = mDataCache.get(address);
-			Utils.log("data.length = "+ data.length);
-			Utils.log("newValue = " + Utils.toHexString(oldValue));
-			Utils.log("data = " + Utils.toHexString(data));
-			Utils.log("***********************************************\n\n");
-//			showCache();
-		}
+		Utils.log("key = "+key);
+		setValue(mKeyTable.getAddress(key),value,from,len);
 	}
 
 	public RTU getRTU(String key) {

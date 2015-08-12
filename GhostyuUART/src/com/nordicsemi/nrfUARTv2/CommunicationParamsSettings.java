@@ -2,6 +2,7 @@ package com.nordicsemi.nrfUARTv2;
 
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.text.InputType;
 
 public class CommunicationParamsSettings extends ParamsSettings {
 
@@ -44,8 +45,9 @@ public class CommunicationParamsSettings extends ParamsSettings {
 		setupSwitchPreference(RTUData.KEY_TSM_FUNC);
 	}
 
-	void setupSwitchEditTextPreference(String valueKey,final String switchKey) {
+	void setupSwitchEditTextPreference(final String valueKey,final String switchKey) {
 		final SwitchEditTextPreference preference = (SwitchEditTextPreference) findPreference(valueKey);
+		preference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		byte[] data = mData.getValue(valueKey);
 		String value = Utils.toIntegerString(data);
 		preference.setText(value);
@@ -63,13 +65,15 @@ public class CommunicationParamsSettings extends ParamsSettings {
 			@Override
 			public boolean onPreferenceChange(Preference arg0, Object arg1) {
 				// TODO Auto-generated method stub
-				int value = (Integer) arg1;
+				int value = Integer.valueOf(arg1.toString());
 				if(value == 0) {
 					preference.setChecked(false);
 				} else {
 					preference.setChecked(true);
 				}
-				mData.setValue(switchKey, value);
+				mData.setValue(valueKey, value);
+				preference.setSummary(getSummary(value, mData.getRTU(valueKey)));
+				preference.setText(String.valueOf(value));
 				return false;
 			}
 		});

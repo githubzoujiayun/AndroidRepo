@@ -9,7 +9,7 @@ import android.widget.Toast;
 public class Utils {
 	
 	private static final String TAG = "RTU";
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	
 	public static String toHexString(byte[] datas,int from,int len) {
 		byte[] value = new byte[len];

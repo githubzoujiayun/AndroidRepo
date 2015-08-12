@@ -35,7 +35,7 @@
             android:switchTextOff="@string/uniform_switch_off"
             android:switchTextOn="@string/uniform_switch_on"
             android:title="@string/uniform_interval"
-            android:widgetLayout="@layout/preference_switch_array" />
+            android:widgetLayout="@layout/preference_switch" />
 
         <EditTextPreference
             android:key="communication_password"
@@ -46,7 +46,7 @@
             android:switchTextOff="@string/heartbeat_switch_off"
             android:switchTextOn="@string/heartbeat_switch_on"
             android:title="@string/heartbeat_interval"
-            android:widgetLayout="@layout/preference_switch_array" />
+            android:widgetLayout="@layout/preference_switch" />
 
         <EditTextPreference
             android:key="center_address1"

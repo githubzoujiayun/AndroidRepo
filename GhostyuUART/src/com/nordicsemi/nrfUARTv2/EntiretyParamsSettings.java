@@ -138,7 +138,7 @@ public class EntiretyParamsSettings extends ParamsSettings implements OnPreferen
 							data = 1;
 						}
 						int intValue = Utils.toInteger(getValue(key));
-						intValue = intValue | 0x10000 & data;//
+						intValue = (intValue | 0x10000) & (data << 16);//
 						setValue(key,Utils.toHexBytes(intValue));
 						return true;
 					}
