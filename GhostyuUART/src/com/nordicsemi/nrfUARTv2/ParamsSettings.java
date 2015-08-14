@@ -54,7 +54,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 			@Override
 			public boolean onPreferenceChange(Preference pref, Object value) {
 				String text = value.toString();
-				mData.setValue(pref.getKey(), Integer.valueOf(text));
+				setValue(pref.getKey(), Integer.valueOf(text),0,4);
 				preference.setText(text);
 				preference.setSummary(getSummary(text, rtu));
 				return true;
@@ -101,13 +101,17 @@ public abstract class ParamsSettings extends PreferenceFragment {
 						if (Boolean.valueOf(value.toString()).equals(true)) {
 							result = 1;
 						}
-						mData.setValue(pref.getKey(), result);
+						setValue(pref.getKey(), result,0,4);
 						return true;
 					}
 				});
 	}
 	
 	void setupSwitchPreference(String key) {
+		setupSwitchPreference(key,0,4);
+	}
+	
+	void setupSwitchPreference(String key,final int from,final int len) {
 		SwitchPreference preference = (SwitchPreference) findPreference(key);
 		byte[] data = getValue(key);
 		String value = Utils.toIntegerString(data);
@@ -126,7 +130,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 						if (value.equals(true)) {
 							data = 1;
 						}
-						mData.setValue(pref.getKey(), data);
+						setValue(pref.getKey(), data,from,len);
 						return true;
 					}
 				});
@@ -134,7 +138,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	
 	void setupEditTextPreference(String key,final int from,final int len) {
 		final EditTextPreference preference = (EditTextPreference) findPreference(key);
-		preference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		preference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_SIGNED);
 		final RTU rtu = mData.getRTU(key);
 		byte[] data = getValue(key);
 		String value = Utils.toIntegerString(data,from,len);
@@ -144,7 +148,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 			
 			@Override
 			public boolean onPreferenceChange(Preference pref, Object value) {
-				mData.setValue(pref.getKey(), Integer.valueOf(value.toString()),from,len);
+				setValue(pref.getKey(), Integer.valueOf(value.toString()),from,len);
 				preference.setText(value.toString());
 				preference.setSummary(getSummary(value.toString(), rtu));
 				return true;
@@ -172,6 +176,10 @@ public abstract class ParamsSettings extends PreferenceFragment {
 		mData.setValue(key,value);
 	}
 	
+	protected void setValue(String key, int intValue, int from, int len) {
+		mData.setValue(key,intValue,from,len);
+	}
+	
 	protected void setValue(String key,byte[] value,int from,int len) {
 		mData.setValue(key,value,from,len);
 	}
@@ -197,11 +205,11 @@ public abstract class ParamsSettings extends PreferenceFragment {
 			public boolean onPreferenceChange(Preference arg0, Object value) {
 				switch (valueType) {
 				case VALUE_TYPE_INTEGER:
-					mData.setValue(preference.getKey(), Integer.valueOf(value.toString()),from,len);
+					setValue(preference.getKey(), Integer.valueOf(value.toString()),from,len);
 					setPreferenceIndex(preference, String.valueOf(value));
 					break;
 				case VALUE_TYPE_HEX:
-					mData.setValue(preference.getKey(), Utils.toHexBytes(value.toString()),from,len);
+					setValue(preference.getKey(), Utils.toHexBytes(value.toString()),from,len);
 					setPreferenceIndex(preference, String.valueOf(value));
 					break;
 				default:
@@ -273,7 +281,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 					summary = summary.substring(0,summary.length()-1);
 				}
 				preference.setSummary(summary);
-				mData.setValue(preference.getKey(), value,2,2);
+				setValue(preference.getKey(), value,2,2);
 				return false;
 			}
 		});
@@ -351,7 +359,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 					int value = Utils.toInteger(getValue(key));
 					int data = Integer.valueOf(newValue.toString());
 					value = (value | 0x40000) & (data << 18);
-					mData.setValue(key, value);
+					setValue(key, value,0,4);
 					return false;
 				}
 			});

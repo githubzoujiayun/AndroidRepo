@@ -41,6 +41,8 @@ public class DataManager {
 	private boolean mRecivered = false;
 //	private BlockingQueue<Command> mQueue = new LinkedBlockingQueue<Command>();
 	
+	private boolean mResetCount = false;
+	
 	private ArrayList<DataListener> mListeners = new ArrayList<DataListener>();
 	
 	public interface DataListener{
@@ -275,7 +277,12 @@ public class DataManager {
 		Command cmd = null;
 		int count = 0;
 		Command lastCommand = null;
+		mResetCount = false;
 		while((cmd = mQueue.peek()) != null) {
+			if (mResetCount) {//this value may be set by another async thread.
+				mResetCount = false;
+				count = 0;
+			}
 			boolean succed = write(Utils.toHexBytes(cmd.toCommand()));
 			if (!succed) {
 				Utils.log("count = " + count);
@@ -482,8 +489,12 @@ public class DataManager {
 		int register = ((datas[0] & 0x0f) << 8) + (datas[1] & 0xff);
 		int len = (datas[2] & 0xff);
 		
+		byte[] value = new byte[len];
+		System.arraycopy(datas, 3, value, 0, len);
+		
 		if ( !deal) {
 			if (firstByte == 0xB && register == 0xA02) {
+				mResetCount = true;
 				return;
 			}
 			parse(datas);

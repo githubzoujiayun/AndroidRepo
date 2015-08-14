@@ -42,7 +42,7 @@ public class CommunicationParamsSettings extends ParamsSettings {
 		setupEditTextPreference(RTUData.KEY_PREHEAT_TIME_BACKUP);
 		
 		//tsm
-		setupSwitchPreference(RTUData.KEY_TSM_FUNC);
+		setupSwitchPreference(RTUData.KEY_TSM_FUNC,0,3);
 	}
 
 	void setupSwitchEditTextPreference(final String valueKey,final String switchKey) {
@@ -72,6 +72,7 @@ public class CommunicationParamsSettings extends ParamsSettings {
 					preference.setChecked(true);
 				}
 				mData.setValue(valueKey, value);
+				mData.setValue(switchKey, value!=0?1:0);
 				preference.setSummary(getSummary(value, mData.getRTU(valueKey)));
 				preference.setText(String.valueOf(value));
 				return false;

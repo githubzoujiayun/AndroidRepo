@@ -488,6 +488,10 @@ public class RTUData {
 		setValue(key, value,0,4);
 	}
 	
+	public void setValue(int address,int value) {
+		setValue(address, value,0,4);
+	}
+	
 	public void setValue(int address,int value, int from, int len) {
 		setValue(address, Utils.toHexBytes(Integer.toHexString(value)),from,len);
 	}

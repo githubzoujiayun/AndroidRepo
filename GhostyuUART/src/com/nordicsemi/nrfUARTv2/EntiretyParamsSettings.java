@@ -110,8 +110,12 @@ public class EntiretyParamsSettings extends ParamsSettings implements OnPreferen
 			
 			@Override
 			public boolean onPreferenceChange(Preference arg0, Object newValue) {
-				int value = Boolean.valueOf(newValue.toString())?1:0;
+				int checked = Boolean.valueOf(newValue.toString())?1:0;
 //				setValue(key, value,0,2);
+				byte datas[] = mData.getValue(key);
+				int value = Utils.toInteger(datas);
+				value = (value | 0x10000) & (checked << 16);
+				mData.setValue(key, value);
 				return true;
 			}
 		});

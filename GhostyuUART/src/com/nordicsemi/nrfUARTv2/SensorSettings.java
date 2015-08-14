@@ -90,6 +90,25 @@ public class SensorSettings extends ParamsSettings {
 		Utils.log("getValue.key = "+key);
 		return mData.getValue(address + mOffset);
 	}
+	
+	protected void setValue(String key,int value) {
+		int address = mData.getAddress(key);
+		mData.setValue(address + mOffset, value);
+	}
+	
+	@Override
+	protected void setValue(String key,int value,int from,int len) {
+		int address = mData.getAddress(key);
+		Utils.log("getValue.key = "+(key));
+		mData.setValue(address + mOffset,value,from,len);
+	}
+	
+	@Override
+	protected void setValue(String key,byte[] value,int from,int len) {
+		int address = mData.getAddress(key);
+		Utils.log("getValue.key = "+(key));
+		mData.setValue(address + mOffset,value,from,len);
+	}
 
 	private void setupVerify(String key) {
 		ListPreference verify = (ListPreference) findPreference(key);
@@ -100,6 +119,14 @@ public class SensorSettings extends ParamsSettings {
 		int s2 = (value & 0x0f);
 		int s = s1 * 3 + s2;
 		setPreferenceIndex(verify, String.valueOf(s));
+		
+		verify.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference arg0, Object newValue) {
+				return false;
+			}
+		});
 	}
 
 	/** 
@@ -130,8 +157,9 @@ public class SensorSettings extends ParamsSettings {
 				}
 				pref.setText(String.valueOf(value));
 				pref.setSummary(getSummary(value, rtu));
-				mData.setValue(pref.getKey(), symbol,0,1);
-				mData.setValue(pref.getKey(), value,1,3);
+				
+				setValue(pref.getKey(), symbol,0,1);
+				setValue(pref.getKey(), value,1,3);
 				return false;
 			}
 		});
@@ -164,10 +192,10 @@ public class SensorSettings extends ParamsSettings {
 				int type = Utils.h2d(newValue.toString());
 				int value = (type << 4) + v2;
 				if (type < 7) {
-					mData.setValue(preference.getKey(), value);
+					setValue(preference.getKey(), value);
 					return false;
 				}
-				mData.setValue(preference.getKey(), type,3,1);
+				setValue(preference.getKey(), type,3,1);
 				return false;
 			}
 		});
@@ -186,7 +214,7 @@ public class SensorSettings extends ParamsSettings {
 				Utils.log("value = "+value);
 				if (type < 7) {
 					setPreferenceIndex(preference2, String.valueOf(newValue.toString()));
-					mData.setValue(preference.getKey(), value,3,1);
+					setValue(preference.getKey(), value,3,1);
 				}
 //				mData.setValue(preference.getKey(),type,3,1);
 				return false;
