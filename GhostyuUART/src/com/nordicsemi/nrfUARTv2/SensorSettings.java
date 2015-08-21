@@ -72,7 +72,8 @@ public class SensorSettings extends ParamsSettings {
 		setupEditTextPreference2(RTUData.KEY_DATA_BASELINE);
 		setupEditTextPreference2(RTUData.KEY_DATA_CORRECTION);
 		setupEditTextPreference2(RTUData.KEY_DATA_ZERO);
-		setupEditTextPreference2(RTUData.KEY_DATA_RATIO);
+		
+		setupEditTextPreference3(RTUData.KEY_DATA_RATIO);
 		
 		setupListPreference(RTUData.KEY_DEVICE_MODEL,VALUE_TYPE_HEX,0,4);
 		
@@ -110,8 +111,8 @@ public class SensorSettings extends ParamsSettings {
 		mData.setValue(address + mOffset,value,from,len);
 	}
 
-	private void setupVerify(String key) {
-		ListPreference verify = (ListPreference) findPreference(key);
+	private void setupVerify(final String key) {
+		final ListPreference verify = (ListPreference) findPreference(key);
 //		byte[] data = Utils.toHexBytes("00000011");
 		byte[] data = getValue(key);
 		final byte value = data[3];
@@ -124,6 +125,52 @@ public class SensorSettings extends ParamsSettings {
 			
 			@Override
 			public boolean onPreferenceChange(Preference arg0, Object newValue) {
+				int s1 = Integer.valueOf(newValue.toString()) / 3;
+				int s2 = Integer.valueOf(newValue.toString()) % 3;
+				int s = (s1 <<  4) + s2;
+				setValue(key, s);
+				setPreferenceIndex(verify, String.valueOf(newValue));
+				return false;
+			}
+		});
+	}
+	
+	/** 
+	 *  d0;d1,b0-b2 +-
+	 *  d1,b3-b7;d2-d3, value
+	 */
+	private void setupEditTextPreference3(String key) {
+		final EditTextPreference pref = (EditTextPreference) findPreference(key);
+		pref.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_SIGNED);
+		final RTU rtu = mData.getRTU(key);
+		byte[] data = getValue(key);
+//		byte[] data = Utils.toHexBytes(0x100ffff);
+		int symbol = Utils.toInteger(new byte[]{data[0],(byte)(data[1] & 0xf0)}) >> 4;
+		int value = Utils.toInteger(new byte[]{(byte)(data[1] & 0x0f),data[2],data[3]});
+		if (symbol != 0) {
+			value = -1 * value;
+		}
+		pref.setText(String.valueOf(value));
+		pref.setSummary(getSummary(value, rtu));
+		
+		pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference arg0, Object arg1) {
+				int value = Integer.valueOf(arg1.toString());
+				String text = String.valueOf(value);
+				int symbol = 0;
+				if (value < 0) {
+					symbol = 1 << 4;
+					value *= -1;
+				}
+				
+				pref.setText(String.valueOf(text));
+				pref.setSummary(getSummary(text, rtu));
+				
+				setValue(pref.getKey(), value ,1,3);
+				setValue(pref.getKey(), symbol,0,2);
+				
 				return false;
 			}
 		});
@@ -135,12 +182,13 @@ public class SensorSettings extends ParamsSettings {
 	 */
 	private void setupEditTextPreference2(String key) {
 		final EditTextPreference pref = (EditTextPreference) findPreference(key);
-		pref.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		pref.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_SIGNED);
 		final RTU rtu = mData.getRTU(key);
 		byte[] data = getValue(key);
+//		byte[] data = Utils.toHexBytes(0x100ffff);
 		int symbol = Utils.toInteger(data[0]);
 		int value = Utils.toInteger(new byte[]{data[1],data[2],data[3]});
-		if (symbol == 1) {
+		if (symbol != 0) {
 			value = -1 * value;
 		}
 		pref.setText(String.valueOf(value));
@@ -150,16 +198,20 @@ public class SensorSettings extends ParamsSettings {
 			
 			@Override
 			public boolean onPreferenceChange(Preference arg0, Object arg1) {
-				final int value = Integer.valueOf(arg1.toString());
+				int value = Integer.valueOf(arg1.toString());
+				String text = String.valueOf(value);
 				int symbol = 0;
 				if (value < 0) {
 					symbol = 1;
+					value *= -1;
 				}
-				pref.setText(String.valueOf(value));
-				pref.setSummary(getSummary(value, rtu));
+				
+				pref.setText(String.valueOf(text));
+				pref.setSummary(getSummary(text, rtu));
 				
 				setValue(pref.getKey(), symbol,0,1);
-				setValue(pref.getKey(), value,1,3);
+				setValue(pref.getKey(), value ,1,3);
+				
 				return false;
 			}
 		});

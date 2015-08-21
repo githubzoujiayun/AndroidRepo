@@ -22,6 +22,7 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -555,7 +556,7 @@ public class DataManager {
 		return mRtuData;
 	}
 
-	public void saveParams() {
+	public void saveParams(String name) {
 		String path = null;
 		String root = Environment.getExternalStorageDirectory()
 				.getAbsolutePath();
@@ -580,7 +581,11 @@ public class DataManager {
 		// "dat",parentFile).getAbsolutePath();
 		SimpleDateFormat sFormat = new SimpleDateFormat("yyyyMMdd-hhmmss",Locale.CHINA);
 		String date = sFormat.format(new Date());
-		path = parent + File.separator + "params-"+date + ".dat";
+		String fname = name;
+		if (TextUtils.isEmpty(fname)) {
+			fname = date;
+		}
+		path = parent + File.separator + fname + ".dat";
 		mRtuData.saveCache(path);
 	}
 

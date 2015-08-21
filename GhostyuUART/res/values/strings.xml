@@ -251,4 +251,7 @@
 	<string name="preheat_time_backup">预热时间</string>
 	<string name="shutdown">关闭</string>
 	<string name="report_now">雨量立即报</string>
+	<string name="dipper">北斗中心</string>
+	<string name="toast_save_params">参数已保存至文件夹: /内置存储/RFUART</string>
+	<string name="hint_enter_params_name">请输入文件名称</string>
 </resources>

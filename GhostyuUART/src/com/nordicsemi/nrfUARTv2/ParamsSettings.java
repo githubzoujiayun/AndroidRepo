@@ -37,7 +37,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	
 	void setupSwitchEditTextPreference(String key) {
 		final SwitchEditTextPreference preference = (SwitchEditTextPreference) findPreference(key);
-		preference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		preference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_SIGNED);
 		final RTU rtu = mData.getRTU(key);
 		byte[] data = getValue(key);
 //		byte[] data = Utils.toHexBytes("00000020");

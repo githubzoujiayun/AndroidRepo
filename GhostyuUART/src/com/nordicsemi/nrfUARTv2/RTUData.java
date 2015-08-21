@@ -121,6 +121,7 @@ public class RTUData {
 	public static final String KEY_BACKUP_COMMUNICATION_SPEED = "backup_communication_speed";
 	public static final String KEY_PREHEAT_TIME_BACKUP = "preheat_time_backup";
 	public static final String KEY_TSM_FUNC = "tsm_func";
+	public static final String KEY_DIPPER = "dipper";
 
 	// video settings
 	public static final String KEY_VIDEO_SWITCH = "video_switch";
@@ -174,7 +175,7 @@ public class RTUData {
 		initTable();
 		byte[] data = new byte[4];
 		mDataCache.clear();
-		for (int i = 0; i < 337; i++) {
+		for (int i = 0; i < 376; i++) {
 			data = new byte[]{0,0,0,0};
 			mDataCache.put(i, data);
 		}
@@ -304,6 +305,8 @@ public class RTUData {
 		mKeyTable.put(KEY_BACKUP_COMMUNICATION_WAY, 244);
 		mKeyTable.put(KEY_BACKUP_COMMUNICATION_SPEED, 239);// ;;enable=false
 		mKeyTable.put(KEY_TSM_FUNC, 9); // 0-2
+		
+		mKeyTable.put(KEY_DIPPER,339);
 
 		// Video settings
 		mKeyTable.put(KEY_VIDEO_SWITCH, 218); // ;0,1
@@ -414,11 +417,11 @@ public class RTUData {
 				String line = scanner.nextLine();
 				if (line.trim().length() > 0) {
 					String[] value = line.split(" , ");
-						String data = Integer.toHexString(Integer.valueOf(value[1]));
+						String data = Integer.toHexString(Integer.valueOf(value[1].trim()));
 					byte datas[] = Utils.toHexBytes(data);
 					byte[] dst = new byte[4];
 					System.arraycopy(datas, 0, dst, 4 - datas.length, datas.length);
-					mDataCache.put(Integer.valueOf(value[0]), dst);
+					mDataCache.put(Integer.valueOf(value[0].trim()) - 1, dst);
 //					Utils.log("buffer : "+buffer.toString());
 					Utils.log("value[0] = " + value[0] + " value[1] = "+ data);
 					Utils.log("****************************************\n\n");
@@ -447,13 +450,14 @@ public class RTUData {
 			int length = mDataCache.size();
 			for (int i=0;i<length;i++) {
 				StringBuffer buffer = new StringBuffer();
-				buffer.append(mDataCache.keyAt(i))
+				buffer.append(mDataCache.keyAt(i) + 1)
 					.append(" , ")
-					.append(Utils.toInteger(mDataCache.valueAt(i)));
+					.append(Utils.toInteger(mDataCache.valueAt(i)))
+					.append("\r\n");
 				Utils.log("buffer : "+buffer.toString());
 				Utils.log("key = " + mDataCache.keyAt(i) + " value = "+Utils.toInteger(mDataCache.valueAt(i)));
 				Utils.log("=====================================\n\n");
-				printer.println(buffer.toString());
+				printer.print(buffer.toString());
 				printer.flush();
 			}
 		} catch (IOException e) {

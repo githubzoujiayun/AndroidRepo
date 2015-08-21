@@ -122,6 +122,11 @@
         <EditTextPreference
             android:key="preheat_time_backup"
             android:title="@string/preheat_time_backup" />
+        
+        <EditTextPreference 
+            android:key="dipper"
+            android:title="@string/dipper"
+            />
     </PreferenceCategory>
 
 </PreferenceScreen>

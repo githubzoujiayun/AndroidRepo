@@ -4,13 +4,17 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class ParamsSettingsActivity extends PreferenceActivity {
@@ -47,7 +51,20 @@ public class ParamsSettingsActivity extends PreferenceActivity {
 		} else if (id == R.id.upload_params) {
 			new FetchTask(this).execute(FetchTask.TASK_TYPE_WRITE_PARAMS);
 		} else if (id == R.id.save_params) {
-			new FetchTask(this).execute(FetchTask.TASK_TYPE_SAVE_PARAMS);
+			final EditText et = new EditText(this);
+			et.setHint(R.string.hint_enter_params_name);
+			new AlertDialog.Builder(this)
+				.setTitle(R.string.upload_params)
+				.setView(et)
+				.setPositiveButton(android.R.string.ok, new OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int arg1) {
+						FetchTask task = new FetchTask(ParamsSettingsActivity.this);
+						task.putString("name", et.getText().toString());
+						task.execute(FetchTask.TASK_TYPE_SAVE_PARAMS);
+					}
+				}).show();
 		} else if (id == R.id.download_params) {
 			new FetchTask(this).execute(FetchTask.TASK_TYPE_FETCH);
 		}

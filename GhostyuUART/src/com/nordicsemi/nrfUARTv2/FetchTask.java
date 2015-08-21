@@ -98,7 +98,7 @@ public class FetchTask extends AsyncTask<Integer, String, Boolean>{
 			succed = true;
 			break;
 		case TASK_TYPE_SAVE_PARAMS:
-			dm.saveParams();
+			dm.saveParams(getStringExtra("name"));
 			succed = true;
 			break;
 		case TASK_TYPE_REFRESH_TIME:
@@ -147,6 +147,8 @@ public class FetchTask extends AsyncTask<Integer, String, Boolean>{
 		} else {
 			if (mType == TASK_TYPE_WRITE_PARAMS) {
 				Utils.toast(mContext, R.string.toast_upload_succed);
+			} else if (mType == TASK_TYPE_SAVE_PARAMS) {
+				Utils.toast(mContext, R.string.toast_save_params);
 			}
 			
 			SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(mContext);

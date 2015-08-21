@@ -40,6 +40,7 @@ public class CommunicationParamsSettings extends ParamsSettings {
 		setupListPreference(RTUData.KEY_BACKUP_COMMUNICATION_WAY);
 		setupListPreference(RTUData.KEY_BACKUP_COMMUNICATION_SPEED);
 		setupEditTextPreference(RTUData.KEY_PREHEAT_TIME_BACKUP);
+		setupEditTextPreference(RTUData.KEY_DIPPER);
 		
 		//tsm
 		setupSwitchPreference(RTUData.KEY_TSM_FUNC,0,3);
@@ -47,7 +48,7 @@ public class CommunicationParamsSettings extends ParamsSettings {
 
 	void setupSwitchEditTextPreference(final String valueKey,final String switchKey) {
 		final SwitchEditTextPreference preference = (SwitchEditTextPreference) findPreference(valueKey);
-		preference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		preference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_SIGNED);
 		byte[] data = mData.getValue(valueKey);
 		String value = Utils.toIntegerString(data);
 		preference.setText(value);
