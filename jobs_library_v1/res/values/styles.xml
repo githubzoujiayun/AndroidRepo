@@ -1,0 +1,6 @@
+<resources>
+    <style name="app_base_heme" parent="android:Theme.Light">
+    </style>
+    <style name="app_theme" parent="app_base_heme">
+    </style>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/E:/svn/trunk/projects/jobs_library_v1/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="app_name">jobs_library_v1</string>
+    <!-- From: file:/E:/svn/trunk/projects/jobs_library_v1/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="app_base_heme" parent="android:Theme.Light">
+    </style>
+    <style name="app_theme" parent="app_base_heme">
+    </style>
+</resources>
