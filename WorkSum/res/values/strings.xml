@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">WorkSum</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="tab_joblist">职位</string>
+	<string name="tab_apply_record">已申请</string>
+	<string name="tab_inbox">讯息</string>
+	<string name="tab_self">我</string>
+	<string name="title_applied">已申请职位</string>
+	<string name="title_message">讯息</string>
+	<string name="title_self">我</string>
+</resources>
