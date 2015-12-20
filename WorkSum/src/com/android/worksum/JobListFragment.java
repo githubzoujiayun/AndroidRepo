@@ -1,5 +1,11 @@
 package com.android.worksum;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+
+import com.android.worksum.controller.DotnetLoader;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.list.DataListAdapter;
@@ -7,28 +13,19 @@ import com.jobs.lib_v1.list.DataListCellSelector;
 import com.jobs.lib_v1.list.DataListView;
 import com.jobs.lib_v1.list.DataLoader;
 
-import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-
 
 public class JobListFragment extends TitlebarFragment implements OnItemClickListener {
 	
 	private DataListView mJobListView;
 
 	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 	}
 
 	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
 
@@ -70,18 +67,20 @@ public class JobListFragment extends TitlebarFragment implements OnItemClickList
 			
 			@Override
 			public DataItemResult fetchData(DataListAdapter listAdapter, int arg1, int arg2) {
-				DataItemResult result = new DataItemResult();
-				DataItemDetail detail = new DataItemDetail();
-				detail.setStringValue("jobname", "Programming");
-				detail.setStringValue("companyname", "51job");
-				detail.setStringValue("address", "zhang dong lu 1387-3");
-				detail.setStringValue("salary", "$100/H");
-				result.maxCount = 100;
-				for (int i=0;i<20;i++) {
-					result.addItem(detail.Copy());
-				}
-				SystemClock.sleep(2000);
-				return result;
+//				DataItemResult result = new DataItemResult();
+//				DataItemDetail detail = new DataItemDetail();
+//				detail.setStringValue("jobname", "Programming");
+//				detail.setStringValue("companyname", "51job");
+//				detail.setStringValue("address", "zhang dong lu 1387-3");
+//				detail.setStringValue("salary", "$100/H");
+//				result.maxCount = 100;
+//				for (int i=0;i<20;i++) {
+//					result.addItem(detail.Copy());
+//				}
+//				SystemClock.sleep(2000);
+//				return result;
+				return DotnetLoader.loadAndParseData("http://http://139.196.165.106/GetJobList");
+
 			}
 		});
 	}

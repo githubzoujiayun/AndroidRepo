@@ -1,7 +1,6 @@
 package com.android.worksum;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -10,9 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
+import com.android.worksum.views.TabFragmentHost;
+
 public class Main extends GeneralActivity {
 
-	private FragmentTabHost mTabHost;
+	private TabFragmentHost mTabHost;
 
 	private int iconIds[] = new int[] { R.drawable.indicator_job,
 			R.drawable.indicator_apply, R.drawable.indicator_msg,
@@ -38,17 +39,12 @@ public class Main extends GeneralActivity {
 	}
 
 	private void setupTabHost() {
-		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+		mTabHost = (TabFragmentHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
-//		 mTabHost.addTab(
-//		 mTabHost.newTabSpec("JobListFragment").setIndicator(
-//		 getString(R.string.tab_joblist)),
-//		 JobListFragment.class, new Bundle());
-		 
-		 LayoutInflater inflater = LayoutInflater.from(this);
+
+		LayoutInflater inflater = LayoutInflater.from(this);
 		 
 		for (int i = 0; i < fragments.length; i++) {
-			
 			
 			TabSpec tabSpec = mTabHost.newTabSpec(tabSpace[i]).setIndicator(getIndicatorView(inflater,i));
 			mTabHost.addTab(tabSpec, fragments[i], null);

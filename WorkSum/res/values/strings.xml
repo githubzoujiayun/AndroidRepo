@@ -10,4 +10,8 @@
 	<string name="title_applied">已申请职位</string>
 	<string name="title_message">讯息</string>
 	<string name="title_self">我</string>
+
+	<string name="applied_apply">已申请</string>
+	<string name="applied_passed">通过</string>
+	<string name="applied_refused">已拒绝</string>
 </resources>
