@@ -15,9 +15,9 @@ public class Main extends GeneralActivity {
 
 	private TabFragmentHost mTabHost;
 
-	private int iconIds[] = new int[] { R.drawable.indicator_job,
-			R.drawable.indicator_apply, R.drawable.indicator_msg,
-			R.drawable.indicator_me };
+	private int iconIds[] = new int[]{R.drawable.indicator_job_selector,
+			R.drawable.indicator_apply_selector, R.drawable.indicator_msg_selector,
+			R.drawable.indicator_me_selector};
 
 	private int titleIds[] = new int[] { R.string.tab_joblist,
 			R.string.tab_apply_record, R.string.tab_inbox, R.string.tab_self };
@@ -30,6 +30,7 @@ public class Main extends GeneralActivity {
 			JobListFragment.class,ApplyRecordFragment.class,
 			InboxFragment.class,SelfFragment.class
 	};
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

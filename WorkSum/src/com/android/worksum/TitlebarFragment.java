@@ -2,6 +2,7 @@ package com.android.worksum;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -19,8 +20,18 @@ public abstract class TitlebarFragment extends GeneralFragment implements OnClic
 			throw new AppException(
 					"TitleFragment need including layout titlebar.");
 		}
+		v.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View view, MotionEvent motionEvent) {
+				//让contentview的touch事件返回true，
+				// 阻止后一层fragment(JobListFragment)滑动、点击事件
+				return true;
+			}
+		});
 		mLeftAction = (TextView) v.findViewById(R.id.bar_left_action);
-		mRightAction = (TextView) v.findViewById(R.id.bar_right_actionÏ);
+		mRightAction = (TextView) v.findViewById(R.id.bar_right_action);
+		mLeftAction.setOnClickListener(this);
+		mRightAction.setOnClickListener(this);
 		mTitle = (TextView) v.findViewById(R.id.bar_title);
 	}
 	

@@ -14,4 +14,25 @@
 	<string name="applied_apply">已申请</string>
 	<string name="applied_passed">通过</string>
 	<string name="applied_refused">已拒绝</string>
+	<string name="job_search_hint">职位名称、职位描述</string>
+	<string name="job_filter_done">完成</string>
+	<string name="job_filter_sort">排序</string>
+	<string name="sort_type_date">发布日期</string>
+	<string name="sort_type_salary">薪资</string>
+	<string name="sort_type_distance">距离</string>
+	<string name="job_filter_refilter">重新筛选</string>
+	<string name="job_filter_schedule">工作类型</string>
+	<string name="filter_schedule_temp">临时工</string>
+	<string name="filter_schedule_part">兼职</string>
+	<string name="filter_schedule_full">全职</string>
+	<string name="filter_schedule_title">工作类型</string>
+	<string name="filter_distance_title">最远距离</string>
+	<string name="filter_distance_any">ANY</string>
+	<string name="filter_distance_mi2">2 MI</string>
+	<string name="filter_distance_mi5">5 MI</string>
+	<string name="filter_distance_mi10">10 MI</string>
+	<string name="filter_distance_mi25">25 MI</string>
+	<string name="filter_pay_title">小时薪水</string>
+	<string name="filter_pay_size">$0</string>
+	<string name="filter_industries_title">行业类别</string>
 </resources>

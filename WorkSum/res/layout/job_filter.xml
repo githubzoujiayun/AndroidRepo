@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_ffffff">
+
+    <include layout="@layout/title_bar"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_top_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:text="@string/job_filter_sort"/>
+
+    <RadioGroup
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_top_margin"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:background="#bbbbbb"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/sort_type_date"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:textSize="@dimen/filter_common_text_size"
+            android:text="@string/sort_type_date"/>
+
+        <RadioButton
+            android:id="@+id/sort_type_salary"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:textSize="@dimen/filter_common_text_size"
+            android:text="@string/sort_type_salary"/>
+
+        <RadioButton
+            android:id="@+id/sort_type_distance"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/filter_common_text_size"
+            android:text="@string/sort_type_distance"/>
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/filter_divide"
+        android:layout_marginTop="@dimen/filter_top_margin"
+        android:background="#ffbbbbbb"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/filter_top_margin"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:text="@string/job_filter_refilter"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_type_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:text="@string/filter_schedule_title"/>
+
+    <RadioGroup
+        android:id="@+id/filter_schedule_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_top_margin"
+        android:background="#bbbbbb"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/filter_schedule_temp"
+            android:text="@string/filter_schedule_temp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textSize="@dimen/filter_common_text_size"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:id="@+id/filter_schedule_part"
+            android:text="@string/filter_schedule_part"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:padding="10dp"
+            android:textSize="@dimen/filter_common_text_size"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:id="@+id/filter_schedule_full"
+            android:text="@string/filter_schedule_full"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:button="@null"
+            android:padding="10dp"
+            android:textSize="@dimen/filter_common_text_size"
+            android:layout_height="wrap_content"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_type_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:text="@string/filter_distance_title"/>
+
+    <RadioGroup
+        android:id="@+id/filter_distance_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_top_margin"
+        android:background="#bbbbbb"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/filter_distance_any"
+            android:text="@string/filter_distance_any"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textSize="@dimen/filter_common_text_size"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:id="@+id/filter_schedule_mi2"
+            android:text="@string/filter_distance_mi2"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:padding="10dp"
+            android:textSize="@dimen/filter_common_text_size"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:id="@+id/filter_schedule_mi5"
+            android:text="@string/filter_distance_mi5"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:padding="10dp"
+            android:textSize="@dimen/filter_common_text_size"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:id="@+id/filter_schedule_mi10"
+            android:text="@string/filter_distance_mi10"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:padding="10dp"
+            android:textSize="@dimen/filter_common_text_size"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:id="@+id/filter_schedule_mi25"
+            android:text="@string/filter_distance_mi25"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:padding="10dp"
+            android:textSize="@dimen/filter_common_text_size"
+            android:layout_height="wrap_content"/>
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_type_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:text="@string/filter_pay_title"/>
+
+    <TextView
+        android:id="@+id/filter_pay_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="@dimen/filter_top_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:text="@string/filter_pay_size"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        />
+
+    <SeekBar
+        android:id="@+id/filter_pay_seek"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_top_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/filter_type_margin"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:background="#bbbbbb"
+        android:text="@string/filter_industries_title"/>
+
+    <com.jobs.lib_v1.list.DataListView
+        android:id="@+id/industries_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.jobs.lib_v1.list.DataListView>
+
+</LinearLayout>
