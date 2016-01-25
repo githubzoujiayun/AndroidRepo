@@ -15,10 +15,13 @@ public abstract class GeneralFragment extends Fragment {
     private static final int RESULT_OK = 0;
     private static final int RESULT_CANCEL = 0;
 
+    View mLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AppUtil.lifeSycle(this.getClass().getName() + "/onCreateView()");
         View v = inflater.inflate(getLayoutId(), container,false);
+        mLayout = v;
 		setupView(v,savedInstanceState);
 		return v;
 	}
@@ -26,6 +29,10 @@ public abstract class GeneralFragment extends Fragment {
 	void setupView(View v, Bundle savedInstanceState) {
 		
 	}
+
+    public View findViewById(int id) {
+        return mLayout.findViewById(id);
+    }
 
 	public abstract int getLayoutId();
 
@@ -124,5 +131,9 @@ public abstract class GeneralFragment extends Fragment {
 
     void onFragmentResult(int requestCode, int resultCode, Bundle bundle) {
 
+    }
+
+    protected void onBackPressed() {
+        getActivity().onBackPressed();
     }
 }

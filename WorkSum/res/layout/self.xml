@@ -7,4 +7,64 @@
 	<include 
 	    layout="@layout/title_bar"
 	    />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:alpha="0.7"
+            android:src="@drawable/self_bg"/>
+        <com.android.worksum.views.HeaderIconView
+            android:id="@+id/header_icon"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_marginLeft="20dp"/>
+        <TextView
+            android:id="@+id/user_name"
+            android:textColor="@color/white_ffffff"
+            android:textSize="14sp"
+            android:text="@string/default_user_name"
+            android:layout_alignBaseline="@id/header_icon"
+            android:layout_toRightOf="@id/header_icon"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/user_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_user_title"
+            android:layout_alignLeft="@id/user_name"
+            android:layout_below="@id/user_name"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/white_ffffff"
+            />
+
+        <TextView
+            android:id="@+id/user_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/default_user_profile"
+            android:layout_below="@id/header_icon"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/white_ffffff"
+            />
+    </RelativeLayout>
+
+    <com.jobs.lib_v1.list.DataListView
+        android:id="@+id/items_list"
+        android:layout_marginTop="20dp"
+        android:scrollbars="none"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </com.jobs.lib_v1.list.DataListView>
 </LinearLayout>

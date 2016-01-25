@@ -35,4 +35,18 @@
 	<string name="filter_pay_title">小时薪水</string>
 	<string name="filter_pay_size">$0</string>
 	<string name="filter_industries_title">行业类别</string>
+	<string name="default_user_name">未知姓名</string>
+	<string name="default_user_title">未知职称</string>
+	<string name="default_user_profile">\ \ \ \ 英文简历是使用英文写的简历。英文简历（resume）并无固定不变的单一形式，应聘者完全可以根据个人的具体情况来确定采用何种形式，灵活设计。English Resume 一般来说，根据个人经历的不同侧重点，...</string>
+	<string name="test_item_title">我的XX</string>
+	<string name="test_item_description">我也不知道这要怎么写</string>
+	<string name="self_my_resume">我的简历</string>
+	<string name="self_resume_description">请完善好基本信息和个人简介</string>
+	<string name="self_my_video">我的视频</string>
+	<string name="self_video_description">秀下你，你会被看重的机会越多哦！</string>
+	<string name="self_my_settings">系统设置</string>
+	<string name="self_settings_description">更改语言，讯息推送、隐私设置等</string>
+	<string name="my_resume">简历</string>
+	<string name="my_resume_title">简历</string>
+	<string name="my_resume_action_save">保存</string>
 </resources>

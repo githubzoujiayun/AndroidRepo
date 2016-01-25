@@ -19,4 +19,25 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="radio_button_common_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/filter_common_text_size</item>
+        <item name="android:textColor">@drawable/sort_text_color</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="radio_button_red_ef1d19_style" parent="radio_button_common_style">
+        <item name="android:textColor">@drawable/sort_text_color</item>
+        <item name="android:background">@drawable/shape_corner_common_ef1d19</item>
+    </style>
+
+    <style name="radio_button_green_008d14_style" parent="radio_button_common_style">
+        <item name="android:textColor">@drawable/filter_green_color_selector</item>
+        <item name="android:background">@drawable/shape_corner_common_008d14</item>
+    </style>
+
 </resources>

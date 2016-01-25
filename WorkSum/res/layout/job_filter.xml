@@ -22,39 +22,25 @@
         android:layout_marginTop="@dimen/filter_top_margin"
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:background="#bbbbbb"
         android:layout_height="wrap_content">
 
         <RadioButton
             android:id="@+id/sort_type_date"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:button="@null"
-            android:gravity="center_horizontal"
-            android:padding="10dp"
-            android:textSize="@dimen/filter_common_text_size"
+            style="@style/radio_button_red_ef1d19_style"
+            android:background="@drawable/shape_left_corner_ef1d19"
             android:text="@string/sort_type_date"/>
 
         <RadioButton
             android:id="@+id/sort_type_salary"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:button="@null"
-            android:gravity="center_horizontal"
-            android:padding="10dp"
-            android:textSize="@dimen/filter_common_text_size"
-            android:text="@string/sort_type_salary"/>
+            style="@style/radio_button_red_ef1d19_style"
+            android:background="@drawable/shape_corner_common_ef1d19"
+            android:text="@string/sort_type_salary"
+            android:checked="true"/>
 
         <RadioButton
             android:id="@+id/sort_type_distance"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:button="@null"
-            android:gravity="center_horizontal"
-            android:padding="10dp"
-            android:layout_height="wrap_content"
+            style="@style/radio_button_red_ef1d19_style"
+            android:background="@drawable/shape_corner_right_ef1d19"
             android:textSize="@dimen/filter_common_text_size"
             android:text="@string/sort_type_distance"/>
     </RadioGroup>
@@ -68,9 +54,12 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/filter_top_margin"
+        android:layout_marginTop="@dimen/filter_type_margin"
         android:layout_marginLeft="@dimen/filter_horizontal_margin"
         android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:background="@drawable/filter_search_button_bg"
+        android:textColor="@color/white_ffffff"
+        android:textSize="@dimen/filter_common_text_size"
         android:text="@string/job_filter_refilter"/>
 
     <TextView
@@ -88,41 +77,26 @@
         android:layout_marginLeft="@dimen/filter_horizontal_margin"
         android:layout_marginRight="@dimen/filter_horizontal_margin"
         android:layout_marginTop="@dimen/filter_top_margin"
-        android:background="#bbbbbb"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/filter_schedule_temp"
             android:text="@string/filter_schedule_temp"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:button="@null"
-            android:gravity="center"
-            android:padding="10dp"
-            android:textSize="@dimen/filter_common_text_size"
-            android:layout_height="wrap_content"/>
+            style="@style/radio_button_green_008d14_style"
+            android:background="@drawable/shape_left_corner_008d14"/>
 
         <RadioButton
             android:id="@+id/filter_schedule_part"
             android:text="@string/filter_schedule_part"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:button="@null"
-            android:padding="10dp"
-            android:textSize="@dimen/filter_common_text_size"
+            android:background="@drawable/shape_corner_common_008d14"
+            style="@style/radio_button_green_008d14_style"
             android:layout_height="wrap_content"/>
 
         <RadioButton
             android:id="@+id/filter_schedule_full"
+            style="@style/radio_button_green_008d14_style"
             android:text="@string/filter_schedule_full"
-            android:layout_width="0dp"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:button="@null"
-            android:padding="10dp"
-            android:textSize="@dimen/filter_common_text_size"
-            android:layout_height="wrap_content"/>
+            android:background="@drawable/shape_corner_right_008d14"/>
 
     </RadioGroup>
 
@@ -141,63 +115,40 @@
         android:layout_marginLeft="@dimen/filter_horizontal_margin"
         android:layout_marginRight="@dimen/filter_horizontal_margin"
         android:layout_marginTop="@dimen/filter_top_margin"
-        android:background="#bbbbbb"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/filter_distance_any"
             android:text="@string/filter_distance_any"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:button="@null"
-            android:gravity="center"
-            android:padding="10dp"
-            android:textSize="@dimen/filter_common_text_size"
-            android:layout_height="wrap_content"/>
+            style="@style/radio_button_green_008d14_style"
+            android:background="@drawable/shape_left_corner_008d14"
+            android:checked="true"
+            />
 
         <RadioButton
             android:id="@+id/filter_schedule_mi2"
             android:text="@string/filter_distance_mi2"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:button="@null"
-            android:padding="10dp"
-            android:textSize="@dimen/filter_common_text_size"
-            android:layout_height="wrap_content"/>
+            style="@style/radio_button_green_008d14_style"
+            />
 
         <RadioButton
             android:id="@+id/filter_schedule_mi5"
             android:text="@string/filter_distance_mi5"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:button="@null"
-            android:padding="10dp"
-            android:textSize="@dimen/filter_common_text_size"
-            android:layout_height="wrap_content"/>
+            style="@style/radio_button_green_008d14_style"
+            />
 
         <RadioButton
             android:id="@+id/filter_schedule_mi10"
             android:text="@string/filter_distance_mi10"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:button="@null"
-            android:padding="10dp"
-            android:textSize="@dimen/filter_common_text_size"
-            android:layout_height="wrap_content"/>
+            style="@style/radio_button_green_008d14_style"/>
 
         <RadioButton
             android:id="@+id/filter_schedule_mi25"
             android:text="@string/filter_distance_mi25"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:button="@null"
-            android:padding="10dp"
-            android:textSize="@dimen/filter_common_text_size"
-            android:layout_height="wrap_content"/>
+            style="@style/radio_button_green_008d14_style"
+            android:background="@drawable/shape_corner_right_008d14"
+            />
+
     </RadioGroup>
 
     <TextView

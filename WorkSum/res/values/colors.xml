@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 	<color name="blue_main">#ff336699</color>
-	<color name="white_ffffff">#ffffffff</color>    
+	<color name="white_ffffff">#ffffffff</color>
+	<color name="red_sort_ef1d19">#ef1d19</color>
+	<color name="black_000000">#000000</color>
+	<color name="filter_green_008d14">#008d14</color>
+	<color name="filter_green_bb008d14">#bb008d14</color>
+	<color name="filter_green_77008d14">#77008d14</color>
 </resources>
