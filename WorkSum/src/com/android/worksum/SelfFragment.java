@@ -50,21 +50,21 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
         detail.setIntValue("id",ID_MY_RESUME);
         detail.setIntValue("titleId",R.string.self_my_resume);
         detail.setIntValue("descriptionId",R.string.self_resume_description);
-        detail.setIntValue("iconId", R.drawable.ic_launcher);
+        detail.setIntValue("iconId", R.drawable.me_resume);
         datas.addItem(detail);
 
         detail = new DataItemDetail();
         detail.setIntValue("id",ID_MY_VIDEO);
         detail.setIntValue("titleId",R.string.self_my_video);
         detail.setIntValue("descriptionId",R.string.self_video_description);
-        detail.setIntValue("iconId", R.drawable.ic_launcher);
+        detail.setIntValue("iconId", R.drawable.me_video);
         datas.addItem(detail);
 
         detail = new DataItemDetail();
         detail.setIntValue("id",ID_SYSTEM_SETTINGS);
         detail.setIntValue("titleId",R.string.self_my_settings);
         detail.setIntValue("descriptionId",R.string.self_settings_description);
-        detail.setIntValue("iconId", R.drawable.ic_launcher);
+        detail.setIntValue("iconId", R.drawable.me_settings);
         datas.addItem(detail);
         return datas;
     }

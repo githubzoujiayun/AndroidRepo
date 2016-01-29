@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:alpha="0.7"
-            android:src="@drawable/self_bg"/>
+            android:src="@drawable/me_bg"/>
         <com.android.worksum.views.HeaderIconView
             android:id="@+id/header_icon"
             android:layout_width="130dp"
