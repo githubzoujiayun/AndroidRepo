@@ -30,6 +30,7 @@ import com.jobs.lib_v1.net.NetworkManager;
  * @date 2012-09-16
  */
 public class AppUtil {
+	private static final boolean DEBUG_LIFE_SYCLE = false;
 	private static boolean _debug_has_checked = false;  // 调试开关一旦检测过，此变量将被置为 true
 	private static boolean _debug_has_enabled = false; // 调试开关是否打开
 	private static boolean _debug_proxy_enabled = false; // 调试模式下，代理是否启用
@@ -278,11 +279,17 @@ public class AppUtil {
 	 * @date 2012-09-18
 	 */
 	public static void print(String x) {
-		if (null == x || !allowDebug()) {
-			return;
-		}
+//		if (null == x || !allowDebug()) {
+//			return;
+//		}
 
-		System.out.println(x);
+		android.util.Log.e("chao.qin",x);
+	}
+
+	public static void lifeSycle(String s) {
+		if (DEBUG_LIFE_SYCLE) {
+			android.util.Log.e("chao.qin",s);
+		}
 	}
 
 	/**
@@ -355,11 +362,11 @@ public class AppUtil {
 	 * @param msg
 	 */
 	public static void error(String msg) {
-		if (null == msg || !allowDebug()) {
-			return;
-		}
+//		if (null == msg || !allowDebug()) {
+//			return;
+//		}
 
-		error(null, msg);
+		error("chao.qin", msg);
 	}
 
 	/**
