@@ -33,16 +33,7 @@ public class MyResumeFragment extends TitlebarFragment {
 
         setupInputType(R.id.resume_user_phone, InputType.TYPE_CLASS_PHONE);
         setupInputType(R.id.resume_user_email, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-
-        View loginLayout = findViewById(R.id.login_layout);
-        View unloginLayout = findViewById(R.id.unlogin_layout);
-        loginLayout.setVisibility(View.GONE);
-        unloginLayout.setVisibility(View.GONE);
-        if (UserCoreInfo.hasLogined()) {
-            loginLayout.setVisibility(View.VISIBLE);
-        } else {
-            unloginLayout.setVisibility(View.VISIBLE);
-        }
+        
     }
 
     private void setupTitle(int includeId,int titleId){

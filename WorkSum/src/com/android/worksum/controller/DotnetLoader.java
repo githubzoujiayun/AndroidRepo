@@ -30,8 +30,6 @@ public class DotnetLoader {
         DataItemResult retVal = new DataItemResult();
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         SoapObject soapObject = new SoapObject(NAMESPACE, "GetJobList");
-        //?p_strJobName=&p_fltX=1&p_fltY=1&p_StartRows=1&p_intPagSize=10&p_fltSalary=50
-//        soapObject.addProperty("p_strJobName","12212");
         soapObject.addProperty("p_fltX", 1f);
         soapObject.addProperty("p_fltY", 1f);
         soapObject.addProperty("p_StartRows", 1);
@@ -76,42 +74,44 @@ public class DotnetLoader {
 
         int eventType = parser.getEventType();
         DataItemDetail detail = null;
-        while(eventType != XmlPullParser.END_DOCUMENT) {
-            String tagName = parser.getName();
-            if ("ResultBody".equalsIgnoreCase(tagName)) {
-                eventType = parser.next();
-                continue;
-            }
-            switch (eventType) {
-                case XmlPullParser.START_DOCUMENT:
-                    AppUtil.print("start parse...");
+        String tagName = null;
+		while (eventType != XmlPullParser.END_DOCUMENT) {
+			if (eventType != XmlPullParser.TEXT) {
+				 tagName = parser.getName();
+			}
+			if ("ResultBody".equalsIgnoreCase(tagName)) {
+				eventType = parser.next();
+				continue;
+			}
+			switch (eventType) {
+			case XmlPullParser.START_DOCUMENT:
+				AppUtil.print("start parse...");
 
-                    break;
-                case XmlPullParser.START_TAG:
-                    AppUtil.print("start parse " + parser.getName());
+				break;
+			case XmlPullParser.START_TAG:
+				AppUtil.print("start parse " + parser.getName());
+				if ("Item".equalsIgnoreCase(tagName)) {
+					detail = new DataItemDetail();
+				}
+				break;
+			case XmlPullParser.END_TAG:
+				AppUtil.print("end parse " + parser.getName());
+				if ("Item".equalsIgnoreCase(tagName)) {
+					result.addItem(detail);
+				}
+				break;
+			case XmlPullParser.TEXT:
+				AppUtil.print("text " + parser.getText());
+				if ("Count".equalsIgnoreCase(tagName)) {
+					result.maxCount = Integer.parseInt(parser.getText());
+				} else {
+					detail.setStringValue(tagName, parser.getText());
 
-                    if ("Item".equalsIgnoreCase(tagName)) {
-                        detail = new DataItemDetail();
-                    }
-                    break;
-                case XmlPullParser.END_TAG:
-                    AppUtil.print("end parse " + parser.getName());
-                    if ("Item".equalsIgnoreCase(tagName)) {
-                        result.addItem(detail);
-                    }
-                    break;
-                case XmlPullParser.TEXT:
-                    AppUtil.print("text " + parser.getText());
-                    if ("Count".equalsIgnoreCase(tagName)) {
-                        result.maxCount = Integer.parseInt(parser.getText());
-                    } else {
-                        detail.setStringValue(tagName,parser.getText());
-
-                    }
-                    break;
-            }
-            eventType = parser.next();
-        }
+				}
+				break;
+			}
+			eventType = parser.next();
+		}
 
     }
 

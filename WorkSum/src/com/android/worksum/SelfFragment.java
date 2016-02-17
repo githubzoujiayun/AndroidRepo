@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.worksum.controller.UserCoreInfo;
 import com.android.worksum.views.HeaderIconView;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
@@ -55,6 +56,16 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
 
         mLoginButton = (Button) findViewById(R.id.self_login_button);
         mLoginButton.setOnClickListener(this);
+        
+        View loginLayout = findViewById(R.id.login_layout);
+        View unloginLayout = findViewById(R.id.unlogin_layout);
+        loginLayout.setVisibility(View.GONE);
+        unloginLayout.setVisibility(View.GONE);
+        if (UserCoreInfo.hasLogined()) {
+            loginLayout.setVisibility(View.VISIBLE);
+        } else {
+            unloginLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     private DataItemResult buildItems() {
