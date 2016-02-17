@@ -7,4 +7,9 @@
 	<color name="filter_green_008d14">#008d14</color>
 	<color name="filter_green_bb008d14">#bb008d14</color>
 	<color name="filter_green_77008d14">#77008d14</color>
+	<color name="gray_eeeeee">#eeeeee</color>
+	<color name="blue_3c5a96">#3c5a96</color>
+	<color name="red_ed1055">#ed1055</color>
+	<color name="white_33ffffff">#33ffffff</color>
+	<color name="white_77ffffff">#77ffffff</color>
 </resources>

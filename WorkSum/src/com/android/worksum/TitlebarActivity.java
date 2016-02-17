@@ -23,7 +23,7 @@ public abstract class TitlebarActivity extends GeneralActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-        if (findViewById(R.id.title_bar) == null) {
+        if (findViewById(R.id.title_bar_id) == null) {
             throw new AppException("TitleFragment need including layout titlebar.");
         }
         mTitle = (TextView) findViewById(R.id.bar_title);

@@ -1,38 +1,49 @@
 package com.android.worksum;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.worksum.views.HeaderIconView;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.list.DataListAdapter;
 import com.jobs.lib_v1.list.DataListCell;
 import com.jobs.lib_v1.list.DataListView;
-import com.jobs.lib_v1.list.DataLoader;
 
-import org.w3c.dom.Text;
+import java.io.IOException;
 
 public class SelfFragment extends TitlebarFragment implements AdapterView.OnItemClickListener {
 
     private static final int ID_MY_RESUME = 1;
     private static final int ID_MY_VIDEO = 2;
     private static final int ID_SYSTEM_SETTINGS = 3;
+    private static final int REQUEST_CODE_PICK_PHOTO = 1;
 
     private DataListView mListView;
+    private HeaderIconView mHeaderView;
 
-	@Override
+    private Button mLoginButton;
+
+    @Override
 	public int getLayoutId() {
 		return R.layout.self;
 	}
 	
 	@Override
-	void setupView(View v, Bundle savedInstanceState) {
+	void setupView(ViewGroup v, Bundle savedInstanceState) {
 		super.setupView(v, savedInstanceState);
 		
 		setTitle(R.string.title_self);
+
+        mHeaderView = (HeaderIconView) findViewById(R.id.header_icon);
+        mHeaderView.setOnClickListener(this);
 
 		mListView = (DataListView) findViewById(R.id.items_list);
         mListView.setDataCellClass(ItemCell.class,this);
@@ -41,6 +52,9 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
         mListView.setAllowAutoTurnPage(false);
 
         mListView.appendData(buildItems());
+
+        mLoginButton = (Button) findViewById(R.id.self_login_button);
+        mLoginButton.setOnClickListener(this);
     }
 
     private DataItemResult buildItems() {
@@ -55,18 +69,54 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
 
         detail = new DataItemDetail();
         detail.setIntValue("id",ID_MY_VIDEO);
-        detail.setIntValue("titleId",R.string.self_my_video);
-        detail.setIntValue("descriptionId",R.string.self_video_description);
+        detail.setIntValue("titleId", R.string.self_my_video);
+        detail.setIntValue("descriptionId", R.string.self_video_description);
         detail.setIntValue("iconId", R.drawable.me_video);
         datas.addItem(detail);
 
         detail = new DataItemDetail();
-        detail.setIntValue("id",ID_SYSTEM_SETTINGS);
-        detail.setIntValue("titleId",R.string.self_my_settings);
-        detail.setIntValue("descriptionId",R.string.self_settings_description);
+        detail.setIntValue("id", ID_SYSTEM_SETTINGS);
+        detail.setIntValue("titleId", R.string.self_my_settings);
+        detail.setIntValue("descriptionId", R.string.self_settings_description);
         detail.setIntValue("iconId", R.drawable.me_settings);
         datas.addItem(detail);
         return datas;
+    }
+
+    @Override
+    public void onClick(View view) {
+        super.onClick(view);
+        switch (view.getId()) {
+            case R.id.header_icon:
+                pickPhoto();
+                break;
+            case R.id.self_login_button:
+                DialogContainer.showLoginDialog(getActivity());
+                break;
+
+        }
+    }
+
+    private void pickPhoto() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent,REQUEST_CODE_PICK_PHOTO);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        if (requestCode == REQUEST_CODE_PICK_PHOTO) {
+            try {
+                mHeaderView.setImageBitmap(MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),data.getData()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

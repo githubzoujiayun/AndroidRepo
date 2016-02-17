@@ -8,4 +8,8 @@
     <dimen name="filter_type_margin">20dp</dimen>
     <dimen name="commen_radius">4dp</dimen>
     <dimen name="self_common_margin">10dp</dimen>
+    <dimen name="resume_item_common_margin">10dp</dimen>
+    <dimen name="resume_item_title_width">50dp</dimen>
+    <dimen name="resume_items_margin">40dp</dimen>
+    <dimen name="resume_title_text_size">16sp</dimen>
 </resources>

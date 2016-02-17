@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TabHost;
 
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class ApplyRecordFragment extends TitlebarFragment implements ViewPager.O
     }
 
     @Override
-    void setupView(View v, Bundle savedInstanceState) {
+    void setupView(ViewGroup v, Bundle savedInstanceState) {
         super.setupView(v, savedInstanceState);
 
         setTitle(R.string.title_applied);

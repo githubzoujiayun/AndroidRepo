@@ -16,7 +16,7 @@ public class JobSmallCell extends DataListCell{
 
 	@Override
 	public void bindData() {
-		mJobName.setText(mDetail.getString("jobname"));
+		mJobName.setText(mDetail.getString("JobName"));
 		mCompanyName.setText(mDetail.getString("companyname"));
 		mJobAddress.setText(mDetail.getString("address"));
 		mJobSalary.setText(mDetail.getString("salary"));

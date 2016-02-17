@@ -6,27 +6,40 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.android.worksum.controller.FragmentUtil;
 import com.jobs.lib_v1.app.AppUtil;
 
 public abstract class GeneralFragment extends Fragment {
 
-    private static final int RESULT_OK = 0;
-    private static final int RESULT_CANCEL = 0;
+    public static final int RESULT_OK = Activity.RESULT_OK;
+    public static final int RESULT_CANCEL = Activity.RESULT_CANCELED;
+
+    public static final int MATCH_PARENT = ViewGroup.LayoutParams.MATCH_PARENT;
+    public static final int WRAP_CONTENT = ViewGroup.LayoutParams.WRAP_CONTENT;
 
     View mLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AppUtil.lifeSycle(this.getClass().getName() + "/onCreateView()");
-        View v = inflater.inflate(getLayoutId(), container,false);
-        mLayout = v;
-		setupView(v,savedInstanceState);
-		return v;
+        View layout = inflater.inflate(getLayoutId(), container, false);
+        ViewGroup contentView = initContentView(layout,savedInstanceState);
+        if (contentView == null) {
+            contentView = (ViewGroup) layout;
+        }
+
+        mLayout = contentView;
+		setupView(contentView,savedInstanceState);
+		return contentView;
 	}
-	
-	void setupView(View v, Bundle savedInstanceState) {
+
+    protected ViewGroup initContentView(View layoutView,Bundle savedInstanceState) {
+        return null;
+    }
+
+    void setupView(ViewGroup v, Bundle savedInstanceState) {
 		
 	}
 

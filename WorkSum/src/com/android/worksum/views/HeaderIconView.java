@@ -1,12 +1,14 @@
 package com.android.worksum.views;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -22,16 +24,21 @@ public class HeaderIconView extends View {
 
     private Bitmap mImageBitmap;
 
+    private boolean mWithAdd;
+
     public HeaderIconView(Context context) {
-        super(context);
+        this(context,null);
     }
 
     public HeaderIconView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs,0);
     }
 
     public HeaderIconView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.jobpedia);
+        mWithAdd = a.getBoolean(R.styleable.jobpedia_withAdd,false);
+        a.recycle();
         initView(context);
     }
 
@@ -41,7 +48,12 @@ public class HeaderIconView extends View {
 
     public void setImageUrl(String imageUrl) {
         mImageUrl = imageUrl;
-        mImageBitmap = BitmapFactory.decodeFile(mImageUrl);
+        setImageBitmap(BitmapFactory.decodeFile(mImageUrl));
+    }
+
+    public void setImageBitmap(Bitmap bitmap) {
+        mImageBitmap = bitmap;
+        postInvalidate();
     }
 
     @Override
@@ -51,13 +63,22 @@ public class HeaderIconView extends View {
         paint.setAntiAlias(true);
 
         if (mImageBitmap == null) {
-            mImageBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.default_self_icon);
+            mImageBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ico_default_me);
         }
 
+        Bitmap meAdd = BitmapFactory.decodeResource(getResources(),R.drawable.me_add);
+
         int radius = getWidth() / 2;
-        Bitmap target = drawHeaderIcon(mImageBitmap,radius);
+        if(mWithAdd) {
+            radius -= meAdd.getWidth() / 2;
+        }
+        Bitmap target = drawHeaderIcon(mImageBitmap, radius);
+
         canvas.drawBitmap(target,0,0,paint);
 
+        if (mWithAdd) {
+            canvas.drawBitmap(meAdd, radius * 2 - (meAdd.getWidth() / 2), radius, paint);
+        }
     }
 
     private Bitmap drawHeaderIcon(Bitmap source,int radius) {
@@ -79,7 +100,7 @@ public class HeaderIconView extends View {
         /**
          * 绘制图片
          */
-        canvas.drawBitmap(source, 0, 0, paint);
+        canvas.drawBitmap(source,null,new Rect(0,0,target.getWidth(),target.getHeight()),paint);
         return target;
     }
 }

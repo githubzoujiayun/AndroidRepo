@@ -1,5 +1,6 @@
 package com.android.worksum;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import android.support.v4.app.FragmentTransaction;
 public class FragmentContainer extends GeneralActivity {
 
 
-    private static final String KEY_FRAGMENT = "fragment";
+    public static final String KEY_FRAGMENT = "fragment";
 
     private Class<? extends GeneralFragment> mTargetFragment;
 
@@ -32,7 +33,9 @@ public class FragmentContainer extends GeneralActivity {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         try {
-            transaction.replace(R.id.fragment,mTargetFragment.newInstance(),mTargetFragment.getName());
+            GeneralFragment fragment = mTargetFragment.newInstance();
+            fragment.setArguments(getIntent().getExtras());
+            transaction.replace(R.id.fragment,fragment,mTargetFragment.getName());
             transaction.commit();
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -42,9 +45,13 @@ public class FragmentContainer extends GeneralActivity {
     }
 
     public static void showMyResume(Context context) {
+        Bundle extras = new Bundle();
+        extras.putBoolean(TitlebarFragment.KEY_SCROLLBAR_ENABLED, true);
         Intent intent = new Intent(context,FragmentContainer.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(KEY_FRAGMENT, MyResumeFragment.class);
+        intent.putExtras(extras);
         context.startActivity(intent);
     }
+
 }

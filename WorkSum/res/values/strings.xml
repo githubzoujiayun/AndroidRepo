@@ -49,4 +49,24 @@
 	<string name="my_resume">简历</string>
 	<string name="my_resume_title">简历</string>
 	<string name="my_resume_action_save">保存</string>
+	<string name="resume_user_name">姓名</string>
+	<string name="resume_user_phone">手机号</string>
+	<string name="resume_job_name">职位</string>
+	<string name="resume_area">地区</string>
+	<string name="resume_address">地址</string>
+	<string name="resume_email">EMAIL</string>
+	<string name="resume_name_hint">请输入您的姓名</string>
+	<string name="resume_phone_hint">请输入您的手机号</string>
+	<string name="resume_job_hint">请填写您的职位</string>
+	<string name="resume_address_hint">请填写您的详细地址</string>
+	<string name="resume_email_hint">请填写您的Email</string>
+	<string name="resume_profile">简介</string>
+	<string name="self_login_text">登陆</string>
+	<string name="login_with_phone">手机号登陆</string>
+	<string name="register_with_phone">手机号注册</string>
+	<string-array name="spinner_items">
+		<item>item1</item>
+		<item>item2</item>
+		<item>item3</item>
+	</string-array>
 </resources>

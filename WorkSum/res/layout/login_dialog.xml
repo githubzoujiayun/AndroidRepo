@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="500dp"
+              android:padding="20dp">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_with_phone"
+        android:textColor="@drawable/login_dialog_text_color"
+        android:background="@drawable/bg_drawable_blue_3c5a96"/>
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/register_with_phone"
+        android:textColor="@drawable/login_dialog_text_color"
+        android:background="@drawable/bg_drawable_red_ed1055"/>
+
+</LinearLayout>

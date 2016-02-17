@@ -3,6 +3,7 @@ package com.android.worksum;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,7 +24,7 @@ public class JobSearchFragment extends TitlebarFragment implements TextView.OnEd
     }
 
     @Override
-    void setupView(View v, Bundle savedInstanceState) {
+    void setupView(ViewGroup v, Bundle savedInstanceState) {
         super.setupView(v, savedInstanceState);
         setActionLeftDrawable(R.drawable.jobsearch_close);
         mClearView = (ImageView) v.findViewById(R.id.job_search_del);
