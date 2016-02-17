@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">jobs_library_v1</string>
+    <string name="filter_distance_m1">M1</string>
 </resources>

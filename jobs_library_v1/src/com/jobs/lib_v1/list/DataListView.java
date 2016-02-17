@@ -152,7 +152,6 @@ public class DataListView extends ListView {
 
 	protected void init(Context context) {
 		setDivider(new GradientDrawable(Orientation.RIGHT_LEFT, new int[] { Color.parseColor("#BEBEBE"), Color.parseColor("#BDBDBD"), Color.parseColor("#BEBEBE") })); // 统一使用灰色分割线
-		setDividerHeight(1); // 统一分割线高度为1像素
 		setFooterDividersEnabled(false); // 最后一条记录默认无分割线
 
 		listAdapter = new DataListAdapter(this);
