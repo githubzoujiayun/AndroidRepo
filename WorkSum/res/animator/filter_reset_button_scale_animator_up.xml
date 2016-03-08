@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" android:ordering="sequentially" android:interpolator="@android:interpolator/accelerate_decelerate">
+    <set android:ordering="together">
+       <objectAnimator android:duration="150"
+                       android:propertyName="scaleX"
+                       android:valueFrom="@dimen/refilter_button_zoom_in"
+                       android:valueTo="@dimen/refilter_button_zoom_out"/>
+       <objectAnimator android:duration="150"
+                       android:propertyName="scaleY"
+                       android:valueFrom="@dimen/refilter_button_zoom_in"
+                       android:valueTo="@dimen/refilter_button_zoom_out"/>
+    </set>
+    <set android:ordering="together">
+        <objectAnimator android:duration="150"
+                        android:propertyName="scaleX"
+                        android:valueFrom="@dimen/refilter_button_zoom_out"
+                        android:valueTo="1.0"/>
+        <objectAnimator android:duration="150"
+                        android:propertyName="scaleY"
+                        android:valueFrom="@dimen/refilter_button_zoom_out"
+                        android:valueTo="1.0"/>
+    </set>
+</set>

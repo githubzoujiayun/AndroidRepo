@@ -32,12 +32,40 @@
 
     <style name="radio_button_red_ef1d19_style" parent="radio_button_common_style">
         <item name="android:textColor">@drawable/sort_text_color</item>
-        <item name="android:background">@drawable/shape_corner_common_ef1d19</item>
+        <item name="android:background">@drawable/shape_corner_common_e62565</item>
     </style>
 
     <style name="radio_button_green_008d14_style" parent="radio_button_common_style">
         <item name="android:textColor">@drawable/filter_green_color_selector</item>
-        <item name="android:background">@drawable/shape_corner_common_008d14</item>
+        <item name="android:background">@drawable/shape_corner_common_91e3a3</item>
+    </style>
+
+    <style name="ContainerDialogTheme" parent="android:Theme.Holo.Dialog.NoActionBar.MinWidth">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+    </style>
+
+    <style name="ResumeTitleStyle">
+        <item name="android:layout_width">@dimen/resume_item_title_width</item>
+        <item name="android:layout_height">@dimen/resume_item_title_height</item>
+        <item name="android:background">@drawable/resume_title_bg</item>
+        <item name="android:layout_marginLeft">@dimen/resume_item_common_margin</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/resume_title_text_size</item>
+    </style>
+
+    <style name="ResumeContentStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/resume_item_title_height</item>
+        <item name="android:background">@drawable/resume_content_bg</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:cursorVisible">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textCursorDrawable">@null</item>
     </style>
 
 </resources>

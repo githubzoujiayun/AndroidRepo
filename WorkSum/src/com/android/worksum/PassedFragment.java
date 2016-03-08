@@ -1,11 +1,10 @@
 package com.android.worksum;
 
 /**
- * Created by chao on 15/12/17.
+ * @author chao.qin
+ *
+ * 通过的申请
  */
-public class PassedFragment extends GeneralFragment {
-    @Override
-    public int getLayoutId() {
-        return R.layout.passed;
-    }
+public class PassedFragment extends AppliedFragment {
+
 }

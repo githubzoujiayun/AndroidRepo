@@ -1,11 +1,14 @@
 package com.android.worksum;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.android.worksum.apis.JobsApi;
 import com.android.worksum.controller.DotnetLoader;
 import com.jobs.lib_v1.app.AppUtil;
 import com.jobs.lib_v1.data.DataItemDetail;
@@ -14,6 +17,8 @@ import com.jobs.lib_v1.list.DataListAdapter;
 import com.jobs.lib_v1.list.DataListCellSelector;
 import com.jobs.lib_v1.list.DataListView;
 import com.jobs.lib_v1.list.DataLoader;
+
+import org.ksoap2.serialization.SoapObject;
 
 
 public class JobListFragment extends TitlebarFragment implements OnItemClickListener {
@@ -56,7 +61,7 @@ public class JobListFragment extends TitlebarFragment implements OnItemClickList
 			public Class<?> getCellClass(DataListAdapter listAdapter, int position) {
 				DataItemResult result = listAdapter.getListData();
 				DataItemDetail detail = result.getItem(position);
-				if (detail.getString("view").equals("big_view")) {
+				if (position % 7 == 0) {
 					return JobLargeCell.class;
 				}
 				return JobSmallCell.class;
@@ -67,31 +72,16 @@ public class JobListFragment extends TitlebarFragment implements OnItemClickList
 		mJobListView.setAllowAutoTurnPage(true);
 		mJobListView.setOnItemClickListener(this);
 		mJobListView.setPageSize(15);
-		mJobListView.setDataLoader(new DataLoader() {
-			
-			@Override
-			public DataItemResult fetchData(DataListAdapter listAdapter, int arg1, int arg2) {
-//				DataItemResult result = new DataItemResult();
-//				DataItemDetail detail = new DataItemDetail();
-//				detail.setStringValue("jobname", "Programming");
-//				detail.setStringValue("companyname", "51job");
-//				detail.setStringValue("address", "zhang dong lu 1387-3");
-//				detail.setStringValue("salary", "$100/H");
-//				result.maxCount = 100;
-//				for (int i = 0; i < 20; i++) {
-//					result.addItem(detail.Copy());
-//				}
-//				SystemClock.sleep(2000);
-//				return result;
-				return DotnetLoader.loadAndParseData("http://139.196.165.106/GetJobList");
-
-			}
-		});
+		mJobListView.setDivider(new ColorDrawable(getResources().getColor(R.color.black_999999)));
+		mJobListView.setDividerHeight(1);
+        mJobListView.setAutoTurnPageEnabled(true);
+		mJobListView.setDataLoader(new JobSearchLoader());
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		
+	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        DataListAdapter adapter = (DataListAdapter) adapterView.getAdapter();
+		FragmentContainer.showJobDetail(getActivity(),adapter.getItem(position));
 	}
 
 	protected void onActionLeft() {
@@ -101,8 +91,10 @@ public class JobListFragment extends TitlebarFragment implements OnItemClickList
 
 
 	protected void onActionRight() {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(TitlebarFragment.KEY_SCROLLBAR_ENABLED,true);
 		//start filter jobs
-		startFragmentForResult(REQUEST_CODE_FILTER, R.id.fragment_content, new JobFilterFragment());
+		startFragmentForResult(REQUEST_CODE_FILTER, R.id.fragment_content, new JobFilterFragment(),bundle);
 	}
 
 	@Override
@@ -110,8 +102,29 @@ public class JobListFragment extends TitlebarFragment implements OnItemClickList
 		super.onFragmentResult(requestCode, resultCode, bundle);
 		if (requestCode == REQUEST_CODE_SEARCH) {
 			AppUtil.print("REQUSET_CODE_SEARCH");
+			if (resultCode == RESULT_OK) {
+				mJobListView.getListData().clear();
+				mJobListView.statusChangedNotify();
+				JobSearchLoader loader = (JobSearchLoader) mJobListView.getDataLoader();
+				loader.setExtras(bundle);
+				mJobListView.getDataListAdapter().refreshData();
+			}
 		} else if (requestCode == REQUEST_CODE_FILTER) {
 			AppUtil.print("REQUEST_CODE_FILTER");
+		}
+	}
+
+	private class JobSearchLoader implements DataLoader {
+		private Bundle extras = new Bundle();
+
+		public void setExtras(Bundle bundle) {
+			extras = bundle;
+		}
+
+		@Override
+		public DataItemResult fetchData(DataListAdapter adapter, int pageAt, int pageSize) {
+			extras.putInt("p_StartRows", adapter.getDataCount());
+			return JobsApi.fetchJoblist(extras);
 		}
 	}
 }

@@ -1,9 +1,25 @@
 package com.android.worksum;
 
+import android.app.DownloadManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jobs.lib_v1.imageloader.core.ImageLoader;
+import com.jobs.lib_v1.imageloader.core.ImageLoaderConfiguration;
+import com.jobs.lib_v1.imageloader.core.assist.LoadedFrom;
+import com.jobs.lib_v1.imageloader.core.display.BitmapDisplayer;
+import com.jobs.lib_v1.imageloader.core.download.HttpClientImageDownloader;
+import com.jobs.lib_v1.imageloader.core.download.ImageDownloader;
+import com.jobs.lib_v1.imageloader.core.process.BitmapProcessor;
 import com.jobs.lib_v1.list.DataListCell;
+import com.jobs.lib_v1.misc.BitmapUtil;
+
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class JobSmallCell extends DataListCell{
 	
@@ -20,7 +36,10 @@ public class JobSmallCell extends DataListCell{
 		mCompanyName.setText(mDetail.getString("CustomerName"));
 		mJobAddress.setText(mDetail.getString("AreaName"));
 		mJobSalary.setText(mDetail.getString("Salary"));
-		mJobPicture.setImageDrawable(mAdapter.getContext().getResources().getDrawable(R.drawable.ic_launcher));
+
+		ImageLoader imageLoader = ImageLoader.getInstance();
+		imageLoader.displayImage(mDetail.getString("JobImg1"),mJobPicture);
+
 	}
 
 	@Override
@@ -36,5 +55,6 @@ public class JobSmallCell extends DataListCell{
 	public int getCellViewLayoutID() {
 		return R.layout.job_small_cell;
 	}
+
 
 }

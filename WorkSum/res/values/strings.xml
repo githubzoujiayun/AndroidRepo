@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">WorkSum</string>
+    <string name="app_name">JobPedia</string>
     <string name="hello_world">Hello world!</string>
     <string name="tab_joblist">职位</string>
 	<string name="tab_apply_record">已申请</string>
@@ -61,9 +61,42 @@
 	<string name="resume_address_hint">请填写您的详细地址</string>
 	<string name="resume_email_hint">请填写您的Email</string>
 	<string name="resume_profile">简介</string>
-	<string name="self_login_text">登陆</string>
-	<string name="login_with_phone">手机号登陆</string>
+	<string name="self_login_text">登录</string>
+	<string name="login_with_phone">手机号登录</string>
 	<string name="register_with_phone">手机号注册</string>
+	<string name="jobinfo_description">职位描述</string>
+	<string name="jobinfo_btn_apply">申请</string>
+	<string name="jobinfo_worktype">工作类型</string>
+	<string name="jobinfo_salary">小时薪水</string>
+	<string name="jobinfo_distribute">发布</string>
+	<string name="jobinfo_format_salary">$%s HK</string>
+	<string name="login_phone_number_hint">手机号码</string>
+	<string name="login_password">密码</string>
+	<string name="login_submit">登录</string>
+	<string name="logining">正在登录</string>
+	<string name="login_succeed">登录成功</string>
+	<string name="register_phone_has_exist">手机号已存在</string>
+	<string name="register_succeed">注册成功！</string>
+	<string name="register_right_action">注册</string>
+	<string name="login_get_resume_info_failed">获取用户信息失败</string>
+	<string name="self_right_action_logout">注销</string>
+	<string name="self_right_action_login">登录</string>
+	<string name="self_logout_alter">确认注销？</string>
+	<string name="resume_upload">正在更新简历</string>
+	<string name="resume_upload_failed">简历更新失败！</string>
+	<string name="resume_upload_succeed">简历更新成功！</string>
+	<string name="jobinfo_appling">正在申请...</string>
+	<string name="tips_apply_failed">申请失败</string>
+	<string name="tips_apply_succeed">申请成功</string>
+	<string name="tips_apply_applied_already">申请失败，职位已经申请</string>
+	<string name="inbox_descrptio_recommand">还有9个职位推荐未查看</string>
+	<string name="inbox_title_recommand">推荐职位</string>
+	<string name="inbox_title_hr_message">人事来信</string>
+	<string name="inbox_descrption_hr_message">还有20封来信未处理</string>
+	<string name="resume_last_name">Last Name</string>
+	<string name="resume_first_name">First Name</string>
+	<string name="resume_age">年龄</string>
+	<string name="resume_sex">性别</string>
 	<string-array name="spinner_items">
 		<item>item1</item>
 		<item>item2</item>

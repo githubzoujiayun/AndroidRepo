@@ -13,6 +13,7 @@
             layout="@layout/title_bar"
             />
 
+
         <com.jobs.lib_v1.list.DataListView
             android:id="@+id/joblist"
             android:layout_width="fill_parent"

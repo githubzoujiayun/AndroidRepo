@@ -1,11 +1,14 @@
 package com.android.worksum;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
+import com.jobs.lib_v1.data.DataItemDetail;
+import com.jobs.lib_v1.data.ObjectSessionStore;
 
 /**
  * chao.qin
@@ -54,4 +57,55 @@ public class FragmentContainer extends GeneralActivity {
         context.startActivity(intent);
     }
 
+    public static void showJobDetail(Context context,DataItemDetail detail) {
+
+        Bundle extras = new Bundle();
+        extras.putParcelable("job_detail", detail);
+//        extras.putBoolean(TitlebarFragment.KEY_SCROLLBAR_ENABLED,true);
+        Intent intent = new Intent(context,FragmentContainer.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(KEY_FRAGMENT, JobInfoFragment.class);
+        intent.putExtras(extras);
+        context.startActivity(intent);
+    }
+
+    public static void showLoginFragment(Context context) {
+        showLoginFragment(context, null);
+    }
+
+    public static void showLoginFragment(Context context,LoginFragment.LoginCallback callback) {
+        Bundle extras = new Bundle();
+        Intent intent = new Intent(context,FragmentContainer.class);
+        intent.putExtra(KEY_FRAGMENT, LoginFragment.class);
+        extras.putString("callback_key", ObjectSessionStore.insertObject(callback));
+        intent.putExtras(extras);
+        context.startActivity(intent);
+    }
+
+    public static void showRegisterFragment(Context context) {
+        Bundle extras = new Bundle();
+        Intent intent = new Intent(context,FragmentContainer.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(KEY_FRAGMENT, RegisterFragment.class);
+        intent.putExtras(extras);
+        context.startActivity(intent);
+    }
+
+    public static void showHRMessage(Context context) {
+        Bundle extras = new Bundle();
+        Intent intent = new Intent(context,FragmentContainer.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(KEY_FRAGMENT, HRMessage.class);
+        intent.putExtras(extras);
+        context.startActivity(intent);
+    }
+
+    public static void showRecommand(Context context) {
+        Bundle extras = new Bundle();
+        Intent intent = new Intent(context,FragmentContainer.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(KEY_FRAGMENT, JobRecommand.class);
+        intent.putExtras(extras);
+        context.startActivity(intent);
+    }
 }

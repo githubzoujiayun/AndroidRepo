@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white_ffffff"
+    android:padding="8dp">
+    <TextView
+        android:id="@+id/resume_spinner_item_title"
+        android:layout_width="@dimen/resume_item_title_width"
+        android:layout_marginLeft="@dimen/resume_item_common_margin"
+        android:layout_marginRight="@dimen/resume_item_common_margin"
+        android:layout_height="wrap_content"
+        android:text="@string/resume_area"
+        android:textStyle="bold"
+        android:textSize="@dimen/resume_title_text_size"/>
+
+    <Spinner
+        android:id="@+id/resume_spinner_item_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/resume_spinner_item_title"
+        android:entries="@array/spinner_items"
+        android:layout_alignBottom="@id/resume_spinner_item_title"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/resume_spinner_item_title"
+        android:layout_toRightOf="@id/resume_spinner_item_title"
+        android:background="@color/black_000000"
+        />
+</RelativeLayout>

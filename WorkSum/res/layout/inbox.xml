@@ -2,8 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="@color/gray_e5e5e5"
               android:orientation="vertical">
 
-    <include layout="@layout/title_bar"/>
+    <include
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/inbox_hr_message"
+        layout="@layout/inbox_item"/>
 
+    <include android:id="@+id/inbox_recommand"
+             android:layout_marginTop="30dp"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+        layout="@layout/inbox_item"/>
 </LinearLayout>

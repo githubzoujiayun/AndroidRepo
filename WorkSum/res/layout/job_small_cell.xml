@@ -3,47 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <LinearLayout 
-        
+
+    <include
+        android:layout_toLeftOf="@+id/job_pic"
+        layout="@layout/joblist_cell_texts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-       	android:orientation="vertical"
-        >
-        
-        <TextView 
-            android:id="@+id/job_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            />
-        <TextView 
-            android:id="@+id/company_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            />
-        <TextView 
-            android:id="@+id/job_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:layout_gravity="center_vertical"
-            android:drawableLeft="@drawable/ico_map"
-            android:drawablePadding="3dp"
-            />
-    </LinearLayout>
+        android:layout_height="match_parent"/>
     
     <ImageView 
         android:id="@+id/job_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="135dp"
+        android:layout_height="75dp"
         android:contentDescription="@null"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="4dp"
         />
     
     <TextView 
@@ -56,6 +30,7 @@
         android:paddingRight="5dp"
         android:paddingTop="3dp"
         android:paddingBottom="3dp"
+        android:layout_marginBottom="3dp"
         android:textColor="@color/white_ffffff"
         android:background="#aa000000"
 		/>

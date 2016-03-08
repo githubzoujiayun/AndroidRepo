@@ -1,5 +1,6 @@
 package com.android.worksum;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -10,13 +11,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.worksum.apis.JobsApi;
 import com.android.worksum.controller.UserCoreInfo;
 import com.android.worksum.views.HeaderIconView;
+import com.jobs.lib_v1.app.AppUtil;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.list.DataListAdapter;
 import com.jobs.lib_v1.list.DataListCell;
 import com.jobs.lib_v1.list.DataListView;
+import com.jobs.lib_v1.misc.Tips;
+import com.jobs.lib_v1.task.SilentTask;
 
 import java.io.IOException;
 
@@ -29,6 +34,10 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
 
     private DataListView mListView;
     private HeaderIconView mHeaderView;
+
+    private TextView mUsername;
+    private TextView mUserTitle;
+    private TextView mUserProfile;
 
     private Button mLoginButton;
 
@@ -46,8 +55,8 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
         mHeaderView = (HeaderIconView) findViewById(R.id.header_icon);
         mHeaderView.setOnClickListener(this);
 
-		mListView = (DataListView) findViewById(R.id.items_list);
-        mListView.setDataCellClass(ItemCell.class,this);
+        mListView = (DataListView) findViewById(R.id.items_list);
+        mListView.setDataCellClass(ItemCell.class, this);
         mListView.setDivider(null);
         mListView.setOnItemClickListener(this);
         mListView.setAllowAutoTurnPage(false);
@@ -56,16 +65,31 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
 
         mLoginButton = (Button) findViewById(R.id.self_login_button);
         mLoginButton.setOnClickListener(this);
-        
+
+        mUserTitle = (TextView) findViewById(R.id.user_title);
+        mUsername = (TextView) findViewById(R.id.user_name);
+        mUserProfile = (TextView) findViewById(R.id.user_profile);
+
+        initView();
+    }
+
+    private void initView() {
+
+
         View loginLayout = findViewById(R.id.login_layout);
         View unloginLayout = findViewById(R.id.unlogin_layout);
         loginLayout.setVisibility(View.GONE);
         unloginLayout.setVisibility(View.GONE);
         if (UserCoreInfo.hasLogined()) {
             loginLayout.setVisibility(View.VISIBLE);
+            setActionRightText(R.string.self_right_action_logout);
         } else {
             unloginLayout.setVisibility(View.VISIBLE);
+            setActionRightText(R.string.self_right_action_login);
         }
+
+        mUsername.setText(UserCoreInfo.getUserName());
+        mUserTitle.setText(UserCoreInfo.getUserTitle());
     }
 
     private DataItemResult buildItems() {
@@ -74,7 +98,7 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
         DataItemDetail detail = new DataItemDetail();
         detail.setIntValue("id",ID_MY_RESUME);
         detail.setIntValue("titleId",R.string.self_my_resume);
-        detail.setIntValue("descriptionId",R.string.self_resume_description);
+        detail.setIntValue("descriptionId", R.string.self_resume_description);
         detail.setIntValue("iconId", R.drawable.me_resume);
         datas.addItem(detail);
 
@@ -104,8 +128,26 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
             case R.id.self_login_button:
                 DialogContainer.showLoginDialog(getActivity());
                 break;
+            case R.id.bar_right_action:
+                if (UserCoreInfo.hasLogined()) {
+                    logout();
+                } else {
+                    DialogContainer.showLoginDialog(getActivity());
+                }
+                break;
 
         }
+    }
+
+    private void logout() {
+        Tips.showConfirm(getString(R.string.self_logout_alter), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (i == DialogInterface.BUTTON_POSITIVE) {
+                    UserCoreInfo.logout();
+                }
+            }
+        });
     }
 
     private void pickPhoto() {
@@ -185,4 +227,13 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
             mIcon.setImageResource(mDetail.getInt("iconId"));
         }
     }
+
+    @Override
+    public void onUserStatusChanged(int loginType) {
+        super.onUserStatusChanged(loginType);
+        AppUtil.print("onUserStatusChanged");
+        initView();
+    }
+
+
 }

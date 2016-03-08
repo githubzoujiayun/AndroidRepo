@@ -27,7 +27,7 @@ import com.jobs.lib_v1.device.DeviceUtil;
  *  modified at 2016/2/2
  *
  */
-public abstract class TitlebarFragment extends GeneralFragment implements OnClickListener{
+public abstract class TitlebarFragment extends GeneralFragment implements OnClickListener {
 
     public static final String KEY_SCROLLBAR_ENABLED = "scrollbar_enabled";
 
@@ -95,8 +95,9 @@ public abstract class TitlebarFragment extends GeneralFragment implements OnClic
 		//do something in child classes
 	}
 
+	//默认关闭当前fragment
 	protected void onActionLeft() {
-		//do something in child classes
+		onBackPressed();
 	}
 	
 	void setActionRightText(CharSequence text) {

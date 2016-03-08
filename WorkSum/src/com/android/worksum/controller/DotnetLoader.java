@@ -1,6 +1,8 @@
 package com.android.worksum.controller;
 
 
+import android.text.TextUtils;
+
 import com.jobs.lib_v1.app.AppUtil;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
@@ -21,20 +23,12 @@ import java.util.Arrays;
 
 public class DotnetLoader {
 
-    private static final String URL = "http://139.196.165.106/AppService/Jobs/JobList.asmx";
 
-    private static final String NAMESPACE = "http://139.196.165.106/";
+    private static boolean DEBUG = false;
 
-
-    public static DataItemResult loadAndParseData(String soapAction) {
+    public static DataItemResult loadAndParseData(String soapAction,SoapObject soapObject,String URL) {
         DataItemResult retVal = new DataItemResult();
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-        SoapObject soapObject = new SoapObject(NAMESPACE, "GetJobList");
-        soapObject.addProperty("p_fltX", 1f);
-        soapObject.addProperty("p_fltY", 1f);
-        soapObject.addProperty("p_StartRows", 1);
-        soapObject.addProperty("p_intPagSize", 2);
-        soapObject.addProperty("p_fltSalary", 50000);
         MarshalFloat marshal = new MarshalFloat();
         marshal.register(envelope);
         envelope.dotNet = true;
@@ -42,10 +36,11 @@ public class DotnetLoader {
         HttpTransportSE ht = new HttpTransportSE(URL);
         ht.debug = true;
         try {
+            AppUtil.print(">>>" + soapObject);
             ht.call(soapAction, envelope);
             String response = envelope.getResponse().toString();
-            AppUtil.print(response);
-            parse(response,retVal);
+            AppUtil.print("response : " + response);
+            parse(response, retVal);
         } catch (IOException e) {
             e.printStackTrace();
             retVal.hasError = true;
@@ -70,7 +65,13 @@ public class DotnetLoader {
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         XmlPullParser parser = factory.newPullParser();
         ByteArrayInputStream dataStream = new ByteArrayInputStream(response.getBytes());
-        parser.setInput(dataStream,"utf-8");
+        parser.setInput(dataStream, "utf-8");
+
+        if (!response.contains("ResultBody")) {
+            simpleParse(response,result);
+            return;
+        }
+
 
         int eventType = parser.getEventType();
         DataItemDetail detail = null;
@@ -85,23 +86,31 @@ public class DotnetLoader {
 			}
 			switch (eventType) {
 			case XmlPullParser.START_DOCUMENT:
-				AppUtil.print("start parse...");
+                if (DEBUG) {
+                    AppUtil.print("start parse...");
+                }
 
 				break;
 			case XmlPullParser.START_TAG:
-				AppUtil.print("start parse " + parser.getName());
+                if (DEBUG) {
+                    AppUtil.print("start parse " + parser.getName());
+                }
 				if ("Item".equalsIgnoreCase(tagName)) {
 					detail = new DataItemDetail();
 				}
 				break;
 			case XmlPullParser.END_TAG:
-				AppUtil.print("end parse " + parser.getName());
+                if (DEBUG) {
+                    AppUtil.print("end parse " + parser.getName());
+                }
 				if ("Item".equalsIgnoreCase(tagName)) {
 					result.addItem(detail);
 				}
 				break;
 			case XmlPullParser.TEXT:
-				AppUtil.print("text " + parser.getText());
+                if (DEBUG) {
+                    AppUtil.print("text " + parser.getText());
+                }
 				if ("Count".equalsIgnoreCase(tagName)) {
 					result.maxCount = Integer.parseInt(parser.getText());
 				} else {
@@ -113,6 +122,18 @@ public class DotnetLoader {
 			eventType = parser.next();
 		}
 
+    }
+
+    private static void simpleParse(String response, DataItemResult result) throws XmlPullParserException {
+
+        result.statusCode = 0;
+        try {
+            Integer statue = Integer.parseInt(response);
+            result.statusCode = statue;
+        }catch (Exception e) {
+            result.message = response;
+            result.statusCode = 1;
+        }
     }
 
 }

@@ -1,6 +1,8 @@
 package com.android.worksum;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -66,6 +68,15 @@ public class Main extends GeneralActivity {
 		title.setText(titleIds[index]);
 		title.setTextColor(getResources().getColor(R.color.white_ffffff));
 		return indicator;
+	}
+
+	public void onUserStatusChanged(Integer loginType) {
+		FragmentManager manager = getSupportFragmentManager();
+		for (Fragment fragment : manager.getFragments()) {
+			if (fragment instanceof GeneralFragment) {
+				((GeneralFragment)fragment).onUserStatusChanged(loginType);
+			}
+		}
 	}
 
 	@Override

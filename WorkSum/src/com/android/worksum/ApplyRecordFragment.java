@@ -6,9 +6,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,17 +22,29 @@ public class ApplyRecordFragment extends TitlebarFragment implements ViewPager.O
     private ViewPager mViewPager;
     private FragmentTabHost mTabHost;
 
+//    private Class fragments[] = {
+//            AppliedFragment.class, PassedFragment.class,
+//            RefusedFragment.class
+//    };
+//
+//
+//    private int titleIds[] = new int[]{R.string.applied_apply,
+//            R.string.applied_passed, R.string.applied_refused};
+//
+//    private String tabSpace[] = new String[]{
+//            "AppliedFragment", "PassedFragment", "RefusedFragment"
+//    };
+
     private Class fragments[] = {
-            AppliedFragment.class, PassedFragment.class,
-            RefusedFragment.class
+            AppliedFragment.class, PassedFragment.class
     };
 
 
     private int titleIds[] = new int[]{R.string.applied_apply,
-            R.string.applied_passed, R.string.applied_refused};
+            R.string.applied_passed};
 
     private String tabSpace[] = new String[]{
-            "AppliedFragment", "PassedFragment", "RefusedFragment"
+            "AppliedFragment", "PassedFragment"
     };
 
     private List<Fragment> mFragmentList = new ArrayList<Fragment>();
@@ -44,7 +60,7 @@ public class ApplyRecordFragment extends TitlebarFragment implements ViewPager.O
         RefusedFragment rf = new RefusedFragment();
         mFragmentList.add(af);
         mFragmentList.add(pf);
-        mFragmentList.add(rf);
+//        mFragmentList.add(rf);
 
         mViewPager = (ViewPager) v.findViewById(R.id.viewpager);
 
@@ -79,8 +95,11 @@ public class ApplyRecordFragment extends TitlebarFragment implements ViewPager.O
         mTabHost.setup(activity, getChildFragmentManager(), R.id.realtabcontent);
 
         for (int i = 0; i < fragments.length; i++) {
-
-            TabHost.TabSpec tabSpec = mTabHost.newTabSpec(tabSpace[i]).setIndicator(getString(titleIds[i]));
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            View indicator = inflater.inflate(R.layout.applied_tab_indicator, mTabHost.getTabWidget(), false);
+            TextView text = (TextView) indicator.findViewById(R.id.indicator_title);
+            text.setText(titleIds[i]);
+            TabHost.TabSpec tabSpec = mTabHost.newTabSpec(tabSpace[i]).setIndicator(indicator);
             mTabHost.addTab(tabSpec, fragments[i], null);
         }
         mTabHost.setOnTabChangedListener(this);

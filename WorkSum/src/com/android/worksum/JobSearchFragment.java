@@ -35,15 +35,11 @@ public class JobSearchFragment extends TitlebarFragment implements TextView.OnEd
     }
 
     @Override
-    protected void onActionLeft() {
-        super.onActionLeft();
-        getActivity().onBackPressed();
-    }
-
-    @Override
     public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
         if (actionId == EditorInfo.IME_ACTION_SEARCH || keyEvent.getKeyCode() == keyEvent.KEYCODE_ENTER) {
-            finish();
+            Bundle bundle = new Bundle();
+            bundle.putString("p_strJobName",mSearchEdit.getText().toString());
+            finish(RESULT_OK,bundle);
             return true;
         }
         return false;

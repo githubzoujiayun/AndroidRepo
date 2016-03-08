@@ -93,13 +93,12 @@ public abstract class GeneralFragment extends Fragment {
     }
 
     void finish(int resultCode, Bundle bundle) {
-        Bundle argments = bundle = getArguments();
+        Bundle argments = getArguments();
         if (bundle == null) {
             bundle = new Bundle();
         }
+
         bundle.putString("toTag", getTag());
-
-
         String fromTag = argments.getString("fromTag");
         GeneralFragment fromFragment = null;
         if (fromTag != null) {
@@ -107,10 +106,11 @@ public abstract class GeneralFragment extends Fragment {
         }
         if (fromFragment == null) {
             AppUtil.error("fromFragment is null.");
+            onBackPressed();
             return;
         }
         fromFragment.onFragmentResult(argments.getInt("requestCode"), resultCode, bundle);
-        getActivity().onBackPressed();
+        onBackPressed();
     }
 
     GeneralFragment findFragmentByTag(String tag) {
@@ -148,5 +148,11 @@ public abstract class GeneralFragment extends Fragment {
 
     protected void onBackPressed() {
         getActivity().onBackPressed();
+    }
+
+
+    //登陆状态改变
+    public void onUserStatusChanged(int loginType){
+
     }
 }
