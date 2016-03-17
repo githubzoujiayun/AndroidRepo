@@ -74,8 +74,6 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
     }
 
     private void initView() {
-
-
         View loginLayout = findViewById(R.id.login_layout);
         View unloginLayout = findViewById(R.id.unlogin_layout);
         loginLayout.setVisibility(View.GONE);
@@ -89,7 +87,8 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
         }
 
         mUsername.setText(UserCoreInfo.getUserName());
-        mUserTitle.setText(UserCoreInfo.getUserTitle());
+        mUserTitle.setText(UserCoreInfo.getFunctionType());
+        mUserProfile.setText(UserCoreInfo.getMemo());
     }
 
     private DataItemResult buildItems() {
@@ -107,7 +106,7 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
         detail.setIntValue("titleId", R.string.self_my_video);
         detail.setIntValue("descriptionId", R.string.self_video_description);
         detail.setIntValue("iconId", R.drawable.me_video);
-        datas.addItem(detail);
+//        datas.addItem(detail); //// TODO: 16/3/8 暂时不用
 
         detail = new DataItemDetail();
         detail.setIntValue("id", ID_SYSTEM_SETTINGS);

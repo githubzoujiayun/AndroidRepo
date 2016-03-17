@@ -3,6 +3,7 @@ package com.android.worksum;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
+
+import com.android.worksum.controller.UserCoreInfo;
 
 import org.w3c.dom.Text;
 
@@ -124,6 +127,36 @@ public class ApplyRecordFragment extends TitlebarFragment implements ViewPager.O
             if (fragments[i].getSimpleName().equals(tabId)) {
                 mViewPager.setCurrentItem(i, true);
                 return;
+            }
+        }
+    }
+
+    @Override
+    public void onTabSelect() {
+        dispatchTabSelect();
+    }
+
+    private void dispatchTabSelect() {
+        FragmentManager fragmentManager = getChildFragmentManager();
+        for (Fragment fragment: fragmentManager.getFragments()) {
+            GeneralFragment generalFragment = (GeneralFragment)fragment;
+            if (generalFragment != null && generalFragment.isAdded()) {
+                generalFragment.onTabSelect();
+            }
+        }
+    }
+
+    @Override
+    public void onUserStatusChanged(int loginType) {
+        dispatchUserStatusChanged(loginType);
+    }
+
+    private void dispatchUserStatusChanged(int loginType) {
+        FragmentManager fragmentManager = getChildFragmentManager();
+        for (String tag: tabSpace) {
+            GeneralFragment fragment = (GeneralFragment) fragmentManager.findFragmentByTag(tag);
+            if (fragment != null) {
+                fragment.onUserStatusChanged(loginType);
             }
         }
     }

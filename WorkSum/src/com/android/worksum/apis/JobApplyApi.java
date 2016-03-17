@@ -17,6 +17,7 @@ public class JobApplyApi extends Api{
     public static final String APPLY_TYPE_PASSED = "01";
 
     public static DataItemResult getJobApplyList(int row,String applyType) {
+
         final String URL = "http://139.196.165.106/AppService/Jobs/JobsApply.asmx";
         final String namespace = "http://tempuri.org/";
         SoapObject soapObject = new SoapObject(namespace,"GetJobApplyList");

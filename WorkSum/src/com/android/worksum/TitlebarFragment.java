@@ -101,6 +101,7 @@ public abstract class TitlebarFragment extends GeneralFragment implements OnClic
 	}
 	
 	void setActionRightText(CharSequence text) {
+		mRightAction.setVisibility(View.VISIBLE);
 		mRightAction.setText(text);
 	}
 	
@@ -109,6 +110,7 @@ public abstract class TitlebarFragment extends GeneralFragment implements OnClic
 	}
 	
 	void setActionLeftText(CharSequence text) {
+		mLeftAction.setVisibility(View.VISIBLE);
 		mLeftAction.setText(text);
 	}
 	
@@ -121,6 +123,7 @@ public abstract class TitlebarFragment extends GeneralFragment implements OnClic
 	}
 	
 	void setActionLeftDrawable(Drawable drawable) {
+		mLeftAction.setVisibility(View.VISIBLE);
 		mLeftAction.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 	}
 	
@@ -129,6 +132,7 @@ public abstract class TitlebarFragment extends GeneralFragment implements OnClic
 	}
 	
 	void setActionRightDrawable(Drawable drawable) {
+		mRightAction.setVisibility(View.GONE);
 		mRightAction.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 	}
 

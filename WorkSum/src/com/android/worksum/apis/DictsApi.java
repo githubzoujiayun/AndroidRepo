@@ -23,4 +23,9 @@ public class DictsApi {
         soapObject.addProperty("p_strID", UserCoreInfo.getUserID());
         return DotnetLoader.loadAndParseData("http://tempuri.org/GetFunctionType",soapObject,URL);
     }
+
+    public static DataItemResult getArea() {
+        SoapObject soapObject = new SoapObject(namespace,"GetArea");
+        return DotnetLoader.loadAndParseData("http://tempuri.org/GetArea",soapObject,URL);
+    }
 }

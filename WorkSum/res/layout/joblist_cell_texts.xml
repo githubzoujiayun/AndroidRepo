@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="6dp"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/job_name"
@@ -20,6 +20,7 @@
         android:id="@+id/company_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:textSize="12sp"
@@ -31,6 +32,7 @@
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ico_map"
         android:drawablePadding="3dp"
+        android:layout_marginTop="7dp"
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:singleLine="true"

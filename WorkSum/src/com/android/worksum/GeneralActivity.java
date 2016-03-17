@@ -20,6 +20,10 @@ public class GeneralActivity extends BasicActivity{
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
     /**
      * 勿删！ 由反射调用

@@ -16,6 +16,7 @@
         android:textColor="@color/white_ffffff"
         android:textSize="14sp"
         android:padding="10dp"
+        android:visibility="gone"
         />
 
     <TextView
@@ -26,7 +27,7 @@
         android:layout_centerVertical="true"
         android:text="@string/app_name"
         android:textColor="@color/white_ffffff"
-        android:textSize="18sp"
+        android:textSize="17sp"
         android:textStyle="bold"/>
 
     <TextView
@@ -39,6 +40,7 @@
         android:background="@drawable/titlebar_action_bg_selector"
         android:padding="10dp"
         android:textColor="@color/white_ffffff"
+        android:visibility="gone"
         android:textSize="14sp"/>
 
 </RelativeLayout>

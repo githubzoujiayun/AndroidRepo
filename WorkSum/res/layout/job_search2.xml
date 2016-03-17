@@ -3,11 +3,12 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#dd000000">
+              android:background="@color/white_ffffff">
 
     <include layout="@layout/title_bar"/>
 
     <RelativeLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_ffffff">
@@ -47,43 +48,21 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_ffffff">
+        android:layout_marginTop="@dimen/filter_type_margin"
+        android:paddingLeft="12dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:background="#bbbbbb"
+        android:text="@string/filter_industries_title"/>
 
-        <ImageView
-            android:id="@+id/job_search_local_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ico_location"
-            android:layout_alignParentLeft="true"
-            android:padding="5dp"
-            android:layout_centerVertical="true"
-            android:contentDescription="@null"/>
+    <com.android.worksum.views.ScrollDataListView
+        android:id="@+id/industries_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/job_search_local_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_toLeftOf="@id/job_search_local_content"
-            android:layout_toRightOf="@id/job_search_local_icon"
-            android:paddingRight="20dp"
-            android:textSize="15sp"
-            android:imeOptions="actionSearch"
-            android:hint="@string/job_search_local_hint"/>
+    </com.android.worksum.views.ScrollDataListView>
 
-        <ImageView
-            android:id="@+id/job_search_local_del"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/editor_close"
-            android:layout_marginRight="@dimen/filter_horizontal_margin"
-            android:layout_centerVertical="true"
-            android:contentDescription="@null"/>
-
-
-    </RelativeLayout>
 </LinearLayout>

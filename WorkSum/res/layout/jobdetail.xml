@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <ScrollView
+        android:overScrollMode="always"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -144,12 +145,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/gray_e5e5e5"
-                android:padding="@dimen/jobinfo_common_padding">
+                android:paddingLeft="10dp">
 
                 <com.android.worksum.views.HeaderIconView
                     android:id="@+id/jobinfo_jobowner_headicon"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_centerVertical="true"
                     android:scaleType="centerCrop"/>
 
@@ -157,8 +158,8 @@
                     android:id="@+id/jobinfo_job_owner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="6dp"
                     android:layout_toRightOf="@id/jobinfo_jobowner_headicon"
                     android:text="HR Manager"
                     android:textSize="14sp"
@@ -169,8 +170,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/jobinfo_job_owner"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
                     android:layout_toRightOf="@id/jobinfo_jobowner_headicon"
                     android:text="张小姐"
                     android:textSize="14sp"
@@ -196,8 +198,9 @@
                 android:id="@+id/jobinfo_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:textColor="@color/black_3e3e3e"
-                android:textSize="12sp"/>
+                android:textSize="14sp"/>
         </LinearLayout>
     </ScrollView>
 

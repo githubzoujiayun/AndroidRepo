@@ -21,4 +21,15 @@
         android:hint="@string/login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:layout_marginTop="80dp"
+        android:id="@+id/login_btn"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="@string/login_submit"
+        android:background="@color/blue_3c5a96"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

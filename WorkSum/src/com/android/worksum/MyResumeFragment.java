@@ -14,7 +14,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.worksum.apis.DictsApi;
 import com.android.worksum.apis.JobsApi;
+import com.android.worksum.controller.ApiLoaderTask;
+import com.android.worksum.controller.DotnetLoader;
 import com.android.worksum.controller.UserCoreInfo;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
@@ -29,14 +32,10 @@ import com.jobs.lib_v1.task.SilentTask;
  */
 public class MyResumeFragment extends TitlebarFragment {
 
-    private static final String[] TYPE_SEX= {"男","女"};
-    private static final String[] TYPE_AGE = new String[80];
+    private static final String TYPE_FIRST_ITEM = "请选择";
 
-    static {
-        for (int i=0;i<TYPE_AGE.length;i++) {
-            TYPE_AGE[i] = "" + (16 + i);
-        }
-    }
+    private static final String[] TYPE_SEX= {TYPE_FIRST_ITEM,"男","女"};
+    private static final String[] TYPE_AGE = new String[]{TYPE_FIRST_ITEM,"18-25","25-40","40-65","65+"};
 
     @Override
     void setupView(ViewGroup v, Bundle savedInstanceState) {
@@ -48,11 +47,11 @@ public class MyResumeFragment extends TitlebarFragment {
         setupTitle(R.id.resume_user_name, R.string.resume_user_name);
         setupTitle(R.id.resume_user_phone, R.string.resume_user_phone);
         setupTitle(R.id.resume_first_name, R.string.resume_first_name);
-        setupTitle(R.id.resume_last_name,R.string.resume_last_name);
+        setupTitle(R.id.resume_last_name, R.string.resume_last_name);
         setupSpinnerTitle(R.id.resume_job_name, R.string.resume_job_name);
         setupSpinnerTitle(R.id.resume_area, R.string.resume_area);
         setupSpinnerTitle(R.id.resume_sex, R.string.resume_sex);
-        setupSpinnerTitle(R.id.resume_age,R.string.resume_age);
+        setupSpinnerTitle(R.id.resume_age, R.string.resume_age);
 
         setupTitle(R.id.resume_job_address, R.string.resume_address);
         setupTitle(R.id.resume_user_email, R.string.resume_email);
@@ -60,33 +59,52 @@ public class MyResumeFragment extends TitlebarFragment {
         setupInputType(R.id.resume_user_phone, InputType.TYPE_CLASS_PHONE);
         setupInputType(R.id.resume_user_email, InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
-        updateValues();
-
-        new ResumeUpdateTask().execute();
+        updateValues(false);
     }
 
-    private void updateValues() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        new AreaTask().execute();
+    }
+
+    private void updateValues(boolean hasLoaded) {
         updateEditValue(R.id.resume_first_name, UserCoreInfo.getFirstName());
         updateEditValue(R.id.resume_last_name, UserCoreInfo.getLastName());
         updateEditValue(R.id.resume_user_name, UserCoreInfo.getUserName());
         updateEditValue(R.id.resume_user_phone, UserCoreInfo.getMobilePhone());
-//        updateEditValue(R.id.resume_job_name, UserCoreInfo.getFunctionType());
-        updateEditValue(R.id.resume_job_address, UserCoreInfo.getCityAddr());
-        updateEditValue(R.id.resume_user_email, UserCoreInfo.getEmail());
+        updateEditValue(R.id.resume_job_address, UserCoreInfo.getCity());
 
         setupSpinnerValue(R.id.resume_sex, TYPE_SEX);
-        setupSpinnerValue(R.id.resume_age,TYPE_AGE);
+        setupSpinnerValue(R.id.resume_age, TYPE_AGE);
 
+        setSpinnerValue(R.id.resume_sex, UserCoreInfo.getGender());
+        setSpinnerValue(R.id.resume_age,UserCoreInfo.getAgeFrom());
+        if (hasLoaded) {
+            setSpinnerValue(R.id.resume_job_name, UserCoreInfo.getFunctionType());
+            setSpinnerValue(R.id.resume_area, UserCoreInfo.getCity());
+        }
         EditText editText = (EditText) findViewById(R.id.resume_memo);
         editText.setText(UserCoreInfo.getMemo());
     }
 
-
+    private void setupSpinnerValue(int includeId, DataItemResult result) {
+        DataItemDetail detail = new DataItemDetail();
+        detail.setStringValue("Cname",getString(R.string.spinner_item_choose));
+        result.addItem(0,detail);
+        final int count = result.getDataCount();
+        String[] values = new String[count];
+        for (int i=0; i<count; i++) {
+            detail = result.getItem(i);
+            values[i] = detail.getString("Cname");
+        }
+        setupSpinnerValue(includeId, values);
+    }
 
     private void setupSpinnerValue(int includeId, String[] resources) {
         View view = findViewById(includeId);
         Spinner spinner = (Spinner) view.findViewById(R.id.resume_spinner_item_spinner);
-        spinner.setAdapter(new SpinnerArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, resources));
+        spinner.setAdapter(new SpinnerArrayAdapter(getActivity(), R.layout.resume_simple_item, resources));
         spinner.setSelection(0);
     }
 
@@ -95,11 +113,21 @@ public class MyResumeFragment extends TitlebarFragment {
         Spinner spinner = (Spinner) view.findViewById(R.id.resume_spinner_item_spinner);
         SpinnerArrayAdapter adapter = (SpinnerArrayAdapter) spinner.getAdapter();
         String[] values = adapter.getValues();
-        for (int i=0;i<values.length;i++) {
+        int i;
+        for (i=0;i<values.length;i++) {
             if (values[i].equals(value)) {
                 spinner.setSelection(i);
             }
         }
+    }
+
+    private String getSpinnerValue(int includeId) {
+        View view = findViewById(includeId);
+        Spinner spinner = (Spinner) view.findViewById(R.id.resume_spinner_item_spinner);
+        if (spinner.getSelectedItem() == null) {
+            return spinner.getAdapter().getItem(0).toString();
+        }
+        return spinner.getSelectedItem().toString();
     }
 
     private class SpinnerArrayAdapter extends ArrayAdapter<String> {
@@ -117,7 +145,7 @@ public class MyResumeFragment extends TitlebarFragment {
     }
 
     private void updateEditValue(int includeId, String value) {
-        View view = findViewById(includeId);
+        final View view = findViewById(includeId);
         EditText editText = (EditText)view.findViewById(R.id.resume_content);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -126,9 +154,9 @@ public class MyResumeFragment extends TitlebarFragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                ImageView checkView = (ImageView)findViewById(R.id.resume_item_check);
+                ImageView checkView = (ImageView)view.findViewById(R.id.resume_item_check);
                 checkView.setVisibility(View.GONE);
-                if (!TextUtils.isEmpty(value)) {
+                if (!TextUtils.isEmpty(charSequence)) {
                     checkView.setVisibility(View.VISIBLE);
                 }
             }
@@ -143,7 +171,11 @@ public class MyResumeFragment extends TitlebarFragment {
     private String getEditValue(int includeId) {
         View view = findViewById(includeId);
         EditText editText = (EditText)view.findViewById(R.id.resume_content);
-        return editText.getText().toString();
+        Editable text =  editText.getText();
+        if (text != null) {
+            return text.toString();
+        }
+        return "";
     }
 
     private void setupTitle(int includeId,int titleId){
@@ -172,20 +204,25 @@ public class MyResumeFragment extends TitlebarFragment {
     @Override
     protected void onActionRight() {
         super.onActionRight();
-
+        UserCoreInfo.setFirstName(getEditValue(R.id.resume_first_name));
+        UserCoreInfo.setLastName(getEditValue(R.id.resume_last_name));
         UserCoreInfo.setUserName(getEditValue(R.id.resume_user_name));
-//        UserCoreInfo.setAgeFrom("");
-//        UserCoreInfo.setGender("");
+        UserCoreInfo.setCity(getSpinnerValue(R.id.resume_area));
+        UserCoreInfo.setFunctionType(getSpinnerValue(R.id.resume_job_name));
         UserCoreInfo.setMobilePhone(getEditValue(R.id.resume_user_phone));
-        UserCoreInfo.setFunctionType(getEditValue(R.id.resume_job_name));
-        UserCoreInfo.setCity("");
-        UserCoreInfo.setCityAddr(getEditValue(R.id.resume_job_address));
-        UserCoreInfo.setEmail(getEditValue(R.id.resume_user_email));
+        UserCoreInfo.setGender(getSpinnerValue(R.id.resume_sex));
+        UserCoreInfo.setAgeFrom(getSpinnerValue(R.id.resume_age));
+        EditText editText = (EditText) findViewById(R.id.resume_memo);
+        UserCoreInfo.setMemo(editText.getText().toString());
         new ResumeUploadTask().execute();
     }
 
 
-    private class ResumeUpdateTask extends SilentTask{
+    private class ResumeUpdateTask extends ApiLoaderTask{
+        public ResumeUpdateTask(Context context) {
+            super(context,getTaskManager());
+        }
+
         /**
          * 执行异步任务
          *
@@ -203,8 +240,9 @@ public class MyResumeFragment extends TitlebarFragment {
         protected void onTaskFinished(DataItemResult result) {
             if (!result.hasError) {
                 UserCoreInfo.setUserLoginInfo(result, true);
-                updateValues();
+                updateValues(true);
             }
+            Tips.hiddenWaitingTips();
         }
     }
 
@@ -238,6 +276,40 @@ public class MyResumeFragment extends TitlebarFragment {
                 Tips.showTips(R.string.resume_upload_failed);
             }
             Tips.hiddenWaitingTips();
+        }
+    }
+
+    private class AreaTask extends SilentTask{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Tips.showWaitingTips();
+        }
+
+        @Override
+        protected DataItemResult doInBackground(String... params) {
+            return DictsApi.getArea();
+        }
+
+        @Override
+        protected void onTaskFinished(DataItemResult result) {
+            setupSpinnerValue(R.id.resume_area,result);
+            new FunctionTypeTask().execute();
+        }
+    }
+
+    private class FunctionTypeTask extends SilentTask {
+
+        @Override
+        protected DataItemResult doInBackground(String... params) {
+            return DictsApi.getFunctionType();
+        }
+
+        @Override
+        protected void onTaskFinished(DataItemResult result) {
+            setupSpinnerValue(R.id.resume_job_name,result);
+            new ResumeUpdateTask(getActivity()).executeWithCheck();
         }
     }
 }

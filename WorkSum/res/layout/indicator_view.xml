@@ -17,7 +17,7 @@
 	    android:id="@+id/indicator_title"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:textSize="14sp"
+	    android:textSize="12sp"
 	    android:layout_marginBottom="3dp"
 	    />
 </LinearLayout>

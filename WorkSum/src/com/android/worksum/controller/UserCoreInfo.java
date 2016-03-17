@@ -129,9 +129,7 @@ public class UserCoreInfo {
 
     public static String getUserID() {
         return AppCoreInfo.getCoreDB().getStrValue("user_info", "user_id");
-
     }
-
 
     /**
      * 更新用户登录状态
@@ -157,9 +155,8 @@ public class UserCoreInfo {
     /**
      * 保存用户名
      */
-    public static boolean setUserName(String name) {
-        String nameEncrypted = SimpleEncrypt.encrypt(name);
-        return AppCoreInfo.getCoreDB().setStrValue(Store.CORE_USER_INFO, "UserName", nameEncrypted) > 0;
+    public static void setUserName(String name) {
+        getUserCoreInfo().setStringValue("Cname",name);
     }
 
     /**
@@ -700,6 +697,10 @@ public class UserCoreInfo {
         return getUserCoreInfo().getString("Memo");
     }
 
+    public static String setMemo(String memo) {
+        return getUserCoreInfo().setStringValue("Memo", memo);
+    }
+
     public static String getAgeFrom() {
         return getUserCoreInfo().getString("AgeFrom");
     }
@@ -735,5 +736,13 @@ public class UserCoreInfo {
     public static void setLastName(String lastName) {
         getUserCoreInfo().setStringValue("LastName",lastName);
 
+    }
+
+    public static void setAgeFrom(String age) {
+        getUserCoreInfo().setStringValue("AgeFrom",age);
+    }
+
+    public static void setGender(String s) {
+        getUserCoreInfo().setStringValue("Gender",s);
     }
 }

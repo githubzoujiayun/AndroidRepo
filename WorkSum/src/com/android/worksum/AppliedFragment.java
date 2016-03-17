@@ -2,6 +2,8 @@ package com.android.worksum;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -9,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.worksum.apis.JobApplyApi;
+import com.android.worksum.controller.ApiDataLoader;
+import com.android.worksum.controller.UserCoreInfo;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.imageloader.core.ImageLoader;
 import com.jobs.lib_v1.list.DataListAdapter;
@@ -18,12 +22,33 @@ import com.jobs.lib_v1.list.DataLoader;
 
 /**
  * @author chao.qin
- *
- * 已申请
+ *         <p>
+ *         已申请
  */
 public class AppliedFragment extends GeneralFragment implements AdapterView.OnItemClickListener {
 
     private DataListView mListView;
+    MainHandler mHandler = new MainHandler();
+
+    private class MainHandler extends Handler {
+
+        private static final int MSG_REFRESH_LIST = 0;
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_REFRESH_LIST:
+                    if (!UserCoreInfo.hasLogined()) {
+                        mListView.getListData().clear();
+                        mListView.statusChangedNotify();
+                    } else if (mListView.getDataCount() < 1) {
+                        mListView.refreshData();
+                    }
+                    break;
+            }
+        }
+    }
 
     @Override
     void setupView(ViewGroup v, Bundle savedInstanceState) {
@@ -35,14 +60,15 @@ public class AppliedFragment extends GeneralFragment implements AdapterView.OnIt
         mListView.setDivider(new ColorDrawable(getResources().getColor(R.color.black_999999)));
         mListView.setDividerHeight(1);
         mListView.setOnItemClickListener(this);
-        mListView.setDataLoader(new DataLoader() {
+        mListView.setDataLoader(new ApiDataLoader() {
+
             @Override
-            public DataItemResult fetchData(DataListAdapter adapter, int pageAt, int pageSize) {
+            public DataItemResult onFetchData(DataListAdapter adapter, int pageAt, int pageSize) {
                 String type = JobApplyApi.APPLY_TYPE_APPLIED;
                 if (AppliedFragment.this instanceof PassedFragment) {
                     type = JobApplyApi.APPLY_TYPE_PASSED;
                 }
-                return JobApplyApi.getJobApplyList(adapter.getDataCount(),type);
+                return JobApplyApi.getJobApplyList(adapter.getDataCount(), type);
             }
         });
     }
@@ -55,7 +81,7 @@ public class AppliedFragment extends GeneralFragment implements AdapterView.OnIt
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         DataListAdapter adapter = (DataListAdapter) adapterView.getAdapter();
-        FragmentContainer.showJobDetail(getActivity(),adapter.getItem(position));
+        FragmentContainer.showJobDetail(getActivity(), adapter.getItem(position));
     }
 
     private class AppliedCell extends DataListCell {
@@ -106,7 +132,22 @@ public class AppliedFragment extends GeneralFragment implements AdapterView.OnIt
 
             mAppliedStatus.setText(mDetail.getString(""));
             mAppliedTime.setText(mDetail.getString(""));
-            ImageLoader.getInstance().displayImage(mDetail.getString("JobImg1"),mApplidImg);
+            ImageLoader.getInstance().displayImage(mDetail.getString("JobImg1"), mApplidImg);
         }
+    }
+
+
+    @Override
+    public void onUserStatusChanged(int loginType) {
+        super.onUserStatusChanged(loginType);
+        mHandler.sendEmptyMessage(MainHandler.MSG_REFRESH_LIST);
+
+    }
+
+    @Override
+    public void onTabSelect() {
+        super.onTabSelect();
+        mHandler.sendEmptyMessage(MainHandler.MSG_REFRESH_LIST);
+
     }
 }

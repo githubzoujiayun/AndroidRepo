@@ -1,7 +1,9 @@
 package com.android.worksum;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +11,10 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.android.worksum.controller.FragmentUtil;
+import com.android.worksum.controller.TaskManager;
 import com.jobs.lib_v1.app.AppUtil;
+
+import java.util.ArrayList;
 
 public abstract class GeneralFragment extends Fragment {
 
@@ -20,6 +25,12 @@ public abstract class GeneralFragment extends Fragment {
     public static final int WRAP_CONTENT = ViewGroup.LayoutParams.WRAP_CONTENT;
 
     View mLayout;
+
+    private TaskManager mTaskManager;
+
+    public TaskManager getTaskManager() {
+        return mTaskManager;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +76,7 @@ public abstract class GeneralFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         AppUtil.lifeSycle(this.getClass().getName() + "/onAttach()");
+        mTaskManager = new TaskManager(this);
         if (!(activity instanceof GeneralActivity)) {
             throw new AppException(activity.getComponentName() + " is not a instance of GenaralActivity.");
         }
@@ -155,4 +167,13 @@ public abstract class GeneralFragment extends Fragment {
     public void onUserStatusChanged(int loginType){
 
     }
+
+    public void onTabSelect(){}
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mTaskManager.removeAllTask();
+    }
+
 }

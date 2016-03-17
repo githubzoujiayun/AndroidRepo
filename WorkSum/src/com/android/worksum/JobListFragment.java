@@ -48,7 +48,7 @@ public class JobListFragment extends TitlebarFragment implements OnItemClickList
 		super.setupView(v, savedInstanceState);
 		setTitle(R.string.app_name);
 		setActionLeftDrawable(R.drawable.menu_search);
-		setActionRightDrawable(R.drawable.menu_filter);
+//		setActionRightDrawable(R.drawable.menu_filter);//// TODO: 16/3/15 暂时隐藏
 		mJobListView = (DataListView) v.findViewById(R.id.joblist);
 		mJobListView.setDataCellSelector(new DataListCellSelector() {
 			
@@ -86,7 +86,7 @@ public class JobListFragment extends TitlebarFragment implements OnItemClickList
 
 	protected void onActionLeft() {
 		//start search jobs
-		startFragmentForResult(REQUEST_CODE_SEARCH, R.id.fragment_content, new JobSearchFragment());
+		startFragmentForResult(REQUEST_CODE_SEARCH, R.id.fragment_content, new JobSearchFragment2());
 	}
 
 

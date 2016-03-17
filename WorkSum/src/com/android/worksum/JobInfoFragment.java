@@ -1,20 +1,27 @@
 package com.android.worksum;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.worksum.apis.JobApplyApi;
+import com.android.worksum.apis.JobsApi;
 import com.android.worksum.controller.ApiLoaderTask;
+import com.android.worksum.controller.Task;
+import com.android.worksum.controller.TaskManager;
+import com.android.worksum.utils.ReflectUtils;
 import com.android.worksum.views.HeaderIconView;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.flip.DataViewPager;
 import com.jobs.lib_v1.list.DataListAdapter;
 import com.jobs.lib_v1.misc.Tips;
+import com.jobs.lib_v1.task.SilentTask;
 
 /**
  * chao.qin
@@ -40,6 +47,14 @@ public class JobInfoFragment extends TitlebarFragment {
 
     private DataViewPager mViewPager;
 
+    private String mResumeId;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ViewConfiguration configuration = ViewConfiguration.get(getActivity());
+        ReflectUtils.setField(configuration, "mOverscrollDistance", 100);
+    }
 
     @Override
     void setupView(ViewGroup vg, Bundle savedInstanceState) {
@@ -63,10 +78,14 @@ public class JobInfoFragment extends TitlebarFragment {
         DataItemDetail detail = getArguments().getParcelable("job_detail");
         bindData(detail);
 
+        mResumeId = detail.getString("JobID");
+
         mApplyBtn.setOnClickListener(this);
 
         mViewPager = (DataViewPager) findViewById(R.id.imgs_filpper);
-        mViewPager.setupData(buildPagerAdapter(detail),0,PageItem.class);
+        mViewPager.setupData(buildPagerAdapter(detail), 0, PageItem.class);
+
+        new DetailUpdateTask(getTaskManager()).execute();
     }
 
     private DataListAdapter buildPagerAdapter(DataItemDetail detail) {
@@ -97,9 +116,9 @@ public class JobInfoFragment extends TitlebarFragment {
         mSalaryView.setText(salary);
         mDistrubteTypeView.setText(detail.getString("")); //todo wait for interface
 
-        mJobOwnerView.setText("");//todo wfi
-        mJobOwnerNameView.setText("");//todo wfi
-        mJobDescriptionView.setText("");//todo wfi
+        mJobOwnerView.setText("HR Manager");//todo wfi
+        mJobOwnerNameView.setText(detail.getString("OperatorName"));
+        mJobDescriptionView.setText(detail.getString("JobInfo"));//todo wfi
     }
 
 
@@ -125,7 +144,7 @@ public class JobInfoFragment extends TitlebarFragment {
         private static final int APPLY_APPLID_ALREADY2 = 2;
 
         public ApplyTask(Context context) {
-            super(context);
+            super(context,getTaskManager());
         }
 
         @Override
@@ -162,4 +181,22 @@ public class JobInfoFragment extends TitlebarFragment {
         }
     }
 
+    private class DetailUpdateTask extends Task {
+
+        public DetailUpdateTask(TaskManager taskManager) {
+            super(taskManager);
+        }
+
+        @Override
+        protected DataItemResult doInBackground(String... params) {
+            return JobsApi.getJobInfo(mResumeId);
+        }
+
+        @Override
+        protected void onTaskFinished(DataItemResult result) {
+            if(!result.hasError && result.getDataCount() > 0) {
+                bindData(result.getItem(0));
+            }
+        }
+    }
 }

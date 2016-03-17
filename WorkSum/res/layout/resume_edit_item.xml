@@ -13,6 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/resume_item_common_margin"
         android:layout_marginRight="@dimen/resume_item_common_margin"
+        android:paddingBottom="2dp"
+        android:paddingTop="8dp"
         android:textSize="@dimen/resume_title_text_size"
         android:textStyle="bold"/>
 
@@ -22,10 +24,14 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/resume_item_common_margin"
         android:layout_toRightOf="@id/resume_title"
+        android:layout_alignBottom="@id/resume_title"
+        android:layout_alignTop="@id/resume_title"
         android:background="@null"
         android:cursorVisible="true"
         android:padding="3dp"
         android:singleLine="true"
+        android:textSize="16sp"
+        android:textColor="@color/gray_aaaaaa"
         android:textCursorDrawable="@null"
         />
 
@@ -34,7 +40,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/resume_content"
-        android:visibility="gone"
+        android:visibility="visible"
+        android:layout_centerVertical="true"
         android:src="@drawable/ico_resume_check"/>
 
     <View
@@ -42,7 +49,7 @@
         android:layout_height="1px"
         android:layout_below="@id/resume_content"
         android:layout_toRightOf="@id/resume_title"
-        android:background="@color/black_000000"
+        android:background="@color/gray_aaaaaa"
         />
 
 </RelativeLayout>

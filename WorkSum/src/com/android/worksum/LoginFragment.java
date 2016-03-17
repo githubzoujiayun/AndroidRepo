@@ -2,7 +2,9 @@ package com.android.worksum;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.worksum.apis.JobsApi;
@@ -22,6 +24,7 @@ public class LoginFragment extends TitlebarFragment {
 
     EditText mLoginView;
     EditText mPwdView;
+    Button mLoginBtn;
 
     private LoginCallback mCallback;
 
@@ -35,11 +38,14 @@ public class LoginFragment extends TitlebarFragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            mCallback = (LoginCallback) ObjectSessionStore.getObject(bundle.getString("callback_key"));
+            mCallback = (LoginCallback) ObjectSessionStore.popObject(bundle.getString("callback_key"));
         }
 
         mLoginView = (EditText) findViewById(R.id.login_username);
         mPwdView = (EditText) findViewById(R.id.login_password);
+        mLoginBtn = (Button) findViewById(R.id.login_btn);
+
+        mLoginBtn.setOnClickListener(this);
 
         setActionRightText(R.string.login_submit);
         setActionLeftDrawable(R.drawable.common_nav_arrow);
@@ -56,7 +62,7 @@ public class LoginFragment extends TitlebarFragment {
         String phoneNumber = mLoginView.getText().toString();
         String password = mPwdView.getText().toString();
 
-        new LoginTask().execute(phoneNumber,password);
+        new LoginTask().execute(phoneNumber, password);
     }
 
     class LoginTask extends SilentTask {
@@ -134,6 +140,17 @@ public class LoginFragment extends TitlebarFragment {
                 Tips.showTips(R.string.login_get_resume_info_failed);
             }
             Tips.hiddenWaitingTips();
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        super.onClick(view);
+        if (view == mLoginBtn) {
+            String phoneNumber = mLoginView.getText().toString();
+            String password = mPwdView.getText().toString();
+
+            new LoginTask().execute(phoneNumber,password);
         }
     }
 }

@@ -8,9 +8,9 @@
         android:textSize="16sp"
         android:textColor="@color/green_008d14_selector"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

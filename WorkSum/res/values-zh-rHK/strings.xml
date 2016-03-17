@@ -10,7 +10,6 @@
 	<string name="title_applied">已申請職位</string>
 	<string name="title_message">訊息</string>
 	<string name="title_self">我</string>
-
 	<string name="applied_apply">已申請</string>
 	<string name="applied_passed">通過</string>
 	<string name="applied_refused">已拒絕</string>
@@ -101,11 +100,10 @@
 	<string name="joblist_salary">HK$%1$s</string>
 	<string name="applied_need_login">请先登录</string>
 	<string name="applied_empty">数据为空</string>
-	<string name="job_search_local_hint">地址</string>
-	<string name="spinner_item_choose">请选择</string>
-	<string name="job_search_submit">搜索</string>
 	<string name="joblist_recommend_tag">推薦</string>
 	<string-array name="spinner_items">
-		<item>@string/spinner_item_choose</item>
+		<item>item1</item>
+		<item>item2</item>
+		<item>item3</item>
 	</string-array>
 </resources>

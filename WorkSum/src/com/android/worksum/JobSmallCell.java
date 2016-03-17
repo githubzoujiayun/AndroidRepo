@@ -29,13 +29,15 @@ public class JobSmallCell extends DataListCell{
 	
 	private ImageView mJobPicture;
 	private TextView mJobSalary;
+	private TextView mJobSalaryType;
 
 	@Override
 	public void bindData() {
 		mJobName.setText(mDetail.getString("JobName"));
 		mCompanyName.setText(mDetail.getString("CustomerName"));
 		mJobAddress.setText(mDetail.getString("AreaName"));
-		mJobSalary.setText(mDetail.getString("Salary"));
+		mJobSalary.setText(mAdapter.getContext().getString(R.string.joblist_salary,mDetail.getString("Salary")));
+		mJobSalaryType.setText(mDetail.getString("SalaryType"));
 
 		ImageLoader imageLoader = ImageLoader.getInstance();
 		imageLoader.displayImage(mDetail.getString("JobImg1"),mJobPicture);
@@ -49,6 +51,7 @@ public class JobSmallCell extends DataListCell{
 		mJobAddress = (TextView) findViewById(R.id.job_address);
 		mJobPicture = (ImageView) findViewById(R.id.job_pic);
 		mJobSalary = (TextView) findViewById(R.id.job_salary);
+		mJobSalaryType = (TextView) findViewById(R.id.job_salary_type);
 	}
 
 	@Override

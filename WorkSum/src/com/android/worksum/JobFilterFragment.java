@@ -169,6 +169,9 @@ public class JobFilterFragment extends TitlebarFragment implements SeekBar.OnSee
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        for (int i=0;i<mDictListView.getDataCount();i++) {
+            mDictListView.setItemChecked(i,false);
+        }
         mDictListView.setItemChecked(position,mDictListView.isItemChecked(position));
         mDictListView.statusChangedNotify();
     }
@@ -194,7 +197,6 @@ public class JobFilterFragment extends TitlebarFragment implements SeekBar.OnSee
     }
 
     private class IndustryCell extends DataListCell{
-        boolean mChecked;
 
         private  TextView mIndustryName;
         private ImageView mCheckedView;
@@ -236,4 +238,5 @@ public class JobFilterFragment extends TitlebarFragment implements SeekBar.OnSee
             return listView.isItemChecked(mPosition);
         }
     }
+
 }

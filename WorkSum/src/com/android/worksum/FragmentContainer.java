@@ -76,6 +76,7 @@ public class FragmentContainer extends GeneralActivity {
     public static void showLoginFragment(Context context,LoginFragment.LoginCallback callback) {
         Bundle extras = new Bundle();
         Intent intent = new Intent(context,FragmentContainer.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra(KEY_FRAGMENT, LoginFragment.class);
         extras.putString("callback_key", ObjectSessionStore.insertObject(callback));
         intent.putExtras(extras);
