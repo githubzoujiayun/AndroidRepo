@@ -1,0 +1,2 @@
+include ':WorkSum2'
+project(':WorkSum2').projectDir = new File('WorkSum')
