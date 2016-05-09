@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/2048/2048.iml" filepath="$PROJECT_DIR$/2048/2048.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AndroidRepo2.iml" filepath="$PROJECT_DIR$/AndroidRepo2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WorkSum/WorkSum.iml" filepath="$PROJECT_DIR$/WorkSum/WorkSum.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jobs_library_v1/jobs_library_v1.iml" filepath="$PROJECT_DIR$/jobs_library_v1/jobs_library_v1.iml" />
+    </modules>
+  </component>
+</project>

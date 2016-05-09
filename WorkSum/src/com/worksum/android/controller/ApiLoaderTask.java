@@ -21,7 +21,7 @@ public abstract class ApiLoaderTask extends Task {
         mContext = context;
     }
 
-    public void executeWithCheck(String... params) {
+    public void executeWithCheck(final String... params) {
         if (checkLogin()) {
             executeOnPool(params);
         } else {

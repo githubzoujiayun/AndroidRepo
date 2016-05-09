@@ -15,7 +15,7 @@ public class DataController {
 
     private static DataController mDataController;
 
-    private HashMap<String,DataAdapter> mAdapterMap = new HashMap<>();
+    private HashMap<String,DataAdapter> mAdapterMap = new HashMap<String,DataAdapter>();
 
     private DataController() {
     }

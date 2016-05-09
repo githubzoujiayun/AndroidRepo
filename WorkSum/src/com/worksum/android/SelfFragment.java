@@ -304,7 +304,7 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
 
     private void uploadPhoto(Bitmap bitmap) {
         byte[] bitmapData = BitmapUtil.getBitmapBytes(bitmap,-1,-1, -1);
-        String base64Data = Base64.encode(bitmapData, 0, bitmapData.length);
+        final String base64Data = Base64.encode(bitmapData, 0, bitmapData.length);
 
         AppCoreInfo.getCacheDB().setBinValue("head_icon", UserCoreInfo.getUserID(), bitmapData);
 

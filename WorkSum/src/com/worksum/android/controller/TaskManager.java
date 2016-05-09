@@ -20,7 +20,7 @@ public class TaskManager {
         mTarget = o;
     }
 
-    private ArrayList<AsyncTask> mTasks = new ArrayList<>();
+    private ArrayList<AsyncTask> mTasks = new ArrayList<AsyncTask>();
 
     protected void addTaskQueue(AsyncTask task) {
         if (Looper.myLooper() != Looper.getMainLooper()) {

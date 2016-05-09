@@ -23,7 +23,7 @@ public abstract class ApiDataLoader implements DataLoader{
     }
 
     @Override
-    public final DataItemResult fetchData(DataListAdapter adapter, int pageAt, int pageSize) {
+    public final DataItemResult fetchData(final DataListAdapter adapter, int pageAt, int pageSize) {
         if (UserCoreInfo.hasLogined()) {
             return onFetchData(adapter, pageAt, pageSize);
         } else if (mShowLoginDialog){

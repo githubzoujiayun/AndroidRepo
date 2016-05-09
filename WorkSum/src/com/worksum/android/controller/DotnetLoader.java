@@ -40,7 +40,7 @@ public class DotnetLoader {
                 mDotnetListener = dotnetListener;
         }
 
-        public DataItemResult loadAndParseDataInner(String soapAction, SoapObject soapObject, String URL, boolean check) {
+        public DataItemResult loadAndParseDataInner(final String soapAction, final SoapObject soapObject, final String URL, boolean check) {
             if (check && !checkUserId()) {
                 DialogContainer.showLoginDialog(AppMain.getApp(), new LoginFragment.LoginCallback() {
                     @Override
