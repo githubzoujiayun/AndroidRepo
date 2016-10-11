@@ -144,7 +144,7 @@ public class JobSearchFragment2 extends TitlebarFragment implements TextView.OnE
                 DataItemResult result = DictsApi.getFunctionType();
                 if (!result.hasError && result.getDataCount() > 0) {
                     DataItemDetail detail = new DataItemDetail();
-                    detail.setStringValue("Cname",getString(R.string.job_search_industry_all));
+                    detail.setStringValue("Cname", getStringSafely(R.string.job_search_industry_all));
                     result.addItem(0,detail);
                     AppCoreInfo.getDictDB().setDictCache("dict", "function_type", result);
                 }

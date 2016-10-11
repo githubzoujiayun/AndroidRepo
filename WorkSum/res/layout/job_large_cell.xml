@@ -30,7 +30,7 @@
             android:paddingTop="3dp"
             android:visibility="gone"
             android:textColor="@color/white_ffffff"
-            android:textSize="14sp"/>
+            android:textSize="12sp"/>
 
 
         <TextView
@@ -44,7 +44,7 @@
             android:visibility="visible"
             android:text="@string/joblist_recommend_tag"
             android:textColor="@color/white_ffffff"
-            android:textSize="14sp"/>
+            android:textSize="12sp"/>
         <TextView
             android:id="@+id/job_salary"
             android:layout_width="wrap_content"
@@ -56,14 +56,14 @@
             android:paddingRight="5dp"
             android:paddingTop="3dp"
             android:textColor="@color/white_ffffff"
-            android:textSize="14sp"
+            android:textSize="12sp"
             />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:background="@color/white_ddffffff">
 
         <include

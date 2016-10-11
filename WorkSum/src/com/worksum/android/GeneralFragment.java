@@ -45,7 +45,7 @@ public abstract class GeneralFragment extends Fragment {
 		return contentView;
 	}
 
-    public String getSafeString(int resId) {
+    public String getStringSafely(int resId) {
         if (getActivity() == null) {
             return "";
         }

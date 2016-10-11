@@ -10,7 +10,7 @@
     <dimen name="self_common_margin">10dp</dimen>
     <dimen name="resume_item_common_margin">10dp</dimen>
     <dimen name="resume_item_title_width">80dp</dimen>
-    <dimen name="resume_items_margin">40dp</dimen>
+    <dimen name="resume_items_margin">30dp</dimen>
     <dimen name="resume_title_text_size">16sp</dimen>
     <dimen name="jobinfo_common_item_margin">10dp</dimen>
     <dimen name="jobinfo_common_padding">6dp</dimen>
@@ -18,6 +18,6 @@
     <item name="refilter_button_zoom_out" type="dimen" format="float">1.15</item>
     <item name="refilter_button_zoom_in" type="dimen" format="float">0.85</item>
     <dimen name="resume_item_title_height">34dp</dimen>
-    <dimen name="commen_img_width">118dp</dimen>
+    <dimen name="commen_img_width">108dp</dimen>
     <dimen name="commen_img_height">80dp</dimen>
 </resources>

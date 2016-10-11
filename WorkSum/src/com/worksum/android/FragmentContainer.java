@@ -115,4 +115,14 @@ public class FragmentContainer extends GeneralActivity {
         intent.putExtras(extras);
         context.startActivity(intent);
     }
+
+    public static void showDict(Fragment fragment, int position) {
+        Bundle extras = new Bundle();
+        Intent intent = new Intent(fragment.getActivity(),FragmentContainer.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(KEY_FRAGMENT, DictFragment.class);
+        extras.putInt("position", position);
+        intent.putExtras(extras);
+        fragment.startActivityForResult(intent, position);
+    }
 }

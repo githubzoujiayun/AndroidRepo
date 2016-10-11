@@ -3,8 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="6dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginLeft="6dp"
+    android:padding="2dp">
 
     <TextView
         android:id="@+id/job_name"
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:singleLine="true"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         />
 
@@ -20,22 +21,11 @@
         android:id="@+id/company_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="5dp"
         android:ellipsize="end"
         android:singleLine="true"
-        android:textSize="12sp"
+        android:textSize="10sp"
+        android:textColor="@color/gray_555555"
         />
-
-    <TextView
-        android:id="@+id/job_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ico_map"
-        android:drawablePadding="3dp"
-        android:layout_marginTop="7dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:singleLine="true"
-        android:textSize="12sp"
-        />
+    <include layout="@layout/joblist_infos"/>
 </LinearLayout>

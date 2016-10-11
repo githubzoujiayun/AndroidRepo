@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="XAppDbgServerAndroid">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/WorkSum/libs/XAppDbgServerAndroid.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

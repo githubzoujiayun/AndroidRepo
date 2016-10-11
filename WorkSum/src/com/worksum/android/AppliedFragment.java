@@ -4,6 +4,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -65,6 +66,19 @@ public class AppliedFragment extends GeneralFragment implements AdapterView.OnIt
         mApiLoader.setShowLoginDialog(false);
     }
 
+    private String buildRange(int id,String start,String end) {
+        if (TextUtils.isEmpty(start) && TextUtils.isEmpty(end)) {
+            return "";
+        }
+        if (!TextUtils.isEmpty(start) && !TextUtils.isEmpty(end)) {
+            return getString(id,start,end);
+        }
+        if (!TextUtils.isEmpty(start) || !TextUtils.isEmpty(end)) {
+            return start + end;
+        }
+        return "";
+    }
+
     ApiDataLoader mApiLoader = new ApiDataLoader(getActivity()) {
 
         @Override
@@ -99,6 +113,8 @@ public class AppliedFragment extends GeneralFragment implements AdapterView.OnIt
 
         private TextView mAppliedTime;
         private TextView mAppliedStatus;
+        private TextView mTimeRange;
+        private TextView mDateRange;
 
         /**
          * 获取单元格对应的 layoutID
@@ -123,6 +139,10 @@ public class AppliedFragment extends GeneralFragment implements AdapterView.OnIt
             mApplidImg = (ImageView) findViewById(R.id.applid_img);
             mAppliedTime = (TextView) findViewById(R.id.applid_time);
             mAppliedStatus = (TextView) findViewById(R.id.applid_status);
+
+
+            mTimeRange = (TextView) findViewById(R.id.job_time_range);
+            mDateRange = (TextView) findViewById(R.id.job_date_range);
         }
 
         /**
@@ -137,6 +157,21 @@ public class AppliedFragment extends GeneralFragment implements AdapterView.OnIt
 
             mAppliedStatus.setText(mDetail.getString(""));
             mAppliedTime.setText(mDetail.getString(""));
+
+            String timeRange = buildRange(R.string.time_range, mDetail.getString("StartTime"), mDetail.getString("EndTime"));
+            mTimeRange.setText(timeRange);
+            mTimeRange.setVisibility(View.VISIBLE);
+            if (TextUtils.isEmpty(timeRange)) {
+                mTimeRange.setVisibility(View.GONE);
+            }
+
+            String dateRange = buildRange(R.string.date_range, mDetail.getString("StartDateName"), mDetail.getString("EndDateName"));
+            mDateRange.setText(dateRange);
+            mDateRange.setVisibility(View.VISIBLE);
+            if (TextUtils.isEmpty(dateRange)) {
+                mDateRange.setVisibility(View.GONE);
+            }
+
             ImageLoader.getInstance().displayImage(mDetail.getString("JobImg1"), mApplidImg);
         }
     }

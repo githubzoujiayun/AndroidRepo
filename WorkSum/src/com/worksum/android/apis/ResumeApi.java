@@ -14,7 +14,8 @@ import org.ksoap2.serialization.SoapObject;
  */
 public class ResumeApi {
 
-    private static final String URL = "http://139.196.165.106/AppService/Resume/SMS.asmx";
+    public static final String SERVER_ADDRESS = "47.89.50.29";
+    private static final String URL = "http://" + SERVER_ADDRESS + "/AppService/Resume/SMS.asmx";
     private static final String namespace = "http://tempuri.org/";
 
     public static DataItemResult sendSMS(String phoneNumber) {
@@ -32,7 +33,7 @@ public class ResumeApi {
     }
 
     public static DataItemResult savePhotoFile(String photoData) {
-        String URL = "http://139.196.165.106/AppService/Resume/Resume.asmx";
+        String URL = "http://" + SERVER_ADDRESS + "/AppService/Resume/Resume.asmx";
 
         SoapObject soapObject = new SoapObject(namespace,"SavePtotoFile");
         soapObject.addProperty("p_strID", UserCoreInfo.getUserID());
@@ -41,7 +42,7 @@ public class ResumeApi {
     }
 
     public static DataItemResult getPhoto() {
-        String URL = "http://139.196.165.106/AppService/Resume/Resume.asmx";
+        String URL = "http://" + SERVER_ADDRESS + "/AppService/Resume/Resume.asmx";
 
         SoapObject soapObject = new SoapObject(namespace,"GetPhoto");
         soapObject.addProperty("p_strID", UserCoreInfo.getUserID());

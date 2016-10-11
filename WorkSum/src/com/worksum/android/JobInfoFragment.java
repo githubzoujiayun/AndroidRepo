@@ -3,6 +3,7 @@ package com.worksum.android;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
@@ -47,6 +48,8 @@ public class JobInfoFragment extends TitlebarFragment {
     private DataViewPager mViewPager;
 
     private String mResumeId;
+    private TextView mTimeRange;
+    private TextView mDateRange;
 
     @Override
     public void onAttach(Activity activity) {
@@ -62,11 +65,14 @@ public class JobInfoFragment extends TitlebarFragment {
 
         mJobnameView = (TextView) findViewById(R.id.jobinfo_jobname);
         mCustomNameView = (TextView) findViewById(R.id.jobinfo_customer_name);
-        mAreaView = (TextView) findViewById(R.id.jobinfo_area);
+        mAreaView = (TextView) findViewById(R.id.job_address);
         mWorkTypeView = (TextView) findViewById(R.id.jobinfo_worktype);
         mSalaryTypeView = (TextView) findViewById(R.id.jobinfo_salary_type);
         mSalaryView = (TextView) findViewById(R.id.jobinfo_salary_value);
         mDistrubteTypeView = (TextView) findViewById(R.id.jobinfo_distribute);
+
+        mTimeRange = (TextView) findViewById(R.id.job_time_range);
+        mDateRange = (TextView) findViewById(R.id.job_date_range);
 
         mJobOwnerIcon = (HeaderIconView) findViewById(R.id.jobinfo_jobowner_headicon);
         mJobOwnerView = (TextView) findViewById(R.id.jobinfo_job_owner);
@@ -84,7 +90,34 @@ public class JobInfoFragment extends TitlebarFragment {
         mViewPager = (DataViewPager) findViewById(R.id.imgs_filpper);
         mViewPager.setupData(buildPagerAdapter(detail), 0, PageItem.class);
 
+        String timeRange = buildRange(R.string.time_range, detail.getString("StartTime"), detail.getString("EndTime"));
+        mTimeRange.setText(timeRange);
+        mTimeRange.setVisibility(View.VISIBLE);
+        if (TextUtils.isEmpty(timeRange)) {
+            mTimeRange.setVisibility(View.GONE);
+        }
+
+        String dateRange = buildRange(R.string.date_range, detail.getString("StartDateName"), detail.getString("EndDateName"));
+        mDateRange.setText(dateRange);
+        mDateRange.setVisibility(View.VISIBLE);
+        if (TextUtils.isEmpty(dateRange)) {
+            mDateRange.setVisibility(View.GONE);
+        }
+
         new DetailUpdateTask(getTaskManager()).execute();
+    }
+
+    private String buildRange(int id,String start,String end) {
+        if (TextUtils.isEmpty(start) && TextUtils.isEmpty(end)) {
+            return "";
+        }
+        if (!TextUtils.isEmpty(start) && !TextUtils.isEmpty(end)) {
+            return getString(id,start,end);
+        }
+        if (!TextUtils.isEmpty(start) || !TextUtils.isEmpty(end)) {
+            return start + end;
+        }
+        return "";
     }
 
     private DataListAdapter buildPagerAdapter(DataItemDetail detail) {

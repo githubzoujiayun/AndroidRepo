@@ -59,7 +59,7 @@
 	<string name="resume_job_hint">請填寫您的工作類型</string>
 	<string name="resume_address_hint">請填寫您的工作地址</string>
 	<string name="resume_email_hint">請填寫您的Email</string>
-	<string name="resume_profile">簡介</string>
+	<string name="resume_profile">自我介紹</string>
 	<string name="self_login_text">登錄</string>
 	<string name="login_with_phone">手機號登錄</string>
 	<string name="register_with_phone">手機號註冊</string>
@@ -92,24 +92,31 @@
 	<string name="inbox_title_recommand">推薦職位</string>
 	<string name="inbox_title_hr_message">人事來信</string>
 	<string name="inbox_descrption_hr_message">還有20封來信未處理</string>
-	<string name="resume_last_name">Last Name</string>
-	<string name="resume_first_name">First Name</string>
+	<string name="resume_last_name">LastName</string>
+	<string name="resume_first_name">FirstName</string>
 	<string name="resume_age">年齡</string>
 	<string name="resume_sex">性別</string>
 	<string name="tips_login_first">請先登錄...</string>
 	<string name="joblist_salary">HK$%1$s</string>
 	<string name="applied_need_login">請先登錄</string>
 	<string name="applied_empty">数据为空</string>
+	<string name="job_search_local_hint">地址</string>
+	<string name="spinner_item_choose">请选择</string>
+	<string name="job_search_submit">搜索</string>
 	<string name="joblist_recommend_tag">推薦</string>
 	<string name="common_text_system_exit_msg">再按一次退出程序</string>
 	<string name="applied_empty_history">已申請記錄為空</string>
+	<string name="passed_empty_histroy">已通過記錄為空</string>
 	<string name="login_failed">登錄失敗，用戶名或密碼不正確</string>
+	<string name="login_password_confrom">確認密碼</string>
 	<string name="register_password_match_failed">密碼不匹配</string>
 	<string name="register_password_empty">密碼或確認密碼不能為空</string>
 	<string name="apply_view_jobs">查看職位</string>
 	<string name="apply_btn_login">登錄</string>
 	<string name="apply_unlogin_detail">登錄后可查看您的申請記錄，如果您還沒有一個賬戶，現在去註冊并申請符合您的職位</string>
 	<string name="apply_unlogin_title">我的申請記錄</string>
+	<string name="joblist_search_keywords">關鍵字：%1$s</string>
+	<string name="joblist_search_industry">行業：%1$s</string>
 	<string name="joblist_empty_tips1">沒有找到相關職位</string>
 	<string name="joblist_empty_tips2">嘗試輸入其他條件</string>
 	<string name="inbox_unlogin_title">我的訊息</string>
@@ -125,6 +132,7 @@
 	<string name="send_succed">發送成功</string>
 	<string name="send_failed">發送失敗</string>
 	<string name="login_send_sms">發送驗證碼</string>
+	<string name="login_send_sms_timer">發送驗證碼(%ds)</string>
 	<string name="forget_check_code_hint">驗證碼</string>
 	<string name="register_invalide_phone_number">手機號必須為8位數字</string>
 	<string name="register_empty_checkcode">驗證碼不能為空</string>
@@ -136,9 +144,14 @@
 	<string name="network_invalid">網絡連接失敗</string>
 	<string name="joblist_tip_loading">正在加載...</string>
 	<string name="tips_load_failed">加載失敗...</string>
-	<string-array name="spinner_items">
-		<item>item1</item>
-		<item>item2</item>
-		<item>item3</item>
+    <string name="time_range">%1$s-%2$s</string>
+    <string name="date_range">%1$s-%2$s</string>
+    <string name="dict_age">選擇年齡</string>
+    <string name="dict_sex">選擇性別</string>
+    <string name="dict_function">選擇職位</string>
+    <string name="dict_area">選擇地區</string>
+    <string name="resume_loading_jobinfo">正在加載用戶信息...</string>
+    <string-array name="spinner_items">
+		<item>@string/spinner_item_choose</item>
 	</string-array>
 </resources>

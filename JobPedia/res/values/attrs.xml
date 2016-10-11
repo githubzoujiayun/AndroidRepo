@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="jobpedia">
-        <attr name="withAdd" format="boolean" />
-    </declare-styleable>
-
-</resources>

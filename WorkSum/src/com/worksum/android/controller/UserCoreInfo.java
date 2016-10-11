@@ -31,7 +31,7 @@ public class UserCoreInfo {
     /**
      * 从数据库中取出数据，并返回登录用户对象，
      */
-    private static DataItemDetail getUserCoreInfo() {
+    protected static DataItemDetail getUserCoreInfo() {
         if (mUserInfo == null) {
             mUserInfo = new DataItemDetail();
             loadUserInfoFormDB();
@@ -754,5 +754,9 @@ public class UserCoreInfo {
 
     public static void setAreaName(String areaName) {
         getUserCoreInfo().setStringValue("AreaName",areaName);
+    }
+
+    public static DataItemDetail copy() {
+        return getUserCoreInfo().Copy();
     }
 }

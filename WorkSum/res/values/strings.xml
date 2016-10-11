@@ -10,7 +10,6 @@
 	<string name="title_applied">已申請職位</string>
 	<string name="title_message">訊息</string>
 	<string name="title_self">我</string>
-
 	<string name="applied_apply">已申請</string>
 	<string name="applied_passed">通過</string>
 	<string name="applied_refused">已拒絕</string>
@@ -60,7 +59,7 @@
 	<string name="resume_job_hint">請填寫您的工作類型</string>
 	<string name="resume_address_hint">請填寫您的工作地址</string>
 	<string name="resume_email_hint">請填寫您的Email</string>
-	<string name="resume_profile">簡介</string>
+	<string name="resume_profile">自我介紹</string>
 	<string name="self_login_text">登錄</string>
 	<string name="login_with_phone">手機號登錄</string>
 	<string name="register_with_phone">手機號註冊</string>
@@ -93,8 +92,8 @@
 	<string name="inbox_title_recommand">推薦職位</string>
 	<string name="inbox_title_hr_message">人事來信</string>
 	<string name="inbox_descrption_hr_message">還有20封來信未處理</string>
-	<string name="resume_last_name">Last Name</string>
-	<string name="resume_first_name">First Name</string>
+	<string name="resume_last_name">LastName</string>
+	<string name="resume_first_name">FirstName</string>
 	<string name="resume_age">年齡</string>
 	<string name="resume_sex">性別</string>
 	<string name="tips_login_first">請先登錄...</string>
@@ -145,7 +144,14 @@
 	<string name="network_invalid">網絡連接失敗</string>
 	<string name="joblist_tip_loading">正在加載...</string>
 	<string name="tips_load_failed">加載失敗...</string>
-	<string-array name="spinner_items">
+    <string name="time_range">%1$s-%2$s</string>
+    <string name="date_range">%1$s-%2$s</string>
+    <string name="dict_age">選擇年齡</string>
+    <string name="dict_sex">選擇性別</string>
+    <string name="dict_function">選擇職位</string>
+    <string name="dict_area">選擇地區</string>
+    <string name="resume_loading_jobinfo">正在加載用戶信息...</string>
+    <string-array name="spinner_items">
 		<item>@string/spinner_item_choose</item>
 	</string-array>
 </resources>

@@ -13,7 +13,9 @@ import org.ksoap2.serialization.SoapObject;
  */
 public class DictsApi {
 
-    final static String URL = "http://139.196.165.106/AppService/DataDictionary/Dictionary.asmx";
+    public static final String SERVER_ADDRESS = "47.89.50.29";
+
+    final static String URL = "http://" + SERVER_ADDRESS + "/AppService/DataDictionary/Dictionary.asmx";
     final static String namespace = "http://tempuri.org/";
 
 

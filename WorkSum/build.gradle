@@ -10,6 +10,7 @@ android {
             manifest.srcFile './AndroidManifest.xml'
             java.srcDirs './src'
             res.srcDirs './res'
+            assets.srcDirs './assets'
         }
     }
 
@@ -24,4 +25,6 @@ dependencies {
     compile 'com.android.support:support-v4:19.1.0'
     compile fileTree(dir: 'libs', excludes: ['android-support-v4.jar'], include: ['*.jar'])
     compile project(':jobs_library_v1')
+    compile 'io.reactivex:rxjava:1.1.1'
+    compile 'io.reactivex:rxandroid:0.24.0'
 }

@@ -15,10 +15,11 @@ public class JobApplyApi extends Api{
 
     public static final String APPLY_TYPE_APPLIED = "00";
     public static final String APPLY_TYPE_PASSED = "01";
+    public static final String SERVER_ADDRESS = "47.89.50.29";
 
     public static DataItemResult getJobApplyList(int row,String applyType) {
 
-        final String URL = "http://139.196.165.106/AppService/Jobs/JobsApply.asmx";
+        final String URL = "http://" + SERVER_ADDRESS + "/AppService/Jobs/JobsApply.asmx";
         final String namespace = "http://tempuri.org/";
         SoapObject soapObject = new SoapObject(namespace,"GetJobApplyList");
         soapObject.addProperty("p_strResumeID", UserCoreInfo.getUserID());
@@ -30,7 +31,7 @@ public class JobApplyApi extends Api{
     }
 
     public static DataItemResult applyJob(int jobId) {
-        final String URL = "http://139.196.165.106/AppService/Jobs/JobsApply.asmx";
+        final String URL = "http://" + SERVER_ADDRESS + "/AppService/Jobs/JobsApply.asmx";
         final String namespace = "http://tempuri.org/";
         SoapObject soapObject = new SoapObject(namespace,"ApplyJob");
         soapObject.addProperty("p_strResumeID", UserCoreInfo.getUserID());
