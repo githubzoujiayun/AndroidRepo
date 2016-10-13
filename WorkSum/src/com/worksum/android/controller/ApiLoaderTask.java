@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.text.TextUtils;
 
 import com.worksum.android.DialogContainer;
+import com.worksum.android.FragmentContainer;
 import com.worksum.android.LoginFragment;
 import com.worksum.android.R;
 
@@ -25,7 +26,7 @@ public abstract class ApiLoaderTask extends Task {
         if (checkLogin()) {
             executeOnPool(params);
         } else {
-            DialogContainer.showLoginDialog(mContext, new LoginFragment.LoginCallback() {
+            FragmentContainer.FullScreenContainer.showLoginFragment(mContext, new LoginFragment.LoginCallback() {
                 @Override
                 public void onLoginSucceed() {
                     Handler handler = new Handler(Looper.getMainLooper());

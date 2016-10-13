@@ -110,7 +110,7 @@ public class ApplyRecordFragment extends TitlebarFragment implements ViewPager.O
     public void onClick(View view) {
         super.onClick(view);
         if (view == mLoginButton) {
-            DialogContainer.showLoginDialog(getActivity());
+            FragmentContainer.FullScreenContainer.showLoginFragment(getActivity());
         } else if (view == mViewJobsButton){
             Main main = (Main) getActivity();
             main.setTab(0);

@@ -2,30 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/gray_e5e5e5"
+              android:background="@drawable/common_bg"
               android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/inbox_layout_unlogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
         android:orientation="vertical"
         android:visibility="visible">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:src="@drawable/inbox_unlogin_ico"/>
 
         <TextView
             android:id="@+id/unlogin_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:gravity="center"
             android:text="@string/inbox_unlogin_title"
+            android:textColor="@color/white_7f7f7f"
             android:textSize="16sp"
             android:textStyle="bold"/>
 
@@ -34,8 +29,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="20dp"
+            android:lineSpacingExtra="8dp"
             android:text="@string/inbox_unlogin_detail"
+            android:textColor="@color/white_7f7f7f"
             android:textSize="14sp"
             android:textStyle="normal"/>
 
@@ -43,19 +40,19 @@
             android:id="@+id/inbox_btn_login"
             style="@style/apply_btn_style"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:text="@string/apply_btn_login"
-            android:textColor="@color/green_2de3a3_selector"
+            android:textColor="@color/white_7f7f7f"
             />
 
         <Button
             android:id="@+id/inbox_view_jobs"
             style="@style/apply_btn_style"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="@string/apply_view_jobs"
-            android:textColor="@color/red_ed1055_selector"
+            android:textColor="@color/white_7f7f7f"
             />
     </LinearLayout>
 

@@ -77,7 +77,7 @@ public class Main extends GeneralActivity {
 			TabSpec tabSpec = mTabHost.newTabSpec(tabSpace[i]).setIndicator(getIndicatorView(inflater,i));
 			mTabHost.addTab(tabSpec, fragments[i], null);
 			mTabHost.getTabWidget().getChildAt(i)
-					.setBackgroundColor(getResources().getColor(R.color.blue_main));
+					.setBackgroundColor(getResources().getColor(R.color.white_ffffff));
 		}
 		mTabHost.getTabWidget().setDividerDrawable(null);
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
@@ -101,7 +101,7 @@ public class Main extends GeneralActivity {
 		TextView title = (TextView) indicator
 				.findViewById(R.id.indicator_title);
 		title.setText(titleIds[index]);
-		title.setTextColor(getResources().getColor(R.color.white_ffffff));
+		title.setTextColor(getResources().getColor(R.color.white_7f7f7f));
 		return indicator;
 	}
 

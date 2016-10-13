@@ -14,6 +14,7 @@ import com.worksum.android.controller.DataController;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.misc.Tips;
 import com.jobs.lib_v1.task.SilentTask;
+import com.worksum.android.utils.Utils;
 
 import java.util.regex.Pattern;
 
@@ -40,7 +41,6 @@ public class RegisterFragment extends LoginFragment {
         mConfromPassword = (EditText) findViewById(R.id.login_password_confrom);
         mConfromPassword.setVisibility(View.VISIBLE);
         mLoginBtn.setText(R.string.register_right_action);
-        setTitle(R.string.register_title);
 
         View view = findViewById(R.id.forget_check_code);
         view.setVisibility(View.VISIBLE);
@@ -50,6 +50,15 @@ public class RegisterFragment extends LoginFragment {
         mCheckCodeBtn.setOnClickListener(this);
 
         mForgetText.setVisibility(View.GONE);
+
+        view = findViewById(R.id.login_password_confrom_layout);
+        view.setVisibility(View.VISIBLE);
+
+        view = findViewById(R.id.register_user_protocal);
+        view.setVisibility(View.VISIBLE);
+
+        view = findViewById(R.id.register_btn);
+        view.setVisibility(View.GONE);
     }
 
     @Override
@@ -71,14 +80,14 @@ public class RegisterFragment extends LoginFragment {
                 }
                 if (mSendCodeTimer > 0) {
                     mSendCodeTimer--;
-                    mCheckCodeBtn.setText(getString(R.string.login_send_sms_timer,mSendCodeTimer));
+                    mCheckCodeBtn.setText(getString(R.string.login_send_sms_timer, mSendCodeTimer));
                     secondPost();
                 } else {
                     mCheckCodeBtn.setEnabled(true);
                     mCheckCodeBtn.setText(R.string.login_send_sms);
                 }
             }
-        },1000);
+        }, 1000);
     }
 
     private void sendCheckCode() {
@@ -170,11 +179,15 @@ public class RegisterFragment extends LoginFragment {
     private boolean checkedPhoneNumber() {
         String phoneNumber = mLoginView.getText().toString();
         Pattern p = Pattern.compile("^\\d{8}$");
-        if (p.matcher(phoneNumber).find()) {
-            return true;
+        if (!p.matcher(phoneNumber).find()) {
+            Tips.showTips(R.string.register_invalide_phone_number);
+            return false;
         }
-        Tips.showTips(R.string.register_invalide_phone_number);
-        return false;
+        if (!Utils.matchesPhone(phoneNumber)) {
+            Tips.showTips(R.string.invalide_phone_number);
+            return false;
+        }
+        return true;
     }
 
     @Override

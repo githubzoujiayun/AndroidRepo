@@ -2,6 +2,7 @@ package com.worksum.android.controller;
 
 
 import com.worksum.android.DialogContainer;
+import com.worksum.android.FragmentContainer;
 import com.worksum.android.LoginFragment;
 import com.jobs.lib_v1.app.AppMain;
 import com.jobs.lib_v1.app.AppUtil;
@@ -42,7 +43,7 @@ public class DotnetLoader {
 
         public DataItemResult loadAndParseDataInner(final String soapAction, final SoapObject soapObject, final String URL, boolean check) {
             if (check && !checkUserId()) {
-                DialogContainer.showLoginDialog(AppMain.getApp(), new LoginFragment.LoginCallback() {
+                FragmentContainer.FullScreenContainer.showLoginFragment(AppMain.getApp(), new LoginFragment.LoginCallback() {
                     @Override
                     public void onLoginSucceed() {
                         if (mDotnetListener != null) {

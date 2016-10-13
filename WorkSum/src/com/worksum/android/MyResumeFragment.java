@@ -3,7 +3,6 @@ package com.worksum.android;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -21,15 +20,6 @@ import com.jobs.lib_v1.misc.Tips;
 import com.jobs.lib_v1.task.SilentTask;
 import com.worksum.android.apis.JobsApi;
 import com.worksum.android.controller.UserCoreInfo;
-
-import rx.Observable;
-import rx.Observer;
-import rx.Scheduler;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * @author chao.qin
@@ -79,9 +69,14 @@ public class MyResumeFragment extends TitlebarFragment implements AdapterView.On
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        new ResumeInfoTask().executeOnPool();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        new ResumeInfoTask().executeOnPool();
     }
 
     private class ResumeInfoTask extends SilentTask{
@@ -109,7 +104,7 @@ public class MyResumeFragment extends TitlebarFragment implements AdapterView.On
         protected void onTaskFinished(DataItemResult result) {
             Tips.hiddenWaitingTips();
             if (!result.hasError) {
-                UserCoreInfo.setUserLoginInfo(result, true,UserCoreInfo.USER_LOGIN_OTHERS);
+                UserCoreInfo.setUserLoginInfo(result, true, UserCoreInfo.USER_LOGIN_OTHERS);
                 updateValues();
             } else {
                 Tips.showTips(R.string.login_get_resume_info_failed);

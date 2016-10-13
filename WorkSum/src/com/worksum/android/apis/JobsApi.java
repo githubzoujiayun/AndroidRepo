@@ -33,7 +33,7 @@ public class JobsApi extends Api{
 
 
     public static DataItemResult login(String phoneNumber, String password) {
-        final String URL = "http://" + SERVER_ADDRESS + "/AppService/Resume/Resume.asmx";
+            final String URL = "http://" + SERVER_ADDRESS + "/AppService/Resume/Resume.asmx";
         final String namespace = "http://tempuri.org/";
 
         SoapObject soapObject = new SoapObject(namespace,"Login");

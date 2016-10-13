@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="jobpedia">
         <attr name="withAdd" format="boolean" />
+        <attr name="headIcon" format="reference"/>
     </declare-styleable>
 
 </resources>

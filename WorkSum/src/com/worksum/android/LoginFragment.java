@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.worksum.android.apis.JobsApi;
@@ -14,18 +15,21 @@ import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.data.ObjectSessionStore;
 import com.jobs.lib_v1.misc.Tips;
 import com.jobs.lib_v1.task.SilentTask;
+import com.worksum.android.utils.Utils;
 
 /**
  * chao.qin
  *
  * 登陆Fragment
  */
-public class LoginFragment extends TitlebarFragment {
+public class LoginFragment extends GeneralFragment implements View.OnClickListener {
 
     EditText mLoginView;
     EditText mPwdView;
     Button mLoginBtn;
+    Button mRegisterBtn;
     TextView mForgetText;
+    private ImageView mCloseBtn;
 
     protected static final int OPRATE_LOGIN = 1;
     protected static final int OPRATE_REGISTER = 2;
@@ -52,13 +56,14 @@ public class LoginFragment extends TitlebarFragment {
         mPwdView = (EditText) findViewById(R.id.login_password);
         mLoginBtn = (Button) findViewById(R.id.login_btn);
         mForgetText = (TextView) findViewById(R.id.login_forget_psw);
+        mCloseBtn = (ImageView) findViewById(R.id.login_close_btn);
+        mRegisterBtn = (Button) findViewById(R.id.register_btn);
 
         mLoginBtn.setOnClickListener(this);
         mForgetText.setOnClickListener(this);
+        mCloseBtn.setOnClickListener(this);
+        mRegisterBtn.setOnClickListener(this);
 
-//        setActionRightText(R.string.login_submit);
-        setActionLeftDrawable(R.drawable.common_nav_arrow);
-        setTitle(R.string.login_title);
     }
 
     @Override
@@ -66,9 +71,7 @@ public class LoginFragment extends TitlebarFragment {
         return R.layout.login_fragment;
     }
 
-    @Override
     protected void onActionRight() {
-        super.onActionRight();
         String phoneNumber = mLoginView.getText().toString();
         String password = mPwdView.getText().toString();
 
@@ -113,10 +116,12 @@ public class LoginFragment extends TitlebarFragment {
         protected void onTaskFinished(DataItemResult result) {
             if (!result.hasError && result.statusCode >= 0) {
                 AppCoreInfo.getCoreDB().setStrValue("user_info", "user_id", result.message);
-                if (mTips && result.statusCode > 0) {
-                    Tips.showTips(R.string.login_succeed);
+                if (result.statusCode > 0) {
+                    if(mTips) {
+                        Tips.showTips(R.string.login_succeed);
+                    }
                     new ResumeInfoTask().execute();
-                } else if(mTips && result.statusCode <=0 ) {
+                } else if(result.statusCode <=0 ) {
                     Tips.showTips(R.string.login_failed);
                     Tips.hiddenWaitingTips();
                 }
@@ -159,14 +164,21 @@ public class LoginFragment extends TitlebarFragment {
 
     @Override
     public void onClick(View view) {
-        super.onClick(view);
         if (view == mLoginBtn && mOpration == OPRATE_LOGIN) {
             String phoneNumber = mLoginView.getText().toString();
             String password = mPwdView.getText().toString();
+            if (!Utils.matchesPhone(phoneNumber)) {
+                Tips.showTips(R.string.invalide_phone_number);
+                return;
+            }
 
-            new LoginTask().execute(phoneNumber,password);
+            new LoginTask().execute(phoneNumber, password);
+        } else if (view == mRegisterBtn) {
+            FragmentContainer.FullScreenContainer.showRegisterFragment(getActivity());
         } else if (view == mForgetText) {
             DialogContainer.showForgetPassword(getActivity(),mLoginView.getText().toString());
+        } else if (view == mCloseBtn) {
+            finish();
         }
     }
 

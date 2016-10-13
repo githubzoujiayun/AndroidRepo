@@ -12,6 +12,16 @@
         />
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="90dp"
+        android:background="@drawable/joblist_cell_detail_bg">
+
+        <include
+            layout="@layout/joblist_cell_texts_for_large"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/job_pic"
@@ -60,14 +70,6 @@
             />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/white_ddffffff">
 
-        <include
-            layout="@layout/joblist_cell_texts"/>
-    </LinearLayout>
 
 </RelativeLayout>

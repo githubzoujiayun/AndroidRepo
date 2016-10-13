@@ -3,7 +3,7 @@
               xmlns:jobpedia="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/gray_e5e5e5"
+              android:background="@drawable/common_bg"
               android:orientation="vertical">
 
     <FrameLayout
@@ -15,13 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.7"
-                android:scaleType="centerCrop"
-                android:src="@drawable/me_bg"/>
 
             <com.worksum.android.views.HeaderIconView
                 android:id="@+id/header_icon"
@@ -74,30 +67,26 @@
             android:layout_height="match_parent"
             android:visibility="visible">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.7"
-                android:scaleType="centerCrop"
-                android:src="@drawable/me_bg"/>
-
             <com.worksum.android.views.HeaderIconView
                 android:id="@+id/unlogin_default_icon"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
+                jobpedia:headIcon="@drawable/ico_default_me"
                 />
 
             <Button
                 android:id="@+id/self_login_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/unlogin_default_icon"
-                android:layout_alignRight="@id/unlogin_default_icon"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:layout_below="@id/unlogin_default_icon"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/white_7f7f7f"
+                android:background="@drawable/register_sumbit_selector"
                 android:text="@string/self_login_text"/>
 
 
@@ -109,7 +98,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:scrollbars="none">
+        android:scrollbars="none"/>
 
-    </com.jobs.lib_v1.list.DataListView>
 </LinearLayout>

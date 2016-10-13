@@ -6,7 +6,7 @@
     <ImageView
         android:id="@+id/item_icon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginLeft="10dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
@@ -28,11 +28,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/test_item_title"
+            android:textColor="@color/white_ffffff"
             android:textSize="16sp"
             android:textStyle="bold"/>
 
         <TextView
             android:layout_marginLeft="@dimen/self_common_margin"
+            android:textColor="@color/white_ffffff"
             android:id="@+id/self_item_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +50,7 @@
         android:layout_toRightOf="@id/item_icon"
         android:layout_alignBottom="@id/item_icon"
         android:layout_alignParentBottom="true"
-        android:background="@color/black_000000"/>
+        android:background="@color/white_ffffff"/>
 
 
 

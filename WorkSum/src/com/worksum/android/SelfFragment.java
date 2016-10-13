@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jobs.lib_v1.task.SilentTask;
+import com.worksum.android.apis.JobsApi;
 import com.worksum.android.apis.ResumeApi;
 import com.worksum.android.controller.DataController;
 import com.worksum.android.controller.UserCoreInfo;
@@ -80,7 +82,6 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
         mUsername = (TextView) findViewById(R.id.user_name);
         mUserProfile = (TextView) findViewById(R.id.user_profile);
 
-
         initView();
     }
 
@@ -120,7 +121,7 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
                 byte[] data = AppCoreInfo.getCacheDB().getBinValue("head_icon", UserCoreInfo.getUserID());
                 if (data != null) {
                     try {
-                        Bitmap bitmap = getThumbnail(data,100);
+                        Bitmap bitmap = getThumbnail(data, 100);
                         if (bitmap != null) {
                             mHeaderView.setImageBitmap(bitmap);
                         }
@@ -200,13 +201,13 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
                 pickPhoto();
                 break;
             case R.id.self_login_button:
-                DialogContainer.showLoginDialog(getActivity());
+                FragmentContainer.FullScreenContainer.showLoginFragment(getActivity());
                 break;
             case R.id.bar_right_action:
                 if (UserCoreInfo.hasLogined()) {
                     logout();
                 } else {
-                    DialogContainer.showLoginDialog(getActivity());
+                    FragmentContainer.FullScreenContainer.showLoginFragment(getActivity());
                 }
                 break;
 
@@ -252,7 +253,7 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
                 e.printStackTrace();
             }
         } else if (requestCode == REQUEST_CODE_UPDATE_RESUME) {
-            initView();
+            new ResumeInfoTask().executeOnPool();
         }
     }
 
@@ -364,7 +365,7 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
                 if (UserCoreInfo.hasLogined()) {
                     FragmentContainer.showMyResume(this, REQUEST_CODE_UPDATE_RESUME);
                 } else {
-                    DialogContainer.showLoginDialog(getActivity(), new LoginFragment.LoginCallback() {
+                    FragmentContainer.FullScreenContainer.showLoginFragment(getActivity(), new LoginFragment.LoginCallback() {
                         @Override
                         public void onLoginSucceed() {
                             FragmentContainer.showMyResume(SelfFragment.this, REQUEST_CODE_UPDATE_RESUME);
@@ -422,11 +423,42 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
     @Override
     public void onUserStatusChanged(int loginType) {
         super.onUserStatusChanged(loginType);
-        if (loginType == UserCoreInfo.USER_LOGIN_OTHERS || loginType == UserCoreInfo.USER_LOGIN_OTHERS) {
+        if (loginType == UserCoreInfo.USER_LOGIN_OTHERS) {
             return;
         }
-        AppUtil.print("onUserStatusChanged");
         initView();
     }
 
+    private class ResumeInfoTask extends SilentTask {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Tips.showWaitingTips(getString(R.string.resume_loading_jobinfo));
+        }
+
+        /**
+         * 执行异步任务
+         *
+         */
+        @Override
+        protected DataItemResult doInBackground(String... params) {
+            return JobsApi.getUserInfo();
+        }
+
+        /**
+         * 异步任务执行完以后的回调函数
+         *
+         */
+        @Override
+        protected void onTaskFinished(DataItemResult result) {
+            Tips.hiddenWaitingTips();
+            if (!result.hasError) {
+                UserCoreInfo.setUserLoginInfo(result, true, UserCoreInfo.USER_LOGIN_OTHERS);
+                initView();
+            } else {
+                Tips.showTips(R.string.login_get_resume_info_failed);
+            }
+        }
+    }
 }

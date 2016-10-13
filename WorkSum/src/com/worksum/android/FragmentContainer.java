@@ -23,6 +23,10 @@ public class FragmentContainer extends GeneralActivity {
 
     private Class<? extends GeneralFragment> mTargetFragment;
 
+    public static class FullScreenContainer extends FragmentContainer {
+        public FullScreenContainer(){}
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +101,7 @@ public class FragmentContainer extends GeneralActivity {
 
     public static void showLoginFragment(Context context,LoginFragment.LoginCallback callback) {
         Bundle extras = new Bundle();
-        Intent intent = new Intent(context,FragmentContainer.class);
+        Intent intent = new Intent(context,FullScreenContainer.class);
         if(!(context instanceof Activity)) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
@@ -109,7 +113,7 @@ public class FragmentContainer extends GeneralActivity {
 
     public static void showRegisterFragment(Context context) {
         Bundle extras = new Bundle();
-        Intent intent = new Intent(context,FragmentContainer.class);
+        Intent intent = new Intent(context,FullScreenContainer.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(KEY_FRAGMENT, RegisterFragment.class);
         intent.putExtras(extras);

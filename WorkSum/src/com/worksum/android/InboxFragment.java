@@ -65,7 +65,7 @@ public class InboxFragment extends TitlebarFragment{
                 FragmentContainer.showRecommand(getActivity());
                 break;
 			case R.id.inbox_btn_login:
-				DialogContainer.showLoginDialog(getActivity());
+				FragmentContainer.FullScreenContainer.showLoginFragment(getActivity());
 				break;
 			case R.id.inbox_view_jobs:
 				Main main = (Main) getActivity();

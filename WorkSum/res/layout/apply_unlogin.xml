@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/apply_layout_unlogin"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,48 +9,52 @@
 
     <include layout="@layout/title_bar"/>
 
-    <ImageView
-        android:src="@drawable/ico_apply_job"
-        android:layout_marginTop="50dp"
-        android:layout_gravity="center"
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/common_bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:text="@string/apply_unlogin_title"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:gravity="center"
+            android:text="@string/apply_unlogin_title"
+            android:textColor="@color/white_7f7f7f"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
-    <TextView
-        android:text="@string/apply_unlogin_detail"
-        android:textSize="14sp"
-        android:textStyle="normal"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:lineSpacingExtra="8dp"
+            android:padding="20dp"
+            android:text="@string/apply_unlogin_detail"
+            android:textColor="@color/white_7f7f7f"
+            android:textSize="14sp"
+            android:textStyle="normal"/>
 
-    <Button
-        android:layout_marginTop="20dp"
-        android:id="@+id/apply_btn_login"
-        style="@style/apply_btn_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/apply_btn_login"
-        android:textColor="@color/green_2de3a3_selector"
-        />
+        <Button
+            android:id="@+id/apply_btn_login"
+            style="@style/apply_btn_style"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/apply_btn_login"
+            android:textColor="@color/white_7f7f7f"
+            />
 
-    <Button
-        android:id="@+id/apply_view_jobs"
-        style="@style/apply_btn_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/apply_view_jobs"
-        android:textColor="@color/red_ed1055_selector"
-        />
+        <Button
+            android:id="@+id/apply_view_jobs"
+            style="@style/apply_btn_style"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/apply_view_jobs"
+            android:textColor="@color/white_7f7f7f"
+            />
+    </LinearLayout>
+
 </LinearLayout>

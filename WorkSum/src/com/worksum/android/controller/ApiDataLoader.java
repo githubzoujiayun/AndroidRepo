@@ -3,6 +3,7 @@ package com.worksum.android.controller;
 import android.app.Activity;
 
 import com.worksum.android.DialogContainer;
+import com.worksum.android.FragmentContainer;
 import com.worksum.android.LoginFragment;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.list.DataListAdapter;
@@ -27,7 +28,7 @@ public abstract class ApiDataLoader implements DataLoader{
         if (UserCoreInfo.hasLogined()) {
             return onFetchData(adapter, pageAt, pageSize);
         } else if (mShowLoginDialog){
-            DialogContainer.showLoginDialog(mActivity, new LoginFragment.LoginCallback() {
+            FragmentContainer.FullScreenContainer.showLoginFragment(mActivity, new LoginFragment.LoginCallback() {
                 @Override
                 public void onLoginSucceed() {
                     adapter.refreshData();

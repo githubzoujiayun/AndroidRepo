@@ -40,6 +40,7 @@
 
             <LinearLayout
                 android:layout_marginLeft="@dimen/jobinfo_left_margin"
+                android:layout_marginBottom="6dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -99,7 +100,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="@dimen/jobinfo_common_padding"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
                 android:weightSum="2">
 
                 <TextView
@@ -131,7 +133,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="@dimen/jobinfo_common_padding"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
                 android:weightSum="2">
 
                 <TextView

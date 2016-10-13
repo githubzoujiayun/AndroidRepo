@@ -70,7 +70,7 @@ public class JobListFragment extends TitlebarFragment implements OnItemClickList
 	@Override
 	public void setupView(ViewGroup v,Bundle savedInstanceState) {
 		super.setupView(v, savedInstanceState);
-		setTitle(R.string.app_name);
+		setTitle(R.string.app_name_title);
 		setActionLeftDrawable(R.drawable.menu_search);
 //		setActionRightDrawable(R.drawable.menu_filter);//// TODO: 16/3/15 暂时隐藏
 		mJobListView = (DataListView) v.findViewById(R.id.joblist);

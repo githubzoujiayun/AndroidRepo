@@ -11,13 +11,21 @@
 
         <include layout="@layout/title_bar"/>
 
-        <include layout="@layout/joblist_search_headview"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@drawable/common_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">'
 
-        <com.jobs.lib_v1.list.DataListView
-            android:id="@+id/joblist"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            />
+            <include layout="@layout/joblist_search_headview"/>
+
+            <com.jobs.lib_v1.list.DataListView
+                android:id="@+id/joblist"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                />
+        </LinearLayout>
+
 
     </LinearLayout>
 

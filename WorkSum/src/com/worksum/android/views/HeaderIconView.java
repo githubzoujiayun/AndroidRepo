@@ -27,6 +27,8 @@ public class HeaderIconView extends View {
 
     private boolean mWithAdd;
 
+    private int mDefaultHead;
+
     public HeaderIconView(Context context) {
         this(context,null);
     }
@@ -39,6 +41,7 @@ public class HeaderIconView extends View {
         super(context, attrs, defStyle);
         TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.jobpedia);
         mWithAdd = a.getBoolean(R.styleable.jobpedia_withAdd,false);
+        mDefaultHead = a.getInt(R.styleable.jobpedia_headIcon,R.drawable.ico_default_me);
         a.recycle();
         initView(context);
     }
@@ -64,7 +67,7 @@ public class HeaderIconView extends View {
         paint.setAntiAlias(true);
 
         if (mImageBitmap == null) {
-            mImageBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ico_default_me);
+            mImageBitmap = BitmapFactory.decodeResource(getResources(), mDefaultHead);
         }
 
         Bitmap meAdd = BitmapFactory.decodeResource(getResources(), R.drawable.me_add);

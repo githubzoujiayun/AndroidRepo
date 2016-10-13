@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-	<color name="blue_main">#168dc7</color>
-	<color name="blue_main_light">#aa168dc7</color>
 	<color name="white_ffffff">#ffffffff</color>
+    <color name="white_7f7f7f">#7f7f7f</color>
 	<color name="red_sort_e62565">#e62565</color>
 	<color name="black_000000">#000000</color>
 	<color name="green_2de3a3">#2de3a3</color>
@@ -28,4 +27,6 @@
 	<color name="transparent_00000000">#00000000</color>
 	<color name="gray_e6e6e6">#e6e6e6</color>
     <color name="gray_555555">#555555</color>
+    <color name="red_main">#d01b5b</color>
+    <color name="red_main_light">#aad01b5b</color>
 </resources>

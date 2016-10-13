@@ -69,8 +69,8 @@
 	<string name="jobinfo_salary">小時薪水</string>
 	<string name="jobinfo_distribute">發佈</string>
 	<string name="jobinfo_format_salary">HK$%s</string>
-	<string name="login_phone_number_hint">手機號碼</string>
-	<string name="login_password">密碼</string>
+	<string name="login_phone_number_hint">請輸入手機號碼</string>
+	<string name="login_password">請輸入密碼</string>
 	<string name="login_submit">登錄</string>
 	<string name="logining">正在登錄</string>
 	<string name="login_succeed">登錄成功</string>
@@ -108,7 +108,7 @@
 	<string name="applied_empty_history">已申請記錄為空</string>
 	<string name="passed_empty_histroy">已通過記錄為空</string>
 	<string name="login_failed">登錄失敗，用戶名或密碼不正確</string>
-	<string name="login_password_confrom">確認密碼</string>
+	<string name="login_password_confrom">請確認密碼</string>
 	<string name="register_password_match_failed">密碼不匹配</string>
 	<string name="register_password_empty">密碼或確認密碼不能為空</string>
 	<string name="apply_view_jobs">查看職位</string>
@@ -131,9 +131,9 @@
 	<string name="forget_content_hint">手機號</string>
 	<string name="send_succed">發送成功</string>
 	<string name="send_failed">發送失敗</string>
-	<string name="login_send_sms">發送驗證碼</string>
-	<string name="login_send_sms_timer">發送驗證碼(%ds)</string>
-	<string name="forget_check_code_hint">驗證碼</string>
+	<string name="login_send_sms">獲取驗證碼</string>
+	<string name="login_send_sms_timer">獲取驗證碼(%ds)</string>
+	<string name="forget_check_code_hint">請輸入短訊驗證碼</string>
 	<string name="register_invalide_phone_number">手機號必須為8位數字</string>
 	<string name="register_empty_checkcode">驗證碼不能為空</string>
 	<string name="register_invalide_checkcode">驗證碼不正確</string>
@@ -151,6 +151,9 @@
     <string name="dict_function">選擇職位</string>
     <string name="dict_area">選擇地區</string>
     <string name="resume_loading_jobinfo">正在加載用戶信息...</string>
+    <string name="register_user_protocal">註冊代表你已同意用戶協議</string>
+    <string name="app_name_title">Jobpedia</string>
+    <string name="invalide_phone_number">不是有效的手機號碼</string>
     <string-array name="spinner_items">
 		<item>@string/spinner_item_choose</item>
 	</string-array>

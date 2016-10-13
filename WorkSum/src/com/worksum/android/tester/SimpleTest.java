@@ -1,5 +1,9 @@
 package com.worksum.android.tester;
 
+import com.jobs.lib_v1.app.AppUtil;
+import com.worksum.android.utils.Utils;
+
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 /**
@@ -16,9 +20,7 @@ public class SimpleTest extends TestCase{
     }
 
     public void testSimple() {
-        Simple.a = 100;
-
-        System.out.println(Simple.a);
-        System.out.println(SimpleTest.a);
+        boolean result = Utils.matchesPhone("51112222");
+        assertTrue(result);
     }
 }

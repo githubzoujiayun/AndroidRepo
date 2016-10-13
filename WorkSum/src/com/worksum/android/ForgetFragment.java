@@ -10,6 +10,7 @@ import com.worksum.android.apis.ResumeApi;
 import com.worksum.android.controller.DataController;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.misc.Tips;
+import com.worksum.android.utils.Utils;
 
 /**
  * @author chao.qin
@@ -46,6 +47,11 @@ public class ForgetFragment extends GeneralFragment implements View.OnClickListe
         if (v == mCancelBtn) {
             onBackPressed();
         } else if (v == mSendBtn) {
+            String phoneNumber = mForgetContent.getText().toString();
+            if (!Utils.matchesPhone(phoneNumber)) {
+                Tips.showTips(R.string.invalide_phone_number);
+                return;
+            }
             DataController.DataAdapter dataAdapter = DataController.getInstance().newDataAdapter();
             dataAdapter.setDataListener(new DataController.DataLoadListener() {
                 @Override
