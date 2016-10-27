@@ -57,7 +57,7 @@ public class LoginDialogFragment extends GeneralFragment implements View.OnClick
                 onBackPressed();
                 break;
             case R.id.login_dialog_register_btn:
-                FragmentContainer.showRegisterFragment(getActivity());
+                FragmentContainer.showRegisterFragment(this);
                 onBackPressed();
                 break;
         }

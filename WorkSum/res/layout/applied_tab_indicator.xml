@@ -3,6 +3,7 @@
               android:layout_height="?android:attr/actionBarSize"
               android:orientation="horizontal"
               android:padding="0dp"
+              android:background="@drawable/tab_indicator_holo"
               style="@android:style/Widget.Holo.Tab">
 
     <ImageView

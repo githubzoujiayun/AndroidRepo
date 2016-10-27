@@ -1,0 +1,87 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="radio_button_common_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/filter_common_text_size</item>
+        <item name="android:textColor">@drawable/sort_text_color</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="radio_button_red_ef1d19_style" parent="radio_button_common_style">
+        <item name="android:textColor">@drawable/sort_text_color</item>
+        <item name="android:background">@drawable/shape_corner_common_e62565</item>
+    </style>
+
+    <style name="radio_button_green_008d14_style" parent="radio_button_common_style">
+        <item name="android:textColor">@drawable/filter_green_color_selector</item>
+        <item name="android:background">@drawable/shape_corner_common_91e3a3</item>
+    </style>
+
+    <style name="ContainerDialogTheme" parent="android:Theme.Holo.Dialog.NoActionBar.MinWidth">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowAnimationStyle">@style/LoginDialogAnimation</item>
+    </style>
+
+    <style name="LoginDialogAnimation" parent="android:Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/anim_enter_fall_down</item>
+        <item name="android:windowExitAnimation">@anim/anim_exit_fall_down</item>
+        <item name="android:activityCloseExitAnimation">@anim/anim_exit_fall_down</item>
+        <item name="android:fragmentCloseExitAnimation">@anim/anim_exit_fall_down</item>
+        <item name="android:taskCloseExitAnimation">@anim/anim_exit_fall_down</item>
+    </style>
+
+    <style name="ResumeTitleStyle">
+        <item name="android:layout_width">@dimen/resume_item_title_width</item>
+        <item name="android:layout_height">@dimen/resume_item_title_height</item>
+        <item name="android:background">@drawable/resume_title_bg</item>
+        <item name="android:layout_marginLeft">@dimen/resume_item_common_margin</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/resume_title_text_size</item>
+    </style>
+
+    <style name="ResumeContentStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/resume_item_title_height</item>
+        <item name="android:background">@drawable/resume_content_bg</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:cursorVisible">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textCursorDrawable">@null</item>
+    </style>
+
+    <style name="apply_btn_style">
+        <item name="android:textColor">@color/white_ffffff</item>
+        <item name="android:background">@drawable/apply_btn_bg</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
+</resources>

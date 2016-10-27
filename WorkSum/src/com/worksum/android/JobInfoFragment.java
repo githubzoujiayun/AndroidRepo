@@ -1,7 +1,10 @@
 package com.worksum.android;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -29,6 +32,7 @@ import com.jobs.lib_v1.misc.Tips;
  */
 public class JobInfoFragment extends TitlebarFragment {
 
+
     private TextView mJobnameView;
     private TextView mCustomNameView;
     private TextView mAreaView;
@@ -51,11 +55,13 @@ public class JobInfoFragment extends TitlebarFragment {
     private TextView mTimeRange;
     private TextView mDateRange;
 
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ViewConfiguration configuration = ViewConfiguration.get(getActivity());
         ReflectUtils.setField(configuration, "mOverscrollDistance", 100);
+
     }
 
     @Override
@@ -144,7 +150,11 @@ public class JobInfoFragment extends TitlebarFragment {
         mWorkTypeView.setText(detail.getString("FunctionTypeName"));//todo wait for intferface
 
         mSalaryTypeView.setText(detail.getString("SalaryType"));
-        String salary = getString(R.string.jobinfo_format_salary,detail.getString("Salary"));
+        String salaryValue = detail.getString("Salary");
+        String salary = getString(R.string.default_salary);
+        if (!TextUtils.isEmpty(salaryValue)) {
+            salary = getString(R.string.jobinfo_format_salary,salaryValue);
+        }
         mSalaryView.setText(salary);
         mDistrubteTypeView.setText(detail.getString("")); //todo wait for interface
 
@@ -211,6 +221,8 @@ public class JobInfoFragment extends TitlebarFragment {
                         tips = R.string.tips_apply_succeed;
                         mApplyBtn.setText(R.string.jobinfo_btn_apply_applied);
                         mApplyBtn.setEnabled(false);
+
+                        getActivity().sendBroadcast(new Intent(AppliedFragment.ACTION_APPLY));
                         break;
                     case APPLY_APPLID_ALREADY:
                     case APPLY_APPLID_ALREADY2:

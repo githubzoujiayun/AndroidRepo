@@ -1,5 +1,9 @@
 package com.worksum.android;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,9 +34,14 @@ public class AppliedFragment extends GeneralFragment implements AdapterView.OnIt
     private DataListView mListView;
     MainHandler mHandler = new MainHandler();
 
+    public static final String ACTION_APPLY = "action.apply";
+    private ApplyReceiver mReceiver;
+
+
     private class MainHandler extends Handler {
 
         private static final int MSG_REFRESH_LIST = 0;
+        private static final int MSG_FORCE_REFRESH_LIST = 1;
 
         @Override
         public void handleMessage(Message msg) {
@@ -47,8 +56,34 @@ public class AppliedFragment extends GeneralFragment implements AdapterView.OnIt
                         mListView.refreshData();
                     }
                     break;
+                case MSG_FORCE_REFRESH_LIST:
+                    mListView.refreshData();
+                    break;
             }
         }
+    }
+
+    public class ApplyReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mHandler.sendEmptyMessage(MainHandler.MSG_FORCE_REFRESH_LIST);
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_APPLY);
+        mReceiver = new ApplyReceiver();
+        getActivity().registerReceiver(mReceiver, intentFilter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mReceiver);
     }
 
     @Override

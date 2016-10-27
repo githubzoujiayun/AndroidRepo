@@ -67,19 +67,19 @@ public abstract class TitlebarFragment extends GeneralFragment implements OnClic
 	void setupView(ViewGroup vg, Bundle savedInstanceState) {
 		super.setupView(vg, savedInstanceState);
 		vg.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View view, MotionEvent motionEvent) {
-				//让contentview的touch事件返回true，
-				// 阻止后一层fragment(JobListFragment)滑动、点击事件
-				return true;
-			}
-		});
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                //让contentview的touch事件返回true，
+                // 阻止后一层fragment(JobListFragment)滑动、点击事件
+                return true;
+            }
+        });
 		mLeftAction = (TextView) vg.findViewById(R.id.bar_left_action);
 		mRightAction = (TextView) vg.findViewById(R.id.bar_right_action);
 		mLeftAction.setOnClickListener(this);
 		mRightAction.setOnClickListener(this);
 		mTitle = (TextView) vg.findViewById(R.id.bar_title);
-	}
+    }
 	
 	@Override
 	public void onClick(View view) {

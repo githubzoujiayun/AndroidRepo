@@ -41,7 +41,7 @@ public class HeaderIconView extends View {
         super(context, attrs, defStyle);
         TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.jobpedia);
         mWithAdd = a.getBoolean(R.styleable.jobpedia_withAdd,false);
-        mDefaultHead = a.getInt(R.styleable.jobpedia_headIcon,R.drawable.ico_default_me);
+        mDefaultHead = a.getResourceId(R.styleable.jobpedia_headIcon, R.drawable.ico_default_head);
         a.recycle();
         initView(context);
     }

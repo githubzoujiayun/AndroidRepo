@@ -2,10 +2,15 @@ package com.worksum.android;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.hardware.Camera;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,14 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jobs.lib_v1.task.SilentTask;
-import com.worksum.android.apis.JobsApi;
-import com.worksum.android.apis.ResumeApi;
-import com.worksum.android.controller.DataController;
-import com.worksum.android.controller.UserCoreInfo;
-import com.worksum.android.views.HeaderIconView;
 import com.jobs.lib_v1.app.AppCoreInfo;
-import com.jobs.lib_v1.app.AppUtil;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.data.encoding.Base64;
@@ -29,7 +27,14 @@ import com.jobs.lib_v1.list.DataListCell;
 import com.jobs.lib_v1.list.DataListView;
 import com.jobs.lib_v1.misc.BitmapUtil;
 import com.jobs.lib_v1.misc.Tips;
+import com.jobs.lib_v1.task.SilentTask;
+import com.worksum.android.apis.JobsApi;
+import com.worksum.android.apis.ResumeApi;
+import com.worksum.android.controller.DataController;
+import com.worksum.android.controller.UserCoreInfo;
+import com.worksum.android.views.HeaderIconView;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,6 +47,7 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
     private static final int REQUST_CODE_UNKOWN = -1;
     private static final int REQUEST_CODE_PICK_PHOTO = 1;
     private static final int REQUEST_CODE_UPDATE_RESUME = 2;
+    private static final int REQUEST_CODE_CROP_IMAGE = 3;
 
     private DataListView mListView;
     private HeaderIconView mHeaderView;
@@ -243,15 +249,47 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
             if (data.getData() == null) {
                 return;
             }
-            try {
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
-                Bitmap bitmap = getThumbnail(data.getData(), 100);
-                mHeaderView.setImageBitmap(bitmap);
+            Intent intent = new Intent("com.android.camera.action.CROP",MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//            intent.setClassName("com.android.camera","com.android.camera.CropImage");
 
-                uploadPhoto(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
+            intent.setDataAndType(data.getData(), "image/*");
+            intent.putExtra("scale",true);
+            intent.putExtra("aspectX",1);
+            intent.putExtra("aspectY",1);
+            intent.putExtra("return-data",false);
+            startActivityForResult(intent,REQUEST_CODE_CROP_IMAGE);
+
+        } else if (requestCode == REQUEST_CODE_CROP_IMAGE){
+            if (data.getData() == null) {
+                return;
             }
+            String filePath = null;
+
+            if (data.getScheme().equals("file")) {
+                filePath = data.getData().getPath();
+            } else if (data.getScheme().equals("content")){
+                Cursor c = getActivity().getContentResolver().query(data.getData(), new String[]{MediaStore.Images.Media.DATA}, null, null, null);
+                if (c != null && c.moveToNext()) {
+                    filePath = c.getString(c.getColumnIndex(MediaStore.Images.Media.DATA));
+                }
+            }
+            if (filePath == null) {
+                return;
+            }
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+//            options.inSampleSize = 8;
+            Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
+//            Bitmap bitmap = rotaingImage(readPictureDegree(filePath),srcBitmap);
+            mHeaderView.setImageBitmap(bitmap);
+
+            uploadPhoto(bitmap);
+
+            File file = new File(filePath);
+            if (file.exists()) {
+                file.delete();
+            }
+
         } else if (requestCode == REQUEST_CODE_UPDATE_RESUME) {
             new ResumeInfoTask().executeOnPool();
         }
@@ -294,7 +332,38 @@ public class SelfFragment extends TitlebarFragment implements AdapterView.OnItem
         input = getActivity().getContentResolver().openInputStream(uri);
         Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
         input.close();
+
         return bitmap;
+    }
+
+    public static int readPictureDegree(String filePath) {
+        int degree = 0;
+        try {
+            ExifInterface exifInterface = new ExifInterface(filePath);
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return degree;
+    }
+
+    public static Bitmap rotaingImage(int angle,Bitmap bitmap){
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+
+        return Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
     }
 
     private static int getPowerOfTwoForSampleRatio(double ratio) {

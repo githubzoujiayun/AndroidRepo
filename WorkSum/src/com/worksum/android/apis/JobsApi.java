@@ -25,7 +25,6 @@ public class JobsApi extends Api{
         SoapObject soapObject = new SoapObject(NAMESPACE, "GetJobList");
         soapObject.addProperty("p_fltX", 1f);
         soapObject.addProperty("p_fltY", 1f);
-        soapObject.addProperty("p_intPagSize", 10);
         soapObject.addProperty("p_fltSalary", 0);
         addSoapProperty(soapObject, extras);
         return DotnetLoader.loadAndParseData("http://" + "139.196.165.106" + "/GetJobList", soapObject,URL);

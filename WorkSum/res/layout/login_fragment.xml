@@ -83,6 +83,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:hint="@string/forget_check_code_hint"
+                android:inputType="number"
+                android:textColor="@color/white_ffffff"
                 android:paddingBottom="12dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
@@ -200,7 +202,7 @@
     <TextView
         android:id="@+id/register_user_protocal"
         android:text="@string/register_user_protocal"
-        android:textColor="@color/white_ffffff"
+        android:textColor="@drawable/white_event_selector"
         android:layout_gravity="center_horizontal"
         android:drawableLeft="@drawable/ic_login_register"
         android:drawablePadding="5dp"

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gray_eeeeee"
+              android:orientation="vertical">
+
+    <include
+        android:id="@+id/resume_first_name"
+        layout="@layout/resume_edit_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/resume_items_margin"/>
+
+    <include
+        android:id="@+id/resume_last_name"
+        layout="@layout/resume_edit_item"/>
+
+    <include
+        android:id="@+id/resume_user_name"
+        layout="@layout/resume_edit_item"
+        />
+
+    <include
+        android:id="@+id/resume_user_phone"
+        layout="@layout/resume_edit_item"/>
+
+    <include
+        android:id="@+id/resume_area"
+        layout="@layout/resume_spinner_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/resume_items_margin"/>
+
+    <include
+        android:id="@+id/resume_job_name"
+        layout="@layout/resume_spinner_item"/>
+
+    <include
+        android:id="@+id/resume_sex"
+        layout="@layout/resume_spinner_item"/>
+
+    <include
+        android:id="@+id/resume_age"
+        layout="@layout/resume_spinner_item"/>
+
+    <include
+        android:id="@+id/resume_job_address"
+        layout="@layout/resume_edit_item"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
+
+    <include
+        android:id="@+id/resume_user_email"
+        layout="@layout/resume_edit_item"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/resume_item_common_margin"
+        android:paddingRight="@dimen/resume_item_common_margin"
+        android:layout_marginTop="@dimen/resume_items_margin"
+        android:background="@color/white_ffffff"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/resume_profile"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/resume_memo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:background="@drawable/resume_memo_bg"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:minHeight="200dp"
+            android:padding="5dp"
+            android:textColor="@color/gray_aaaaaa"
+            android:singleLine="false"/>
+    </LinearLayout>
+
+</LinearLayout>

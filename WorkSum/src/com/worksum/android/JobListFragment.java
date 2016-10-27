@@ -30,7 +30,9 @@ public class JobListFragment extends TitlebarFragment implements OnItemClickList
 	private static final int REQUEST_CODE_SEARCH = 1;
 	private static final int REQUEST_CODE_FILTER = 2;
 
-	private DataListView mJobListView;
+    private static final int LIST_PAGE_SIZE = 10;
+
+    private DataListView mJobListView;
 
 	private static final int MODE_NORMAL = 0;
 	private static final int MODE_SEARCH = 1;
@@ -95,7 +97,7 @@ public class JobListFragment extends TitlebarFragment implements OnItemClickList
 		mJobListView.setAutoTurnPageEnabled(true);
 		mJobListView.setAllowAutoTurnPage(true);
 		mJobListView.setOnItemClickListener(this);
-		mJobListView.setPageSize(15);
+		mJobListView.setPageSize(LIST_PAGE_SIZE);
 		mJobListView.setDivider(new ColorDrawable(getResources().getColor(R.color.black_999999)));
 		mJobListView.setDividerHeight(1);
         mJobListView.setAutoTurnPageEnabled(true);
@@ -209,6 +211,7 @@ public class JobListFragment extends TitlebarFragment implements OnItemClickList
 		public DataItemResult fetchData(DataListAdapter adapter, int pageAt, int pageSize) {
 			mHandler.sendEmptyMessage(MSG_LOAD_START);
 			extras.putInt("p_StartRows", adapter.getDataCount());
+            extras.putInt("p_intPagSize",LIST_PAGE_SIZE);
 			DataItemResult result = JobsApi.fetchJoblist(extras);
 			mHandler.sendEmptyMessage(MSG_LOAD_FINISH);
 			return result;

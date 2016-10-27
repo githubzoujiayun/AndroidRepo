@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.jobs.lib_v1.app.AppUtil;
 import com.worksum.android.apis.JobsApi;
 import com.worksum.android.apis.ResumeApi;
 import com.worksum.android.controller.DataController;
@@ -56,6 +57,7 @@ public class RegisterFragment extends LoginFragment {
 
         view = findViewById(R.id.register_user_protocal);
         view.setVisibility(View.VISIBLE);
+        view.setOnClickListener(this);
 
         view = findViewById(R.id.register_btn);
         view.setVisibility(View.GONE);
@@ -68,6 +70,8 @@ public class RegisterFragment extends LoginFragment {
            registerResume();
         } else if (view == mCheckCodeBtn) {
             sendCheckCode();
+        } else if (view.getId() == R.id.register_user_protocal) {
+            TermsFragment.showTerms(getActivity());
         }
     }
 
@@ -249,6 +253,7 @@ public class RegisterFragment extends LoginFragment {
         @Override
         protected void onTaskFinished(DataItemResult result) {
             Tips.hiddenWaitingTips();
+            getActivity().setResult(RESULT_OK);
             if (result.statusCode == -1) {
                 Tips.showTips(R.string.register_phone_has_exist);
                 return;
@@ -259,6 +264,7 @@ public class RegisterFragment extends LoginFragment {
             }
             if(!result.hasError && result.statusCode > 0) {
                 Tips.showTips(R.string.register_succeed);
+                getActivity().setResult(RESULT_OK);
                 new LoginTask(false).execute(phoneNumber,password);
             }
         }

@@ -89,9 +89,9 @@
 	<string name="tips_apply_succeed">申請成功</string>
 	<string name="tips_apply_applied_already">申請失敗，職位已經被申請</string>
 	<string name="inbox_descrptio_recommand">還有0個職位推薦未查看</string>
-	<string name="inbox_title_recommand">推薦職位</string>
-	<string name="inbox_title_hr_message">人事來信</string>
-	<string name="inbox_descrption_hr_message">還有20封來信未處理</string>
+	<string name="inbox_title_recommand">筍工</string>
+	<string name="inbox_title_hr_message">好消息</string>
+	<string name="inbox_descrption_hr_message">還有0封來信未處理</string>
 	<string name="resume_last_name">LastName</string>
 	<string name="resume_first_name">FirstName</string>
 	<string name="resume_age">年齡</string>
@@ -154,6 +154,8 @@
     <string name="register_user_protocal">註冊代表你已同意用戶協議</string>
     <string name="app_name_title">Jobpedia</string>
     <string name="invalide_phone_number">不是有效的手機號碼</string>
+    <string name="terms_title">Terms of Use</string>
+    <string name="default_salary">面議</string>
     <string-array name="spinner_items">
 		<item>@string/spinner_item_choose</item>
 	</string-array>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#dd000000">
+
+    <include layout="@layout/title_bar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_ffffff">
+
+        <ImageView
+            android:id="@+id/job_search_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ico_search"
+            android:padding="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@null"/>
+
+        <EditText
+            android:id="@+id/job_search_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_toLeftOf="@id/job_search_content"
+            android:layout_toRightOf="@id/job_search_icon"
+            android:imeOptions="actionSearch"
+            android:paddingRight="20dp"
+            android:textSize="15sp"
+            android:hint="@string/job_search_hint"/>
+
+        <ImageView
+            android:id="@+id/job_search_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/editor_close"
+            android:layout_marginRight="@dimen/filter_horizontal_margin"
+            android:layout_centerVertical="true"
+            android:contentDescription="@null"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_ffffff">
+
+        <ImageView
+            android:id="@+id/job_search_local_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ico_location"
+            android:layout_alignParentLeft="true"
+            android:padding="5dp"
+            android:layout_centerVertical="true"
+            android:contentDescription="@null"/>
+
+        <EditText
+            android:id="@+id/job_search_local_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_toLeftOf="@id/job_search_local_content"
+            android:layout_toRightOf="@id/job_search_local_icon"
+            android:paddingRight="20dp"
+            android:textSize="15sp"
+            android:imeOptions="actionSearch"
+            android:hint="@string/job_search_local_hint"/>
+
+        <ImageView
+            android:id="@+id/job_search_local_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/editor_close"
+            android:layout_marginRight="@dimen/filter_horizontal_margin"
+            android:layout_centerVertical="true"
+            android:contentDescription="@null"/>
+
+
+    </RelativeLayout>
+</LinearLayout>

@@ -15,7 +15,7 @@
 
     <TextView
         android:id="@+id/inbox_item_title"
-        android:textColor="@color/black_3e3e3e"
+        android:textColor="@color/white_ffffff"
         android:textSize="14sp"
         android:layout_toRightOf="@id/inbox_item_img"
         android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
 
     <TextView
         android:id="@+id/inbox_item_description"
-        android:textColor="@color/black_999999"
+        android:textColor="@color/white_7f7f7f"
         android:textSize="12sp"
         android:layout_below="@id/inbox_item_title"
         android:layout_toRightOf="@id/inbox_item_img"

@@ -27,8 +27,13 @@ public class JobSmallCell extends DataListCell{
 		mJobName.setText(mDetail.getString("JobName"));
 		mCompanyName.setText(mDetail.getString("CustomerName"));
 		mJobAddress.setText(mDetail.getString("AreaName"));
-		mJobSalary.setText(context.getString(R.string.joblist_salary, mDetail.getString("Salary")));
-		mJobSalaryType.setText(mDetail.getString("SalaryType"));
+        String salaryValue = mDetail.getString("Salary");
+        String salary = context.getString(R.string.default_salary);
+        if (!TextUtils.isEmpty(salaryValue) && !salaryValue.equals(context.getString(R.string.default_salary))) {
+            salary = context.getString(R.string.jobinfo_format_salary,salaryValue);
+        }
+        mJobSalary.setText(salary);
+        mJobSalaryType.setText(mDetail.getString("SalaryType"));
 
         String timeRange = buildRange(R.string.time_range, mDetail.getString("StartTime"), mDetail.getString("EndTime"));
         mTimeRange.setText(timeRange);

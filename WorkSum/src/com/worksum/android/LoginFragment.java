@@ -1,5 +1,6 @@
 package com.worksum.android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jobs.lib_v1.app.AppUtil;
 import com.worksum.android.apis.JobsApi;
 import com.worksum.android.controller.UserCoreInfo;
 import com.jobs.lib_v1.app.AppCoreInfo;
@@ -23,6 +25,8 @@ import com.worksum.android.utils.Utils;
  * 登陆Fragment
  */
 public class LoginFragment extends GeneralFragment implements View.OnClickListener {
+
+    public static final int REQUEST_FOR_REGISTER = 100;
 
     EditText mLoginView;
     EditText mPwdView;
@@ -150,7 +154,7 @@ public class LoginFragment extends GeneralFragment implements View.OnClickListen
         protected void onTaskFinished(DataItemResult result) {
             Tips.hiddenWaitingTips();
             if (!result.hasError) {
-                UserCoreInfo.setUserLoginInfo(result, true,UserCoreInfo.USER_LOGIN_MANUAL);
+                UserCoreInfo.setUserLoginInfo(result, true, UserCoreInfo.USER_LOGIN_MANUAL);
                 if (mCallback != null) {
                     mCallback.onLoginSucceed();
                 }
@@ -174,7 +178,7 @@ public class LoginFragment extends GeneralFragment implements View.OnClickListen
 
             new LoginTask().execute(phoneNumber, password);
         } else if (view == mRegisterBtn) {
-            FragmentContainer.FullScreenContainer.showRegisterFragment(getActivity());
+            FragmentContainer.FullScreenContainer.showRegisterFragment(this);
         } else if (view == mForgetText) {
             DialogContainer.showForgetPassword(getActivity(),mLoginView.getText().toString());
         } else if (view == mCloseBtn) {
@@ -184,5 +188,13 @@ public class LoginFragment extends GeneralFragment implements View.OnClickListen
 
     protected void onLoginSucceed() {
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_FOR_REGISTER && resultCode == RESULT_OK) {
+            finish();
+        }
     }
 }

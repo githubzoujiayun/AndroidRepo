@@ -111,13 +111,12 @@ public class FragmentContainer extends GeneralActivity {
         context.startActivity(intent);
     }
 
-    public static void showRegisterFragment(Context context) {
+    public static void showRegisterFragment(Fragment fragment) {
         Bundle extras = new Bundle();
-        Intent intent = new Intent(context,FullScreenContainer.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = new Intent(fragment.getActivity(),FullScreenContainer.class);
         intent.putExtra(KEY_FRAGMENT, RegisterFragment.class);
         intent.putExtras(extras);
-        context.startActivity(intent);
+        fragment.startActivityForResult(intent, RegisterFragment.REQUEST_FOR_REGISTER);
     }
 
     public static void showDict(Fragment fragment, int position) {
