@@ -7,11 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jobs.lib_v1.data.DataItemResult;
+import com.worksum.android.controller.DataManager;
 import com.worksum.android.controller.FragmentUtil;
 import com.worksum.android.controller.TaskManager;
 import com.jobs.lib_v1.app.AppUtil;
+import com.worksum.android.annotations.LayoutID;
 
-public abstract class GeneralFragment extends Fragment {
+public abstract class GeneralFragment extends Fragment implements DataManager.RequestCallback{
+
+    public static final String KEY_FRAGMENT = "fragment";
+
 
     public static final int RESULT_OK = Activity.RESULT_OK;
     public static final int RESULT_CANCEL = Activity.RESULT_CANCELED;
@@ -22,6 +28,8 @@ public abstract class GeneralFragment extends Fragment {
     View mLayout;
 
     private TaskManager mTaskManager;
+
+    protected DataManager mDataManager = DataManager.getInstance();
 
     public TaskManager getTaskManager() {
         return mTaskManager;
@@ -41,7 +49,10 @@ public abstract class GeneralFragment extends Fragment {
         }
 
         mLayout = contentView;
-		setupView(contentView,savedInstanceState);
+        if (mLayout.getBackground() == null) {
+            mLayout.setBackgroundColor(getResources().getColor(R.color.common_background_color));
+        }
+        setupView(contentView,savedInstanceState);
 		return contentView;
 	}
 
@@ -56,7 +67,7 @@ public abstract class GeneralFragment extends Fragment {
         return null;
     }
 
-    void setupView(ViewGroup v, Bundle savedInstanceState) {
+    protected void setupView(ViewGroup v, Bundle savedInstanceState) {
 		
 	}
 
@@ -64,7 +75,21 @@ public abstract class GeneralFragment extends Fragment {
         return mLayout.findViewById(id);
     }
 
-	public abstract int getLayoutId();
+	protected int getLayoutId(){
+        return getLayoutIdFromAnnotation();
+    }
+
+    /**
+     * 推荐使用注解指定Fragment的LayoutID
+     */
+    private int getLayoutIdFromAnnotation() {
+        int layoutId = 0;
+        LayoutID annoId = getClass().getAnnotation(LayoutID.class);
+        if (annoId != null) {
+            layoutId = annoId.value();
+        }
+        return layoutId;
+    }
 
     @Override
     public void onStart() {
@@ -91,6 +116,9 @@ public abstract class GeneralFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mDataManager.registerRequestCallback(this);
+
         AppUtil.lifeSycle(this.getClass().getName() + "/onCreate()");
     }
 
@@ -103,6 +131,9 @@ public abstract class GeneralFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        mDataManager.unregisterRequestCallback(this);
+
         AppUtil.lifeSycle(this.getClass().getName() + "/onDestroyView()");
     }
 
@@ -182,4 +213,40 @@ public abstract class GeneralFragment extends Fragment {
         mTaskManager.removeAllTask();
     }
 
+    /**
+     * DataManager数据请求回调
+     *
+     * 开始请求数据
+     *
+     * @param action 请求ID，用于识别请求
+     */
+    @Override
+    public void onStartRequest(String action) {
+
+    }
+
+    /**
+     * DataManager数据请求回调
+     *
+     * 请求返回数据
+     *
+     * @param action 请求ID，用于识别请求
+     * @param result 返回数据
+     */
+    @Override
+    public void onDataReceived(String action, DataItemResult result) {
+
+    }
+
+    /**
+     * DataManager数据请求回调
+     *
+     * 请求被撤销
+     *
+     * @param action 请求ID，用于识别请求
+     */
+    @Override
+    public void onCanceled(String action) {
+
+    }
 }

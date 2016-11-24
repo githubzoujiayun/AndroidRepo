@@ -1,6 +1,7 @@
 package com.worksum.android.apis;
 
 import com.jobs.lib_v1.data.DataItemResult;
+import com.worksum.android.annotations.LoginCheck;
 import com.worksum.android.controller.DotnetLoader;
 import com.worksum.android.controller.UserCoreInfo;
 
@@ -11,9 +12,7 @@ import org.ksoap2.serialization.SoapObject;
  * chao.qin
  * 2016/2/22
  */
-public class DictsApi {
-
-    public static final String SERVER_ADDRESS = "47.89.50.29";
+public class DictsApi extends Api{
 
     final static String URL = "http://" + SERVER_ADDRESS + "/AppService/DataDictionary/Dictionary.asmx";
     final static String namespace = "http://tempuri.org/";
@@ -29,5 +28,10 @@ public class DictsApi {
     public static DataItemResult getArea() {
         SoapObject soapObject = new SoapObject(namespace,"GetArea");
         return DotnetLoader.loadAndParseData("http://tempuri.org/GetArea", soapObject, URL);
+    }
+
+    public static DataItemResult getDegree() {
+        SoapObject soapObject = new SoapObject(namespace,"GetDegree");
+        return DotnetLoader.loadAndParseData("http://tempuri.org/GetDegree", soapObject, URL);
     }
 }

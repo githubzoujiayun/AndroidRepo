@@ -12,6 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.worksum.android.annotations.LayoutID;
+import com.worksum.android.annotations.Titlebar;
+
 /**
  *  带标题栏的Fragment
  *  默认 {标题栏} 在布局顶部位置，
@@ -28,6 +31,10 @@ import android.widget.TextView;
 public abstract class TitlebarFragment extends GeneralFragment implements OnClickListener {
 
     public static final String KEY_SCROLLBAR_ENABLED = "scrollbar_enabled";
+
+	private boolean mScrollbarEnable = false;
+
+	private ScrollView mScrollView;
 
 	private TextView mLeftAction;
 	private TextView mRightAction;
@@ -48,12 +55,16 @@ public abstract class TitlebarFragment extends GeneralFragment implements OnClic
             layout.addView(titlebar,params);
         }
 
-        ScrollView scrollView = new ScrollView(context);
+        mScrollView = new ScrollView(context);
 		Bundle bundle = getArguments();
         if (bundle != null && bundle.getBoolean(KEY_SCROLLBAR_ENABLED)) {
-            scrollView.addView(realView);
-            realView = scrollView;
+         	mScrollbarEnable = true;
         }
+
+		if (mScrollbarEnable) {
+			mScrollView.addView(realView);
+			realView = mScrollView;
+		}
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(MATCH_PARENT,MATCH_PARENT);
         params.addRule(RelativeLayout.BELOW,ID_TITLE_BAR);
@@ -63,8 +74,19 @@ public abstract class TitlebarFragment extends GeneralFragment implements OnClic
 		return layout;
 	}
 
+	public void scrollbarEnable() {
+		mScrollbarEnable = true;
+	}
+
+	public ScrollView getScrollView() {
+		if (!mScrollbarEnable) {
+			throw new IllegalStateException("ScrollView not enabled!");
+		}
+		return mScrollView;
+	}
+
 	@Override
-	void setupView(ViewGroup vg, Bundle savedInstanceState) {
+	protected void setupView(ViewGroup vg, Bundle savedInstanceState) {
 		super.setupView(vg, savedInstanceState);
 		vg.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -79,6 +101,16 @@ public abstract class TitlebarFragment extends GeneralFragment implements OnClic
 		mLeftAction.setOnClickListener(this);
 		mRightAction.setOnClickListener(this);
 		mTitle = (TextView) vg.findViewById(R.id.bar_title);
+
+
+		Titlebar titlebar = getClass().getAnnotation(Titlebar.class);
+		if (titlebar != null) {
+			setTitle(titlebar.titleId());
+			setActionLeftText(titlebar.leftTextId());
+			setActionLeftDrawable(titlebar.leftDrawableId());
+			setActionRightText(titlebar.rightTextId());
+			setActionRightDrawable(titlebar.rightDrawableId());
+		}
     }
 	
 	@Override
@@ -105,7 +137,9 @@ public abstract class TitlebarFragment extends GeneralFragment implements OnClic
 	}
 	
 	void setActionRightText(int textId) {
-		setActionRightText(getString(textId));
+		if (textId != 0) {
+			setActionRightText(getString(textId));
+		}
 	}
 	
 	void setActionLeftText(CharSequence text) {
@@ -114,11 +148,15 @@ public abstract class TitlebarFragment extends GeneralFragment implements OnClic
 	}
 	
 	void setActionLeftText(int textId) {
-		setActionLeftText(getString(textId));
+		if (textId != 0){
+			setActionLeftText(getString(textId));
+		}
 	}
 	
 	void setActionLeftDrawable(int drawableId) {
-		setActionLeftDrawable(getResources().getDrawable(drawableId));
+		if (drawableId != 0) {
+			setActionLeftDrawable(getResources().getDrawable(drawableId));
+		}
 	}
 	
 	void setActionLeftDrawable(Drawable drawable) {
@@ -127,7 +165,9 @@ public abstract class TitlebarFragment extends GeneralFragment implements OnClic
 	}
 	
 	void setActionRightDrawable(int drawableId) {
-		setActionRightDrawable(getResources().getDrawable(drawableId));
+		if (drawableId != 0) {
+			setActionRightDrawable(getResources().getDrawable(drawableId));
+		}
 	}
 	
 	void setActionRightDrawable(Drawable drawable) {
@@ -136,7 +176,9 @@ public abstract class TitlebarFragment extends GeneralFragment implements OnClic
 	}
 
 	public void setTitle(int titleId) {
-		setTitle(getString(titleId));
+		if (titleId != 0) {
+			setTitle(getString(titleId));
+		}
 	}
 
 	public void setTitle(CharSequence title) {

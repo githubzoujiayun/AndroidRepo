@@ -3,6 +3,7 @@ package com.worksum.android;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -65,7 +66,7 @@ public class JobInfoFragment extends TitlebarFragment {
     }
 
     @Override
-    void setupView(ViewGroup vg, Bundle savedInstanceState) {
+    protected void setupView(ViewGroup vg, Bundle savedInstanceState) {
         super.setupView(vg, savedInstanceState);
         setActionLeftDrawable(R.drawable.common_nav_arrow);
 
@@ -192,6 +193,7 @@ public class JobInfoFragment extends TitlebarFragment {
         private static final int APPLY_APPLID_ALREADY = -1;
         private static final int APPLY_SUCCEED = 1;
         private static final int APPLY_APPLID_ALREADY2 = 2;
+        private static final int APPLY_UNCOMPLETE_USER_INFO = 3;
 
         public ApplyTask(Context context) {
             super(context,getTaskManager());
@@ -228,6 +230,17 @@ public class JobInfoFragment extends TitlebarFragment {
                     case APPLY_APPLID_ALREADY2:
                         tips = R.string.tips_apply_applied_already;
                         break;
+                    case APPLY_UNCOMPLETE_USER_INFO:
+                        Tips.showConfirm(getString(R.string.confirm_title_resume_uncomplete), getString(R.string.confirm_content_resume_uncomplete), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (which == DialogInterface.BUTTON_POSITIVE) {
+                                    ResumeEditPage.showResumeEditPage(JobInfoFragment.this);
+                                }
+                            }
+                        });
+                        Tips.hiddenWaitingTips();
+                        return;
                 }
             }
             Tips.hiddenWaitingTips();

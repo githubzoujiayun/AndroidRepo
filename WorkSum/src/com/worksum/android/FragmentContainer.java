@@ -27,6 +27,7 @@ public class FragmentContainer extends GeneralActivity {
         public FullScreenContainer(){}
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,20 +50,6 @@ public class FragmentContainer extends GeneralActivity {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void showMyResume(Fragment fragment) {
-        showMyResume(fragment, -1);
-    }
-
-    public static void showMyResume(Fragment fragment,int requstCode) {
-        Bundle extras = new Bundle();
-        extras.putBoolean(TitlebarFragment.KEY_SCROLLBAR_ENABLED, true);
-        Intent intent = new Intent(fragment.getActivity(),FragmentContainer.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(KEY_FRAGMENT, MyResumeFragment.class);
-        intent.putExtras(extras);
-        fragment.getActivity().startActivityFromFragment(fragment, intent, requstCode);
     }
 
     public static void showJobDetail(Context context,DataItemDetail detail) {
@@ -100,32 +87,16 @@ public class FragmentContainer extends GeneralActivity {
     }
 
     public static void showLoginFragment(Context context,LoginFragment.LoginCallback callback) {
-        Bundle extras = new Bundle();
-        Intent intent = new Intent(context,FullScreenContainer.class);
-        if(!(context instanceof Activity)) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-        intent.putExtra(KEY_FRAGMENT, LoginFragment.class);
-        extras.putString("callback_key", ObjectSessionStore.insertObject(callback));
-        intent.putExtras(extras);
-        context.startActivity(intent);
+        LoginFragment.showLoginFragment(context,callback);
     }
 
-    public static void showRegisterFragment(Fragment fragment) {
-        Bundle extras = new Bundle();
-        Intent intent = new Intent(fragment.getActivity(),FullScreenContainer.class);
-        intent.putExtra(KEY_FRAGMENT, RegisterFragment.class);
-        intent.putExtras(extras);
-        fragment.startActivityForResult(intent, RegisterFragment.REQUEST_FOR_REGISTER);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
-    public static void showDict(Fragment fragment, int position) {
-        Bundle extras = new Bundle();
-        Intent intent = new Intent(fragment.getActivity(),FragmentContainer.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(KEY_FRAGMENT, DictFragment.class);
-        extras.putInt("position", position);
-        intent.putExtras(extras);
-        fragment.startActivityForResult(intent, position);
+    @Override
+    public void onUserStatusChanged(Integer loginType) {
+        super.onUserStatusChanged(loginType);
     }
 }

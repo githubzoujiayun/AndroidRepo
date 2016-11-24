@@ -37,7 +37,7 @@ public class JobSearchFragment extends TitlebarFragment implements TextView.OnEd
     }
 
     @Override
-    void setupView(ViewGroup v, Bundle savedInstanceState) {
+    protected void setupView(ViewGroup v, Bundle savedInstanceState) {
         super.setupView(v, savedInstanceState);
         setActionLeftDrawable(R.drawable.jobsearch_close);
         mClearView = (ImageView) v.findViewById(R.id.job_search_del);

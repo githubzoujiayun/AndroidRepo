@@ -1,5 +1,6 @@
 package com.worksum.android.apis;
 
+import com.jobs.lib_v1.data.DataItemDetail;
 import com.worksum.android.controller.DotnetLoader;
 import com.worksum.android.controller.UserCoreInfo;
 import com.jobs.lib_v1.data.DataItemResult;
@@ -12,11 +13,11 @@ import org.ksoap2.serialization.SoapObject;
  *         <p>
  *         16/4/13
  */
-public class ResumeApi {
+public class ResumeApi extends Api{
 
-    public static final String SERVER_ADDRESS = "47.89.50.29";
     private static final String URL = "http://" + SERVER_ADDRESS + "/AppService/Resume/SMS.asmx";
     private static final String namespace = "http://tempuri.org/";
+    public static final String ACTION_REGISTER_FACEBOOK = "http://tempuri.org/RegisterFacebook";
 
     public static DataItemResult sendSMS(String phoneNumber) {
         SoapObject soapObject = new SoapObject(namespace,"SendSMS");
@@ -47,5 +48,23 @@ public class ResumeApi {
         SoapObject soapObject = new SoapObject(namespace,"GetPhoto");
         soapObject.addProperty("p_strID", UserCoreInfo.getUserID());
         return DotnetLoader.loadAndParseData("http://tempuri.org/GetPhoto", soapObject, URL);
+    }
+
+    public static void registerFacebook(String fbId, String firstName, String lastName, String name, String gender, String age, String email,String userPhoto) {
+        String URL = "http://" + SERVER_ADDRESS + "/AppService/Resume/Resume.asmx";
+
+        SoapObject soapObject = new SoapObject(namespace,"RegisterFacebook");
+//        soapObject.addProperty("p_strFBID", fbId + (int)(Math.random() * 1000000));
+        soapObject.addProperty("p_strFBID", fbId);
+        soapObject.addProperty("p_strEmail", email);
+        soapObject.addProperty("p_strFirstName", firstName);
+        soapObject.addProperty("p_strLastNamre", lastName);
+        soapObject.addProperty("p_strName", name);
+        soapObject.addProperty("p_strGender", gender);
+        soapObject.addProperty("p_strAge", age);
+        soapObject.addProperty("p_ImgURL",userPhoto);
+
+
+        mManager.request(ACTION_REGISTER_FACEBOOK, soapObject, URL);
     }
 }

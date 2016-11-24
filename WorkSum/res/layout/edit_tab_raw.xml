@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/edit_table_title"
+        style="@style/resume_edit_text_style"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_bottom_line"
+        >
+
+        <EditText
+            android:id="@+id/edit_table_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:textColorHint="@color/white_afafaf"
+            android:singleLine="true"
+            android:paddingRight="20dp"
+            android:ellipsize="start"
+            android:textSize="14sp"
+            />
+
+        <ImageView
+            android:id="@+id/resume_item_check"
+            android:layout_alignRight="@id/edit_table_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ico_resume_check"
+            android:visibility="invisible"/>
+    </RelativeLayout>
+
+</merge>

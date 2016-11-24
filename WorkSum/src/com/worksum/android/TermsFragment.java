@@ -30,7 +30,7 @@ public class TermsFragment extends TitlebarFragment {
     }
 
     @Override
-    void setupView(ViewGroup v, Bundle savedInstanceState) {
+    protected void setupView(ViewGroup v, Bundle savedInstanceState) {
         super.setupView(v, savedInstanceState);
         setTitle(R.string.terms_title);
         setActionLeftDrawable(R.drawable.common_nav_arrow);

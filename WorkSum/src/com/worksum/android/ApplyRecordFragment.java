@@ -87,10 +87,11 @@ public class ApplyRecordFragment extends TitlebarFragment implements ViewPager.O
     }
 
     @Override
-    void setupView(ViewGroup v, Bundle savedInstanceState) {
+    protected void setupView(ViewGroup v, Bundle savedInstanceState) {
         super.setupView(v, savedInstanceState);
 
         setTitle(R.string.title_applied);
+
         setupTabHost(v);
 
         setupViewPager(v);
@@ -102,6 +103,11 @@ public class ApplyRecordFragment extends TitlebarFragment implements ViewPager.O
 
         mLoginButton.setOnClickListener(this);
         mViewJobsButton.setOnClickListener(this);
+
+        TextView title = (TextView) mLoginLayout.findViewById(R.id.title_bar_id).findViewById(R.id.bar_title);
+        title.setText(R.string.title_applied);
+        title = (TextView) mUnloginLayout.findViewById(R.id.title_bar_id).findViewById(R.id.bar_title);
+        title.setText(R.string.title_applied);
 
         switchLayout();
     }

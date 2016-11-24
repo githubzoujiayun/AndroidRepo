@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:jobpedia="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/resume_edit_title_style"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_head_add"
+        android:text="@string/resume_edit_head_add_title"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/resume_edit_head_add"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="@dimen/resume_edit_common_left_margin"
+        android:layout_marginRight="@dimen/resume_edit_common_right_margin"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/img_head_add" />
+
+    <include
+        layout="@layout/divider_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdge="none"
+        android:overScrollMode="never"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbars="none">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:shrinkColumns="1"
+            android:stretchColumns="1">
+
+            <TextView
+                style="@style/resume_edit_title_style"
+                android:drawableLeft="@drawable/ic_resume_edit_info"
+                android:text="@string/resume_edit_info_title" />
+
+            <com.worksum.android.views.EditTableRow
+                android:id="@+id/resume_edit_english_name"
+                style="@style/resume_edit_raw_style"
+                jobpedia:rowHint="@string/resume_edit_english_hint"
+                jobpedia:rowNecessary="true"
+                jobpedia:rowTitle="@string/resume_edit_english_name" />
+
+            <com.worksum.android.views.EditTableRow
+                android:id="@+id/resume_edit_chn_name"
+                style="@style/resume_edit_raw_style"
+                jobpedia:rowHint="@string/resume_edit_chn_name_hint"
+                jobpedia:rowNecessary="true"
+                jobpedia:rowTitle="@string/resume_edit_chn_name" />
+
+            <com.worksum.android.views.EditTableRow
+                android:visibility="gone"
+                android:id="@+id/resume_edit_eng_name"
+                style="@style/resume_edit_raw_style"
+                jobpedia:rowNecessary="false"
+                jobpedia:rowTitle="@string/resume_edit_eng_name" />
+
+
+            <com.worksum.android.views.EditTableRow
+                android:id="@+id/resume_edit_phone"
+                style="@style/resume_edit_raw_style"
+                jobpedia:rowNecessary="true"
+                jobpedia:rowHint="@string/resume_edit_phone_hint"
+                jobpedia:rowTitle="@string/resume_edit_phone" />
+
+            <com.worksum.android.views.EditTableRow
+                android:id="@+id/resume_edit_email"
+                style="@style/resume_edit_raw_style"
+                jobpedia:rowNecessary="true"
+                jobpedia:rowTitle="@string/resume_edit_email" />
+
+            <com.worksum.android.views.DictTableRow
+                android:id="@+id/resume_edit_area"
+                style="@style/resume_edit_raw_style"
+                jobpedia:rowDict="dictArea"
+                jobpedia:rowTitle="@string/resume_edit_area" />
+
+            <com.worksum.android.views.DictTableRow
+                android:id="@+id/resume_edit_function"
+                style="@style/resume_edit_raw_style"
+                jobpedia:rowDict="dictFunction"
+                jobpedia:rowTitle="@string/resume_edit_function" />
+
+            <com.worksum.android.views.DictTableRow
+                android:id="@+id/resume_edit_age"
+                style="@style/resume_edit_raw_style"
+                jobpedia:rowDict="dictAge"
+                jobpedia:rowTitle="@string/resume_edit_age" />
+
+
+            <com.worksum.android.views.DictTableRow
+                android:id="@+id/resume_edit_sex"
+                style="@style/resume_edit_raw_style"
+                jobpedia:rowDict="dictSex"
+                jobpedia:rowTitle="@string/resume_edit_sex" />
+
+            <com.worksum.android.views.DictTableRow
+                android:id="@+id/resume_edit_degree"
+                style="@style/resume_edit_raw_style"
+                jobpedia:rowDict="dictDegree"
+                jobpedia:rowTitle="@string/resume_edit_degree" />
+
+            <com.worksum.android.views.DictTableRow
+                android:id="@+id/resume_edit_workday"
+                style="@style/resume_edit_raw_style"
+                jobpedia:rowDict="dictWorkday"
+                jobpedia:rowTitle="@string/resume_edit_workday" />
+
+            <include
+                layout="@layout/divider_line"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                style="@style/resume_edit_title_style"
+                android:drawableLeft="@drawable/ic_self_recommend"
+                android:text="@string/resume_edit_self_recommend" />
+
+            <EditText
+                android:id="@+id/resume_edit_memo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/self_recommend_area"
+                android:textColorHint="#bbbbbb"
+                android:textColor="@color/white_7f7f7f"
+                android:gravity="top"
+                android:textSize="14sp"
+                android:hint="@string/hint_self_recommend_area"
+                android:padding="5dp" />
+        </TableLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>

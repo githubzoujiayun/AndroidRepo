@@ -18,7 +18,7 @@ public class SimpleDictFragment extends TitlebarFragment{
     private DataListView mDataList;
 
     @Override
-    void setupView(ViewGroup vg, Bundle savedInstanceState) {
+    protected void setupView(ViewGroup vg, Bundle savedInstanceState) {
         super.setupView(vg, savedInstanceState);
         mDataList = (DataListView) findViewById(R.id.simple_list);
         mDataList.setDataLoader(new DataLoader() {

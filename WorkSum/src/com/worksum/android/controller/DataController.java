@@ -34,7 +34,7 @@ public class DataController {
     public DataAdapter newDataAdapter() {
         String key = generateKey();
         DataAdapter adapter = new DataAdapter(key);
-        mAdapterMap.put(key,adapter);
+//        mAdapterMap.put(key,adapter);
         return adapter;
     }
 
@@ -142,5 +142,38 @@ public class DataController {
         void onBeforeLoad();
         DataItemResult onLoadData();
         void onCancelled();
+    }
+
+    public static class DataLoadAdapter implements DataLoadListener {
+
+        @Override
+        public void onSucceed(DataItemResult result) {
+
+        }
+
+        @Override
+        public void onFailed(DataItemResult result, boolean isNetworkConnected) {
+
+        }
+
+        @Override
+        public void onEmpty(DataItemResult result) {
+
+        }
+
+        @Override
+        public void onBeforeLoad() {
+
+        }
+
+        @Override
+        public DataItemResult onLoadData() {
+            return null;
+        }
+
+        @Override
+        public void onCancelled() {
+
+        }
     }
 }

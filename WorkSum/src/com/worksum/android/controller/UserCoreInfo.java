@@ -2,12 +2,21 @@ package com.worksum.android.controller;
 
 import android.text.TextUtils;
 
+import com.facebook.login.LoginManager;
 import com.jobs.lib_v1.app.AppActivities;
 import com.jobs.lib_v1.app.AppCoreInfo;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.data.encrypt.SimpleEncrypt;
 import com.jobs.lib_v1.db.DataAppCoreDB;
+import com.jobs.lib_v1.misc.Tips;
+import com.worksum.android.utils.Utils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * 用户信息存取
@@ -87,6 +96,11 @@ public class UserCoreInfo {
         DataItemDetail info = getUserCoreInfo();
         DataItemDetail item_info = item.getItem(0);
 
+        if(item_info == null) {
+            Tips.showTips("empty user info.");
+            return;
+        }
+
         // 登录接口中不返回mobilenation, mobilenationname这两个字段,在个人信息界面中会设置这两个字段的值
         /*
 		 * 2.6.0 增加 
@@ -109,7 +123,7 @@ public class UserCoreInfo {
 		 * 去除手机地域的信息mobilenationname
 		 */
 
-        String updatekeys[] = {"Cname", "City", "CityAddr", "Gender",
+        String updatekeys[] = {"Cname", "City", "CityAddr", "Gender","EMail","Degree","workyears","WorkYear","DegreeName",
                 "Mobile", "FirstName", "UpdateDate","AreaName",
                 "LastName", "AgeFrom", "City","FunctionTypeName",
                 "FUTUID", "Source", "Memo", "FunctionType"};
@@ -127,6 +141,18 @@ public class UserCoreInfo {
 
     public static String getUserID() {
         return AppCoreInfo.getCoreDB().getStrValue("user_info", "user_id");
+    }
+
+    public static String getDegree() {
+        return getUserCoreInfo().getString("DegreeName");
+    }
+
+    public static String getWorkYear() {
+        return Utils.dateFormat(getUserCoreInfo().getString("WorkYear"));
+    }
+
+    public static int getWorkYears() {
+        return getUserCoreInfo().getInt("workyears");
     }
 
     /**
@@ -672,6 +698,12 @@ public class UserCoreInfo {
     public static void logout() {
         AppCoreInfo.getCoreDB().setStrValue("user_info", "user_id", "");
         UserCoreInfo.getUserCoreInfo().clear();
+
+        DataAppCoreDB db = AppCoreInfo.getCoreDB();
+        db.removeItemCache(Store.CORE_USER_INFO, CORE_USER_INFO_DB_KEY);
+
+        LoginManager.getInstance().logOut();
+
         updateUserStatus(USER_LOGIN_LOGOUT);
     }
 
@@ -759,4 +791,13 @@ public class UserCoreInfo {
     public static DataItemDetail copy() {
         return getUserCoreInfo().Copy();
     }
+
+    public static void setLoginType(int type) {
+        getUserCoreInfo().setIntValue("login.type",type);
+    }
+
+    public static int getLoginType() {
+        return getUserCoreInfo().getInt("login.type");
+    }
+
 }

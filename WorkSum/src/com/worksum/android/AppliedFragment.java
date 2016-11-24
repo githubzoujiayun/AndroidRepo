@@ -87,7 +87,7 @@ public class AppliedFragment extends GeneralFragment implements AdapterView.OnIt
     }
 
     @Override
-    void setupView(ViewGroup v, Bundle savedInstanceState) {
+    public void setupView(ViewGroup v, Bundle savedInstanceState) {
         super.setupView(v, savedInstanceState);
 
         mListView = (DataListView) findViewById(R.id.applied_list);

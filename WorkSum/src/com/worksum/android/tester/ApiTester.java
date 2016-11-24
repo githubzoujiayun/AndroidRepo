@@ -5,6 +5,8 @@ import android.test.AndroidTestCase;
 import com.worksum.android.apis.JobsApi;
 import com.worksum.android.apis.ResumeApi;
 import com.jobs.lib_v1.data.DataItemResult;
+import com.worksum.android.apis.WorkExpApi;
+import com.worksum.android.controller.DataManager;
 
 /**
  * @author chao.qin
@@ -29,6 +31,17 @@ public class ApiTester extends AndroidTestCase {
         DataItemResult result = JobsApi.applyJobStatus("1");
         System.out.println("statuecode : " + result.statusCode);
         assertEquals(1, result.statusCode);
+    }
+
+    public void testInsertExp() {
+        DataManager manager = DataManager.getInstance();
+        manager.registerRequestCallback(new DataManager.RequestAdapter(){
+            @Override
+            public void onDataReceived(String action, DataItemResult result) {
+                super.onDataReceived(action, result);
+            }
+        });
+        WorkExpApi.insertWorkExp("51job","软件工程师","coding","2015-10-10","2016-01-01");
     }
 
 

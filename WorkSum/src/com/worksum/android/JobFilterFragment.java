@@ -53,7 +53,7 @@ public class JobFilterFragment extends TitlebarFragment implements SeekBar.OnSee
     }
 
     @Override
-    void setupView(ViewGroup v, Bundle savedInstanceState) {
+    protected void setupView(ViewGroup v, Bundle savedInstanceState) {
         super.setupView(v, savedInstanceState);
         setTitle("");
         setActionLeftDrawable(R.drawable.titlebar_action_done);

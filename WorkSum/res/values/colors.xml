@@ -29,4 +29,7 @@
     <color name="gray_555555">#555555</color>
     <color name="red_main">#d01b5b</color>
     <color name="red_main_light">#aad01b5b</color>
+    <color name="common_background_color">#f1f2f2</color>
+	<color name="white_afafaf">#afafaf</color>
+	<color name="gray_d4d4d4">#d4d4d4</color>
 </resources>

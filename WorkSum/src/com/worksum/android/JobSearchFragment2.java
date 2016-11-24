@@ -51,7 +51,7 @@ public class JobSearchFragment2 extends TitlebarFragment implements TextView.OnE
     }
 
     @Override
-    void setupView(ViewGroup v, Bundle savedInstanceState) {
+    protected void setupView(ViewGroup v, Bundle savedInstanceState) {
         super.setupView(v, savedInstanceState);
         mSharedPreference = getActivity().getPreferences(Context.MODE_PRIVATE);
         setActionLeftDrawable(R.drawable.jobsearch_close);

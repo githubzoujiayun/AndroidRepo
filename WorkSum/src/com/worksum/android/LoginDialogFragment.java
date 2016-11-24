@@ -23,7 +23,7 @@ public class LoginDialogFragment extends GeneralFragment implements View.OnClick
     LoginFragment.LoginCallback mLoginCallback;
 
     @Override
-    void setupView(ViewGroup v, Bundle savedInstanceState) {
+    protected void setupView(ViewGroup v, Bundle savedInstanceState) {
         super.setupView(v, savedInstanceState);
 
         mData = getActivity().getIntent();
@@ -57,7 +57,7 @@ public class LoginDialogFragment extends GeneralFragment implements View.OnClick
                 onBackPressed();
                 break;
             case R.id.login_dialog_register_btn:
-                FragmentContainer.showRegisterFragment(this);
+                RegisterFragment.showRegisterFragment(this);
                 onBackPressed();
                 break;
         }

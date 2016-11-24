@@ -20,7 +20,7 @@ public class InboxFragment extends TitlebarFragment{
 	}
 
 	@Override
-	void setupView(ViewGroup v, Bundle savedInstanceState) {
+	protected void setupView(ViewGroup v, Bundle savedInstanceState) {
 		super.setupView(v, savedInstanceState);
 		
 		setTitle(R.string.title_message);
@@ -36,7 +36,7 @@ public class InboxFragment extends TitlebarFragment{
 		mLoginButton.setOnClickListener(this);
 		mViewJobsButton.setOnClickListener(this);
 
-		icon.setImageResource(R.drawable.inbox_hr_message_icon);
+		icon.setImageResource(R.drawable.ic_good_news);
 		title.setText(R.string.inbox_title_hr_message);
 		description.setText(R.string.inbox_descrption_hr_message);
 		view.setOnClickListener(this);
@@ -46,9 +46,9 @@ public class InboxFragment extends TitlebarFragment{
 		title = (TextView) view.findViewById(R.id.inbox_item_title);
 		description = (TextView) view.findViewById(R.id.inbox_item_description);
 
-		icon.setImageResource(R.drawable.inbox_recommand_icon);
+		icon.setImageResource(R.drawable.ic_good_jobs);
 		title.setText(R.string.inbox_title_recommand);
-		description.setText(R.string.inbox_descrptio_recommand);
+		description.setText(R.string.inbox_descrptio_recommend);
 		view.setOnClickListener(this);
 
         switchLayout();

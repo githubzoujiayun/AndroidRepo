@@ -24,7 +24,7 @@ public class ForgetFragment extends GeneralFragment implements View.OnClickListe
     private Button mSendBtn;
 
     @Override
-    void setupView(ViewGroup vg, Bundle savedInstanceState) {
+    protected void setupView(ViewGroup vg, Bundle savedInstanceState) {
         super.setupView(vg, savedInstanceState);
 
         mForgetContent = (EditText) findViewById(R.id.forget_content);

@@ -10,7 +10,7 @@
         android:textStyle="bold"
         android:layout_marginTop="200dp"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/white_ffffff"
+        android:textColor="@color/white_7f7f7f"
         android:textSize="16sp"
         android:text="@string/joblist_empty_tips1"/>
 
@@ -19,6 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textSize="16sp"
-        android:textColor="@color/white_ffffff"
+        android:textColor="@color/white_7f7f7f"
         android:text="@string/joblist_empty_tips2"/>
 </LinearLayout>

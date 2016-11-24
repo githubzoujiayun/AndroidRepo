@@ -1,7 +1,9 @@
 package com.worksum.android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +34,16 @@ public class RegisterFragment extends LoginFragment {
     private Handler mHandle;
     private int mSendCodeTimer = 0;
 
+    public static void showRegisterFragment(Fragment fragment) {
+        Bundle extras = new Bundle();
+        Intent intent = new Intent(fragment.getActivity(),FragmentContainer.FullScreenContainer.class);
+        intent.putExtra(KEY_FRAGMENT, RegisterFragment.class);
+        intent.putExtras(extras);
+        fragment.startActivityForResult(intent, RegisterFragment.REQUEST_FOR_REGISTER);
+    }
+
     @Override
-    void setupView(ViewGroup vg, Bundle savedInstanceState) {
+    protected void setupView(ViewGroup vg, Bundle savedInstanceState) {
         super.setupView(vg, savedInstanceState);
         mHandle = new Handler();
 //        setActionRightText(R.string.register_right_action);
@@ -60,6 +70,12 @@ public class RegisterFragment extends LoginFragment {
         view.setOnClickListener(this);
 
         view = findViewById(R.id.register_btn);
+        view.setVisibility(View.GONE);
+
+        view = findViewById(R.id.login_divider);
+        view.setVisibility(View.GONE);
+
+        view = findViewById(R.id.login_fb_btn);
         view.setVisibility(View.GONE);
     }
 
@@ -194,11 +210,6 @@ public class RegisterFragment extends LoginFragment {
         return true;
     }
 
-    @Override
-    protected void onActionRight() {
-        registerResume();
-    }
-
     private boolean checkedPassword() {
         String pass = mPwdView.getText().toString();
         String conPass = mConfromPassword.getText().toString();
@@ -253,7 +264,11 @@ public class RegisterFragment extends LoginFragment {
         @Override
         protected void onTaskFinished(DataItemResult result) {
             Tips.hiddenWaitingTips();
-            getActivity().setResult(RESULT_OK);
+
+            //// TODO: 2016/11/24  test
+            result.statusCode = 1;
+            result.hasError = false;
+
             if (result.statusCode == -1) {
                 Tips.showTips(R.string.register_phone_has_exist);
                 return;
@@ -264,8 +279,11 @@ public class RegisterFragment extends LoginFragment {
             }
             if(!result.hasError && result.statusCode > 0) {
                 Tips.showTips(R.string.register_succeed);
-                getActivity().setResult(RESULT_OK);
-                new LoginTask(false).execute(phoneNumber,password);
+                Intent extras = new Intent();
+                extras.putExtra("phone",phoneNumber);
+                extras.putExtra("password",password);
+                getActivity().setResult(RESULT_OK,extras);
+                onBackPressed();
             }
         }
     }
@@ -273,6 +291,6 @@ public class RegisterFragment extends LoginFragment {
     @Override
     protected void onLoginSucceed() {
         super.onLoginSucceed();
-        FragmentContainer.showMyResume(RegisterFragment.this);
+        ResumeEditPage.showResumeEditPage(RegisterFragment.this);
     }
 }

@@ -16,7 +16,9 @@ import org.ksoap2.serialization.SoapObject;
  */
 public class JobsApi extends Api{
 
-    public static final String SERVER_ADDRESS = "47.89.50.29";
+    public static final String ACTION_UPDATE_RESUME_INFO = "http://tempuri.org/UpdateResumeInfo1";
+    public static final String ACTION_GET_RESUME_INFO = "http://tempuri.org/GetResumeInfo";
+
 
     public static DataItemResult fetchJoblist(Bundle extras) {
         final String URL = "http://" + SERVER_ADDRESS + "/AppService/Jobs/JobList.asmx";
@@ -45,29 +47,51 @@ public class JobsApi extends Api{
         final String URL = "http://" + SERVER_ADDRESS + "/AppService/Resume/Resume.asmx";
         final String namespace = "http://tempuri.org/";
 
-        SoapObject soapObject = new SoapObject(namespace,"RegisterResume");
+        SoapObject soapObject = new SoapObject(namespace,"RegisterResume1");
         soapObject.addProperty("p_strMobile",phoneNumber);
         soapObject.addProperty("p_PassWord",password);
         soapObject.addProperty("p_strMSG", checkCode);
-        return DotnetLoader.loadAndParseData("http://tempuri.org/RegisterResume",soapObject,URL);
+        soapObject.addProperty("p_strSource",PLATFORM);
+        return DotnetLoader.loadAndParseData("http://tempuri.org/RegisterResume1",soapObject,URL);
     }
 
-    public static DataItemResult getUserInfo() {
+    public static void getResumeInfo() {
 
         final String URL = "http://" + SERVER_ADDRESS + "/AppService/Resume/Resume.asmx";
         final String namespace = "http://tempuri.org/";
 
         SoapObject soapObject = new SoapObject(namespace,"GetResumeInfo");
         soapObject.addProperty("p_strID", UserCoreInfo.getUserID());
-        return DotnetLoader.loadAndParseData("http://tempuri.org/GetResumeInfo",soapObject,URL);
+        mManager.loginRequest(ACTION_GET_RESUME_INFO,soapObject,URL);
     }
 
-    public static DataItemResult updateResumeInfo(DataItemDetail detail) {
+//    public static DataItemResult updateResumeInfo(DataItemDetail detail) {
+//        final String URL = "http://" + SERVER_ADDRESS + "/AppService/Resume/Resume.asmx";
+//        final String namespace = "http://tempuri.org/";
+//
+//        SoapObject soapObject = new SoapObject(namespace,"UpdateResumeInfo");
+//        soapObject.addProperty("p_strID", UserCoreInfo.getUserID());
+//        soapObject.addProperty("p_strFirstName",detail.getString("FirstName"));
+//        soapObject.addProperty("p_strLastName", detail.getString("LastName"));
+//        soapObject.addProperty("p_strName", detail.getString("Cname"));
+//        soapObject.addProperty("p_strCity",detail.getString("City"));
+//        soapObject.addProperty("p_strFunctionType",detail.getString("FunctionType"));
+//        soapObject.addProperty("p_strMobile", detail.getString("Mobile"));//不可變
+//        soapObject.addProperty("p_strSex", detail.getString("Gender"));
+//        soapObject.addProperty("p_strAgeFrom",detail.getString("AgeFrom"));
+//        soapObject.addProperty("p_strMemo",detail.getString("Memo"));
+//        soapObject.addProperty("p_strSource","");
+//
+//        return DotnetLoader.loadAndParseData("http://tempuri.org/UpdateResumeInfo",soapObject,URL);
+//    }
+
+    public static void updateResumeInfo(DataItemDetail detail) {
         final String URL = "http://" + SERVER_ADDRESS + "/AppService/Resume/Resume.asmx";
         final String namespace = "http://tempuri.org/";
 
-        SoapObject soapObject = new SoapObject(namespace,"UpdateResumeInfo");
+        SoapObject soapObject = new SoapObject(namespace,"UpdateResumeInfo1");
         soapObject.addProperty("p_strID", UserCoreInfo.getUserID());
+        soapObject.addProperty("p_strEmail",detail.getString("email"));
         soapObject.addProperty("p_strFirstName",detail.getString("FirstName"));
         soapObject.addProperty("p_strLastName", detail.getString("LastName"));
         soapObject.addProperty("p_strName", detail.getString("Cname"));
@@ -77,10 +101,13 @@ public class JobsApi extends Api{
         soapObject.addProperty("p_strSex", detail.getString("Gender"));
         soapObject.addProperty("p_strAgeFrom",detail.getString("AgeFrom"));
         soapObject.addProperty("p_strMemo",detail.getString("Memo"));
-        soapObject.addProperty("p_strSource","");
+        soapObject.addProperty("p_strWorkFrom",detail.getString("WorkFrom"));
+        soapObject.addProperty("p_strDegree",detail.getString("Degree"));
+        soapObject.addProperty("p_strSource",PLATFORM);
 
-        return DotnetLoader.loadAndParseData("http://tempuri.org/UpdateResumeInfo",soapObject,URL);
+        mManager.loginRequest(ACTION_UPDATE_RESUME_INFO,soapObject,URL);
     }
+
 
     public static DataItemResult getJobInfo(String jobId) {
         final String URL = "http://" + SERVER_ADDRESS + "/AppService/Jobs/Jobs.asmx";

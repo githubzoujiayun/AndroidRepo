@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/experience_action_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:drawableLeft="@drawable/ic_experience_add"
+            android:drawablePadding="4dp"
+            android:text="@string/action_add_experience"
+            android:textColor="@color/white_7f7f7f"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/experience_home_edit"
+            style="@style/action_edit"
+            android:layout_alignBaseline="@id/experience_action_add"
+            android:layout_alignParentRight="true" />
+
+
+        <include
+            android:id="@+id/divider_line"
+            layout="@layout/divider_line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/experience_action_add"
+            android:layout_marginTop="10dp" />
+
+        <com.worksum.android.views.ScrollDataListView
+            android:id="@+id/experience_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider_line"
+            android:layout_marginTop="30dp"
+            android:dividerHeight="8dp" />
+
+    </RelativeLayout>
+</ScrollView>

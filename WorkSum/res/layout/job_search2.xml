@@ -58,11 +58,9 @@
         android:background="#bbbbbb"
         android:text="@string/filter_industries_title"/>
 
-    <com.worksum.android.views.ScrollDataListView
+    <com.jobs.lib_v1.list.DataListView
         android:id="@+id/industries_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </com.worksum.android.views.ScrollDataListView>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

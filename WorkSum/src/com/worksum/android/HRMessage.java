@@ -13,7 +13,7 @@ public class HRMessage extends TitlebarFragment {
     }
 
     @Override
-    void setupView(ViewGroup vg, Bundle savedInstanceState) {
+    protected void setupView(ViewGroup vg, Bundle savedInstanceState) {
         super.setupView(vg, savedInstanceState);
         setTitle(R.string.inbox_title_hr_message);
         setActionLeftDrawable(R.drawable.common_nav_arrow);

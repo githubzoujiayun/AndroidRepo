@@ -1,9 +1,11 @@
 package com.worksum.android;
 
+import com.facebook.FacebookSdk;
 import com.jobs.lib_v1.app.AppMain;
 import com.jobs.lib_v1.imageloader.core.DisplayImageOptions;
 import com.jobs.lib_v1.imageloader.core.ImageLoader;
 import com.jobs.lib_v1.imageloader.core.ImageLoaderConfiguration;
+import com.worksum.android.controller.DataManager;
 
 /**
  */
@@ -18,6 +20,11 @@ public class WorkSum extends AppMain {
 
         builder.defaultDisplayImageOptions(options);
         imageLoader.init(builder.build());
+
+        FacebookSdk.sdkInitialize(this);
+
+
+        DataManager.getInstance().init(this);
     }
 
     @Override

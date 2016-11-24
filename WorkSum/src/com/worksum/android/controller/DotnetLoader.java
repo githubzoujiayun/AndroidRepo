@@ -107,13 +107,13 @@ public class DotnetLoader {
         } catch (IOException e) {
             e.printStackTrace();
             retVal.hasError = true;
-            retVal.message = e.getMessage().trim();
+            retVal.message = e.getMessage();
             retVal.setErrorStack(Arrays.toString(e.getStackTrace()));
         } catch (XmlPullParserException e) {
             retVal.hasError = true;
             retVal.localError = true;
             retVal.parseError = true;
-            retVal.message = e.getMessage().trim();
+            retVal.message = e.getMessage();
             retVal.setErrorStack(Arrays.toString(e.getStackTrace()));
             e.printStackTrace();
         }

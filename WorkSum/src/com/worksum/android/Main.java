@@ -16,6 +16,7 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.worksum.android.debug.FragmentDebug;
 import com.worksum.android.views.TabFragmentHost;
 import com.jobs.lib_v1.app.AppMain;
 import com.jobs.lib_v1.app.AppUtil;
@@ -46,20 +47,35 @@ public class Main extends GeneralActivity {
 			R.string.tab_apply_record, R.string.tab_inbox, R.string.tab_self };
 	
 	private String tabSpace[] = new String[]{
-			"JobListFragment","ApplyRecordFragment","InboxFragment","SelfFragment"
+			"JobListFragment","ApplyRecordFragment","InboxFragment","MeFragment"
 	};
 	
 	private Class fragments[] = {
 			JobListFragment.class,ApplyRecordFragment.class,
-			InboxFragment.class,SelfFragment.class
+			InboxFragment.class,MeFragment.class
 	};
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
-		setupTabHost();
+
+        //调试界面
+        if (FragmentDebug.DEBUG) {
+			setContentView(R.layout.debug_main);
+			findViewById(R.id.debug_action).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					FragmentDebug.show(Main.this);
+				}
+			});
+			FragmentDebug.show(this);
+            return;
+        }
+
+
+        setContentView(R.layout.main);
+        setupTabHost();
 	}
 
 	public void setTab(int index) {
@@ -107,6 +123,9 @@ public class Main extends GeneralActivity {
 
 	public void onUserStatusChanged(Integer loginType) {
 		FragmentManager manager = getSupportFragmentManager();
+		if (manager.getFragments() == null) {
+			return;
+		}
 		for (Fragment fragment : manager.getFragments()) {
 			if (fragment instanceof GeneralFragment) {
 				((GeneralFragment)fragment).onUserStatusChanged(loginType);
@@ -137,6 +156,9 @@ public class Main extends GeneralActivity {
 
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 			FragmentManager fragmentManager = getSupportFragmentManager();
+            if (fragmentManager.getFragments() == null || fragmentManager.getFragments().size() <= 0) {
+                return super.onKeyDown(keyCode,event);
+            }
 			for(Fragment fragment : fragmentManager.getFragments()) {
 				GeneralFragment generalFragment = (GeneralFragment) fragment;
 				if (generalFragment.isVisible()) {
