@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/inbox_layout_unlogin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="80dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/unlogin_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="@string/inbox_unlogin_title"
+            android:textColor="@color/white_7f7f7f"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:padding="20dp"
+            android:lineSpacingExtra="8dp"
+            android:text="@string/inbox_unlogin_detail"
+            android:textColor="@color/white_7f7f7f"
+            android:textSize="14sp"
+            android:textStyle="normal"/>
+
+        <Button
+            android:id="@+id/inbox_btn_login"
+            style="@style/apply_btn_style"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/apply_btn_login"
+            android:textColor="@color/white_7f7f7f"
+            />
+
+        <Button
+            android:id="@+id/inbox_view_jobs"
+            style="@style/apply_btn_style"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/apply_view_jobs"
+            android:textColor="@color/white_7f7f7f"
+            />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/inbox_hr_message"
+        layout="@layout/inbox_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"/>
+
+    <include
+        android:id="@+id/inbox_recommand"
+        layout="@layout/inbox_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"/>
+</LinearLayout>

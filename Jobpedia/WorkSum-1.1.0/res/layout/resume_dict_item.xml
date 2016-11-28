@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white_ffffff"
+                android:paddingTop="6dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+    <TextView
+        android:id="@+id/resume_dict_item_title"
+        android:layout_width="@dimen/resume_item_title_width"
+        android:layout_marginLeft="@dimen/resume_item_common_margin"
+        android:layout_marginRight="@dimen/resume_item_common_margin"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="2dp"
+        android:text="@string/resume_area"
+        android:padding="2dp"
+        android:textSize="@dimen/resume_title_text_size"/>
+
+    <TextView
+        android:id="@+id/resume_dict_item_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/resume_dict_item_title"
+        android:gravity="bottom"
+        android:textSize="14sp"
+        android:textColor="@color/gray_aaaaaa"
+        android:layout_alignBottom="@id/resume_dict_item_title"
+        android:background="@color/white_ffffff"
+        />
+    <ImageView
+        android:src="@drawable/common_item_arrow"
+        android:layout_alignRight="@id/resume_dict_item_content"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/resume_dict_item_title"
+        android:layout_toRightOf="@id/resume_dict_item_title"
+        android:background="@color/gray_e6e6e6"
+        />
+</RelativeLayout>

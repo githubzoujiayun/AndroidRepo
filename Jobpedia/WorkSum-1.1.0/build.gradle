@@ -1,0 +1,60 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+
+    sourceSets {
+        main {
+            aidl.srcDirs = ['./src']
+            manifest.srcFile './AndroidManifest.xml'
+            java.srcDirs './src'
+            res.srcDirs './res'
+            assets.srcDirs './assets'
+        }
+    }
+
+    buildTypes {
+        debug {
+            false
+            minifyEnabled
+        }
+    }
+    splits {
+        density {
+            enable true
+            exclude 'xxhdpi','hdpi', 'mdpi', 'ldpi','xxxhdpi'
+            compatibleScreens 'normal', 'large', 'xlarge'
+        }
+    }
+
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    useLibrary 'org.apache.http.legacy'
+
+}
+
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+
+dependencies {
+    compile 'com.android.support:support-v4:23.4.0'
+    compile fileTree(include: ['*.jar'], excludes: ['android-support-v4.jar'], dir: 'libs')
+    compile project(':jobs_library_v1')
+    //    compile (name:'account-kit-sdk-4.17.0', ext:'aar')
+    compile(name: 'facebook-android-sdk-4.17.0', ext: 'aar')
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:cardview-v7:23.4.0'
+
+    testCompile 'junit:junit:4.12'
+
+}

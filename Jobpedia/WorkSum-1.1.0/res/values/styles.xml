@@ -1,0 +1,160 @@
+<resources
+    xmlns:jobpedia="http://schemas.android.com/apk/res-auto">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="radio_button_common_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/filter_common_text_size</item>
+        <item name="android:textColor">@drawable/sort_text_color</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="radio_button_red_ef1d19_style" parent="radio_button_common_style">
+        <item name="android:textColor">@drawable/sort_text_color</item>
+        <item name="android:background">@drawable/shape_corner_common_e62565</item>
+    </style>
+
+    <style name="radio_button_green_008d14_style" parent="radio_button_common_style">
+        <item name="android:textColor">@drawable/filter_green_color_selector</item>
+        <item name="android:background">@drawable/shape_corner_common_91e3a3</item>
+    </style>
+
+    <style name="ContainerDialogTheme" parent="android:Theme.Holo.Dialog.NoActionBar.MinWidth">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowAnimationStyle">@style/LoginDialogAnimation</item>
+    </style>
+
+    <style name="LoginDialogAnimation" parent="android:Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/anim_enter_fall_down</item>
+        <item name="android:windowExitAnimation">@anim/anim_exit_fall_down</item>
+        <item name="android:activityCloseExitAnimation">@anim/anim_exit_fall_down</item>
+        <item name="android:fragmentCloseExitAnimation">@anim/anim_exit_fall_down</item>
+        <item name="android:taskCloseExitAnimation">@anim/anim_exit_fall_down</item>
+    </style>
+
+    <style name="ResumeTitleStyle">
+        <item name="android:layout_width">@dimen/resume_item_title_width</item>
+        <item name="android:layout_height">@dimen/resume_item_title_height</item>
+        <item name="android:background">@drawable/resume_title_bg</item>
+        <item name="android:layout_marginLeft">@dimen/resume_item_common_margin</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/resume_title_text_size</item>
+    </style>
+
+    <style name="ResumeContentStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/resume_item_title_height</item>
+        <item name="android:background">@drawable/resume_content_bg</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:cursorVisible">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textCursorDrawable">@null</item>
+    </style>
+
+    <style name="apply_btn_style">
+        <item name="android:textColor">@color/white_ffffff</item>
+        <item name="android:background">@drawable/register_sumbit_selector</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <style name="full_screen_style" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen">
+        <item name="android:windowAnimationStyle">@style/animation_up_down</item>
+    </style>
+
+    <style name="animation_up_down" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_bottom</item>
+        <item name="android:activityOpenExitAnimation">@anim/page_stay_orig</item>
+        <item name="android:activityCloseEnterAnimation">@anim/page_stay_orig</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_to_bottom</item>
+        <item name="android:taskOpenEnterAnimation">@anim/slide_in_from_bottom</item>
+        <item name="android:taskOpenExitAnimation">@anim/page_stay_orig</item>
+        <item name="android:taskCloseEnterAnimation">@anim/page_stay_orig</item>
+        <item name="android:taskCloseExitAnimation">@anim/slide_out_to_bottom</item>
+        <item name="android:taskToFrontEnterAnimation">@anim/slide_in_from_bottom</item>
+        <item name="android:taskToFrontExitAnimation">@anim/page_stay_orig</item>
+        <item name="android:taskToBackEnterAnimation">@anim/page_stay_orig</item>
+        <item name="android:taskToBackExitAnimation">@anim/slide_out_to_bottom</item>
+    </style>
+
+    <style name="resume_edit_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white_7f7f7f</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:layout_marginLeft">@dimen/resume_edit_common_left_margin</item>
+        <item name="android:layout_marginRight">@dimen/resume_edit_common_right_margin</item>
+    </style>
+
+    <style name="me_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white_7f7f7f</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:layout_marginLeft">@dimen/resume_edit_common_left_margin</item>
+        <item name="android:layout_marginRight">@dimen/resume_edit_common_right_margin</item>
+    </style>
+
+    <style name="resume_edit_title_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white_7f7f7f</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:layout_marginLeft">@dimen/resume_edit_common_left_margin</item>
+        <item name="android:layout_marginRight">@dimen/resume_edit_common_right_margin</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="resume_edit_raw_style">
+        <item name="android:layout_marginRight">2dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="rowTitleColor">@color/white_7f7f7f</item>
+        <item name="rowTextColor">@color/white_7f7f7f</item>
+        <item name="rowTextSize">15sp</item>
+        <item name="rowTitleSize">15sp</item>
+    </style>
+
+    <style name="action_edit">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:textColor">@color/red_ed1055_selector</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:drawableLeft">@drawable/me_profile_edit</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:text">@string/action_edit</item>
+    </style>
+
+</resources>

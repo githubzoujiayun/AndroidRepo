@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/edit_table_title"
+        style="@style/resume_edit_text_style"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_bottom_line"
+        >
+
+        <TextView
+            android:id="@+id/edit_table_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:textSize="14sp"
+            />
+
+        <ImageView
+            android:id="@+id/resume_item_arrow"
+            android:layout_alignRight="@id/edit_table_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/common_item_arrow_selector"
+            android:duplicateParentState="true"
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+</merge>

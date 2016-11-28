@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/apply_layout_unlogin"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:visibility="visible">
+
+    <include layout="@layout/title_bar"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="110dp"
+            android:gravity="center"
+            android:text="@string/apply_unlogin_title"
+            android:textColor="@color/white_7f7f7f"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:lineSpacingExtra="8dp"
+            android:padding="20dp"
+            android:text="@string/apply_unlogin_detail"
+            android:textColor="@color/white_7f7f7f"
+            android:textSize="14sp"
+            android:textStyle="normal"/>
+
+        <Button
+            android:id="@+id/apply_btn_login"
+            style="@style/apply_btn_style"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/apply_btn_login"
+            android:textColor="@color/white_7f7f7f"
+            />
+
+        <Button
+            android:id="@+id/apply_view_jobs"
+            style="@style/apply_btn_style"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/apply_view_jobs"
+            android:textColor="@color/white_7f7f7f"
+            />
+    </LinearLayout>
+
+</LinearLayout>

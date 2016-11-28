@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_ffffff">
+
+    <!--<include layout="@layout/title_bar"/>-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_top_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:text="@string/job_filter_sort"/>
+
+    <RadioGroup
+        android:id="@+id/sort_group"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_top_margin"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/sort_type_date"
+            style="@style/radio_button_red_ef1d19_style"
+            android:background="@drawable/shape_left_corner_ef1d19"
+            android:checked="true"
+            android:text="@string/sort_type_date"/>
+
+        <RadioButton
+            android:id="@+id/sort_type_salary"
+            style="@style/radio_button_red_ef1d19_style"
+            android:background="@drawable/shape_corner_common_e62565"
+            android:text="@string/sort_type_salary"
+            android:checked="false"/>
+
+        <RadioButton
+            android:id="@+id/sort_type_distance"
+            style="@style/radio_button_red_ef1d19_style"
+            android:background="@drawable/shape_corner_right_ef1d19"
+            android:textSize="@dimen/filter_common_text_size"
+            android:text="@string/sort_type_distance"/>
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/filter_divide"
+        android:layout_marginTop="@dimen/filter_top_margin"
+        android:background="#ffbbbbbb"/>
+
+    <Button
+        android:id="@+id/job_filter_refilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/filter_type_margin"
+        android:layout_marginLeft="38dp"
+        android:layout_marginRight="38dp"
+        android:layout_marginBottom="20dp"
+        android:minHeight="0dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@color/green_2de3a3"
+        android:textColor="@color/white_ffffff"
+        android:textSize="@dimen/filter_common_text_size"
+        android:text="@string/job_filter_refilter"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_type_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:text="@string/filter_schedule_title"/>
+
+    <LinearLayout
+        android:id="@+id/filter_schedule_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_top_margin"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/filter_schedule_temp"
+            android:text="@string/filter_schedule_temp"
+            style="@style/radio_button_green_008d14_style"
+            android:background="@drawable/shape_left_corner_008d14"/>
+
+        <CheckBox
+            android:id="@+id/filter_schedule_part"
+            android:text="@string/filter_schedule_part"
+            android:background="@drawable/shape_corner_common_91e3a3"
+            style="@style/radio_button_green_008d14_style"
+            android:layout_height="wrap_content"/>
+
+        <CheckBox
+            android:id="@+id/filter_schedule_full"
+            style="@style/radio_button_green_008d14_style"
+            android:text="@string/filter_schedule_full"
+            android:background="@drawable/shape_corner_right_008d14"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_type_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:text="@string/filter_distance_title"/>
+
+    <RadioGroup
+        android:id="@+id/filter_distance_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_top_margin"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/filter_distance_any"
+            android:text="@string/filter_distance_any"
+            style="@style/radio_button_green_008d14_style"
+            android:background="@drawable/shape_left_corner_008d14"
+            android:checked="true"
+            />
+
+        <RadioButton
+            android:id="@+id/filter_schedule_mi2"
+            android:text="@string/filter_distance_mi2"
+            style="@style/radio_button_green_008d14_style"
+            />
+
+        <RadioButton
+            android:id="@+id/filter_schedule_mi5"
+            android:text="@string/filter_distance_mi5"
+            style="@style/radio_button_green_008d14_style"
+            />
+
+        <RadioButton
+            android:id="@+id/filter_schedule_mi10"
+            android:text="@string/filter_distance_mi10"
+            style="@style/radio_button_green_008d14_style"/>
+
+        <RadioButton
+            android:id="@+id/filter_schedule_mi25"
+            android:text="@string/filter_distance_mi25"
+            style="@style/radio_button_green_008d14_style"
+            android:background="@drawable/shape_corner_right_008d14"
+            />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_type_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:text="@string/filter_pay_title"/>
+
+    <TextView
+        android:id="@+id/filter_pay_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="@dimen/filter_top_margin"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:text="@string/filter_pay_size"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        />
+
+    <SeekBar
+        android:id="@+id/filter_pay_seek"
+        android:layout_marginRight="@dimen/filter_horizontal_margin"
+        android:layout_marginLeft="@dimen/filter_horizontal_margin"
+        android:layout_marginTop="@dimen/filter_top_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/filter_type_margin"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:background="#bbbbbb"
+        android:text="@string/filter_industries_title"/>
+
+    <com.worksum.android.views.ScrollDataListView
+        android:id="@+id/industries_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.worksum.android.views.ScrollDataListView>
+
+</LinearLayout>

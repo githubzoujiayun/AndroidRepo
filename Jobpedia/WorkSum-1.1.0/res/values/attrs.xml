@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="jobpedia">
+        <attr name="withAdd" format="boolean" />
+        <attr name="headIcon" format="reference"/>
+        
+        <!-- attributes for EditTableRow  -->
+        <attr name="rowHint" format="string"/>
+        <attr name="rowText" format="string"/>
+        <attr name="rowTextSize" format="dimension"/>
+        <attr name="rowTextColor" format="color"/>
+
+        <attr name="rowTitle" format="string"/>
+        <attr name="rowTitleSize" format="dimension"/>
+        <attr name="rowTitleColor" format="color"/>
+
+        <attr name="rowNecessary" format="boolean"/>
+        <attr name="rowMessage" format="string"/>
+
+        <!-- attributes for DictTableRow-->
+        <attr name="rowDict" format="enum">
+            <enum name="dictArea" value="0"/>
+            <enum name="dictFunction" value="1"/>
+            <enum name="dictSex" value="2"/>
+            <enum name="dictAge" value="3"/>
+            <enum name="dictWorkday" value="4"/>
+            <enum name="dictDegree" value="5"/>
+        </attr>
+
+    </declare-styleable>
+
+</resources>

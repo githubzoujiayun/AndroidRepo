@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dp"
+    android:background="@drawable/bg_experience"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/experience_home_item_delete"
+        android:src="@drawable/experience_item_delete"
+        android:layout_alignTop="@+id/experience_home_item_company"
+        android:layout_alignBottom="@+id/experience_home_item_job"
+        android:paddingLeft="10dp"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/experience_home_item_company"
+        android:textSize="16sp"
+        android:textColor="@color/white_7f7f7f"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/experience_home_item_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/experience_home_item_job"
+        android:textSize="16sp"
+        android:textColor="@color/white_7f7f7f"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/experience_home_item_company"
+        android:layout_toRightOf="@id/experience_home_item_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/experience_item_arrow"
+        android:layout_marginRight="10dp"
+        android:layout_width="20dp"
+        android:layout_height="40dp" />
+</RelativeLayout>

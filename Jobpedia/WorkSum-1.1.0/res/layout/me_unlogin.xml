@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
+        android:src="@drawable/me_unlogin_photo" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            layout="@layout/divider_line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_centerVertical="true" />
+
+        <Button
+            android:id="@+id/me_unlogin_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:minHeight="0dp"
+            android:background="@drawable/me_unlogin_button" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:text="我的履歷"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/me_unlogin_resume"
+        android:drawablePadding="4dp"
+        android:textColor="@color/white_7f7f7f"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="10dp">-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/_icon"-->
+            <!--android:layout_marginRight="4dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@drawable/me_unlogin_resume" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/_title"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toRightOf="@id/_icon"-->
+            <!--android:text="我的履歷"-->
+            <!--android:textColor="@color/white_7f7f7f"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textStyle="bold" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/_title"-->
+            <!--android:layout_toRightOf="@id/_icon"-->
+            <!--android:text="請完善好個人信息和履歷"-->
+            <!--android:textColor="@color/white_7f7f7f"-->
+            <!--android:visibility="gone"-->
+            <!--android:textSize="14sp" />-->
+    <!--</RelativeLayout>-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="立即跟隨以下步驟"
+        android:textColor="@color/white_7f7f7f"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:text="輕鬆助你在JOBPEDIA揾工"
+        android:textColor="@color/white_7f7f7f"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableBottom="@drawable/me_unlogin_step1"
+                android:drawablePadding="18dp"
+                android:text="步驟1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="免費註冊/登入"
+                android:textColor="@color/white_7f7f7f"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <include
+            layout="@layout/divider_line"
+            android:layout_width="1px"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableBottom="@drawable/me_unlogin_step2"
+                android:drawablePadding="18dp"
+                android:text="步驟2"
+                android:id="@+id/textView2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="填寫個人資料"
+                android:textColor="@color/white_7f7f7f"
+                android:textSize="12sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="工作經驗以及上傳個人照片"
+                android:gravity="center_horizontal"
+                android:textColor="@color/white_7f7f7f"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <include
+            layout="@layout/divider_line"
+            android:layout_width="1px"
+            android:layout_height="match_parent" />
+        <LinearLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableBottom="@drawable/me_unlogin_step3"
+                android:drawablePadding="18dp"
+                android:text="步驟3" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="立即開始搵工"
+                android:textColor="@color/white_7f7f7f"
+                android:textSize="12sp"
+                android:id="@+id/textView" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

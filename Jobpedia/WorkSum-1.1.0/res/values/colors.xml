@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+	<color name="white_ffffff">#ffffffff</color>
+    <color name="white_7f7f7f">#7f7f7f</color>
+	<color name="red_sort_e62565">#e62565</color>
+	<color name="black_000000">#000000</color>
+	<color name="green_2de3a3">#2de3a3</color>
+	<color name="green_772de3a3">#772de3a3</color>
+	<color name="green_bb008d14">#bb008d14</color>
+	<color name="green_77008d14">#77008d14</color>
+	<color name="gray_eeeeee">#eeeeee</color>
+    <color name="gray_77eeeeee">#77eeeeee</color>
+    <color name="gray_aaaaaa">#aaaaaa</color>
+    <color name="gray_77aaaaaa">#ccaaaaaa</color>
+    <color name="gray_e5e5e5">#e5e5e5</color>
+	<color name="black_3e3e3e">#3e3e3e</color>
+	<color name="black_999999">#999999</color>
+	<color name="blue_3c5a96">#3c5a96</color>
+	<color name="blue_996e93b3">#996e93b3</color>
+    <color name="blue_cc6e93b3">#cc6e93b3</color>
+    <color name="red_ed1055">#ed1055</color>
+	<color name="red_77ed1055">#77ed1055</color>
+	<color name="white_33ffffff">#33ffffff</color>
+	<color name="white_77ffffff">#77ffffff</color>
+	<color name="white_ddffffff">#ddffffff</color>
+	<color name="blue_266c9a">#266c9a</color>
+	<color name="transparent_00000000">#00000000</color>
+	<color name="gray_e6e6e6">#e6e6e6</color>
+    <color name="gray_555555">#555555</color>
+    <color name="red_main">#d01b5b</color>
+    <color name="red_main_light">#aad01b5b</color>
+    <color name="common_background_color">#f1f2f2</color>
+	<color name="white_afafaf">#afafaf</color>
+	<color name="gray_d4d4d4">#d4d4d4</color>
+</resources>
