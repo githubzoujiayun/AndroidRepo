@@ -1,8 +1,15 @@
 package com.worksum.android.preferences;
 
+import android.app.Application;
+
 /**
- * Created by chao on 2016/11/28.
  */
 
 public class Preferences {
+
+
+    public static void init(Application app) {
+
+        NimPreferences.init(app);
+    }
 }

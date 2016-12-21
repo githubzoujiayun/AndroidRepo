@@ -7,9 +7,10 @@
 
     <ImageView
         android:id="@+id/applid_img"
-        android:layout_margin="0dp"
-        android:layout_width="@dimen/commen_img_width"
-        android:layout_height="@dimen/commen_img_height"/>
+        android:layout_margin="4dp"
+        android:scaleType="fitXY"
+        android:layout_width="@dimen/common_img_width"
+        android:layout_height="@dimen/common_img_height"/>
 
     <include
         android:layout_width="0dp"

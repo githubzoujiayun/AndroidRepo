@@ -1,12 +1,12 @@
 package com.worksum.android.nim.common.infra;
 
 public class TraceTaskScheduler extends WrapTaskScheduler {
-	public TraceTaskScheduler(com.netease.nim.demo.common.infra.TaskScheduler wrap) {
+	public TraceTaskScheduler(TaskScheduler wrap) {
 		super(wrap);
 	}
 
 	@Override
-	public void reschedule(com.netease.nim.demo.common.infra.Task task) {
+	public void reschedule(Task task) {
 		trace("reschedule " + task.dump(true));
 		
 		super.reschedule(task);

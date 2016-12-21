@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.netease.nim.demo.location.activity.LocationAmapActivity;
-import com.netease.nim.demo.location.activity.LocationExtras;
-import com.netease.nim.demo.location.activity.NavigationAmapActivity;
-import com.netease.nim.demo.location.helper.NimLocationManager;
 import com.netease.nim.uikit.LocationProvider;
 import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialog;
 import com.netease.nim.uikit.common.util.log.LogUtil;
+import com.worksum.android.nim.LocationExtras;
+import com.worksum.android.nim.NavigationAmapActivity;
+import com.worksum.android.nim.location.activity.LocationAmapActivity;
+import com.worksum.android.nim.location.helper.NimLocationManager;
 
 /**
  * Created by zhoujianghua on 2015/8/11.

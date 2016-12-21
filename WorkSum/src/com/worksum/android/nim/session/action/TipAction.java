@@ -1,10 +1,10 @@
 package com.worksum.android.nim.session.action;
 
-import com.netease.nim.demo.R;
 import com.netease.nim.uikit.session.actions.BaseAction;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.model.CustomMessageConfig;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.worksum.android.R;
 
 /**
  * Tip类型消息测试

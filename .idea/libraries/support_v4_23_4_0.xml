@@ -3,6 +3,7 @@
     <ANNOTATIONS>
       <root url="jar://$PROJECT_DIR$/WorkSum/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/annotations.zip!/" />
       <root url="jar://$PROJECT_DIR$/jobs_library_v1/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/myapplication/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/WorkSum/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/res" />

@@ -1,11 +1,11 @@
 package com.worksum.android.nim.common.infra;
 
-import java.util.HashMap;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.text.TextUtils;
+
+import java.util.HashMap;
 
 public final class Handlers {
 	public static final String DEFAULT_TAG = "Default";

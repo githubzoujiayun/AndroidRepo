@@ -12,12 +12,6 @@ import com.jobs.lib_v1.db.DataAppCoreDB;
 import com.jobs.lib_v1.misc.Tips;
 import com.worksum.android.utils.Utils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 /**
  * 用户信息存取
  */
@@ -253,7 +247,12 @@ public class UserCoreInfo {
      * 获取用户id
      */
     public static String getAccountid() {
-        return getUserCoreInfo().getString("accountid");
+        return getUserID();
+    }
+
+    public static void setAccountId(String accountId) {
+        AppCoreInfo.getCoreDB().setStrValue("user_info", "user_id", accountId);
+
     }
 
     /**

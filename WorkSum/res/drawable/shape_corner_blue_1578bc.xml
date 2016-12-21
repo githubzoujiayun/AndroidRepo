@@ -3,28 +3,28 @@
     <item android:state_checked="true">
         <shape android:shape="rectangle">
             <corners android:radius="2dp" />
-            <solid android:color="@color/orange_f2d6b7"/>
+            <solid android:color="@color/blue_1578bc"/>
             <stroke
                 android:width="10dp"
-                android:color="@color/orange_f2d6b7"/>
+                android:color="@color/blue_1578bc"/>
         </shape>
     </item>
     <item android:state_selected="true">
         <shape android:shape="rectangle">
             <corners android:radius="2dp" />
-            <solid android:color="@color/orange_f2d6b7"/>
+            <solid android:color="@color/blue_1578bc"/>
             <stroke
                 android:width="1dp"
-                android:color="@color/orange_f2d6b7"/>
+                android:color="@color/blue_1578bc"/>
         </shape>
     </item>
     <item android:state_pressed="true" >
         <shape android:shape="rectangle">
             <corners android:radius="2dp" />
-            <solid android:color="@color/orange_f2d6b7"/>
+            <solid android:color="@color/blue_1578bc"/>
             <stroke
                 android:width="1dp"
-                android:color="@color/orange_f2d6b7"/>
+                android:color="@color/blue_1578bc"/>
         </shape>
     </item>
     <item>
@@ -33,7 +33,7 @@
             <solid android:color="#FFFFFF"/>
             <stroke
                 android:width="1dp"
-                android:color="@color/orange_f2d6b7"/>
+                android:color="@color/blue_1578bc"/>
         </shape>
     </item>
 </selector>

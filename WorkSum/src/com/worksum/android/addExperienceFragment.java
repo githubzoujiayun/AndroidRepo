@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.misc.Tips;
+import com.worksum.android.annotations.DataManagerReg;
 import com.worksum.android.annotations.LayoutID;
 import com.worksum.android.annotations.Titlebar;
 import com.worksum.android.apis.WorkExpApi;
@@ -32,6 +33,7 @@ import java.util.Locale;
 
 @LayoutID(R.layout.add_experience)
 @Titlebar(titleId = R.string.add_experience_title, leftDrawableId = R.drawable.common_nav_arrow, rightTextId = R.string.action_save)
+@DataManagerReg(register = DataManagerReg.RegisterType.ALL)
 public class AddExperienceFragment extends TitlebarFragment {
 
     public static final int REQUEST_CODE_ADD_EXP = 1;
@@ -126,6 +128,11 @@ public class AddExperienceFragment extends TitlebarFragment {
     }
 
     @Override
+    public void onStartRequest(String action) {
+        Tips.showTips(R.string.tips_saving);
+    }
+
+    @Override
     public void onDataReceived(String action, DataItemResult result) {
         super.onDataReceived(action, result);
         if (WorkExpApi.ACTION_INSERT_WORK_EXP.equals(action) || WorkExpApi.ACTION_UPDATE_WORK_EXP.equals(action)) {
@@ -148,7 +155,7 @@ public class AddExperienceFragment extends TitlebarFragment {
 
             Tips.showTips(tips);
             getActivity().setResult(Activity.RESULT_OK);
-            WorkExpApi.fetchWorkExp(true);
+            WorkExpApi.fetchWorkExp("",true);
             onBackPressed();
         }
     }

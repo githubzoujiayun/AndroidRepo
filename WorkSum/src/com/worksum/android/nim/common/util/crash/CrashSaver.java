@@ -1,5 +1,12 @@
 package com.worksum.android.nim.common.util.crash;
 
+import android.content.Context;
+import android.text.TextUtils;
+
+import com.netease.nim.uikit.common.util.storage.StorageType;
+import com.netease.nim.uikit.common.util.storage.StorageUtil;
+import com.netease.nim.uikit.common.util.string.MD5;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
@@ -11,13 +18,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import com.netease.nim.uikit.common.util.string.MD5;
-import com.netease.nim.uikit.common.util.storage.StorageType;
-import com.netease.nim.uikit.common.util.storage.StorageUtil;
-
-import android.content.Context;
-import android.text.TextUtils;
 
 class CrashSaver {
 

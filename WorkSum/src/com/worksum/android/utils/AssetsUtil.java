@@ -3,7 +3,6 @@ package com.worksum.android.utils;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;

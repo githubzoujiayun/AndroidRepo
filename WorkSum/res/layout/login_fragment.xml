@@ -28,15 +28,84 @@
             android:layout_marginTop="70dp"
             android:src="@drawable/login_logo" />
 
-
         <LinearLayout
+            android:id="@+id/login_company_name_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/login_bar_height"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/login_common_horizontal_margin"
-            android:paddingRight="@dimen/login_common_horizontal_margin">
+            android:visibility="gone"
+            android:paddingLeft="@dimen/common_horizontal_margin_10dp"
+            android:paddingRight="@dimen/common_horizontal_margin_10dp">
 
             <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/login_bar_height"
+                android:background="@drawable/login_text_icon_bar"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_login_company_name"
+                android:id="@+id/imageView" />
+
+            <EditText
+                android:id="@+id/login_company_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_bar_height"
+                android:background="@drawable/login_text_bar"
+                android:hint="@string/login_company_name_hint"
+                android:paddingBottom="12dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="12dp"
+                android:textColorHint="@color/white_afafaf"
+                android:textColor="@color/white_ffffff"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/login_company_email_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_bar_height"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:visibility="gone"
+            android:paddingLeft="@dimen/common_horizontal_margin_10dp"
+            android:paddingRight="@dimen/common_horizontal_margin_10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/login_bar_height"
+                android:background="@drawable/login_text_icon_bar"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_login_company_email"
+                android:id="@+id/imageView2" />
+
+            <EditText
+                android:id="@+id/login_company_email"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_bar_height"
+                android:background="@drawable/login_text_bar"
+                android:hint="@string/login_company_email_hint"
+                android:inputType="textEmailAddress"
+                android:paddingBottom="12dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="12dp"
+                android:textColorHint="@color/white_afafaf"
+                android:textColor="@color/white_ffffff"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/login_phone_number_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_bar_height"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:paddingLeft="@dimen/common_horizontal_margin_10dp"
+            android:paddingRight="@dimen/common_horizontal_margin_10dp">
+
+            <ImageView
+                android:id="@+id/header_login_username"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/login_bar_height"
                 android:background="@drawable/login_text_icon_bar"
@@ -44,7 +113,7 @@
                 android:src="@drawable/ic_login_phone" />
 
             <EditText
-                android:id="@+id/login_username"
+                android:id="@+id/login_phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/login_bar_height"
                 android:background="@drawable/login_text_bar"
@@ -54,6 +123,7 @@
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
                 android:paddingTop="12dp"
+                android:textColorHint="@color/white_afafaf"
                 android:textColor="@color/white_ffffff"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -65,8 +135,8 @@
             android:layout_height="@dimen/login_bar_height"
             android:layout_marginTop="2dp"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/login_common_horizontal_margin"
-            android:paddingRight="@dimen/login_common_horizontal_margin"
+            android:paddingLeft="@dimen/common_horizontal_margin_10dp"
+            android:paddingRight="@dimen/common_horizontal_margin_10dp"
             android:visibility="gone">
 
             <ImageView
@@ -94,6 +164,7 @@
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
                     android:paddingTop="12dp"
+                    android:textColorHint="@color/white_afafaf"
                     android:textColor="@color/white_ffffff"
                     android:textSize="16sp" />
 
@@ -128,8 +199,8 @@
             android:layout_height="@dimen/login_bar_height"
             android:layout_marginTop="2dp"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/login_common_horizontal_margin"
-            android:paddingRight="@dimen/login_common_horizontal_margin">
+            android:paddingLeft="@dimen/common_horizontal_margin_10dp"
+            android:paddingRight="@dimen/common_horizontal_margin_10dp">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -145,6 +216,7 @@
                 android:layout_marginTop="1dp"
                 android:background="@drawable/login_text_bar"
                 android:hint="@string/login_password"
+                android:textColorHint="@color/white_afafaf"
                 android:inputType="textPassword"
                 android:paddingBottom="12dp"
                 android:paddingLeft="4dp"
@@ -160,8 +232,8 @@
             android:layout_height="@dimen/login_bar_height"
             android:layout_marginTop="2dp"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/login_common_horizontal_margin"
-            android:paddingRight="@dimen/login_common_horizontal_margin"
+            android:paddingLeft="@dimen/common_horizontal_margin_10dp"
+            android:paddingRight="@dimen/common_horizontal_margin_10dp"
             android:visibility="gone">
 
             <ImageView
@@ -177,6 +249,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 android:background="@drawable/login_text_bar"
+                android:textColorHint="@color/white_afafaf"
                 android:hint="@string/login_password_confrom"
                 android:inputType="textPassword"
                 android:paddingBottom="12dp"
@@ -219,8 +292,8 @@
             android:id="@+id/login_btn"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="@dimen/login_common_horizontal_margin"
-            android:layout_marginRight="@dimen/login_common_horizontal_margin"
+            android:layout_marginLeft="@dimen/common_horizontal_margin_10dp"
+            android:layout_marginRight="@dimen/common_horizontal_margin_10dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/login_sumbit_selector"
             android:minHeight="0dp"
@@ -251,8 +324,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/login_common_horizontal_margin"
-            android:paddingRight="@dimen/login_common_horizontal_margin"
+            android:paddingLeft="@dimen/common_horizontal_margin_10dp"
+            android:paddingRight="@dimen/common_horizontal_margin_10dp"
             android:weightSum="2">
 
             <include

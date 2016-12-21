@@ -1,5 +1,8 @@
 package com.worksum.android.nim.common.infra;
 
+import android.annotation.TargetApi;
+import android.os.Build;
+
 import java.util.Comparator;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -9,9 +12,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import android.annotation.TargetApi;
-import android.os.Build;
 
 
 public class TaskExecutor implements Executor {

@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -28,11 +27,9 @@ import com.jobs.lib_v1.app.AppUtil;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.data.encoding.Base64;
-import com.jobs.lib_v1.misc.BitmapUtil;
 import com.jobs.lib_v1.misc.Tips;
-import com.jobs.lib_v1.task.SilentTask;
+import com.worksum.android.annotations.DataManagerReg;
 import com.worksum.android.annotations.LayoutID;
-import com.worksum.android.apis.JobsApi;
 import com.worksum.android.apis.ResumeApi;
 import com.worksum.android.controller.DataController;
 import com.worksum.android.controller.UserCoreInfo;
@@ -40,6 +37,7 @@ import com.worksum.android.utils.Utils;
 import com.worksum.android.views.DictTableRow;
 import com.worksum.android.views.EditTableRow;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,18 +51,15 @@ import java.util.Locale;
  *         16/10/28
  */
 @LayoutID(R.layout.resume_edit_page)
+@DataManagerReg(register = DataManagerReg.RegisterType.ALL)
 public class ResumeEditPage extends TitlebarFragment {
 
     private DataItemDetail mTempUserInfo;
 
-    public static final int REQUEST_CODE_DICT_MASK = 0x1000;
-
-
-    private static final int REQUEST_CODE_PICK_PHOTO = 1;
-    private static final int REQUEST_CODE_CROP_IMAGE = 3;
-
     private ImageView mHeaderView;
     private DataController.DataAdapter mDataAdapter;
+    private Uri mHeaderUri;
+    private Uri mTempHeaderUri;
 
 
     private class CommonWatcher implements TextWatcher {
@@ -105,7 +100,7 @@ public class ResumeEditPage extends TitlebarFragment {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_PICK);
         intent.setType("image/*");
-        startActivityForResult(intent, REQUEST_CODE_PICK_PHOTO);
+        startActivityForResult(intent, Utils.REQUEST_CODE_PICK_PHOTO);
     }
 
     @Override
@@ -141,7 +136,7 @@ public class ResumeEditPage extends TitlebarFragment {
         setupCommonDict(R.id.resume_edit_workday);
 
         if (UserCoreInfo.hasLogined()) {
-            JobsApi.getResumeInfo();
+            ResumeApi.getResumeInfo();
             requestHeadPhoto();
         }
     }
@@ -182,7 +177,7 @@ public class ResumeEditPage extends TitlebarFragment {
 
             mTempUserInfo.setStringValue("Memo", memoEdit.getText().toString());
             mTempUserInfo.setStringValue("WorkFrom", readValue(R.id.resume_edit_workday));
-            JobsApi.updateResumeInfo(mTempUserInfo);
+            ResumeApi.updateResumeInfo(mTempUserInfo);
         } catch (EditTableRow.NecessaryException e) {
             Tips.showTips(e.getMessage());
         }
@@ -191,15 +186,17 @@ public class ResumeEditPage extends TitlebarFragment {
 
     @Override
     public void onStartRequest(String action) {
-        if (JobsApi.ACTION_UPDATE_RESUME_INFO.equals(action)) {
+        if (ResumeApi.ACTION_UPDATE_RESUME_INFO.equals(action)) {
             Tips.showWaitingTips(getActivity(),getString(R.string.resume_upload));
+        } else if (ResumeApi.ACTION_GET_RESUME_INFO.equals(action)) {
+            Tips.showWaitingTips(getActivity(),getString(R.string.tips_update_resume));
         }
     }
 
     @Override
     public void onDataReceived(String action, DataItemResult result) {
         Tips.hiddenWaitingTips();
-        if (JobsApi.ACTION_UPDATE_RESUME_INFO.equals(action)) {
+        if (ResumeApi.ACTION_UPDATE_RESUME_INFO.equals(action)) {
             if (!result.hasError && result.statusCode > 0) {
 
                 Tips.showTips(R.string.resume_upload_succeed);
@@ -218,10 +215,10 @@ public class ResumeEditPage extends TitlebarFragment {
             }
             Tips.showTips(tips);
 
-        } else if (JobsApi.ACTION_GET_RESUME_INFO.equals(action)) {
+        } else if (ResumeApi.ACTION_GET_RESUME_INFO.equals(action)) {
             Tips.hiddenWaitingTips();
             if (!result.hasError) {
-//                UserCoreInfo.setUserLoginInfo(result, true, UserCoreInfo.USER_LOGIN_OTHERS);
+                UserCoreInfo.setUserLoginInfo(result, true, UserCoreInfo.USER_LOGIN_OTHERS);
                 updateValues();
             } else {
                 Tips.showTips(R.string.login_get_resume_info_failed);
@@ -366,10 +363,10 @@ public class ResumeEditPage extends TitlebarFragment {
             Tips.showTips(R.string.tips_canceled);
             return;
         }
-        if ((requestCode & REQUEST_CODE_DICT_MASK) != 0) {
+        if ((requestCode & DictFragment.REQUEST_CODE_DICT_MASK) != 0) {
             String dict = data.getStringExtra("dict");
             String code = data.getStringExtra("code");
-            int position = requestCode & ~REQUEST_CODE_DICT_MASK;
+            int position = requestCode & ~DictFragment.REQUEST_CODE_DICT_MASK;
             switch (position) {
                 case DictFragment.POSITION_AREA:
                     updateValue(R.id.resume_edit_area, dict);
@@ -392,27 +389,35 @@ public class ResumeEditPage extends TitlebarFragment {
                     mTempUserInfo.setStringValue("Degree",code);
                     break;
             }
-        } else if (requestCode == REQUEST_CODE_PICK_PHOTO) {
-            if (data.getData() == null) {
+        } else if (requestCode == Utils.REQUEST_CODE_PICK_PHOTO) {
+            mHeaderUri = data.getData();
+            if (mHeaderUri == null) {
                 return;
             }
-            startImageZoom(data.getData());
+            mTempHeaderUri = Utils.startImageZoom(this,mHeaderUri);
 
-        } else if (requestCode == REQUEST_CODE_CROP_IMAGE) {
-            if (data.getData() == null) {
-                return;
-            }
+        } else if (requestCode == Utils.REQUEST_CODE_CROP_IMAGE) {
             String filePath = null;
-
-            if (data.getScheme().equals("file")) {
-                filePath = data.getData().getPath();
-            } else if (data.getScheme().equals("content")) {
-                Cursor c = getActivity().getContentResolver().query(data.getData(), new String[]{MediaStore.Images.Media.DATA}, null, null, null);
+            if (data.getData() != null) {
+                if (data.getScheme().equals("file")) {
+                    filePath = data.getData().getPath();
+                } else if (data.getScheme().equals("content")) {
+                    Cursor c = getActivity().getContentResolver().query(data.getData(), new String[]{MediaStore.Images.Media.DATA}, null, null, null);
+                    if (c != null && c.moveToNext()) {
+                        filePath = c.getString(c.getColumnIndex(MediaStore.Images.Media.DATA));
+                    }
+                }
+            } else {
+                Cursor c = getActivity().getContentResolver().query(mTempHeaderUri, new String[]{MediaStore.Images.Media.DATA}, null, null, null);
                 if (c != null && c.moveToNext()) {
                     filePath = c.getString(c.getColumnIndex(MediaStore.Images.Media.DATA));
                 }
             }
             if (filePath == null) {
+                return;
+            }
+            File file = new File(filePath);
+            if (file.length() <= 0) {
                 return;
             }
 
@@ -424,7 +429,7 @@ public class ResumeEditPage extends TitlebarFragment {
 
             uploadPhoto(bitmap);
 
-            File file = new File(filePath);
+
             if (file.exists()) {
                 if (!file.delete()) {
                     AppUtil.print("delete failed!");
@@ -435,32 +440,11 @@ public class ResumeEditPage extends TitlebarFragment {
         }
     }
 
-    /**
-     * 系统裁剪
-     * **/
-    private void startImageZoom(Uri uri) {
-        int dp = 300;
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        // 下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
-        intent.putExtra("crop", "true");
-        intent.putExtra("scale", true);// 去黑边
-        intent.putExtra("scaleUpIfNeeded", true);// 去黑边
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);//输出是X方向的比例
-        intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高，切忌不要再改动下列数字，会卡死
-        intent.putExtra("outputX", dp);//输出X方向的像素
-        intent.putExtra("outputY", dp);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        intent.putExtra("noFaceDetection", true);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        intent.putExtra("return-data", true);//设置是否返回数据
-        startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
-    }
 
     private void uploadPhoto(Bitmap bitmap) {
-        byte[] bitmapData = BitmapUtil.getBitmapBytes(bitmap, -1, -1, -1);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] bitmapData = stream.toByteArray();
         final String base64Data = Base64.encode(bitmapData, 0, bitmapData.length);
 
         AppCoreInfo.getCacheDB().setBinValue("head_icon", UserCoreInfo.getUserID(), bitmapData);

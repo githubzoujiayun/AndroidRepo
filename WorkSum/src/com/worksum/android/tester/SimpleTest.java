@@ -1,9 +1,7 @@
 package com.worksum.android.tester;
 
-import com.jobs.lib_v1.app.AppUtil;
 import com.worksum.android.utils.Utils;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 /**

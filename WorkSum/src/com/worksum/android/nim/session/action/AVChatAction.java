@@ -2,11 +2,10 @@ package com.worksum.android.nim.session.action;
 
 import android.widget.Toast;
 
-import com.netease.nim.demo.R;
-import com.netease.nim.demo.avchat.activity.AVChatActivity;
 import com.netease.nim.uikit.common.util.sys.NetworkUtil;
 import com.netease.nim.uikit.session.actions.BaseAction;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
+import com.worksum.android.R;
 
 /**
  * Created by hzxuwen on 2015/6/12.
@@ -32,6 +31,5 @@ public class AVChatAction extends BaseAction {
     /************************ 音视频通话 ***********************/
 
     public void startAudioVideoCall(AVChatType avChatType) {
-        AVChatActivity.start(getActivity(), getAccount(), avChatType.getValue(), AVChatActivity.FROM_INTERNAL);
     }
 }

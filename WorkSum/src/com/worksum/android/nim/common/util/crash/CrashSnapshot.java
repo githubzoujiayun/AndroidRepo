@@ -1,20 +1,5 @@
 package com.worksum.android.nim.common.util.crash;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.regex.Pattern;
-
-import com.netease.nim.uikit.NimUIKit;
-import com.netease.nim.demo.common.util.sys.InstallUtil;
-import com.netease.nim.demo.common.util.sys.SysInfoUtil;
-import com.netease.nim.uikit.common.util.sys.NetworkUtil;
-
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -25,6 +10,21 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.provider.Settings.Secure;
 import android.text.TextUtils;
+
+import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.common.util.sys.NetworkUtil;
+import com.worksum.android.nim.common.util.sys.InstallUtil;
+import com.worksum.android.nim.common.util.sys.SysInfoUtil;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 
 public class CrashSnapshot {

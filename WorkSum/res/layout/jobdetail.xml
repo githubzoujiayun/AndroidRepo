@@ -17,8 +17,7 @@
             <com.jobs.lib_v1.flip.DataViewPager
                 android:id="@+id/imgs_filpper"
                 android:layout_width="match_parent"
-                android:layout_height="180dp">
-            </com.jobs.lib_v1.flip.DataViewPager>
+                android:layout_height="160dp"/>
 
             <TextView
                 android:id="@+id/jobinfo_jobname"
@@ -227,6 +226,13 @@
                     android:text="张小姐"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/nim_action"
+                    android:text="@string/nim_action"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/common_horizontal_margin_10dp"
+                    style="@style/action_edit"/>
             </RelativeLayout>
 
             <TextView

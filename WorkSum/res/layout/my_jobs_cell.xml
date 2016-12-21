@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <include
+            layout="@layout/joblist_cell_texts"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_weight="1"
+            android:background="@null" />
+
+
+        <ImageView
+            android:id="@+id/applid_img"
+            android:layout_width="@dimen/common_img_width"
+            android:layout_height="@dimen/common_img_height"
+            android:layout_margin="4dp"
+            android:scaleType="fitXY" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/my_jobs_cell_radio_parent"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/common_horizontal_margin_10dp"
+        android:paddingRight="@dimen/common_horizontal_margin_10dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <RadioButton
+            android:id="@+id/my_jobs_cell_radio_applied"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:text="@string/my_jobs_applied"
+            android:textColor="@color/blue_1578bc"
+            android:textSize="14sp"
+            android:button="@drawable/ic_checkbox_selector"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/my_jobs_cell_radio_firstor"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:enabled="false"
+            android:text="@string/my_jobs_firstor"
+            android:textColor="@color/orange_f99a54"
+            android:textSize="14sp"
+            android:button="@drawable/ic_checkbox_selector"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+</RelativeLayout>

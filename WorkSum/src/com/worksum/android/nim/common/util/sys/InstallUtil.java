@@ -1,9 +1,5 @@
 package com.worksum.android.nim.common.util.sys;
 
-import java.io.File;
-
-import com.netease.nim.uikit.NimUIKit;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -11,6 +7,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.text.TextUtils;
+
+import com.netease.nim.uikit.NimUIKit;
+
+import java.io.File;
 
 public class InstallUtil {
 	private static final String TAG = "InstallUtil";

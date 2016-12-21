@@ -6,13 +6,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.netease.nim.demo.R;
 import com.netease.nim.uikit.common.util.file.AttachmentStore;
 import com.netease.nim.uikit.common.util.file.FileUtil;
-import com.netease.nim.demo.file.FileIcons;
 import com.netease.nim.uikit.session.viewholder.MsgViewHolderBase;
 import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
 import com.netease.nimlib.sdk.msg.constant.AttachStatusEnum;
+import com.worksum.android.R;
+import com.worksum.android.nim.file.FileIcons;
 
 /**
  * Created by zhoujianghua on 2015/8/6.

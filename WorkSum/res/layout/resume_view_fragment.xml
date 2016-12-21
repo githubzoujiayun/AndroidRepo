@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/resume_view_nim_action"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/ic_nim_selector"
+            android:textColor="@color/white_ddffffff"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/resume_view_call_action"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/ic_call_selector"
+            android:textColor="@color/white_ddffffff"
+            android:visibility="gone"
+            android:clickable="true"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_horizontal_margin_10dp"
+                android:layout_marginRight="@dimen/common_horizontal_margin_10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/infos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/resume_view_head"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/resume_edit_title_style"
+                        android:layout_width="wrap_content"
+                        android:drawableLeft="@drawable/ic_me_profile"
+                        android:text="@string/resume_view_profile" />
+
+                    <TextView
+                        android:id="@+id/resume_view_user_name"
+                        style="@style/resume_view_text_style"
+                        android:layout_marginTop="4dp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/resume_view_area_workday"
+                        style="@style/resume_view_text_style"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/resume_view_function"
+                        style="@style/resume_view_text_style"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/resume_view_phone"
+                        style="@style/resume_view_text_style"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/resume_view_email"
+                        style="@style/resume_view_text_style"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/resume_view_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@id/infos"
+                    android:button="@drawable/ic_checkbox_selector"
+                    android:text="@string/resume_view_first_choice"
+                    android:textColor="@color/red_ed1055"
+                    android:visibility="gone"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/resume_view_head"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ico_default_head" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/resume_view_memo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_horizontal_margin_10dp"
+                android:layout_marginRight="@dimen/common_horizontal_margin_10dp"
+                android:layout_marginTop="10dp"
+                android:minHeight="20dp"
+                android:textColor="@color/white_7f7f7f"
+                android:textSize="14sp" />
+
+            <include
+                layout="@layout/divider_line"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="@dimen/common_horizontal_margin_10dp"
+                android:layout_marginRight="@dimen/common_horizontal_margin_10dp"
+                android:layout_marginTop="8dp" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_horizontal_margin_10dp"
+                android:layout_marginRight="@dimen/common_horizontal_margin_10dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/resume_edit_title_style"
+                    android:drawableLeft="@drawable/me_work_experience"
+                    android:text="@string/resume_view_work_experience" />
+
+                <com.worksum.android.views.ScrollDataListView
+                    android:id="@+id/resume_view_experience_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/title"
+                    android:layout_marginTop="10dp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

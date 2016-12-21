@@ -4,17 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.jobs.lib_v1.data.ObjectSessionStore;
 import com.worksum.android.FragmentContainer;
 import com.worksum.android.GeneralFragment;
 import com.worksum.android.LoginFragment;
 import com.worksum.android.R;
 import com.worksum.android.annotations.LayoutID;
+import com.worksum.android.controller.LoginManager;
 
 /**
  *
@@ -33,11 +32,11 @@ public class LoginSelectorFragment extends GeneralFragment implements View.OnCli
 
     public static void showLoginSelector(Context context) {
         Bundle extras = new Bundle();
-        Intent intent = new Intent(context,MainActivity.class);
+        Intent intent = new Intent(context,FragmentContainer.FullScreenContainer.class);
         if(!(context instanceof Activity)) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
-        intent.putExtra(KEY_FRAGMENT, LoginFragment.class);
+        intent.putExtra(KEY_FRAGMENT, LoginSelectorFragment.class);
         intent.putExtras(extras);
         context.startActivity(intent);
 
@@ -55,6 +54,15 @@ public class LoginSelectorFragment extends GeneralFragment implements View.OnCli
 
     @Override
     public void onClick(View v) {
-
+        LoginManager.LoginType loginType = LoginManager.LoginType.U;
+        switch (v.getId()) {
+            case R.id.login_selector_btn:
+                loginType = LoginManager.LoginType.R;
+                break;
+            case R.id.login_selector_btn_hr:
+                loginType = LoginManager.LoginType.C;
+                break;
+        }
+        LoginFragment.showLoginFragment(getActivity(),loginType);
     }
 }

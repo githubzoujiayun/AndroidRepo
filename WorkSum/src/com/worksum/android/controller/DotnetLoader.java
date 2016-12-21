@@ -1,14 +1,13 @@
 package com.worksum.android.controller;
 
 
-import com.worksum.android.DialogContainer;
-import com.worksum.android.FragmentContainer;
-import com.worksum.android.LoginFragment;
 import com.jobs.lib_v1.app.AppMain;
 import com.jobs.lib_v1.app.AppUtil;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.settings.LocalStrings;
+import com.worksum.android.FragmentContainer;
+import com.worksum.android.LoginFragment;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.MarshalFloat;
@@ -105,17 +104,17 @@ public class DotnetLoader {
             AppUtil.print("response : " + response);
             parse(response, retVal);
         } catch (IOException e) {
-            e.printStackTrace();
             retVal.hasError = true;
             retVal.message = e.getMessage();
             retVal.setErrorStack(Arrays.toString(e.getStackTrace()));
+            AppUtil.print(e);
         } catch (XmlPullParserException e) {
             retVal.hasError = true;
             retVal.localError = true;
             retVal.parseError = true;
             retVal.message = e.getMessage();
             retVal.setErrorStack(Arrays.toString(e.getStackTrace()));
-            e.printStackTrace();
+            AppUtil.print(e);
         }
         if (retVal.hasError) {
             return retVal;
@@ -160,6 +159,7 @@ public class DotnetLoader {
                     }
                     if ("Item".equalsIgnoreCase(tagName)) {
                         detail = new DataItemDetail();
+                        result.statusCode = 1;
                     }
                     break;
                 case XmlPullParser.END_TAG:
@@ -205,6 +205,9 @@ public class DotnetLoader {
             }
             Integer statue = Integer.parseInt(response);
             result.statusCode = statue;
+            if (statue < 0) {
+                result.hasError = true;
+            }
         } catch (Exception e) {
             result.message = response;
             result.statusCode = 1;

@@ -1,6 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/common_horizontal_margin_10dp"
+    android:paddingRight="@dimen/common_horizontal_margin_10dp"
+    android:orientation="vertical">
 
-</LinearLayout>
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="4dp"
+        layout="@layout/joblist_cell_texts" />
+
+    <ImageView
+        android:id="@+id/job_pic"
+        android:layout_width="@dimen/common_img_width"
+        android:layout_height="@dimen/common_img_height"
+        android:src="@drawable/bg_login"
+        android:scaleType="fitXY"
+        android:layout_marginTop="6dp"
+        android:layout_alignParentRight="true"
+        android:contentDescription="@null"/>
+
+    <include
+        android:id="@+id/divider"
+        android:layout_below="@id/job_pic"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="6dp"
+        layout="@layout/divider_line"
+        />
+
+    <LinearLayout
+        android:weightSum="3"
+        android:layout_below="@id/divider"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/approved_watchers"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:textSize="12sp"
+            android:layout_marginRight="2dp"
+            android:padding="4dp"
+            android:gravity="center"
+            android:text="@string/approved_watchers"
+            android:textColor="@color/orange_f99a54"
+            android:background="@drawable/shape_corner_orange_f2d6b7"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/approved_applied"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:textSize="12sp"
+            android:padding="4dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:gravity="center"
+            android:text="@string/approved_applied"
+            android:textColor="@color/blue_1578bc"
+            android:background="@drawable/shape_corner_blue_1578bc"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/approved_applied_firstor"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:padding="4dp"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_marginLeft="2dp"
+            android:text="@string/approved_applied_firstor"
+            android:textColor="@color/green_68c076"
+            android:background="@drawable/shape_corner_green_68c076"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</RelativeLayout>

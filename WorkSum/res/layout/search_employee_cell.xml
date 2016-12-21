@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:jobpedia="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/shape_corner_gray_d4d4d4"
+    android:paddingLeft="@dimen/common_horizontal_margin_10dp"
+    android:paddingRight="@dimen/common_horizontal_margin_10dp">
 
-</LinearLayout>
+    <com.worksum.android.views.HeaderIconView
+        android:id="@+id/resume_list_cell_head"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerVertical="true"
+        jobpedia:headIcon="@drawable/ico_default_head" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/resume_list_cell_head"
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:id="@+id/resume_list_cell_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@color/white_7f7f7f"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/resume_list_cell_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:singleLine="true"
+            android:textColor="@color/white_7f7f7f"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/resume_list_cell_second_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:singleLine="true"
+            android:textColor="@color/white_7f7f7f"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</RelativeLayout>

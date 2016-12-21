@@ -1,4 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<dicts>
+    <dict name="dictSex" title="選擇性別">
+        <item>男</item>
+        <item>女</item>
+    </dict>
 
-</PreferenceScreen>
+    <dict name="dictAge" title="選擇年齡">
+        <item>17歲以下</item>
+        <item>18–25</item>
+        <item>26–35</item>
+        <item>36–45</item>
+        <item>46–55</item>
+        <item>56–65</item>
+        <item>65以上</item>
+    </dict>
+
+    <dict name="dictSalary" title="選擇薪資類型">
+        <item>年薪</item>
+        <item>月薪</item>
+        <item>日薪</item>
+        <item>時薪</item>
+    </dict>
+
+    <dict name="dictWorkType" title="選擇工作類型">
+        <item>全職</item>
+        <item>兼職</item>
+        <item>全職/兼職</item>
+        <item>臨時/季節</item>
+    </dict>
+</dicts>

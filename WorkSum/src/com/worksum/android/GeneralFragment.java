@@ -7,14 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jobs.lib_v1.app.AppUtil;
 import com.jobs.lib_v1.data.DataItemResult;
+import com.netease.nim.uikit.common.fragment.TFragment;
+import com.worksum.android.annotations.LayoutID;
 import com.worksum.android.controller.DataManager;
 import com.worksum.android.controller.FragmentUtil;
 import com.worksum.android.controller.TaskManager;
-import com.jobs.lib_v1.app.AppUtil;
-import com.worksum.android.annotations.LayoutID;
+import com.worksum.android.utils.AnnotationUtils;
 
-public abstract class GeneralFragment extends Fragment implements DataManager.RequestCallback{
+public abstract class GeneralFragment extends TFragment implements DataManager.RequestCallback{
 
     public static final String KEY_FRAGMENT = "fragment";
 
@@ -42,6 +44,15 @@ public abstract class GeneralFragment extends Fragment implements DataManager.Re
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AppUtil.lifeSycle(this.getClass().getName() + "/onCreateView()");
+
+        if (mLayout != null) {
+            ViewGroup parent = (ViewGroup) mLayout.getParent();
+            if (parent != null) {
+                parent.removeView(mLayout);
+            }
+            return mLayout;
+        }
+
         View layout = inflater.inflate(getLayoutId(), container, false);
         ViewGroup contentView = initContentView(layout,savedInstanceState);
         if (contentView == null) {
@@ -71,8 +82,8 @@ public abstract class GeneralFragment extends Fragment implements DataManager.Re
 		
 	}
 
-    public View findViewById(int id) {
-        return mLayout.findViewById(id);
+    public <T extends View> T findViewById(int id) {
+        return (T) mLayout.findViewById(id);
     }
 
 	protected int getLayoutId(){
@@ -116,24 +127,21 @@ public abstract class GeneralFragment extends Fragment implements DataManager.Re
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mDataManager.registerRequestCallback(this);
-
         AppUtil.lifeSycle(this.getClass().getName() + "/onCreate()");
+        AnnotationUtils.registerDataManager(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         AppUtil.lifeSycle(this.getClass().getName() + "/onDestroy()");
+
+        AnnotationUtils.unregisterDataManager(this);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
-        mDataManager.unregisterRequestCallback(this);
-
         AppUtil.lifeSycle(this.getClass().getName() + "/onDestroyView()");
     }
 

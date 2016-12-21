@@ -1,7 +1,8 @@
 package com.worksum.android.apis;
 
+import android.text.TextUtils;
+
 import com.jobs.lib_v1.data.DataItemResult;
-import com.worksum.android.controller.DataManager;
 import com.worksum.android.controller.UserCoreInfo;
 
 import org.ksoap2.serialization.SoapObject;
@@ -31,18 +32,25 @@ public class WorkExpApi extends Api{
 
 
     public static DataItemResult fetchWorkExp(){
-        return fetchWorkExp(false);
+        return fetchWorkExp(UserCoreInfo.getUserID(),false);
     }
 
-    public static DataItemResult fetchWorkExp(boolean async) {
+    public static DataItemResult fetchWorkExp(String userId){
+        return fetchWorkExp(userId,false);
+    }
+
+    public static DataItemResult fetchWorkExp(String userId,boolean async) {
+        if (TextUtils.isEmpty(userId)) {
+            userId = UserCoreInfo.getUserID();
+        }
 
         SoapObject soapObject = new SoapObject(NAMESPACE, "GetWorkExp");
-        soapObject.addProperty("p_strResumeID", UserCoreInfo.getUserID());
+        soapObject.addProperty("p_strResumeID", userId);
         soapObject.addProperty("p_strWorkID","");
         if (!async) {
-            return mManager.loadAndParseData(ACTION_GET_WORK_EXP,soapObject,URL);
+            return mDataManager.loadAndParseData(ACTION_GET_WORK_EXP,soapObject,URL);
         }
-        mManager.loginRequest(ACTION_GET_WORK_EXP,soapObject,URL);
+        mDataManager.loginRequest(ACTION_GET_WORK_EXP,soapObject,URL);
         return null;
     }
 
@@ -54,7 +62,7 @@ public class WorkExpApi extends Api{
         soapObject.addProperty("p_strStartDate",startDate);
         soapObject.addProperty("p_strEndDate",endData);
         soapObject.addProperty("p_strCompanyName",companyName);
-        mManager.loginRequest(ACTION_INSERT_WORK_EXP,soapObject,URL);
+        mDataManager.loginRequest(ACTION_INSERT_WORK_EXP,soapObject,URL);
     }
 
     public static void updateWorkExp(int workId,String companyName,String position,String memo,String startDate,String endData) {
@@ -66,13 +74,13 @@ public class WorkExpApi extends Api{
         soapObject.addProperty("p_strEndDate",endData);
         soapObject.addProperty("p_strCompanyName",companyName);
         soapObject.addProperty("p_strWorkID",workId);
-        mManager.loginRequest(ACTION_UPDATE_WORK_EXP,soapObject,URL);
+        mDataManager.loginRequest(ACTION_UPDATE_WORK_EXP,soapObject,URL);
     }
 
     public static void deleteWorkExp(int workId) {
         SoapObject soapObject = new SoapObject(NAMESPACE, "DeleteWorkExp");
         soapObject.addProperty("p_strResumeID",UserCoreInfo.getUserID());
         soapObject.addProperty("p_strWorkID",workId);
-        mManager.loginRequest(ACTION_DELETE_WORK_EXP,soapObject,URL);
+        mDataManager.loginRequest(ACTION_DELETE_WORK_EXP,soapObject,URL);
     }
 }

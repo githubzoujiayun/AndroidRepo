@@ -3,6 +3,7 @@ package com.worksum.android.views;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -69,6 +70,8 @@ public class EditTableRow extends TableRow {
 
         mNecessary = a.getBoolean(R.styleable.jobpedia_rowNecessary, false);
 
+        int inputType = a.getInt(R.styleable.jobpedia_inputType, InputType.TYPE_CLASS_TEXT);
+
         a.recycle();
 
         inflate(context, getLayoutId(), this);
@@ -79,6 +82,7 @@ public class EditTableRow extends TableRow {
 
         mContent.setHint(hint);
         mContent.setText(text);
+        mContent.setInputType(inputType);
         mContent.getPaint().setTextSize(textSize);
 
         if(textColor != null){

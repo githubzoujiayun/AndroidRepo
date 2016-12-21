@@ -27,23 +27,21 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.LatLngBounds;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
-import com.netease.nim.demo.R;
-import com.netease.nim.demo.location.adapter.IconListAdapter;
-import com.netease.nim.demo.location.adapter.IconListAdapter.IconListItem;
-import com.netease.nim.demo.location.helper.MapHelper;
-import com.netease.nim.demo.location.helper.NimLocationManager;
-import com.netease.nim.demo.location.helper.NimLocationManager.NimLocationListener;
-import com.netease.nim.demo.location.model.NimLocation;
 import com.netease.nim.uikit.common.activity.UI;
 import com.netease.nim.uikit.common.ui.dialog.CustomAlertDialog;
 import com.netease.nim.uikit.common.util.string.StringUtil;
 import com.netease.nim.uikit.model.ToolBarOptions;
+import com.worksum.android.R;
+import com.worksum.android.nim.location.adapter.IconListAdapter;
+import com.worksum.android.nim.location.helper.MapHelper;
+import com.worksum.android.nim.location.helper.NimLocationManager;
+import com.worksum.android.nim.location.model.NimLocation;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NavigationAmapActivity extends UI implements
-		OnClickListener, LocationExtras, NimLocationListener,
+		OnClickListener, LocationExtras, NimLocationManager.NimLocationListener,
 		OnMarkerClickListener, OnInfoWindowClickListener, InfoWindowAdapter {
 
 	private TextView sendButton;
@@ -272,7 +270,7 @@ public class NavigationAmapActivity extends UI implements
 	}
 
 	private void doNavigate(final NimLocation origin, final NimLocation des) {
-		List<IconListItem> items = new ArrayList<IconListAdapter.IconListItem>();
+		List<IconListAdapter.IconListItem> items = new ArrayList<IconListAdapter.IconListItem>();
 		final IconListAdapter adapter = new IconListAdapter(this, items);
 
 		List<PackageInfo> infos = MapHelper.getAvailableMaps(this);
@@ -280,14 +278,14 @@ public class NavigationAmapActivity extends UI implements
 			for (PackageInfo info : infos) {
 				String name = info.applicationInfo.loadLabel(getPackageManager()).toString();
 				Drawable icon = info.applicationInfo.loadIcon(getPackageManager());
-				IconListItem item = new IconListItem(name, icon, info);
+				IconListAdapter.IconListItem item = new IconListAdapter.IconListItem(name, icon, info);
 				items.add(item);
 			}
 			CustomAlertDialog dialog = new CustomAlertDialog(this, items.size());
 			dialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int position) {
-					IconListItem item = adapter.getItem(position);
+					IconListAdapter.IconListItem item = adapter.getItem(position);
 					PackageInfo info = (PackageInfo) item.getAttach();
 					MapHelper.navigate(NavigationAmapActivity.this, info, origin, des);
 				}
@@ -295,7 +293,7 @@ public class NavigationAmapActivity extends UI implements
 			dialog.setTitle(getString(R.string.tools_selected));
 			dialog.show();
 		} else {
-			IconListItem item = new IconListItem(getString(R.string.friends_map_navigation_web), null, null);
+			IconListAdapter.IconListItem item = new IconListAdapter.IconListItem(getString(R.string.friends_map_navigation_web), null, null);
 			items.add(item);
 			CustomAlertDialog dialog = new CustomAlertDialog(this, items.size());
 			dialog.setAdapter(adapter, new DialogInterface.OnClickListener() {

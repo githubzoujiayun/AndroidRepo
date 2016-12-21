@@ -3,8 +3,8 @@ package com.worksum.android.nim.common.http;
 import android.os.Handler;
 import android.util.Log;
 
-import com.netease.nim.demo.DemoCache;
 import com.netease.nim.uikit.common.framework.NimTaskExecutor;
+import com.worksum.android.nim.GlobalCache;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -168,7 +168,7 @@ public class NimHttpClient {
         connManager = new ThreadSafeClientConnManager(httpParams, registry);
         client = new DefaultHttpClient(connManager, httpParams);
 
-        uiHandler = new Handler(DemoCache.getContext().getMainLooper());
+        uiHandler = new Handler(GlobalCache.getContext().getMainLooper());
 
         inited = true;
     }

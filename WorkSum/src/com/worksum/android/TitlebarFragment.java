@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.worksum.android.annotations.LayoutID;
 import com.worksum.android.annotations.Titlebar;
 
 /**
@@ -131,46 +130,46 @@ public abstract class TitlebarFragment extends GeneralFragment implements OnClic
 		onBackPressed();
 	}
 	
-	void setActionRightText(CharSequence text) {
+	public void setActionRightText(CharSequence text) {
 		mRightAction.setVisibility(View.VISIBLE);
 		mRightAction.setText(text);
 	}
 	
-	void setActionRightText(int textId) {
+	public void setActionRightText(int textId) {
 		if (textId != 0) {
 			setActionRightText(getString(textId));
 		}
 	}
 	
-	void setActionLeftText(CharSequence text) {
+	public void setActionLeftText(CharSequence text) {
 		mLeftAction.setVisibility(View.VISIBLE);
 		mLeftAction.setText(text);
 	}
 	
-	void setActionLeftText(int textId) {
+	public void setActionLeftText(int textId) {
 		if (textId != 0){
 			setActionLeftText(getString(textId));
 		}
 	}
 	
-	void setActionLeftDrawable(int drawableId) {
+	public void setActionLeftDrawable(int drawableId) {
 		if (drawableId != 0) {
 			setActionLeftDrawable(getResources().getDrawable(drawableId));
 		}
 	}
 	
-	void setActionLeftDrawable(Drawable drawable) {
+	public void setActionLeftDrawable(Drawable drawable) {
 		mLeftAction.setVisibility(View.VISIBLE);
 		mLeftAction.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 	}
 	
-	void setActionRightDrawable(int drawableId) {
+	public void setActionRightDrawable(int drawableId) {
 		if (drawableId != 0) {
 			setActionRightDrawable(getResources().getDrawable(drawableId));
 		}
 	}
 	
-	void setActionRightDrawable(Drawable drawable) {
+	public void setActionRightDrawable(Drawable drawable) {
 		mRightAction.setVisibility(View.GONE);
 		mRightAction.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 	}

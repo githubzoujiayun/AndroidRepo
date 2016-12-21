@@ -8,32 +8,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import com.netease.nim.demo.DemoCache;
-import com.netease.nim.demo.R;
-import com.netease.nim.demo.contact.activity.UserProfileActivity;
-import com.netease.nim.demo.session.action.AVChatAction;
-import com.netease.nim.demo.session.action.FileAction;
-import com.netease.nim.demo.session.action.GuessAction;
-import com.netease.nim.demo.session.action.RTSAction;
-import com.netease.nim.demo.session.action.SnapChatAction;
-import com.netease.nim.demo.session.action.TipAction;
-import com.netease.nim.demo.session.activity.MessageHistoryActivity;
-import com.netease.nim.demo.session.activity.MessageInfoActivity;
-import com.netease.nim.demo.session.extension.CustomAttachParser;
-import com.netease.nim.demo.session.extension.CustomAttachment;
-import com.netease.nim.demo.session.extension.GuessAttachment;
-import com.netease.nim.demo.session.extension.RTSAttachment;
-import com.netease.nim.demo.session.extension.SnapChatAttachment;
-import com.netease.nim.demo.session.extension.StickerAttachment;
-import com.netease.nim.demo.session.search.SearchMessageActivity;
-import com.netease.nim.demo.session.viewholder.MsgViewHolderAVChat;
-import com.netease.nim.demo.session.viewholder.MsgViewHolderDefCustom;
-import com.netease.nim.demo.session.viewholder.MsgViewHolderFile;
-import com.netease.nim.demo.session.viewholder.MsgViewHolderGuess;
-import com.netease.nim.demo.session.viewholder.MsgViewHolderRTS;
-import com.netease.nim.demo.session.viewholder.MsgViewHolderSnapChat;
-import com.netease.nim.demo.session.viewholder.MsgViewHolderSticker;
-import com.netease.nim.demo.session.viewholder.MsgViewHolderTip;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.cache.TeamDataCache;
 import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialogHelper;
@@ -59,6 +33,30 @@ import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.team.model.Team;
+import com.worksum.android.R;
+import com.worksum.android.nim.GlobalCache;
+import com.worksum.android.nim.session.action.AVChatAction;
+import com.worksum.android.nim.session.action.FileAction;
+import com.worksum.android.nim.session.action.GuessAction;
+import com.worksum.android.nim.session.action.SnapChatAction;
+import com.worksum.android.nim.session.action.TipAction;
+import com.worksum.android.nim.session.activity.MessageHistoryActivity;
+import com.worksum.android.nim.session.activity.MessageInfoActivity;
+import com.worksum.android.nim.session.extension.CustomAttachParser;
+import com.worksum.android.nim.session.extension.CustomAttachment;
+import com.worksum.android.nim.session.extension.GuessAttachment;
+import com.worksum.android.nim.session.extension.RTSAttachment;
+import com.worksum.android.nim.session.extension.SnapChatAttachment;
+import com.worksum.android.nim.session.extension.StickerAttachment;
+import com.worksum.android.nim.session.search.SearchMessageActivity;
+import com.worksum.android.nim.session.viewholder.MsgViewHolderAVChat;
+import com.worksum.android.nim.session.viewholder.MsgViewHolderDefCustom;
+import com.worksum.android.nim.session.viewholder.MsgViewHolderFile;
+import com.worksum.android.nim.session.viewholder.MsgViewHolderGuess;
+import com.worksum.android.nim.session.viewholder.MsgViewHolderRTS;
+import com.worksum.android.nim.session.viewholder.MsgViewHolderSnapChat;
+import com.worksum.android.nim.session.viewholder.MsgViewHolderSticker;
+import com.worksum.android.nim.session.viewholder.MsgViewHolderTip;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +99,7 @@ public class SessionHelper {
     }
 
     public static void startP2PSession(Context context, String account, IMMessage anchor) {
-        if (!DemoCache.getAccount().equals(account)) {
+        if (!GlobalCache.getAccount().equals(account)) {
             NimUIKit.startChatting(context, account, SessionTypeEnum.P2P, getP2pCustomization(), anchor);
         } else {
             NimUIKit.startChatting(context, account, SessionTypeEnum.P2P, getMyP2pCustomization(), anchor);
@@ -150,11 +148,11 @@ public class SessionHelper {
                 actions.add(new AVChatAction(AVChatType.AUDIO));
                 actions.add(new AVChatAction(AVChatType.VIDEO));
             }
-            actions.add(new RTSAction());
-            actions.add(new SnapChatAction());
+//            actions.add(new RTSAction());
+//            actions.add(new SnapChatAction());
             actions.add(new GuessAction());
-            actions.add(new FileAction());
-            actions.add(new TipAction());
+//            actions.add(new FileAction());
+//            actions.add(new TipAction());
             p2pCustomization.actions = actions;
             p2pCustomization.withSticker = true;
 
@@ -175,10 +173,10 @@ public class SessionHelper {
                 }
             };
 
-            infoButton.iconId = R.drawable.nim_ic_message_actionbar_p2p_add;
-
-            buttons.add(cloudMsgButton);
-            buttons.add(infoButton);
+//            infoButton.iconId = R.drawable.nim_ic_message_actionbar_p2p_add;
+//
+//            buttons.add(cloudMsgButton);
+//            buttons.add(infoButton);
             p2pCustomization.buttons = buttons;
         }
 
@@ -322,7 +320,7 @@ public class SessionHelper {
             @Override
             public void onAvatarClicked(Context context, IMMessage message) {
                 // 一般用于打开用户资料页面
-                UserProfileActivity.start(context, message.getFromAccount());
+//                UserProfileActivity.start(context, message.getFromAccount());
             }
 
             @Override
@@ -370,7 +368,7 @@ public class SessionHelper {
                         || message.getAttachment() instanceof RTSAttachment)) {
                     // 视频通话消息和白板消息 不允许撤回
                     return true;
-                } else if (DemoCache.getAccount().equals(message.getSessionId())) {
+                } else if (GlobalCache.getAccount().equals(message.getSessionId())) {
                     // 发给我的电脑 不允许撤回
                     return true;
                 }
@@ -421,11 +419,11 @@ public class SessionHelper {
     private static List<PopupMenuItem> getMoreMenuItems(Context context, String sessionId, SessionTypeEnum sessionTypeEnum) {
         List<PopupMenuItem> moreMenuItems = new ArrayList<PopupMenuItem>();
         moreMenuItems.add(new PopupMenuItem(context, ACTION_HISTORY_QUERY, sessionId,
-                sessionTypeEnum, DemoCache.getContext().getString(R.string.message_history_query)));
+                sessionTypeEnum, GlobalCache.getContext().getString(R.string.message_history_query)));
         moreMenuItems.add(new PopupMenuItem(context, ACTION_SEARCH_MESSAGE, sessionId,
-                sessionTypeEnum, DemoCache.getContext().getString(R.string.message_search_title)));
+                sessionTypeEnum, GlobalCache.getContext().getString(R.string.message_search_title)));
         moreMenuItems.add(new PopupMenuItem(context, ACTION_CLEAR_MESSAGE, sessionId,
-                sessionTypeEnum, DemoCache.getContext().getString(R.string.message_clear)));
+                sessionTypeEnum, GlobalCache.getContext().getString(R.string.message_clear)));
         return moreMenuItems;
     }
 }

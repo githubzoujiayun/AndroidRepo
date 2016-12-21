@@ -75,8 +75,8 @@
 	<string name="register_succeed">註冊成功！</string>
 	<string name="register_right_action">註冊</string>
 	<string name="login_get_resume_info_failed">獲取用戶資料失敗</string>
-	<string name="self_right_action_logout">登出</string>
-	<string name="self_right_action_login">登入</string>
+	<string name="right_action_logout">登出</string>
+	<string name="right_action_login">登入</string>
 	<string name="self_logout_alter">確認登出？</string>
 	<string name="resume_upload">正在更新履歷</string>
 	<string name="resume_upload_failed">履歷更新失敗！</string>
@@ -104,7 +104,7 @@
 	<string name="common_text_system_exit_msg">再按一次退出Jobpedia</string>
 	<string name="applied_empty_history">已申請記錄為空</string>
 	<string name="passed_empty_histroy">已通過記錄為空</string>
-	<string name="login_failed">登入失敗，用戶名或密碼不正確</string>
+	<string name="main_login_failed">登入失敗，用戶名或密碼不正確</string>
 	<string name="login_password_confrom">請確認密碼</string>
 	<string name="register_password_match_failed">密碼不匹配</string>
 	<string name="register_password_empty">密碼或確認密碼不能為空</string>
@@ -150,7 +150,7 @@
     <string name="resume_loading_jobinfo">正在加載用戶資料…</string>
     <string name="register_user_protocal">註冊代表你已同意用戶協議</string>
     <string name="app_name_title">Jobpedia</string>
-    <string name="invalide_phone_number">不是有效的手機號碼</string>
+    <string name="tips_invalide_phone_number">不是有效的手機號碼</string>
     <string name="terms_title">Terms of Use</string>
     <string name="default_salary">面議</string>
     <string name="resume_edit_head_add_title">個人頭像</string>
@@ -196,8 +196,8 @@
 	<string name="modify_experience_succed">工作經驗修改成功</string>
 	<string name="modify_experience_failed">工作經驗修改失敗</string>
 	<string name="add_experience_title_modify">修改工作經驗</string>
-	<string name="fb_register_failed">facebook登陸失敗</string>
-	<string name="me_no_workyears">暫無工作經驗</string>
+	<string name="fb_register_failed">facebook登入失敗</string>
+	<string name="no_workyears">暫無工作經驗</string>
 	<string name="me_format_workyears">%1$d年工作經驗</string>
 	<string name="resume_edit_necessary_row_not_empty">%1$s不能為空</string>
 	<string name="tips_workday_error">開始工作時間錯誤</string>
@@ -215,8 +215,118 @@
 	<string name="confirm_content_resume_uncomplete">請先完整你的履歷再申請職位</string>
 	<string name="login_selector_btn_hr">尋找僱員</string>
 	<string name="login_selector_btn">搵工</string>
+	<string name="tips_update_resume">正在下載簡歷...</string>
+	<string name="facebook_login_failed">facebook登入失敗</string>
+	<string name="login_company_name_hint">請輸入公司名稱</string>
+	<string name="login_company_email_hint">請輸入電郵地址</string>
+	<string name="nim_login_failed">nim登入失敗！</string>
+	<string name="nim_login_time_out">登入超時</string>
+	<string name="nim_connected_failed">nim連接失敗！</string>
+    <string name="tips_saving">正在保存...</string>
+    <string name="company_info_account_title">賬戶</string>
+    <string name="company_info_name">公司名稱</string>
+    <string name="company_info_name_hint">請填寫你的公司名稱</string>
+    <string name="company_info_contact">聯絡人</string>
+    <string name="company_info_contact_hint">請填寫公司聯絡人</string>
+    <string name="company_info_phone">聯絡電話</string>
+    <string name="company_info_email">電郵地址</string>
+    <string name="company_info_business_number">商業登記號碼</string>
+    <string name="company_info_address">地址</string>
+    <string name="company_info_introduction">公司簡介</string>
+    <string name="company_info_logo_description">*請添加公司Logo / 公司形象照片 / HR個人頭像，該頭像會顯示在求職者聊天中</string>
+    <string name="tips_requesting">正在請求數據...</string>
+    <string name="tips_register_failed">註冊失敗！</string>
+    <string name="tips_email_existed">Email已存在！</string>
+    <string name="tips_invalide_email">Email不正確</string>
+    <string name="tips_invalide_password">密碼不準確</string>
+	<string name="tips_invalide_email_format">Email格式不正确</string>
+	<string name="tips_get_data_failed">數據獲取失敗！</string>
+	<string name="tips_upload_succeed">上傳成功！</string>
+	<string name="tips_upload_failed">上傳失敗！</string>
+	<string name="company_info_title">公司信息</string>
+	<string name="company_memo_title">公司簡介</string>
+	<string name="waiting_loading">正在加載數據...</string>
+	<string name="company_format_name">%1$s (公司名)</string>
+	<string name="company_email_format">%1$s (電郵地址)</string>
+	<string name="company_phone_format">%1$s (聯絡電話)</string>
+	<string name="company_contact_format">%1$s (聯絡人)</string>
+	<string name="company_address_format">%1$s (地址)</string>
+	<string name="company_business_format">%1$s (商業登記號碼)</string>
+	<string name="customer_ads">刊登廣告</string>
+	<string name="customer_ads_not_approved_title">未審批</string>
+	<string name="customer_ads_approved_title">已發佈</string>
+	<string name="customer_ads_stopped_title">停止發佈</string>
+	<string name="customer_jobs_title">我的職位</string>
+	<string name="customer_action_add_ads">刊登廣告</string>
+	<string name="not_approved_waiting_approve">等待審批中</string>
+	<string name="approved_watchers">"%1$d 人看過 >>"</string>
+	<string name="approved_applied">"%1$d 人申請 >>"</string>
+	<string name="approved_applied_firstor">"首選 %1$d 人 >>"</string>
+	<string name="add_ads_description">"*請添加該職位相關的工作環境相片，該相片的品質直接影響求職者的申請量\n*建議使用橫狀相片，否則在顯示是會出現變形情況\n*如不上傳相片，我們會自動根據該職位所屬的行業添加預設相片"</string>
+	<string name="add_ads_job_name_title">職位名稱</string>
+	<string name="add_ads_min_salary_title">薪酬 Min.</string>
+	<string name="add_ads_max_salary_title">薪酬 Max.</string>
+	<string name="add_ads_address_title">工作地址</string>
+	<string name="add_ads_function_type_title">行業</string>
+	<string name="add_ads_job_type_title">工作類型</string>
+	<string name="add_ads_shifts_work_title">是否輪班</string>
+	<string name="add_ads_job_description">工作詳情:</string>
+	<string name="add_ads_memo_hint">請輸入工作內容、要求、輪班時間(如有)、員工福利(如有).</string>
+	<string name="row_name_address">地區</string>
+	<string name="add_ads_salary_type_title">薪資類型</string>
+	<string name="add_ads_start_date_title">開始日期</string>
+	<string name="add_ads_end_date_title">結束日期</string>
+	<string name="add_ads_start_time_title">開始時間</string>
+	<string name="add_ads_end_time_title">結束時間</string>
+	<string name="add_ads_salary_title">薪資</string>
+	<string name="dict_title_salary">選擇薪資類型</string>
+	<string name="dict_title_work_type">選擇工作類型</string>
+	<string name="tips_upload_infos">正在上傳...</string>
+	<string name="tips_start_time_invalide_format">開始時間格式不準確</string>
+	<string name="tips_end_time_invalide_format">結束時間格式不準確</string>
+	<string name="tips_ads_photo_necessnary">請上傳圖片</string>
+	<string name="tips_ads_memo_necessnary">職位描述必填</string>
+	<string name="tab_my_jobs">我的職位</string>
+	<string name="tab_chat">聊天</string>
+	<string name="tab_search_employee">尋找僱員</string>
+	<string name="tab_account">賬戶</string>
+	<string name="tab_add_ads">刊登廣告</string>
+	<string name="tips_img_upload_failed">相片上傳失敗！</string>
+	<string name="title_search_employee">尋找僱員</string>
+	<string name="tips_login_failed">登入失敗！</string>
+	<string name="recent_contacts_title">聊天</string>
+	<string name="title_resume_view_fragment">候選人履歷</string>
+	<string name="resume_view_profile">基本資料</string>
+	<string name="resume_view_work_experience">工作經驗</string>
+	<string name="resume_view_first_choice">列入首選名單</string>
+	<string name="resume_view_experience_empty">沒有填寫工作經驗</string>
+	<string name="resume_view_nim_action">發短訊</string>
+	<string name="resume_view_call_action">打電話</string>
+	<string name="tips_unknown_contact">找不到聯繫人</string>
+	<string name="format_work_years">%1$s 年工作經驗</string>
+	<string name="action_publish">再發佈</string>
+	<string name="cancel_publish">取消發佈</string>
+	<string name="tips_updating">正在更新...</string>
+	<string name="tips_stop_ads">停止發佈...</string>
+	<string name="tips_stop_ads_failed">未能成功停止發佈！</string>
+	<string name="tips_stop_ads_succed">已停止發佈！</string>
+	<string name="nim_action">短訊</string>
+	<string name="confirm_content_call">現在撥打 %1$s ?</string>
+	<string name="confirm_content_add_to_first_list">添加到首選列表</string>
+	<string name="tips_set_succed">設置成功！</string>
+	<string name="tips_set_failed">設置失敗！</string>
+	<string name="tips_setting">正在設置...</string>
+	<string name="tips_publish_succeed">發佈成功</string>
+	<string name="my_jobs_applied">已申請</string>
+	<string name="my_jobs_firstor">已進入僱主首選名單</string>
+	<string name="title_my_jobs">我的職位</string>
+	<string name="tips_publish_failed">發佈失敗！</string>
 	<string-array name="spinner_items">
 		<item>@string/spinner_item_choose</item>
+	</string-array>
+	<string-array name="array_dict_sex">
+		<item>男</item>
+		<item>女</item>
 	</string-array>
 	<string-array name="array_dict_ages">
 		<item>17歲以下</item>
@@ -226,5 +336,17 @@
 		<item>46–55</item>
 		<item>56–65</item>
 		<item>65以上</item>
+	</string-array>
+	<string-array name="array_dict_work_type">
+		<item>全職</item>
+		<item>兼職</item>
+		<item>全職/兼職</item>
+		<item>臨時/季節</item>
+	</string-array>
+	<string-array name="array_dict_salary">
+		<item>年薪</item>
+		<item>月薪</item>
+		<item>日薪</item>
+		<item>時薪</item>
 	</string-array>
 </resources>

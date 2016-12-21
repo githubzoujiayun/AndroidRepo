@@ -3,7 +3,7 @@ package com.worksum.android.nim.common.infra;
 import android.os.Handler;
 import android.os.Looper;
 
-public class DefaultTaskScheduler implements com.netease.nim.demo.common.infra.TaskScheduler {
+public class DefaultTaskScheduler implements TaskScheduler {
 	/**
 	 * registry
 	 */

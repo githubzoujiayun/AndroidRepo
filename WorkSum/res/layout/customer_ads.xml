@@ -1,6 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:jobpedia="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/add_ads_photo"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_add_ads_default" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_d4d4d4"
+        android:paddingBottom="10dp"
+        android:paddingLeft="@dimen/common_horizontal_margin_10dp"
+        android:paddingRight="@dimen/common_horizontal_margin_10dp"
+        android:paddingTop="10dp"
+        android:text="@string/add_ads_description"
+        android:textColor="@color/white_7f7f7f"
+        android:textSize="10sp" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingRight="@dimen/common_horizontal_margin_10dp"
+        android:shrinkColumns="1"
+        android:stretchColumns="1">
+        <com.worksum.android.views.EditTableRow
+            android:id="@+id/add_ads_job_name"
+            style="@style/resume_edit_raw_style"
+            jobpedia:rowNecessary="true"
+            jobpedia:rowTitle="@string/add_ads_job_name_title" />
+
+        <com.worksum.android.views.DictTableRow
+            android:id="@+id/add_ads_address"
+            style="@style/resume_edit_raw_style"
+            jobpedia:rowDict="dictArea"
+            jobpedia:rowNecessary="true"
+            jobpedia:rowTitle="@string/row_name_address" />
+
+        <com.worksum.android.views.DictTableRow
+            android:id="@+id/add_ads_function_type"
+            style="@style/resume_edit_raw_style"
+            jobpedia:rowDict="dictFunction"
+            jobpedia:rowNecessary="true"
+            jobpedia:rowTitle="@string/add_ads_function_type_title" />
+
+        <com.worksum.android.views.DictTableRow
+            android:id="@+id/add_ads_salary_type"
+            style="@style/resume_edit_raw_style"
+            jobpedia:rowDict="dictSalary"
+            jobpedia:rowNecessary="true"
+            jobpedia:rowTitle="@string/add_ads_salary_type_title" />
+
+        <com.worksum.android.views.EditTableRow
+            android:id="@+id/add_ads_salary"
+            style="@style/resume_edit_raw_style"
+            jobpedia:inputType="number"
+            jobpedia:rowNecessary="true"
+            jobpedia:rowTitle="@string/add_ads_salary_title" />
+
+        <com.worksum.android.views.DictTableRow
+            android:id="@+id/add_ads_work_type"
+            style="@style/resume_edit_raw_style"
+            jobpedia:rowDict="dictWorkType"
+            jobpedia:rowNecessary="true"
+            jobpedia:rowTitle="@string/add_ads_job_type_title" />
+
+        <com.worksum.android.views.DictTableRow
+            android:id="@+id/add_ads_start_date"
+            style="@style/resume_edit_raw_style"
+            jobpedia:rowNecessary="false"
+            jobpedia:rowTitle="@string/add_ads_start_date_title" />
+
+        <com.worksum.android.views.DictTableRow
+            android:id="@+id/add_ads_end_date"
+            style="@style/resume_edit_raw_style"
+            jobpedia:rowNecessary="false"
+            jobpedia:rowTitle="@string/add_ads_end_date_title" />
+
+        <com.worksum.android.views.DictTableRow
+            android:id="@+id/add_ads_start_time"
+            style="@style/resume_edit_raw_style"
+            jobpedia:rowNecessary="false"
+            jobpedia:rowTitle="@string/add_ads_start_time_title" />
+
+        <com.worksum.android.views.DictTableRow
+            android:id="@+id/add_ads_end_time"
+            style="@style/resume_edit_raw_style"
+            jobpedia:rowNecessary="false"
+            jobpedia:rowTitle="@string/add_ads_end_time_title" />
+
+    </TableLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_horizontal_margin_10dp"
+        android:layout_marginRight="@dimen/common_horizontal_margin_10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/add_ads_job_description"
+        android:textColor="@color/white_7f7f7f"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/add_ads_memo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_horizontal_margin_10dp"
+        android:layout_marginRight="@dimen/common_horizontal_margin_10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/self_recommend_area"
+        android:gravity="top"
+        android:hint="@string/add_ads_memo_hint"
+        android:padding="5dp"
+        android:textColor="@color/white_7f7f7f"
+        android:textColorHint="#bbbbbb"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/add_ads_action_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/white_ddffffff"
+        android:textSize="16sp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/login_sumbit_selector"
+        android:minHeight="0dp"
+        android:visibility="gone"
+        android:text="@string/cancel_publish"
+        android:src="@drawable/ic_save" />
 </LinearLayout>

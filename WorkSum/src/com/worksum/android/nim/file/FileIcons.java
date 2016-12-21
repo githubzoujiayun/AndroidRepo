@@ -1,7 +1,7 @@
 package com.worksum.android.nim.file;
 
-import com.netease.nim.demo.R;
 import com.netease.nim.uikit.common.util.file.FileUtil;
+import com.worksum.android.R;
 
 import java.util.HashMap;
 import java.util.Map;

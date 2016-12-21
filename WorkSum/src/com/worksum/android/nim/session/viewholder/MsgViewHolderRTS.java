@@ -2,9 +2,9 @@ package com.worksum.android.nim.session.viewholder;
 
 import android.widget.TextView;
 
-import com.netease.nim.demo.R;
-import com.netease.nim.demo.session.extension.RTSAttachment;
 import com.netease.nim.uikit.session.viewholder.MsgViewHolderBase;
+import com.worksum.android.R;
+import com.worksum.android.nim.session.extension.RTSAttachment;
 
 public class MsgViewHolderRTS extends MsgViewHolderBase {
 

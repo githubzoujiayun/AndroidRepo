@@ -1,5 +1,7 @@
 package com.worksum.android;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
@@ -16,12 +19,35 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.worksum.android.debug.FragmentDebug;
-import com.worksum.android.views.TabFragmentHost;
 import com.jobs.lib_v1.app.AppMain;
 import com.jobs.lib_v1.app.AppUtil;
 import com.jobs.lib_v1.misc.loc.AppLocation;
 import com.jobs.lib_v1.misc.loc.AppLocationManager;
+import com.netease.nim.uikit.common.ui.drop.DropCover;
+import com.netease.nim.uikit.common.ui.drop.DropManager;
+import com.netease.nim.uikit.common.util.log.LogUtil;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.NimIntent;
+import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.SystemMessageObserver;
+import com.netease.nimlib.sdk.msg.SystemMessageService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
+import com.worksum.android.company.CompanyInfoPage;
+import com.worksum.android.company.CustomerAddAdsFragment;
+import com.worksum.android.company.CustomerJobs;
+import com.worksum.android.company.SearchEmployee;
+import com.worksum.android.controller.LoginManager;
+import com.worksum.android.debug.FragmentDebug;
+import com.worksum.android.nim.helper.SystemMessageUnreadManager;
+import com.worksum.android.nim.recent.RecentContactsFragment;
+import com.worksum.android.nim.reminder.ReminderItem;
+import com.worksum.android.nim.reminder.ReminderManager;
+import com.worksum.android.utils.Utils;
+import com.worksum.android.views.TabFragmentHost;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -32,28 +58,75 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Main extends GeneralActivity {
+public class Main extends GeneralActivity implements ReminderManager.UnreadNumChangedCallback{
 
 	private static long mFirstTimeOfClickBackKey;
 	private static Toast mExitTipsLayer;
 	private TabFragmentHost mTabHost;
 
-	private int iconIds[] = new int[]{R.drawable.indicator_job_selector,
-			R.drawable.indicator_apply_selector, R.drawable.indicator_msg_selector,
-			R.drawable.indicator_me_selector};
+	private LoginManager.LoginType mLoginType = LoginManager.LoginType.U;
+
+
+    private static final int PERSON_FRAGMENT_COUNT = 4;
+
+	private int iconIds[] = new int[]{
+            R.drawable.indicator_job_selector,
+			R.drawable.indicator_apply_selector,
+            R.drawable.indicator_msg_selector,
+			R.drawable.indicator_me_selector,
+
+            R.drawable.indicator_jobs_selector,
+            R.drawable.indicator_chat_selector,
+            R.drawable.indicator_add_ads_selector,
+            R.drawable.indicator_search_employee_selector,
+            R.drawable.indicator_account_selector
+    };
 
 	private int titleIds[] = new int[] { R.string.tab_joblist,
-			R.string.tab_apply_record, R.string.tab_inbox, R.string.tab_self };
+			R.string.tab_apply_record, R.string.tab_inbox, R.string.tab_self,R.string.tab_my_jobs,R.string.tab_chat,R.string.tab_add_ads,R.string.tab_search_employee,R.string.tab_account };
 	
 	private String tabSpace[] = new String[]{
-			"JobListFragment","ApplyRecordFragment","InboxFragment","MeFragment"
+			JobListFragment.class.getSimpleName(),
+			MyJobsFragment.class.getSimpleName(),
+			RecentContactsFragment.class.getSimpleName(),
+			MeFragment.class.getSimpleName(),
+
+            CustomerJobs.class.getSimpleName(),
+            RecentContactsFragment.class.getSimpleName(),
+            CustomerAddAdsFragment.class.getSimpleName(),
+            SearchEmployee.class.getSimpleName(),
+            CompanyInfoPage.class.getSimpleName()
+
 	};
 	
 	private Class fragments[] = {
-			JobListFragment.class,ApplyRecordFragment.class,
-			InboxFragment.class,MeFragment.class
+			JobListFragment.class,
+			MyJobsFragment.class,
+			RecentContactsFragment.class,
+			MeFragment.class,
+
+            CustomerJobs.class,
+			RecentContactsFragment.class,
+			CustomerAddAdsFragment.class,
+            SearchEmployee.class,
+			CompanyInfoPage.class
 	};
+
+	private Observer<List<IMMessage>> receiveMessageObserver =  new Observer<List<IMMessage>>() {
+		@Override
+		public void onEvent(List<IMMessage> imMessages) {
+			Utils.playSound(Utils.SOUND_NOTIFY_MSG);
+		}
+	};
+
+
+	public static void showMain(Context context) {
+		Intent intent = new Intent(context,Main.class);
+		context.startActivity(intent);
+	}
 
 
 	@Override
@@ -73,9 +146,39 @@ public class Main extends GeneralActivity {
             return;
         }
 
+		mLoginType = LoginManager.getInstance().getLoginType();
 
         setContentView(R.layout.main);
         setupTabHost();
+
+		initUnreadCover();
+		registerMsgUnreadInfoObserver(true);
+		registerSystemMessageObservers(true);
+		requestSystemMessageUnreadCount();
+		registerMessageObservers(true);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		registerMsgUnreadInfoObserver(false);
+		registerSystemMessageObservers(false);
+		requestSystemMessageUnreadCount();
+		registerMessageObservers(false);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+
+		ArrayList<IMMessage> msgs = (ArrayList<IMMessage>) intent.getSerializableExtra(NimIntent.EXTRA_NOTIFY_CONTENT);
+		int index = 2;
+		if (LoginManager.getInstance().getLoginType() == LoginManager.LoginType.C) {
+			index = 1;
+		}
+		if(msgs != null) {
+			setTab(index);
+		}
 	}
 
 	public void setTab(int index) {
@@ -87,11 +190,17 @@ public class Main extends GeneralActivity {
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 
 		LayoutInflater inflater = LayoutInflater.from(this);
-		 
-		for (int i = 0; i < fragments.length; i++) {
+
+        int index = 0;
+		int count = PERSON_FRAGMENT_COUNT;
+        if (mLoginType == LoginManager.LoginType.C) {
+            index = PERSON_FRAGMENT_COUNT;
+			count = fragments.length - PERSON_FRAGMENT_COUNT;
+        }
+		for (int i = 0; i < count; i++,index++) {
 			
-			TabSpec tabSpec = mTabHost.newTabSpec(tabSpace[i]).setIndicator(getIndicatorView(inflater,i));
-			mTabHost.addTab(tabSpec, fragments[i], null);
+			TabSpec tabSpec = mTabHost.newTabSpec(tabSpace[index]).setIndicator(getIndicatorView(inflater,index));
+			mTabHost.addTab(tabSpec, fragments[index], null);
 			mTabHost.getTabWidget().getChildAt(i)
 					.setBackgroundColor(getResources().getColor(R.color.white_ffffff));
 		}
@@ -104,6 +213,9 @@ public class Main extends GeneralActivity {
 				if (fragment != null && fragment.isAdded()) {
 					fragment.onTabSelect();
 				}
+				InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken()
+						,InputMethodManager.HIDE_NOT_ALWAYS);
 			}
 		});
 	}
@@ -178,6 +290,11 @@ public class Main extends GeneralActivity {
 		}
 	}
 
+	@Override
+	public void onUnreadNumChanged(ReminderItem item) {
+
+	}
+
 	class MapThread extends Thread {
 		double mLat,mLng;
 
@@ -219,6 +336,111 @@ public class Main extends GeneralActivity {
 			}
 
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		registerMessageObservers(true);
+		enableMsgNotification(false);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		registerMessageObservers(false);
+		enableMsgNotification(true);
+	}
+
+	private void enableMsgNotification(boolean enable) {
+		if (enable) {
+			/**
+			 * 设置最近联系人的消息为已读
+			 *
+			 * @param account,    聊天对象帐号，或者以下两个值：
+			 *                    {@link #MSG_CHATTING_ACCOUNT_ALL} 目前没有与任何人对话，但能看到消息提醒（比如在消息列表界面），不需要在状态栏做消息通知
+			 *                    {@link #MSG_CHATTING_ACCOUNT_NONE} 目前没有与任何人对话，需要状态栏消息通知
+			 */
+			NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_NONE, SessionTypeEnum.None);
+		} else {
+			NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_ALL, SessionTypeEnum.None);
+		}
+	}
+
+	private void registerMessageObservers(boolean register) {
+		NIMClient.getService(MsgServiceObserve.class).observeReceiveMessage(receiveMessageObserver,register);
+	}
+
+	/**
+	 * 查询系统消息未读数
+	 */
+	private void requestSystemMessageUnreadCount() {
+		int unread = NIMClient.getService(SystemMessageService.class).querySystemMessageUnreadCountBlock();
+		SystemMessageUnreadManager.getInstance().setSysMsgUnreadCount(unread);
+		ReminderManager.getInstance().updateContactUnreadNum(unread);
+	}
+
+	/**
+	 * 注册/注销系统消息未读数变化
+	 *
+	 * @param register
+	 */
+	private void registerSystemMessageObservers(boolean register) {
+		NIMClient.getService(SystemMessageObserver.class).observeUnreadCountChange(sysMsgUnreadCountChangedObserver,
+				register);
+	}
+
+	private Observer<Integer> sysMsgUnreadCountChangedObserver = new Observer<Integer>() {
+		@Override
+		public void onEvent(Integer unreadCount) {
+			SystemMessageUnreadManager.getInstance().setSysMsgUnreadCount(unreadCount);
+			ReminderManager.getInstance().updateContactUnreadNum(unreadCount);
+		}
+	};
+
+	/**
+	 * 注册未读消息数量观察者
+	 */
+	private void registerMsgUnreadInfoObserver(boolean register) {
+		if (register) {
+			ReminderManager.getInstance().registerUnreadNumChangedCallback(this);
+		} else {
+			ReminderManager.getInstance().unregisterUnreadNumChangedCallback(this);
+		}
+	}
+
+	/**
+	 * 初始化未读红点动画
+	 */
+	private void initUnreadCover() {
+		DropManager.getInstance().init(this, (DropCover) findViewById(R.id.unread_cover),
+				new DropCover.IDropCompletedListener() {
+					@Override
+					public void onCompleted(Object id, boolean explosive) {
+						if (id == null || !explosive) {
+							return;
+						}
+
+						if (id instanceof RecentContact) {
+							RecentContact r = (RecentContact) id;
+							NIMClient.getService(MsgService.class).clearUnreadCount(r.getContactId(), r.getSessionType());
+							LogUtil.i("HomeFragment", "clearUnreadCount, sessionId=" + r.getContactId());
+						} else if (id instanceof String) {
+							if (((String) id).contentEquals("0")) {
+								List<RecentContact> recentContacts = NIMClient.getService(MsgService.class).queryRecentContactsBlock();
+								for (RecentContact r : recentContacts) {
+									if (r.getUnreadCount() > 0) {
+										NIMClient.getService(MsgService.class).clearUnreadCount(r.getContactId(), r.getSessionType());
+									}
+								}
+								LogUtil.i("HomeFragment", "clearAllUnreadCount");
+							} else if (((String) id).contentEquals("1")) {
+								NIMClient.getService(SystemMessageService.class).resetSystemMessageUnreadCount();
+								LogUtil.i("HomeFragment", "clearAllSystemUnreadCount");
+							}
+						}
+					}
+				});
 	}
 
 

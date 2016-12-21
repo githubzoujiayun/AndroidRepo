@@ -1,5 +1,9 @@
 package com.worksum.android;
 
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.TextView;
+
 import com.jobs.lib_v1.list.DataListCell;
 import com.worksum.android.annotations.LayoutID;
 
@@ -28,4 +32,11 @@ public abstract class ListCell extends DataListCell {
         return getLayoutIdFromAnnotation();
     }
 
+    protected void setVisibleText(TextView textView, String text) {
+        textView.setVisibility(View.GONE);
+        if (!TextUtils.isEmpty(text)) {
+            textView.setVisibility(View.VISIBLE);
+            textView.setText(text);
+        }
+    }
 }

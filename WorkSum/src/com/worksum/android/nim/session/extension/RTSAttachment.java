@@ -1,8 +1,8 @@
 package com.worksum.android.nim.session.extension;
 
 import com.alibaba.fastjson.JSONObject;
-import com.netease.nim.demo.DemoCache;
-import com.netease.nim.demo.R;
+import com.worksum.android.R;
+import com.worksum.android.nim.GlobalCache;
 
 /**
  * Created by huangjun on 2015/7/28.
@@ -37,7 +37,7 @@ public class RTSAttachment extends CustomAttachment {
     }
 
     public String getContent() {
-        return DemoCache.getContext().getString(getFlag() == 0 ? R.string.start_session_record : R.string
+        return GlobalCache.getContext().getString(getFlag() == 0 ? R.string.start_session_record : R.string
                 .session_end_record);
     }
 }

@@ -16,6 +16,7 @@ import com.worksum.android.annotations.LayoutID;
 public class DictTableRow extends EditTableRow {
 
     private int mDictType;
+    private DictChangeListener mDictChangeListener;
 
     public DictTableRow(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -39,5 +40,14 @@ public class DictTableRow extends EditTableRow {
     @Override
     public String getText() {
         return mContent.getText().toString();
+    }
+
+    public void setOnDictChangeListener(DictChangeListener listener) {
+        mDictChangeListener = listener;
+    }
+
+
+    public interface DictChangeListener {
+        void onDictChanged();
     }
 }

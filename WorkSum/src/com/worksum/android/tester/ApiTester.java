@@ -2,9 +2,11 @@ package com.worksum.android.tester;
 
 import android.test.AndroidTestCase;
 
+import com.jobs.lib_v1.data.DataItemResult;
+import com.worksum.android.apis.CustomerApi;
 import com.worksum.android.apis.JobsApi;
 import com.worksum.android.apis.ResumeApi;
-import com.jobs.lib_v1.data.DataItemResult;
+import com.worksum.android.apis.SendSMSApi;
 import com.worksum.android.apis.WorkExpApi;
 import com.worksum.android.controller.DataManager;
 
@@ -16,19 +18,19 @@ import com.worksum.android.controller.DataManager;
 public class ApiTester extends AndroidTestCase {
 
     public void testSendSMS() {
-        DataItemResult result = ResumeApi.sendSMS("63111082");
+        DataItemResult result = SendSMSApi.sendSMS("63111082");
         assertFalse(result.hasError);
         assertEquals(1, result.statusCode);
     }
 
     public void testForgetPsw() {
-        DataItemResult result = ResumeApi.forgetPsw("63111082");
+        DataItemResult result = SendSMSApi.forgetPsw("63111082");
         assertFalse(result.hasError);
         assertEquals(1, result.statusCode);
     }
 
     public void testApplyStatus() {
-        DataItemResult result = JobsApi.applyJobStatus("1");
+        DataItemResult result = JobsApi.applyJobStatus(1);
         System.out.println("statuecode : " + result.statusCode);
         assertEquals(1, result.statusCode);
     }
@@ -58,4 +60,10 @@ public class ApiTester extends AndroidTestCase {
         DataItemResult result = ResumeApi.getPhoto();
         assertEquals(1,result.statusCode);
     }
+
+    public void testLoginCustomer() {
+        DataItemResult result = CustomerApi.loginCustomer("qch5240@gmail.com","qch123");
+        System.out.println(result);
+    }
+
 }

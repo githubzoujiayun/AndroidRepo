@@ -14,11 +14,7 @@ import java.lang.annotation.Target;
 @Inherited
 public @interface DataManagerReg {
 
-    String action() default  "";
-
-    String action1() default "";
-
-    String action2() default "";
+    String[] actions() default {""};
 
     RegisterType register() default RegisterType.PART;
 

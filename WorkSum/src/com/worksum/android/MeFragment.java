@@ -15,22 +15,22 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.jobs.lib_v1.app.AppCoreInfo;
+import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.data.encoding.Base64;
 import com.jobs.lib_v1.list.DataListAdapter;
 import com.jobs.lib_v1.list.DataListView;
 import com.jobs.lib_v1.list.DataLoader;
 import com.jobs.lib_v1.misc.Tips;
-import com.jobs.lib_v1.task.SilentTask;
+import com.worksum.android.annotations.DataManagerReg;
 import com.worksum.android.annotations.LayoutID;
-import com.worksum.android.apis.JobsApi;
 import com.worksum.android.apis.ResumeApi;
 import com.worksum.android.apis.WorkExpApi;
 import com.worksum.android.controller.DataController;
+import com.worksum.android.controller.LoginManager;
 import com.worksum.android.controller.UserCoreInfo;
+import com.worksum.android.login.LoginSelectorFragment;
 import com.worksum.android.utils.Utils;
-
-import java.util.Locale;
 
 /**
  * @author chao.qin
@@ -38,9 +38,11 @@ import java.util.Locale;
  * @since jobpedia 1.0.6 at 2016/11/1.
  */
 @LayoutID(R.layout.me)
+@DataManagerReg(register = DataManagerReg.RegisterType.ALL)
 public class MeFragment extends TitlebarFragment {
 
     public static final int REQUEST_CODE_UPDATE_RESUME = 1;
+    private static final String KEY_DETAILS = "resumeDetail";
 
     private TextView mNameView;
     private TextView mAreaYearView;
@@ -58,6 +60,15 @@ public class MeFragment extends TitlebarFragment {
 
     private ImageView mHeaderView;
     private DataController.DataAdapter mDataAdapter;
+
+    public static void show(GeneralFragment fragment, DataItemDetail detail) {
+        Intent intent = new Intent(fragment.getActivity(),FragmentContainer.class);
+        intent.putExtra(KEY_SCROLLBAR_ENABLED,true);
+        intent.putExtra(KEY_FRAGMENT,MeFragment.class);
+        intent.putExtra(KEY_DETAILS,detail);
+        fragment.startActivity(intent);
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -135,20 +146,24 @@ public class MeFragment extends TitlebarFragment {
             mListView.replaceData(result);
         } else if (WorkExpApi.ACTION_DELETE_WORK_EXP.equals(action)) {
             mListView.refreshData();
-        } else if (JobsApi.ACTION_GET_RESUME_INFO.equals(action)) {
+        } else if (ResumeApi.ACTION_GET_RESUME_INFO.equals(action)) {
             Tips.hiddenWaitingTips();
             if (!result.hasError) {
-//                UserCoreInfo.setUserLoginInfo(result, true, UserCoreInfo.USER_LOGIN_OTHERS);
+                UserCoreInfo.setUserLoginInfo(result,true,UserCoreInfo.USER_LOGIN_OTHERS);
                 switchLoginUI();
             } else {
                 Tips.showTips(R.string.login_get_resume_info_failed);
             }
+            mListView.refreshData();
+        } else if (ResumeApi.ACTION_UPDATE_RESUME_INFO.equals(action)) {
+            ResumeApi.getResumeInfo();
         }
     }
 
     @Override
     public void onClick(View view) {
         super.onClick(view);
+//        NimUIKit.startChatting(getActivity(), NimPreferences.getAccountId(), SessionTypeEnum.P2P,null,null);
         switch (view.getId()) {
             case R.id.me_experience_edit:
                 ExperienceHomeFragment.showExperienceHome(getActivity(),mListView.getListData());
@@ -164,9 +179,9 @@ public class MeFragment extends TitlebarFragment {
 
     private void updateBasicInfo() {
 
-        int rightText = R.string.self_right_action_login;
+        int rightText = R.string.right_action_login;
         if (UserCoreInfo.hasLogined()) {
-            rightText = R.string.self_right_action_logout;
+            rightText = R.string.right_action_logout;
         }
         setActionRightText(rightText);
 
@@ -190,7 +205,7 @@ public class MeFragment extends TitlebarFragment {
             builder.append(" | ");
         }
 
-        int workYearId = workYear <= 0? R.string.me_no_workyears:R.string.me_format_workyears;
+        int workYearId = workYear <= 0? R.string.no_workyears :R.string.me_format_workyears;
         builder.append(getString(workYearId,workYear));
 
         if (builder.length() > 0) {
@@ -288,8 +303,10 @@ public class MeFragment extends TitlebarFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (i == DialogInterface.BUTTON_POSITIVE) {
-                    UserCoreInfo.logout();
-                    switchLoginUI();
+                    getActivity().finish();
+                    LoginManager.logout();
+                    LoginSelectorFragment.showLoginSelector(getActivity());
+//                    switchLoginUI();
                 }
             }
         });
@@ -298,8 +315,9 @@ public class MeFragment extends TitlebarFragment {
     @Override
     public void onUserStatusChanged(int loginType) {
         super.onUserStatusChanged(loginType);
-        mListView.refreshData();
-        switchLoginUI();
+        if (loginType == UserCoreInfo.USER_LOGIN_MANUAL) {
+            ResumeApi.getResumeInfo();
+        }
     }
 
     @Override
@@ -352,9 +370,11 @@ public class MeFragment extends TitlebarFragment {
                 String startTime = Utils.dateFormat(fromTime);
                 if (!TextUtils.isEmpty(startTime)) {
                     content += startTime;
-                    content += " - ";
                 }
-                content += Utils.dateFormat(toTime);
+                if (!TextUtils.isEmpty(toTime)) {
+                    content += " - ";
+                    content += Utils.dateFormat(toTime);
+                }
             }
 
             mBasicView.setText(content);

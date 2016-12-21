@@ -1,11 +1,11 @@
 package com.worksum.android.nim.common.infra;
 
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import android.text.TextUtils;
 
 import com.netease.nim.uikit.common.util.log.LogUtil;
+
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class ManagedTask extends ObservableTask {
 	private static final String TAG = "ManagedTask";

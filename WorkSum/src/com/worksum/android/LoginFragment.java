@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,7 +21,6 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.jobs.lib_v1.app.AppCoreInfo;
 import com.jobs.lib_v1.app.AppUtil;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
@@ -28,10 +28,13 @@ import com.jobs.lib_v1.data.DataJsonResult;
 import com.jobs.lib_v1.data.ObjectSessionStore;
 import com.jobs.lib_v1.misc.Tips;
 import com.jobs.lib_v1.task.SilentTask;
+import com.worksum.android.annotations.DataManagerReg;
 import com.worksum.android.annotations.LayoutID;
-import com.worksum.android.apis.JobsApi;
+import com.worksum.android.apis.CustomerApi;
 import com.worksum.android.apis.ResumeApi;
+import com.worksum.android.controller.LoginManager;
 import com.worksum.android.controller.UserCoreInfo;
+import com.worksum.android.login.NimLoginManager;
 import com.worksum.android.utils.Utils;
 
 import org.json.JSONException;
@@ -46,30 +49,39 @@ import java.util.Arrays;
  */
 
 @LayoutID(R.layout.login_fragment)
+@DataManagerReg(register = DataManagerReg.RegisterType.ALL)
 public class LoginFragment extends GeneralFragment implements View.OnClickListener {
 
     public static final int REQUEST_FOR_REGISTER = 100;
 
-    EditText mLoginView;
     EditText mPwdView;
+
+    EditText mUserNameView;
+
     Button mLoginBtn;
     Button mRegisterBtn;
     TextView mForgetText;
     private ImageView mCloseBtn;
     private LoginButton mFBLoginButton;
 
+    protected LoginManager.LoginType mLoginType = LoginManager.LoginType.U;
+
     protected static final int OPRATE_LOGIN = 1;
     protected static final int OPRATE_REGISTER = 2;
 
-    protected int mOpration = OPRATE_LOGIN;
-
-    private LoginCallback mCallback;
-
     public static void showLoginFragment(Context context) {
-        showLoginFragment(context, null);
+        showLoginFragment(context,LoginManager.getInstance().getLoginType());
     }
 
-    public static void showLoginFragment(Context context,LoginFragment.LoginCallback callback) {
+    public static void showLoginFragment(Context context,LoginManager.LoginType loginType) {
+        showLoginFragment(context,loginType, null);
+    }
+
+    public static void showLoginFragment(Context context, LoginFragment.LoginCallback callback) {
+        showLoginFragment(context,LoginManager.getInstance().getLoginType(),callback);
+    }
+
+    public static void showLoginFragment(Context context, LoginManager.LoginType loginType, LoginFragment.LoginCallback callback) {
         Bundle extras = new Bundle();
         Intent intent = new Intent(context,FragmentContainer.FullScreenContainer.class);
         if(!(context instanceof Activity)) {
@@ -77,6 +89,7 @@ public class LoginFragment extends GeneralFragment implements View.OnClickListen
         }
         intent.putExtra(KEY_FRAGMENT, LoginFragment.class);
         extras.putString("callback_key", ObjectSessionStore.insertObject(callback));
+        extras.putString(LoginManager.PARAMS_LOGIN_TYPE,loginType.name());
         intent.putExtras(extras);
         context.startActivity(intent);
     }
@@ -99,7 +112,7 @@ public class LoginFragment extends GeneralFragment implements View.OnClickListen
         @Override
         public void onError(FacebookException e) {
             AppUtil.print("fb onError");
-            AppUtil.print(e);
+            Tips.showTips(R.string.facebook_login_failed);
         }
     };
 
@@ -118,7 +131,6 @@ public class LoginFragment extends GeneralFragment implements View.OnClickListen
 
     @Override
     public void onDataReceived(String action, DataItemResult result) {
-        super.onDataReceived(action, result);
         if (ResumeApi.ACTION_REGISTER_FACEBOOK.equals(action)) {
             String[] message = result.message.split("@");
 
@@ -128,27 +140,12 @@ public class LoginFragment extends GeneralFragment implements View.OnClickListen
                 return;
             }
 
-            AppCoreInfo.getCoreDB().setStrValue("user_info", "user_id", message[0]);
             int statusCode = Integer.parseInt(message[1]);
             if (statusCode == 0) {
                 ResumeEditPage.showResumeEditPage(this);
                 Tips.hiddenWaitingTips();
-                onBackPressed();
-            } else {
-                JobsApi.getResumeInfo();
             }
-        } else if (JobsApi.ACTION_GET_RESUME_INFO.equals(action)) {
-            Tips.hiddenWaitingTips();
-            if (!result.hasError) {
-                UserCoreInfo.setUserLoginInfo(result, true, UserCoreInfo.USER_LOGIN_MANUAL);
-                if (mCallback != null) {
-                    mCallback.onLoginSucceed();
-                }
-                onBackPressed();
-                onLoginSucceed();
-            } else {
-                Tips.showTips(R.string.login_get_resume_info_failed);
-            }
+            onLoginSucceed(message[0]);
         }
     }
 
@@ -157,7 +154,7 @@ public class LoginFragment extends GeneralFragment implements View.OnClickListen
 
         Bundle bundle = new Bundle();
         bundle.putString(GraphRequest.FIELDS_PARAM, "birthday,age_range,email,picture,education,first_name,last_name,name,work,gender,hometown,cover");
-        Tips.showWaitingTips();
+        Tips.showWaitingTips(getActivity(),null);
         new GraphRequest(token, token.getUserId(), bundle, HttpMethod.GET, new GraphRequest.Callback() {
             @Override
             public void onCompleted(GraphResponse graphResponse) {
@@ -195,30 +192,6 @@ public class LoginFragment extends GeneralFragment implements View.OnClickListen
         }).executeAsync();
     }
 
-    private void getFBPhoto() {
-
-
-        Bundle bundle = new Bundle();
-        bundle.putString(GraphRequest.FIELDS_PARAM,"people");
-
-        AccessToken token = AccessToken.getCurrentAccessToken();
-        String userId = token.getUserId();
-        GraphRequest.newMeRequest(token,new GraphRequest.GraphJSONObjectCallback() {
-
-            @Override
-            public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
-                AppUtil.print(graphResponse.toString());
-            }
-        }).executeAsync();
-
-//        new GraphRequest(token,userId, bundle, HttpMethod.GET, new GraphRequest.Callback() {
-//            @Override
-//            public void onCompleted(GraphResponse graphResponse) {
-//                AppUtil.print(graphResponse.toString());
-//            }
-//        }).executeAsync();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -231,15 +204,19 @@ public class LoginFragment extends GeneralFragment implements View.OnClickListen
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            mCallback = (LoginCallback) ObjectSessionStore.popObject(bundle.getString("callback_key"));
+            String name = bundle.getString(LoginManager.PARAMS_LOGIN_TYPE);
+            mLoginType = LoginManager.LoginType.valueOf(name);
         }
 
-        mLoginView = (EditText) findViewById(R.id.login_username);
+
+        EditText loginView = (EditText) findViewById(R.id.login_phone_number);
         mPwdView = (EditText) findViewById(R.id.login_password);
         mLoginBtn = (Button) findViewById(R.id.login_btn);
         mForgetText = (TextView) findViewById(R.id.login_forget_psw);
         mCloseBtn = (ImageView) findViewById(R.id.login_close_btn);
         mRegisterBtn = (Button) findViewById(R.id.register_btn);
+
+        EditText companyEmailView = (EditText) findViewById(R.id.login_company_email);
 
         mFBLoginButton = (LoginButton) findViewById(R.id.login_fb_btn);
         mFBLoginButton.setFragment(this);
@@ -250,6 +227,13 @@ public class LoginFragment extends GeneralFragment implements View.OnClickListen
         mForgetText.setOnClickListener(this);
         mCloseBtn.setOnClickListener(this);
         mRegisterBtn.setOnClickListener(this);
+
+        mUserNameView = loginView;
+        if (mLoginType == LoginManager.LoginType.C) {
+            findViewById(R.id.login_phone_number_layout).setVisibility(View.GONE);
+            findViewById(R.id.login_company_email_layout).setVisibility(View.VISIBLE);
+            mUserNameView = companyEmailView;
+        }
 
     }
 
@@ -276,9 +260,12 @@ public class LoginFragment extends GeneralFragment implements View.OnClickListen
          */
         @Override
         protected DataItemResult doInBackground(String... params) {
-            String phoneNumber = params[0];
+            String username = params[0];
             String password = params[1];
-            return JobsApi.login(phoneNumber,password);
+            if (mLoginType == LoginManager.LoginType.C) {
+                return CustomerApi.loginCustomer(username,password);
+            }
+            return ResumeApi.login(username,password);
         }
 
         /**
@@ -287,19 +274,23 @@ public class LoginFragment extends GeneralFragment implements View.OnClickListen
          */
         @Override
         protected void onTaskFinished(DataItemResult result) {
-            if (!result.hasError && result.statusCode >= 0) {
-                AppCoreInfo.getCoreDB().setStrValue("user_info", "user_id", result.message);
+            Tips.hiddenWaitingTips();
+            if (!result.hasError && result.statusCode > 0) {
                 if (result.statusCode > 0) {
                     if(mTips) {
                         Tips.showTips(R.string.login_succeed);
                     }
-                    JobsApi.getResumeInfo();
+                    onLoginSucceed(result.message);
                 } else if(result.statusCode <=0 ) {
                     Tips.showTips(R.string.login_failed);
                     Tips.hiddenWaitingTips();
                 }
             } else {
-                Tips.showTips(result.message);
+                String message = result.message;
+                if (TextUtils.isEmpty(message)) {
+                    message = getString(R.string.tips_login_failed);
+                }
+                Tips.showTips(message);
             }
 
         }
@@ -308,33 +299,48 @@ public class LoginFragment extends GeneralFragment implements View.OnClickListen
     @Override
     public void onClick(View view) {
 
-        if (view == mLoginBtn && mOpration == OPRATE_LOGIN) {
-            String phoneNumber = mLoginView.getText().toString();
+        if (view == mLoginBtn) {
+            String userName = mUserNameView.getText().toString();
             String password = mPwdView.getText().toString();
-            if (!Utils.matchesPhone(phoneNumber)) {
-                Tips.showTips(R.string.invalide_phone_number);
-                return;
+            if (mLoginType == LoginManager.LoginType.R) {
+                if (!Utils.matchesPhone(userName)) {
+                    Tips.showTips(R.string.tips_invalide_phone_number);
+                    return;
+                }
+            } else if (mLoginType == LoginManager.LoginType.C) {
+                if (!Utils.matchesEmail(userName)) {
+                    Tips.showTips(R.string.tips_invalide_email_format);
+                    return;
+                }
             }
 
-            new LoginTask().execute(phoneNumber, password);
+            new LoginTask().execute(userName, password);
         } else if (view == mRegisterBtn) {
-            RegisterFragment.showRegisterFragment(this);
+            RegisterFragment.showRegisterFragment(this,mLoginType);
         } else if (view == mForgetText) {
-            DialogContainer.showForgetPassword(getActivity(),mLoginView.getText().toString());
+            DialogContainer.showForgetPassword(getActivity(),mUserNameView.getText().toString());
         } else if (view == mCloseBtn) {
             onBackPressed();
         }
     }
 
-    protected void onLoginSucceed() {
+    protected void onLoginSucceed(String accountId) {
 
+        UserCoreInfo.setAccountId(accountId);
+        LoginManager.getInstance().setLoginType(mLoginType);
+        UserCoreInfo.updateUserStatus(UserCoreInfo.USER_LOGIN_MANUAL);//通知登入成功
+
+        NimLoginManager.login();
+
+        getActivity().finish();
+        Main.showMain(getActivity());
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_FOR_REGISTER && resultCode == RESULT_OK) {
-            onBackPressed();
+            getActivity().finish();
             return;
         }
         mFBcallbackManager.onActivityResult(requestCode,resultCode,data);

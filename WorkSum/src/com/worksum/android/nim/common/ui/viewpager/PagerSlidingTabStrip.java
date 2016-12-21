@@ -41,12 +41,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.netease.nim.demo.R;
-import com.netease.nim.demo.main.reminder.ReminderItem;
-import com.netease.nim.demo.main.reminder.ReminderSettings;
 import com.netease.nim.uikit.common.ui.drop.DropFake;
 import com.netease.nim.uikit.common.ui.drop.DropManager;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
+import com.worksum.android.R;
+import com.worksum.android.nim.reminder.ReminderItem;
+import com.worksum.android.nim.reminder.ReminderSettings;
 
 import java.util.Locale;
 

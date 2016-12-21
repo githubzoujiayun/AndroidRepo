@@ -29,12 +29,13 @@ public class JobApplyApi extends Api{
         return DotnetLoader.loadAndParseData("http://tempuri.org/GetJobApplyList",soapObject,URL);
     }
 
-    public static DataItemResult applyJob(int jobId) {
+    public static DataItemResult applyJob2(int jobId,String customerId) {
         final String URL = "http://" + SERVER_ADDRESS + "/AppService/Jobs/JobsApply.asmx";
         final String namespace = "http://tempuri.org/";
-        SoapObject soapObject = new SoapObject(namespace,"ApplyJob");
+        SoapObject soapObject = new SoapObject(namespace,"ApplyJob2");
         soapObject.addProperty("p_strResumeID", UserCoreInfo.getUserID());
+        soapObject.addProperty("p_strCtmID",customerId);
         soapObject.addProperty("p_JobID",jobId);
-        return DotnetLoader.loadAndParseData("http://tempuri.org/ApplyJob",soapObject,URL);
+        return DotnetLoader.loadAndParseData("http://tempuri.org/ApplyJob2",soapObject,URL);
     }
 }

@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
-import com.jobs.lib_v1.data.DataItemResult;
-import com.jobs.lib_v1.task.BasicTask;
 import com.worksum.android.utils.AssetsUtil;
 
 /**

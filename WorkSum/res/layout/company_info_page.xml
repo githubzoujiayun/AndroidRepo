@@ -1,6 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:paddingLeft="@dimen/me_common_horizontal_margin"
+        android:paddingRight="@dimen/me_common_horizontal_margin"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:background="@color/gray_d4d4d4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/company_info_title"
+            android:text="@string/company_info_title"
+            android:textSize="16sp"
+            android:textColor="@color/white_7f7f7f"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/company_profile_edit"
+            style="@style/company_action_edit"
+            android:layout_alignTop="@id/company_info_title"
+            android:layout_alignBottom="@id/company_info_title"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/me_common_horizontal_margin"
+        android:layout_marginRight="@dimen/me_common_horizontal_margin"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/me_head"
+            android:src="@drawable/ico_default_head"
+            android:scaleType="centerCrop"
+            android:layout_width="120dp"
+            android:layout_height="120dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/infos"
+            android:layout_toRightOf="@id/me_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginTop="4dp"
+                android:id="@+id/company_name"
+                android:textStyle="bold"
+                android:visibility="gone"
+                style="@style/me_text_style"/>
+
+            <TextView
+                android:id="@+id/company_contact"
+                android:textStyle="bold"
+                android:visibility="gone"
+                style="@style/me_text_style"/>
+
+
+            <TextView
+                android:id="@+id/company_phone"
+                android:visibility="gone"
+                style="@style/me_text_style"/>
+
+            <TextView
+                android:id="@+id/company_email"
+                android:visibility="gone"
+                style="@style/me_text_style"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:text="@string/company_memo_title"
+        android:layout_marginLeft="@dimen/me_common_horizontal_margin"
+        android:layout_marginTop="10dp"
+        android:textSize="14sp"
+        android:textColor="@color/white_7f7f7f"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/company_memo"
+        android:background="@drawable/self_recommend_area"
+        android:layout_marginLeft="@dimen/me_common_horizontal_margin"
+        android:layout_marginRight="@dimen/me_common_horizontal_margin"
+        android:layout_marginTop="6dp"
+        android:padding="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+
+    <TextView
+        android:id="@+id/company_business_number"
+        android:background="@drawable/text_bar"
+        android:layout_marginLeft="@dimen/me_common_horizontal_margin"
+        android:layout_marginRight="@dimen/me_common_horizontal_margin"
+        android:layout_marginTop="20dp"
+        android:padding="6dp"
+        android:textSize="12sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/company_address"
+        android:background="@drawable/text_bar"
+        android:layout_marginLeft="@dimen/me_common_horizontal_margin"
+        android:layout_marginRight="@dimen/me_common_horizontal_margin"
+        android:layout_marginTop="20dp"
+        android:padding="6dp"
+        android:textSize="12sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

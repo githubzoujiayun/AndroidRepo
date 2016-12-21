@@ -98,6 +98,7 @@ public class AppliedFragment extends GeneralFragment implements AdapterView.OnIt
         mListView.setEmptyCellClass(EmptyApplyCell.class,this);
         mListView.setOnItemClickListener(this);
         mListView.setDataLoader(mApiLoader);
+        mListView.setTimeTag(getClass().getName());
         mApiLoader.setShowLoginDialog(false);
     }
 
@@ -123,7 +124,7 @@ public class AppliedFragment extends GeneralFragment implements AdapterView.OnIt
                 type = JobApplyApi.APPLY_TYPE_PASSED;
             }
             setShowLoginDialog(true);
-            return JobApplyApi.getJobApplyList(adapter.getDataCount(), type);
+            return JobApplyApi.getJobApplyList(pageAt -1 , type);
         }
     };
 
@@ -134,11 +135,10 @@ public class AppliedFragment extends GeneralFragment implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        DataListAdapter adapter = (DataListAdapter) adapterView.getAdapter();
-        FragmentContainer.showJobDetail(getActivity(), adapter.getItem(position));
+        FragmentContainer.showJobDetail(getActivity(), mListView.getItem(position));
     }
 
-    private class AppliedCell extends DataListCell {
+    public class AppliedCell extends DataListCell {
 
         private TextView mJobName;
         private TextView mCompanyName;

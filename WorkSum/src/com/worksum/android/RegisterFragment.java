@@ -1,5 +1,6 @@
 package com.worksum.android;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,13 +11,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.jobs.lib_v1.app.AppUtil;
-import com.worksum.android.apis.JobsApi;
-import com.worksum.android.apis.ResumeApi;
-import com.worksum.android.controller.DataController;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.misc.Tips;
 import com.jobs.lib_v1.task.SilentTask;
+import com.worksum.android.apis.CustomerApi;
+import com.worksum.android.apis.ResumeApi;
+import com.worksum.android.apis.SendSMSApi;
+import com.worksum.android.company.CompanyInfoEditPage;
+import com.worksum.android.controller.DataController;
+import com.worksum.android.controller.LoginManager;
 import com.worksum.android.utils.Utils;
 
 import java.util.regex.Pattern;
@@ -31,13 +34,17 @@ public class RegisterFragment extends LoginFragment {
     private EditText mConfromPassword;
     private Button mCheckCodeBtn;
     private EditText mCheckCodeEdit;
+    private EditText mCompanyName;
+    private EditText mCompanyEmail;
     private Handler mHandle;
     private int mSendCodeTimer = 0;
+    private EditText mPhoneNumber;
 
-    public static void showRegisterFragment(Fragment fragment) {
+    public static void showRegisterFragment(Fragment fragment,LoginManager.LoginType loginType) {
         Bundle extras = new Bundle();
         Intent intent = new Intent(fragment.getActivity(),FragmentContainer.FullScreenContainer.class);
         intent.putExtra(KEY_FRAGMENT, RegisterFragment.class);
+        intent.putExtra(LoginManager.PARAMS_LOGIN_TYPE,loginType.name());
         intent.putExtras(extras);
         fragment.startActivityForResult(intent, RegisterFragment.REQUEST_FOR_REGISTER);
     }
@@ -47,8 +54,11 @@ public class RegisterFragment extends LoginFragment {
         super.setupView(vg, savedInstanceState);
         mHandle = new Handler();
 //        setActionRightText(R.string.register_right_action);
-        mOpration = OPRATE_REGISTER;
 
+        mCompanyName = (EditText) findViewById(R.id.login_company_name);
+        mCompanyEmail = (EditText) findViewById(R.id.login_company_email);
+
+        mPhoneNumber = (EditText) findViewById(R.id.login_phone_number);
         mConfromPassword = (EditText) findViewById(R.id.login_password_confrom);
         mConfromPassword.setVisibility(View.VISIBLE);
         mLoginBtn.setText(R.string.register_right_action);
@@ -61,6 +71,7 @@ public class RegisterFragment extends LoginFragment {
         mCheckCodeBtn.setOnClickListener(this);
 
         mForgetText.setVisibility(View.GONE);
+
 
         view = findViewById(R.id.login_password_confrom_layout);
         view.setVisibility(View.VISIBLE);
@@ -77,6 +88,16 @@ public class RegisterFragment extends LoginFragment {
 
         view = findViewById(R.id.login_fb_btn);
         view.setVisibility(View.GONE);
+
+
+        if (mLoginType == LoginManager.LoginType.C) {
+            findViewById(R.id.login_company_name_layout).setVisibility(View.VISIBLE);
+            findViewById(R.id.login_phone_number_layout).setVisibility(View.VISIBLE);
+            findViewById(R.id.login_company_email_layout).setVisibility(View.VISIBLE);
+            findViewById(R.id.login_password_confrom_layout).setVisibility(View.GONE);
+            findViewById(R.id.forget_check_code).setVisibility(View.GONE);
+
+        }
     }
 
     @Override
@@ -147,8 +168,8 @@ public class RegisterFragment extends LoginFragment {
 
             @Override
             public DataItemResult onLoadData() {
-                String phoneNumber = mLoginView.getText().toString();
-                return ResumeApi.sendSMS(phoneNumber);
+                String phoneNumber = mPhoneNumber.getText().toString();
+                return SendSMSApi.sendSMS(phoneNumber);
             }
 
             @Override
@@ -170,14 +191,20 @@ public class RegisterFragment extends LoginFragment {
         if (!checkedPassword()) {
             return;
         }
-        String phoneNumber = mLoginView.getText().toString();
+        String companyName = mCompanyName.getText().toString();
+        String companyEmail = mCompanyEmail.getText().toString();
+        String phoneNumber = mPhoneNumber.getText().toString();
         String password = mPwdView.getText().toString();
         String checkCode = mCheckCodeEdit.getText().toString();
 
-        new RegisterTask().execute(phoneNumber, password, checkCode);
+        new RegisterTask().execute(phoneNumber, password, checkCode,companyName,companyEmail);
     }
 
     private boolean checkedCode() {
+        if (mLoginType == LoginManager.LoginType.C) {
+            //公司注册不需要手机验证码
+            return true;
+        }
         String checkCode = mCheckCodeEdit.getText().toString();
         if (TextUtils.isEmpty(checkCode)) {
             Tips.showTips(R.string.register_empty_checkcode);
@@ -188,23 +215,19 @@ public class RegisterFragment extends LoginFragment {
 
     //for tester in RegisterTester.java
     public static boolean checkedPhoneNumber(String phoneNumber) {
-//        String phoneNumber = mLoginView.getText().toString();
         Pattern p = Pattern.compile("^\\d{8}$");
-        if (p.matcher(phoneNumber).find()) {
-            return true;
-        }
-        return false;
+        return p.matcher(phoneNumber).find();
     }
 
     private boolean checkedPhoneNumber() {
-        String phoneNumber = mLoginView.getText().toString();
+        String phoneNumber = mPhoneNumber.getText().toString();
         Pattern p = Pattern.compile("^\\d{8}$");
         if (!p.matcher(phoneNumber).find()) {
             Tips.showTips(R.string.register_invalide_phone_number);
             return false;
         }
         if (!Utils.matchesPhone(phoneNumber)) {
-            Tips.showTips(R.string.invalide_phone_number);
+            Tips.showTips(R.string.tips_invalide_phone_number);
             return false;
         }
         return true;
@@ -213,6 +236,11 @@ public class RegisterFragment extends LoginFragment {
     private boolean checkedPassword() {
         String pass = mPwdView.getText().toString();
         String conPass = mConfromPassword.getText().toString();
+
+        if (mLoginType == LoginManager.LoginType.C) {
+            //公司注册没有确认密码
+            conPass = pass;
+        }
 
         if (TextUtils.isEmpty(conPass) || TextUtils.isEmpty(pass)) {
             Tips.showTips(R.string.register_password_empty);
@@ -235,6 +263,8 @@ public class RegisterFragment extends LoginFragment {
         private String phoneNumber;
         private String password;
         private String checkCode;
+        private String companyName;
+        private String companyEmail;
 
         @Override
         protected void onPreExecute() {
@@ -245,29 +275,50 @@ public class RegisterFragment extends LoginFragment {
         /**
          * 执行异步任务
          *
-         * @param params
          */
         @Override
         protected DataItemResult doInBackground(String... params) {
             phoneNumber = params[0];
             password = params[1];
             checkCode = params[2];
+            companyName = params[3];
+            companyEmail = params[4];
 
-            return JobsApi.register(phoneNumber, password,checkCode);
+            if (mLoginType == LoginManager.LoginType.C) {
+                return CustomerApi.registerCustomer(companyEmail,password,companyName,phoneNumber);
+            }
+
+            return ResumeApi.register(phoneNumber, password,checkCode);
         }
 
         /**
          * 异步任务执行完以后的回调函数
          *
-         * @param result
          */
         @Override
         protected void onTaskFinished(DataItemResult result) {
             Tips.hiddenWaitingTips();
 
-            //// TODO: 2016/11/24  test
-            result.statusCode = 1;
-            result.hasError = false;
+            if (mLoginType == LoginManager.LoginType.C) {
+
+                if(!result.hasError && result.statusCode > 0) {
+                    Tips.showTips(R.string.register_succeed);
+                    getActivity().setResult(Activity.RESULT_OK);
+                    String accountId = result.message;
+                    onLoginSucceed(accountId);
+                    return;
+                }
+
+                int tipsId = R.string.tips_register_failed;
+                if (result.statusCode == -1) {
+                    tipsId = R.string.tips_email_existed;
+                } else if (result.statusCode == -10) {
+                    tipsId = R.string.tips_invalide_email;
+                } else if (result.statusCode == -11) {
+                    tipsId = R.string.tips_invalide_password;
+                }
+                Tips.showTips(tipsId);
+            }
 
             if (result.statusCode == -1) {
                 Tips.showTips(R.string.register_phone_has_exist);
@@ -279,18 +330,20 @@ public class RegisterFragment extends LoginFragment {
             }
             if(!result.hasError && result.statusCode > 0) {
                 Tips.showTips(R.string.register_succeed);
-                Intent extras = new Intent();
-                extras.putExtra("phone",phoneNumber);
-                extras.putExtra("password",password);
-                getActivity().setResult(RESULT_OK,extras);
-                onBackPressed();
+                getActivity().setResult(Activity.RESULT_OK);
+                String accountId = result.message;
+                onLoginSucceed(accountId);
             }
         }
     }
 
     @Override
-    protected void onLoginSucceed() {
-        super.onLoginSucceed();
+    protected void onLoginSucceed(String accountId) {
+        super.onLoginSucceed(accountId);
+        if(mLoginType == LoginManager.LoginType.C) {
+            CompanyInfoEditPage.show(this,-1);
+            return;
+        }
         ResumeEditPage.showResumeEditPage(RegisterFragment.this);
     }
 }

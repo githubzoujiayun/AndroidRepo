@@ -1,5 +1,6 @@
 package com.worksum.android.nim;
 
+import android.app.Application;
 import android.content.Context;
 
 import com.netease.nim.uikit.NimUIKit;
@@ -10,7 +11,7 @@ import com.netease.nimlib.sdk.StatusBarNotificationConfig;
  */
 public class GlobalCache {
 
-    private static Context context;
+    private static Application mApp;
 
     private static String account;
 
@@ -38,10 +39,10 @@ public class GlobalCache {
     }
 
     public static Context getContext() {
-        return context;
+        return mApp;
     }
 
-    public static void setContext(Context context) {
-        GlobalCache.context = context.getApplicationContext();
+    public static void init(Application app) {
+        mApp = app;
     }
 }

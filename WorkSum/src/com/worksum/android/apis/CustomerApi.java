@@ -2,7 +2,6 @@ package com.worksum.android.apis;
 
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.device.DeviceUtil;
-import com.worksum.android.apis.Api;
 import com.worksum.android.controller.UserCoreInfo;
 
 import org.ksoap2.serialization.SoapObject;
@@ -16,7 +15,7 @@ public class CustomerApi extends Api {
 
     public static final String ACTION_SAVE_CTM_IMAGE = "http://tempuri.org/SaveCtmImg";
     public static final String ACTION_GET_CTM_IMAGE = "http://tempuri.org/GetCtmImg";
-    public static final String ACTION_UPDATE_COMPANY_INFO = "http://tempuri.org/UpdateResumeInfo";
+    public static final String ACTION_UPDATE_COMPANY_INFO = "http://tempuri.org/UpdateCtmInfo";
     public static final String ACTION_GET_CTM_INFO = "http://tempuri.org/GetCtmInfo";
 
     private static final String ACTION_REGISTER_CUSTOMER = "http://tempuri.org/RegisterCustomer";
@@ -57,7 +56,7 @@ public class CustomerApi extends Api {
     public static DataItemResult loginCustomer(String email,String password) {
         SoapObject soapObject = new SoapObject(namespace,"Login");
         soapObject.addProperty("p_strEmail", email);
-        soapObject.addProperty("p_strPassWord",password);
+        soapObject.addProperty("p_strPassword",password);
         soapObject.addProperty("p_strSource",PLATFORM);
         soapObject.addProperty("p_strUUID", DeviceUtil.getUUID());
 
@@ -65,7 +64,7 @@ public class CustomerApi extends Api {
     }
 
     public static void updateResumeInfo(String companyName, String phoneNumber, String contactor,String companyAddress,String ctmNo,String customerInfo) {
-        SoapObject soapObject = new SoapObject(namespace,"UpdateResumeInfo");
+        SoapObject soapObject = new SoapObject(namespace,"UpdateCtmInfo");
         soapObject.addProperty("p_strID",UserCoreInfo.getUserID());
         soapObject.addProperty("p_strName",companyName);
         soapObject.addProperty("p_strMobile",phoneNumber);

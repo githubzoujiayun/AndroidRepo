@@ -1,11 +1,9 @@
 package com.worksum.android;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,23 +12,27 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.worksum.android.apis.JobApplyApi;
-import com.worksum.android.apis.JobsApi;
-import com.worksum.android.controller.ApiLoaderTask;
-import com.worksum.android.controller.Task;
-import com.worksum.android.controller.TaskManager;
-import com.worksum.android.utils.ReflectUtils;
-import com.worksum.android.views.HeaderIconView;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.flip.DataViewPager;
 import com.jobs.lib_v1.list.DataListAdapter;
 import com.jobs.lib_v1.misc.Tips;
+import com.worksum.android.annotations.DataManagerReg;
+import com.worksum.android.apis.IMApi;
+import com.worksum.android.apis.JobApplyApi;
+import com.worksum.android.apis.JobsApi;
+import com.worksum.android.controller.ApiLoaderTask;
+import com.worksum.android.controller.Task;
+import com.worksum.android.controller.TaskManager;
+import com.worksum.android.nim.session.SessionHelper;
+import com.worksum.android.utils.ReflectUtils;
+import com.worksum.android.views.HeaderIconView;
 
 /**
  * chao.qin
  * 2016/2/17
  */
+@DataManagerReg(actions = IMApi.ACTION_GET_VIEW_TOKEN)
 public class JobInfoFragment extends TitlebarFragment {
 
 
@@ -52,9 +54,13 @@ public class JobInfoFragment extends TitlebarFragment {
 
     private DataViewPager mViewPager;
 
-    private String mResumeId;
     private TextView mTimeRange;
     private TextView mDateRange;
+    private TextView mNimActionView;
+
+    private int mJobId;
+    private String mCtmCode;
+    private String mCtmNo = "";
 
 
     @Override
@@ -87,10 +93,15 @@ public class JobInfoFragment extends TitlebarFragment {
 
         mJobDescriptionView = (TextView) findViewById(R.id.jobinfo_description);
         mApplyBtn = (Button) findViewById(R.id.jobinfo_btn_apply);
+
+        mNimActionView = findViewById(R.id.nim_action);
+        mNimActionView.setOnClickListener(this);
+
         DataItemDetail detail = getArguments().getParcelable("job_detail");
         bindData(detail);
 
-        mResumeId = detail.getString("JobID");
+        mJobId = detail.getInt("JobID");
+        mCtmNo = detail.getString("CtmNO");
 
         mApplyBtn.setOnClickListener(this);
 
@@ -170,8 +181,30 @@ public class JobInfoFragment extends TitlebarFragment {
             mApplyBtn.setText(R.string.jobinfo_btn_apply_applied);
             mApplyBtn.setEnabled(false);
         }
+
+        mCtmCode = detail.getString("CtmCode");
+
+        String customerImg = detail.getString("CustomerImg");
+        mJobOwnerIcon.loadURL(customerImg);
     }
 
+    @Override
+    public void onStartRequest(String action) {
+        super.onStartRequest(action);
+    }
+
+    @Override
+    public void onDataReceived(String action, DataItemResult result) {
+        super.onDataReceived(action, result);
+        if (IMApi.ACTION_GET_VIEW_TOKEN.equals(action)) {
+            if (!result.hasError && result.getDataCount() > 0) {
+                String imId = result.getItem(0).getString("ID").toLowerCase();
+                SessionHelper.startP2PSession(getActivity(),imId);
+            } else {
+                Tips.showTips(R.string.tips_unknown_contact);
+            }
+        }
+    }
 
     @Override
     public int getLayoutId() {
@@ -183,6 +216,8 @@ public class JobInfoFragment extends TitlebarFragment {
         super.onClick(view);
         if (view == mApplyBtn) {
             new ApplyTask(getActivity()).executeWithCheck();
+        } else if (view == mNimActionView) {
+            IMApi.getViewToken(mCtmCode);
         }
     }
 
@@ -207,8 +242,7 @@ public class JobInfoFragment extends TitlebarFragment {
 
         @Override
         protected DataItemResult doInBackground(String... params) {
-            DataItemDetail detail = getArguments().getParcelable("job_detail");
-            return JobApplyApi.applyJob(detail.getInt("JobID"));
+            return JobApplyApi.applyJob2(mJobId,mCtmCode);
         }
 
         @Override
@@ -256,11 +290,11 @@ public class JobInfoFragment extends TitlebarFragment {
 
         @Override
         protected DataItemResult doInBackground(String... params) {
-            DataItemResult result = JobsApi.getJobInfo(mResumeId);
-            if (result.hasError) {
+            DataItemResult result = JobsApi.getJobDetails(mJobId,mCtmNo);
+            if (result.hasError || result.getDataCount() < 1) {
                 return result;
             }
-            DataItemResult statueResult = JobsApi.applyJobStatus(mResumeId);
+            DataItemResult statueResult = JobsApi.applyJobStatus(mJobId);
             result.getItem(0).setIntValue("apply_status", statueResult.statusCode);
             return result;
         }

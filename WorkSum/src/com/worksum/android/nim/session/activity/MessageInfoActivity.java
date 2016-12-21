@@ -8,10 +8,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.netease.nim.demo.DemoCache;
-import com.netease.nim.demo.R;
-import com.netease.nim.demo.contact.activity.UserProfileActivity;
-import com.netease.nim.demo.team.TeamCreateHelper;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.cache.NimUserInfoCache;
 import com.netease.nim.uikit.common.activity.UI;
@@ -24,6 +20,7 @@ import com.netease.nim.uikit.team.helper.TeamHelper;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.friend.FriendService;
+import com.worksum.android.R;
 
 import java.util.ArrayList;
 
@@ -135,7 +132,6 @@ public class MessageInfoActivity extends UI {
     };
 
     private void openUserProfile() {
-        UserProfileActivity.start(this, account);
     }
 
     /**
@@ -154,26 +150,7 @@ public class MessageInfoActivity extends UI {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CODE_NORMAL) {
                 final ArrayList<String> selected = data.getStringArrayListExtra(ContactSelectActivity.RESULT_DATA);
-                if (selected != null && !selected.isEmpty()) {
-                    TeamCreateHelper.createNormalTeam(MessageInfoActivity.this, selected, true, new RequestCallback<Void>() {
-                        @Override
-                        public void onSuccess(Void param) {
-                            finish();
-                        }
 
-                        @Override
-                        public void onFailed(int code) {
-
-                        }
-
-                        @Override
-                        public void onException(Throwable exception) {
-
-                        }
-                    });
-                } else {
-                    Toast.makeText(DemoCache.getContext(), "请选择至少一个联系人！", Toast.LENGTH_SHORT).show();
-                }
             }
         }
     }

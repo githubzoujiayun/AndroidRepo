@@ -1,6 +1,5 @@
 package com.worksum.android;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,7 +11,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.worksum.android.apis.JobsApi;
 import com.jobs.lib_v1.app.AppUtil;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
@@ -23,6 +21,7 @@ import com.jobs.lib_v1.list.DataListView;
 import com.jobs.lib_v1.list.DataLoader;
 import com.jobs.lib_v1.list.DataRefreshedListener;
 import com.jobs.lib_v1.misc.Tips;
+import com.worksum.android.apis.JobsApi;
 
 
 public class JobListFragment extends TitlebarFragment implements OnItemClickListener, DataRefreshedListener {
@@ -76,6 +75,7 @@ public class JobListFragment extends TitlebarFragment implements OnItemClickList
 		setActionLeftDrawable(R.drawable.menu_search);
 //		setActionRightDrawable(R.drawable.menu_filter);//// TODO: 16/3/15 暂时隐藏
 		mJobListView = (DataListView) v.findViewById(R.id.joblist);
+		mJobListView.setTimeTag(getClass().getName());
 		mJobListView.setDataCellSelector(new DataListCellSelector() {
 
 			@Override
@@ -98,12 +98,13 @@ public class JobListFragment extends TitlebarFragment implements OnItemClickList
 		mJobListView.setAllowAutoTurnPage(true);
 		mJobListView.setOnItemClickListener(this);
 		mJobListView.setPageSize(LIST_PAGE_SIZE);
-		mJobListView.setDivider(new ColorDrawable(getResources().getColor(R.color.black_999999)));
-		mJobListView.setDividerHeight(1);
+//		mJobListView.setDivider(new ColorDrawable(getResources().getColor(R.color.black_999999)));
+//		mJobListView.setDividerHeight(1);
         mJobListView.setAutoTurnPageEnabled(true);
         mJobListView.setEmptyCellClass(JobEmpty.class,this);
 		mJobListView.setDataLoader(new JobSearchLoader());
         mJobListView.setOnRefreshedListener(this);
+		mJobListView.setPullRefreshEnable(true);
 
 //        LayoutInflater inflater = LayoutInflater.from(getActivity());
 //        View view = inflater.inflate(R.layout.joblist_empty_view,mJobListView,false);
@@ -159,8 +160,7 @@ public class JobListFragment extends TitlebarFragment implements OnItemClickList
 
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        DataListAdapter adapter = (DataListAdapter) adapterView.getAdapter();
-		FragmentContainer.showJobDetail(getActivity(),adapter.getItem(position));
+		FragmentContainer.showJobDetail(getActivity(),mJobListView.getItem(position));
 	}
 
 	protected void onActionLeft() {
@@ -210,7 +210,7 @@ public class JobListFragment extends TitlebarFragment implements OnItemClickList
 		@Override
 		public DataItemResult fetchData(DataListAdapter adapter, int pageAt, int pageSize) {
 			mHandler.sendEmptyMessage(MSG_LOAD_START);
-			extras.putInt("p_StartRows", adapter.getDataCount());
+			extras.putInt("p_StartRows", pageAt - 1);
             extras.putInt("p_intPagSize",LIST_PAGE_SIZE);
 			DataItemResult result = JobsApi.fetchJoblist(extras);
 			mHandler.sendEmptyMessage(MSG_LOAD_FINISH);

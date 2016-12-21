@@ -13,16 +13,15 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jobs.lib_v1.app.AppUtil;
 import com.jobs.lib_v1.data.DataItemDetail;
 import com.jobs.lib_v1.data.DataItemResult;
 import com.jobs.lib_v1.list.DataListAdapter;
 import com.jobs.lib_v1.list.DataListView;
 import com.jobs.lib_v1.list.DataLoader;
 import com.jobs.lib_v1.misc.Tips;
+import com.worksum.android.annotations.DataManagerReg;
 import com.worksum.android.annotations.LayoutID;
 import com.worksum.android.apis.WorkExpApi;
-import com.worksum.android.controller.UserCoreInfo;
 
 /**
  * @author chao.qin
@@ -31,6 +30,7 @@ import com.worksum.android.controller.UserCoreInfo;
  */
 
 @LayoutID(R.layout.experience_home)
+@DataManagerReg(register = DataManagerReg.RegisterType.ALL)
 public class ExperienceHomeFragment extends TitlebarFragment implements AdapterView.OnItemClickListener {
 
     public static final String API_KEY_EXP_ID = "ID";

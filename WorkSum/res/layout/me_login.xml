@@ -16,7 +16,7 @@
             android:id="@+id/me_head"
             android:src="@drawable/ico_default_head"
             android:scaleType="centerCrop"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="120dp" />
 
         <LinearLayout

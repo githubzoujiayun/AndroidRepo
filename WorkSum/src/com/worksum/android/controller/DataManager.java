@@ -1,17 +1,17 @@
 package com.worksum.android.controller;
 
 import android.app.Application;
-import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import com.jobs.lib_v1.app.AppUtil;
 import com.jobs.lib_v1.data.DataItemResult;
-import com.jobs.lib_v1.task.BasicTask;
 import com.worksum.android.LoginFragment;
 
 import org.ksoap2.serialization.SoapObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author chao.qin
@@ -23,13 +23,17 @@ import java.util.ArrayList;
 public class DataManager {
 
 
-    private final ArrayList<RequestCallback> mCallbacks = new ArrayList<>();
+    private ArrayList<RequestCallback> mManagerCallbacks = new ArrayList<>();
 
+
+    private final ArrayList<String> mActionList = new ArrayList<>();
+    private final HashMap<String,ArrayList<RequestCallback>> mCallbacksMap = new HashMap<>();
+
+    private final ArrayList<RequestCallback> mGlobalCallback = new ArrayList<>();
 
     //忽视警告，mDataManager拿到的Context是ApplicationContext,不存在泄漏的问题
     //因为只要App在运行，Application本来就不会被回收
     private static DataManager mDataManager;
-
     private Application mApp;
 
     private DataManager(){}
@@ -99,7 +103,14 @@ public class DataManager {
 
         @Override
         protected void onPreExecute() {
-            for (RequestCallback callback :mCallbacks) {
+            for (RequestCallback callback: mGlobalCallback) {
+                callback.onStartRequest(soapAction);
+            }
+            ArrayList<RequestCallback> callbacks = mCallbacksMap.get(soapAction);
+            if (callbacks == null) {
+                return;
+            }
+            for (RequestCallback callback :callbacks) {
                 callback.onStartRequest(soapAction);
             }
         }
@@ -111,14 +122,28 @@ public class DataManager {
 
         @Override
         protected void onPostExecute(DataItemResult result) {
-            for (RequestCallback callback :mCallbacks) {
+            for (RequestCallback callback: mGlobalCallback) {
+                callback.onDataReceived(soapAction,result);
+            }
+            ArrayList<RequestCallback> callbacks = mCallbacksMap.get(soapAction);
+            if (callbacks == null) {
+                return;
+            }
+            for (RequestCallback callback :callbacks) {
                 callback.onDataReceived(soapAction, result);
             }
         }
 
         @Override
         protected void onCancelled() {
-            for (RequestCallback callback :mCallbacks) {
+            for (RequestCallback callback: mGlobalCallback) {
+                callback.onCanceled(soapAction);
+            }
+            ArrayList<RequestCallback> callbacks = mCallbacksMap.get(soapAction);
+            if (callbacks == null) {
+                return;
+            }
+            for (RequestCallback callback :callbacks) {
                 callback.onCanceled(soapAction);
             }
         }
@@ -140,12 +165,28 @@ public class DataManager {
      *
      * @param callback 回调接口
      */
-    public void registerRequestCallback(RequestCallback callback) {
+    public void registerRequestCallback(RequestCallback callback,String... actions) {
         if (callback == null) {
             throw new IllegalArgumentException("register error: RequestCallback can not be null.");
         }
-        if (!mCallbacks.contains(callback)) {
-            mCallbacks.add(0,callback);
+        if (actions == null || actions.length == 0) {
+            mGlobalCallback.add(callback);
+        }
+        for (String action: actions) {
+
+            if (TextUtils.isEmpty(action)) {
+                continue;
+            }
+
+            if (!mActionList.contains(action)) {
+                mActionList.add(action);
+            }
+            ArrayList<RequestCallback> callbacks = mCallbacksMap.get(action);
+            if (callbacks == null) {
+                callbacks = new ArrayList<>();
+                mCallbacksMap.put(action, callbacks);
+            }
+            callbacks.add(callback);
         }
     }
 
@@ -154,8 +195,35 @@ public class DataManager {
             AppUtil.error("unregister error: RequestCallback should not be null.");
             return;
         }
-        mCallbacks.remove(callback);
+
+        mGlobalCallback.remove(callback);
+
+        for (String action: mActionList) {
+            ArrayList<RequestCallback> callbacks = mCallbacksMap.get(action);
+            if (callbacks != null && callbacks.contains(callback)) {
+                callbacks.remove(callback);
+            }
+        }
     }
+
+
+    public void registerManagerCallback(RequestCallback callback) {
+        if (callback == null) {
+            throw new IllegalArgumentException("register error: RequestCallback can not be null.");
+        }
+        if (!mManagerCallbacks.contains(callback)) {
+            mManagerCallbacks.add(0,callback);
+        }
+    }
+
+    public void unregisterManagerCallback(RequestCallback callback) {
+        if (callback == null) {
+            AppUtil.error("unregister error: RequestCallback should not be null.");
+            return;
+        }
+        mManagerCallbacks.remove(callback);
+    }
+
 
     /**
      * 数据请求回调

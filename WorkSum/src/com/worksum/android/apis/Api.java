@@ -1,11 +1,8 @@
 package com.worksum.android.apis;
 
 import android.os.Bundle;
-import android.os.Debug;
 
 import com.worksum.android.controller.DataManager;
-import com.worksum.android.controller.UserCoreInfo;
-import com.jobs.lib_v1.data.DataItemResult;
 
 import org.ksoap2.serialization.SoapObject;
 
@@ -13,13 +10,14 @@ import org.ksoap2.serialization.SoapObject;
  */
 public class Api {
 
-    private static boolean DEBUG = false;
+    private static boolean DEBUG = true;
 
-    static final String SERVER_ADDRESS = DEBUG?"47.89.50.29:8080":"47.89.50.29";
+    public static final String SERVER_ADDRESS = DEBUG?"47.89.50.29:8080":"47.89.50.29";
+    public static final String namespace = "http://tempuri.org/";
 
-    static final String PLATFORM = "Android";
+    public static final String PLATFORM = "Android";
 
-    public static final DataManager mManager = DataManager.getInstance();
+    public static final DataManager mDataManager = DataManager.getInstance();
 
 
     static SoapObject addSoapProperty(SoapObject soapObject,Bundle extra) {

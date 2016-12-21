@@ -32,4 +32,9 @@
     <color name="common_background_color">#f1f2f2</color>
 	<color name="white_afafaf">#afafaf</color>
 	<color name="gray_d4d4d4">#d4d4d4</color>
+
+	<color name="orange_f99a54">#f99a54</color>
+	<color name="blue_1578bc">#1578bc</color>
+	<color name="green_68c076">#68c076</color>
+
 </resources>
