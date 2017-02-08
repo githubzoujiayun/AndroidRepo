@@ -1,7 +1,8 @@
 package com.nordicsemi.nrfUARTv2;
 
-import android.app.Activity;
 
-public class GeneralActivity extends Activity{
+import android.support.v4.app.FragmentActivity;
+
+public class GeneralActivity extends FragmentActivity {
 
 }

@@ -13,7 +13,7 @@ public class CommunicationParamsSettings extends ParamsSettings {
 
 	@Override
 	void load() {
-		setupListPreference(RTUData.KEY_COMMUNICATION_PROTOCAL,2,1);
+		setupListPreference(RTUData.KEY_COMMUNICATION_PROTOCAL,3,1);
 		setupListPreference(RTUData.KEY_COMPACT_PROTOCAL);
 		setupEditTextPreference(RTUData.KEY_BIAS_TIME,3,1);
 		setupEditTextPreference(RTUData.KEY_RESPONSE_TIME);
@@ -33,6 +33,7 @@ public class CommunicationParamsSettings extends ParamsSettings {
 		//main tunnel
 		setupListPreference(RTUData.KEY_COMMUNICATION_WAY);
 		setupListPreference(RTUData.KEY_COMMUNICATION_SPEED);
+		setupListPreference(RTUData.KEY_COMMUNICATION_PARITY_CHECK);
 		setupEditTextPreference(RTUData.KEY_PREHEAT_TIME,2,1);
 		setupListPreference(RTUData.KEY_WAVE_CHECK);
 		
@@ -43,7 +44,7 @@ public class CommunicationParamsSettings extends ParamsSettings {
 		setupEditTextPreference(RTUData.KEY_DIPPER);
 		
 		//tsm
-		setupSwitchPreference(RTUData.KEY_TSM_FUNC,0,3);
+		setupSwitchPreference(RTUData.KEY_TSM_FUNC,0,3); 
 	}
 
 	void setupSwitchEditTextPreference(final String valueKey,final String switchKey) {

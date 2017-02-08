@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="simple_mode">精简模式</string>
+    <string name="professional_mode">专业模式</string>
+    <string name="bt_status_connecting">正在连接…</string>
+    <string name="ble_connected">蓝牙已连接到: </string>
+    <string name="ble_disconnected">蓝牙已断开,正在重新连接…</string>
+    <string name="bt_turned_on">蓝牙已打开</string>
+    <string name="tips_bt_turning_problem">蓝牙启动失败</string>
+    <string name="simple_mode_refresh_channels">刷新显示数据</string>
+    <string name="simple_mode_refresh_time">刷新时间(同步RTU时间)</string>
+    <string name="default_local_time">点击刷新本地时间</string>
+    <string name="menu_simple_mode">精简模式</string>
+    <string name="menu_professional_mode">专业模式</string>
+    <string name="bt_disconnected">蓝牙未连接</string>
+    <string name="simple_mode_send_test_report">发送测试报</string>
+    <string name="send_report">8A04008E</string>
+    <string name="toast_send_test_report_succeed">成功发送测试报告！</string>
+    <string name="simple_mode_alert_set_station_no">设置站号</string>
+</resources>

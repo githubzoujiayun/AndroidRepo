@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="RTUTheme" parent="android:Theme.Holo.Light">
+        <item name="android:preferenceStyle">@style/PreferenceM</item>
+        <item name="android:switchPreferenceStyle">@style/PreferenceM.SwitchPreference</item>
+        <item name="android:preferenceScreenStyle">@style/PreferenceM.PreferenceScreen</item>
+        <item name="android:editTextPreferenceStyle">@style/PreferenceM.EditTextPreference</item>
+    </style>
+
+</resources>

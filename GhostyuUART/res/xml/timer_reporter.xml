@@ -5,10 +5,12 @@
         android:title="@string/self_reporter_type"
         android:entries="@array/self_reporter_type"
         android:entryValues="@array/self_reporter_type_values"
+        android:layout="@layout/preference"
         />
     <EditTextPreference 
         android:key="self_reporter_interval"
         android:title="@string/self_reporter_interval"
+        android:layout="@layout/preference"
         />
     
 </PreferenceScreen>

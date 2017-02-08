@@ -1,12 +1,13 @@
 package com.nordicsemi.nrfUARTv2.test;
 
-import java.util.Arrays;
-
 import android.test.AndroidTestCase;
 import android.util.SparseArray;
 
 import com.nordicsemi.nrfUARTv2.RTUData;
 import com.nordicsemi.nrfUARTv2.Utils;
+
+import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class TestRTU extends AndroidTestCase {
 
@@ -22,6 +23,16 @@ public class TestRTU extends AndroidTestCase {
 		byte[] datas = Utils.toHexBytes("100");
 		String value = Utils.toIntegerString(datas);
 		System.out.println(value);
+	}
+
+	public void testMatcher() {
+		final String PATTERN_BLE_NAME = "^RTU";
+		Pattern pattern = Pattern.compile(PATTERN_BLE_NAME);
+		System.out.println(pattern.matcher("RTU-100").find());
+		System.out.println(pattern.matcher("100-RTU-100").find());
+		System.out.println(pattern.matcher("TU-100").find());
+		System.out.println(pattern.matcher("RT-100").find());
+
 	}
 	
 	public void testToHexBytes() {

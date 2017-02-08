@@ -1,7 +1,5 @@
 package com.nordicsemi.nrfUARTv2;
 
-import java.util.List;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,6 +14,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.List;
 
 public class ParamsSettingsActivity extends PreferenceActivity {
 
@@ -54,7 +54,7 @@ public class ParamsSettingsActivity extends PreferenceActivity {
 			final EditText et = new EditText(this);
 			et.setHint(R.string.hint_enter_params_name);
 			new AlertDialog.Builder(this)
-				.setTitle(R.string.upload_params)
+				.setTitle(R.string.save_params)
 				.setView(et)
 				.setPositiveButton(android.R.string.ok, new OnClickListener() {
 					
@@ -95,11 +95,6 @@ public class ParamsSettingsActivity extends PreferenceActivity {
 	public static void startParamsSettings(Context context) {
 		Intent intent = new Intent(context,ParamsSettingsActivity.class);
 		context.startActivity(intent);
-	}
-
-	@Override
-	public void onHeaderClick(Header header, int position) {
-		super.onHeaderClick(header, position);
 	}
 
 	/** 根据返回选择的文件，来进行上传操作 **/

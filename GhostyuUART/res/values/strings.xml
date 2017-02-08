@@ -16,7 +16,7 @@
 -->
 <resources>
 
-    <string name="app_name">Ghostyu UART</string>
+    <string name="app_name">RTU BLE v2.6</string>
     <string name="device">Device:</string>
     <string name="no_device">&lt;Select a device&gt;</string>
     <string name="select_device">Select a device</string>
@@ -63,10 +63,10 @@
     <string name="ble_not_supported">Bluetooth Low Energy not supported</string>
     <string name="scan">Scan</string>
     <string name="cancel">Cancel</string>
-    <string name="refresh_time">刷新时间</string>
+    <string name="refresh_time">刷新时间（将RTU时间同步成手机时间）</string>
     <string name="local_time">本地时间</string>
-    <string name="clear_temp_data">清楚临时数据</string>
-    <string name="show_data">显示数据</string>
+    <string name="clear_temp_data">清除临时数据</string>
+    <string name="show_data">显示数据（采集传感器并显示）</string>
     <string name="params_settings">参数设置</string>
     <string name="params_entirety">整体参数</string>
     <string name="params_sensor">传感器设置</string>
@@ -88,7 +88,7 @@
 	<string name="evaporating">蒸发皿分辨力</string>
 	<string name="stream_count_step">流量计数步长</string>
 	<string name="interval_storage">数据存储间隔</string>
-	<string name="interval_sampling">采样巡检间隔</string>
+	<string name="interval_sampling">采样加报间隔</string>
 	<string name="catagory_report">查询/自报设置</string>
 	<string name="report_types">自报种类</string>
 	<string name="query_types">查询种类</string>
@@ -97,10 +97,10 @@
 	<string name="self_reporter_type">定时自报类型</string>
 	<string name="self_reporter_interval">定时自报间隔</string>
 	<string name="catagory_timer_repoter">水资源分种类定时报（单位：分钟）</string>
-	<string name="hour_report">小时报</string>
+	<string name="hour_report">水文规约小时报</string>
 	<string name="add_report_immediately">有雨立即加报</string>
-	<string name="add_report">加报</string>
-	<string name="equation_report">均匀报</string>
+	<string name="add_report">水文规约报警加报</string>
+	<string name="equation_report">水文规约均匀报</string>
 	<string name="catagory_report_settings">查询/自报种类</string>
 	<string name="catagory_rainfull">雨量</string>
 	<string name="catagory_water_level">水位</string>
@@ -141,7 +141,7 @@
 	<string name="sensor_preheat_time">传感器预热时间</string>
 	<string name="whole_params_settings">全局参数设置</string>
 	<string name="communication_protocal">通讯协议</string>
-	<string name="compact_protocal">精简协议</string>
+	<string name="compact_protocal"> 子协议</string>
 	<string name="response_time">响应时间</string>
 	<string name="uniform_receipt">均匀回执</string>
 	<string name="uniform_interval">均匀间隔</string>
@@ -201,7 +201,7 @@
 	<string name="warning_added">警报与加报</string>
 	<string name="data_definition">数据定义</string>
 	<string name="gather_catagory">采集类型</string>
-	<string name="gather_number">采集编号</string>
+	<string name="gather_number">同类编号</string>
 	<string name="warning_max">报警上限</string>
 	<string name="warning_min">报警下限</string>
 	<string name="added_divide">加报分界线</string>
@@ -234,8 +234,8 @@
 	<string name="channal_settings3">通道3 设置</string>
 	<string name="channal_settings4">通道4 设置</string>
 	<string name="download_params">下载参数</string>
-	<string name="local_time_summery">20%1$s年%2$s月%3$s日 %4$s:%5$s:%6$s %7$s</string>
-	<string name="toast_clear_succed">清楚数据成功！</string>
+	<string name="local_time_summery">20%1$s/%2$s/%3$s  %4$s:%5$s:%6$s  %7$s</string>
+	<string name="toast_clear_succed">清除数据成功！</string>
 	<string name="toast_refresh_succed">刷新时间成功！</string>
 	<string name="tennal_closed">关闭</string>
 	<string name="tennal_failed">招测失败</string>
@@ -254,4 +254,7 @@
 	<string name="dipper">北斗中心</string>
 	<string name="toast_save_params">参数已保存至文件夹: /内置存储/RFUART</string>
 	<string name="hint_enter_params_name">请输入文件名称</string>
+	<string name="communication_parity_check">奇偶效验</string>
+	<string name="switch_on">开启</string>
+	<string name="switch_off">关闭</string>
 </resources>

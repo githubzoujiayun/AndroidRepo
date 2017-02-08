@@ -1,13 +1,12 @@
 package com.nordicsemi.nrfUARTv2;
 
+import android.util.SparseArray;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.Scanner;
-
-import android.util.SparseArray;
 
 public class RTUData {
 	/*
@@ -115,6 +114,7 @@ public class RTUData {
 	public static final String KEY_RS232_3 = "RS232_3";
 	public static final String KEY_COMMUNICATION_WAY = "communication_way";
 	public static final String KEY_COMMUNICATION_SPEED = "communication_speed";
+	public static final String KEY_COMMUNICATION_PARITY_CHECK = "communication_parity_check";
 	public static final String KEY_PREHEAT_TIME = "preheat_time";
 	public static final String KEY_WAVE_CHECK = "wave_check";
 	public static final String KEY_BACKUP_COMMUNICATION_WAY = "backup_communication_way";
@@ -299,6 +299,7 @@ public class RTUData {
 
 		mKeyTable.put(KEY_COMMUNICATION_WAY, 246); // ;;list
 		mKeyTable.put(KEY_COMMUNICATION_SPEED, 240);
+		mKeyTable.put(KEY_COMMUNICATION_PARITY_CHECK, 340);
 		mKeyTable.put(KEY_PREHEAT_TIME, 245,UNIT_NAME_SECOND,1); // d2
 		mKeyTable.put(KEY_WAVE_CHECK, 236);
 

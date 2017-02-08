@@ -8,62 +8,74 @@
         <ListPreference 
             android:key="gather_catagory"
             android:title="@string/gather_catagory"
-            android:entries="@array/gather_catagory"
+			android:layout="@layout/preference"
+			android:entries="@array/gather_catagory"
             android:entryValues="@array/gather_catagory_values"
             />
         <ListPreference 
             android:key="gather_number"
             android:title="@string/gather_number"
-            android:entries="@array/gather_number"
+			android:layout="@layout/preference"
+			android:entries="@array/gather_number"
             android:entryValues="@array/gather_number_values"
             />
     </PreferenceCategory>
 	<PreferenceCategory android:title="@string/warning_added">
 	    <EditTextPreference 
 	        android:key="warning_max"
-	        android:title="@string/warning_max"
+			android:layout="@layout/preference"
+			android:title="@string/warning_max"
 	        />
 	    <EditTextPreference 
 	        android:key="warning_min"
-	        android:title="@string/warning_min"
+			android:layout="@layout/preference"
+			android:title="@string/warning_min"
 	        />
 	    <EditTextPreference 
 	        android:key="added_divide"
-	        android:title="@string/added_divide"
+			android:layout="@layout/preference"
+			android:title="@string/added_divide"
 	        />
 	    <EditTextPreference 
 	        android:key="added_divide_max"
-	        android:title="@string/added_divide_max"
+			android:layout="@layout/preference"
+			android:title="@string/added_divide_max"
 	        />
 	    <EditTextPreference 
 	        android:key="added_divide_min"
-	        android:title="@string/added_divide_min"
+			android:layout="@layout/preference"
+			android:title="@string/added_divide_min"
 	        />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/manual_correction">
 	    <EditTextPreference 
 	        android:title="@string/data_baseline"
-	        android:key="data_baseline"
+			android:layout="@layout/preference"
+			android:key="data_baseline"
 	        />
 	    <EditTextPreference 
 	        android:title="@string/data_correction"
-	        android:key="data_correction"
+			android:layout="@layout/preference"
+			android:key="data_correction"
 	        />
 	    <EditTextPreference 
 	        android:key="wave_rate"
-	        android:title="@string/wave_rate"
+			android:layout="@layout/preference"
+			android:title="@string/wave_rate"
 	        />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/data_mark">
 	    <EditTextPreference 
 	        android:key="data_zero"
 	        android:title="@string/data_zero"
-	        />
+			android:layout="@layout/preference"
+			/>
 	    <EditTextPreference 
 	        android:key="data_ratio"
 	        android:title="@string/data_ratio"
 	        android:summary="@string/per_wan"
-	        />
+			android:layout="@layout/preference"
+			/>
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/sensor_settings">
 	    <ListPreference 
@@ -71,27 +83,32 @@
 	        android:title="@string/device_model"
 	        android:entries="@array/device_model"
 	        android:entryValues="@array/device_model_values"
-	        />
+			android:layout="@layout/preference"
+			/>
 	    <EditTextPreference 
 	        android:key="gather_duration"
 	        android:title="@string/gather_duration"
 	        android:summary="@string/second"
-	        />
+			android:layout="@layout/preference"
+			/>
 	    <ListPreference 
 	        android:key="communication_rate"
 	        android:title="@string/communication_speed"
 	        android:entries="@array/RS_frequency"
 	        android:entryValues="@array/RS_frequency_values"
-	        />
+			android:layout="@layout/preference"
+			/>
 	    <ListPreference 
 	        android:key="verify_way"
 	        android:title="@string/verify_way"
 	        android:entries="@array/verify_way"
 	        android:entryValues="@array/verify_way_values"
-	        />
+			android:layout="@layout/preference"
+			/>
 	    <EditTextPreference 
 	        android:key="communication_address"
 	        android:title="@string/communication_address"
-	        />
+			android:layout="@layout/preference"
+			/>
 	</PreferenceCategory>
 </PreferenceScreen>

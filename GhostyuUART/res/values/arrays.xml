@@ -320,14 +320,18 @@
         <item>15</item>
     </string-array>
     <string-array name="communication_protocal">
-        <item>水资源传输规约</item>
-        <item>水文通讯规约</item>
+        <item>SZY206-2012 水资源规约</item>
+        <item>SL 651-2014 水文规约</item>
+        <item>水文旧协议</item>
         <item>精简协议</item>
-        <item>水情专用协议</item>
+        <item>F8F9水情专用协议</item>
         <item>水情通用协议</item>
-        <item>SDXHL协议</item>
-        <item>WH协议</item>
-        <item>南水协议</item>
+        <item>山东协议</item>
+        <item>武汉协议</item>
+        <item>AEAE南水协议</item>
+        <item>SL 427-2008 水资源规约</item>
+        <item>重庆市水文监测数据通信规约</item>
+        <item>四川水文规约 SCSW008-2011</item>
     </string-array>
     <string-array name="communication_protocal_values">
         <item>0</item>
@@ -338,16 +342,30 @@
         <item>5</item>
         <item>6</item>
         <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
     </string-array>
     <string-array name="compact_protocal">
         <item>8000路由协议</item>
         <item>A3A3协议</item>
         <item>EBEB协议</item>
+        <item>HEX水文协议</item>
+        <item>ASCII水文协议</item>
+        <item>旧协议</item>
+        <item>0000协议</item>
+        <item>江苏水文协议</item>
     </string-array>
     <string-array name="compact_protocal_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
     </string-array>
     <string-array name="uniform_receipt">
         <item>需要</item>
@@ -394,7 +412,7 @@
         <item>GSM短信</item>
         <item>GPRS/CDMA</item>
         <item>超短波电台</item>
-        <item>卫星</item>
+        <item>北斗卫星</item>
     </string-array>
     <string-array name="communication_way_values">
         <item>0</item>
@@ -403,12 +421,23 @@
         <item>3</item>
         <item>4</item>
     </string-array>
+    <string-array name="communication_parity_check">
+        <item>无效验</item>
+        <item>偶校验</item>
+        <item>奇校验</item>
+    </string-array>
+    <string-array name="communication_parity_check_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
     <string-array name="backup_communication_way">
         <item>备用通道关闭</item>
         <item>GSM短信</item>
         <item>GPRS/CDMA</item>
         <item>超短波电台</item>
-        <item>北斗卫星</item>
+        <item>北斗星通</item>
+        <item>神州天鸿</item>
     </string-array>
     <string-array name="backup_communication_way_values">
         <item>0</item>
@@ -416,6 +445,7 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+        <item>5</item>
     </string-array>
     <string-array name="tsm_func">
         <item>不启用</item>
@@ -426,24 +456,24 @@
         <item>1</item>
     </string-array>
     <string-array name="image_format">
-        <item>1280 x 960  质量：最好</item>
-        <item>1280 x 960  质量：较好</item>
-        <item>1280 x 960  质量：普通</item>
-        <item>1024 x 768  质量：最好</item>
-        <item>1024 x 768  质量：较好</item>
-        <item>1024 x 768  质量：普通</item>
-        <item>800 x 600  质量：最好</item>
-        <item>800 x 600  质量：较好</item>
-        <item>800 x 600  质量：普通</item>
-        <item>640 x 480(VGA)  质量：最好</item>
-        <item>640 x 480(VGA)  质量：较好</item>
-        <item>640 x 480(VGA)  质量：普通</item>
-        <item>320 x 240(QVGA)  质量：最好</item>
-        <item>320 x 240(QVGA)  质量：较好</item>
-        <item>320 x 240(QVGA)  质量：普通</item>
-        <item>160 x 120(QQVGA)  质量：最好</item>
-        <item>160 x 120(QQVGA)  质量：较好</item>
-        <item>160 x 120(QQVGA)  质量：普通</item>
+        <item>1280 x 960(DSC06：1280*960)质量：最好</item>
+        <item>1280 x 960(DSC06：1280*960)质量：较好</item>
+        <item>1280 x 960(DSC06：1280*960)质量：普通</item>
+        <item>1024 x 768(DSC06：1280*720)质量：最好</item>
+        <item>1024 x 768(DSC06：1280*720)质量：较好</item>
+        <item>1024 x 768(DSC06：1280*720)质量：普通</item>
+        <item>800 x 600(DSC06：704*576)质量：最好</item>
+        <item>800 x 600(DSC06：704*576)质量：较好</item>
+        <item>800 x 600(DSC06：704*576)质量：普通</item>
+        <item>640 x 480(DSC06：640*480)质量：最好</item>
+        <item>640 x 480(DSC06：640*480)质量：较好</item>
+        <item>640 x 480(DSC06：640*480)质量：普通</item>
+        <item>320 x 240(DSC06：320*240)质量：最好</item>
+        <item>320 x 240(DSC06：320*240)质量：较好</item>
+        <item>320 x 240(DSC06：320*240)质量：普通</item>
+        <item>160 x 120(DSC06：720*480)质量：最好</item>
+        <item>160 x 120(DSC06：720*480)质量：较好</item>
+        <item>160 x 120(DSC06：720*480)质量：普通</item>
     </string-array>
     <string-array name="image_format_values">
         <item>0</item>
@@ -469,11 +499,13 @@
         <item>深圳尚鑫航SXH-V1/V2 RS485</item>
         <item>水利专用FM-DSC03 RS485</item>
         <item>通用摄像机图像适配器  RS485</item>
+        <item>水利超强夜视MF-DSC06/08 RS485</item>
     </string-array>
     <string-array name="camera_model_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
     <string-array name="gather_catagory">
         <item>水位</item>
@@ -482,8 +514,7 @@
         <item>压力</item>
         <item>墒情</item>
         <item>流速</item>
-        <item>雨量</item>
-        
+        <item>雨量</item>        
         <item>雨强</item>
         <item>风速</item>
         <item>风向</item>
@@ -494,6 +525,14 @@
         <item>水温</item>
         <item>能见度</item>
         <item>辐射</item>
+        <item>埋深</item>
+        <item>PH值</item>
+        <item>溶解氧</item>
+        <item>电导率</item>
+        <item>浊度</item>
+        <item>TSP</item>
+        <item>PM10</item>
+        <item>PM2.5</item>
     </string-array>
     <string-array name="gather_catagory_values">
         <item>1</item>
@@ -513,6 +552,14 @@
         <item>97</item>
         <item>98</item>
         <item>99</item>
+        <item>9A</item>
+        <item>9B</item>
+        <item>9C</item>
+        <item>9D</item>
+        <item>9E</item>
+        <item>9F</item>
+        <item>A0</item>
+        <item>A1</item>
     </string-array>
     <string-array name="gather_number">
         <item>0</item>
@@ -551,135 +598,194 @@
         <item>f</item>
     </string-array>
     <string-array name="device_model">
-        <item>水位-内部格雷码接口1</item>
-        <item>水位-内部格雷码接口2</item>
-        <item>内部模拟量1</item>
-        <item>内部模拟量2</item>
-        <item>内部模拟量3</item>
-        <item>内部模拟量4</item>
-        <item>蓄电池电池电压</item>
-        <item>麦克数字压力水位计RS485</item>
-        <item>标准 MODBUS_RTU 传感器   RS485</item>
-        <item>南自所格雷码RS485转换器</item>
-        <item>KELLER DCX-22AA RS485数字压力水位计</item>
-        <item>加拿大 SOLINST BAROLOGGER RS232数字压力水位计</item>
-        <item>OTT 气泡式和雷达 水位计 RS485（SDI12协议）</item>
-        <item>哈尔滨 万达华 气泡式 RS232水位计</item>
-        <item>NS-CS10M03超声波水位计 RS232 负水位</item>
-        <item>古大GDRD98脉冲雷达水位计 RS485 负水位</item>
-        <item>连利大口径水表RS485</item>
-        <item>上海肯特电磁流量表RS485/MODBUS_RTU</item>
-        <item>上海肯特电磁流量表RS485/自定义协议</item>
-        <item>上海肯特电磁流量表RS485/MODBUS_RTU瞬时</item>
-        <item>江都水表RS485/MODBUS_RTU</item>
-        <item>大连海丰TDS100W/RS485/MODBUS_RTU通讯协议/正累积量</item>
-        <item>大连海丰TDS100F/RS232/MODBUS_RTU通讯协议/正累积量</item>
-        <item>唐山大方汇中仪表LCZ-803流量计</item>
-        <item>大连海丰TDS100/RS485/FUJI扩展通讯协议/正累积量</item>
-        <item>大连海丰TDS100/RS485/FUJI扩展通讯协议/净累积量</item>
-        <item>大连海丰TDS100W/RS485/MODBUS_RTU通讯协议/净累积量</item>
-        <item>大连海丰TDS100F/RS232/MODBUS_RTU通讯协议/净累积量</item>
-        <item>大连海丰TDS100/RS232/FUJI扩展通讯协议/净累积量</item>
-        <item>大连海丰TDS100/RS232/FUJI扩展通讯协议/正累积量</item>
-        <item>上海肯特电磁流量表RS485新MODBUS_RTU正累积量</item>
-        <item>内部流量计(水表)(光电输入口3)</item>
-        <item>KDF-2100流量计(水表) RS485</item>
-        <item>RS485/MODBUS电磁流量仪协议</item>
-        <item>MODBUS电磁流量仪协议(仪表地址固定为01;地址为寄存器地址)</item>
-        <item>南京信卓 XZ1008 RS485超声波流量计</item>
-        <item>南京亚南RS232接口流量水表</item>
-        <item>ABB电磁流量仪/RS485/PROFIBUS-DP协议/召测</item>
-        <item>ABB电磁流量仪/RS485/PROFIBUS-DP协议/侦听</item>
-        <item>太阳能充电电压</item>
-        <item>内部锂电池电压</item>
-        <item>E+H超声波流量计 RS485 累计量 除以1000</item>
-        <item>E+H超声波流量计 RS485 瞬时量</item>
-        <item>E+H超声波流量计 RS485 累计量 没有处理</item>
-        <item>RV-100系列超声波流量计 RS485 正累积量</item>
-        <item>RV-100系列超声波流量计 RS485 净累积量</item>
-        <item>Ｅ-mag电磁转换器MUDBUS通讯协议 RS485 正累积量</item>
-        <item>E380变频器</item>
-        <item>SVF3000变频器</item>
-        <item>VM05变频器</item>
-        <item>SVF-EV变频器</item>
-        <item>北京昆仑海岸 JWSK-6 温度</item>
-        <item>北京昆仑海岸 JWSK-6 湿度</item>
-        <item>北京昆仑海岸 JYB-A 大气压</item>
-        <item>风向 -内部格雷码接口1</item>
-        <item>风向 -内部格雷码接口2</item>
-        <item>内部风速(光电输入口3)</item>
-        <item>ADCP Argonaut-SL RS232 流速</item>
-        <item>ADCP Argonaut-SL RS232 温度</item>
-        <item>ADCP Argonaut-SL RS232 面积</item>
-        <item>ADCP Argonaut-SL RS232 流量</item>
-        <item>上海肯特电磁流量表RS485新MODBUS_RTU反累积量</item>
-        <item>上海肯特电磁流量表RS485新MODBUS_RTU瞬时流量</item>
-        <item>上海肯特电磁流量表RS485旧MODBUS_RTU正累积量</item>
-        <item>上海肯特电磁流量表RS485旧MODBUS_RTU反累积量</item>
-        <item>上海肯特电磁流量表RS485旧MODBUS_RTU瞬时流量</item>
-        <item>南京宏沐 HM29数字压力传感器 RS485水位计</item>
-        <item>KM水表累计量</item>
-        <item>RISEN-RP超声波液位计 RS485</item>
-        <item>RISEN-RP超声波液位计 RS485 负水位</item>
-        <item>RISEN-RP超声波液位计 RS232</item>
-        <item>RISEN-RP超声波液位计 RS232 负水位</item>
-        <item>江都数字水位机 RS232</item>
-        <item>沃泰雷达 RS485 modbus 空高 cm</item>
-        <item>宜昌亿立能气泡水位计 RS232 modbus</item>
-        <item>OTT 气泡式和雷达 水位计 RS232（nimbus协议）</item>
-        <item>OTT 气泡式和雷达 水位计 RS485（SDI12协议） 负水位</item>
-        <item>苏州讯鹏综合电力监测仪 RS485 MODBUS_RTU A相电流</item>
-        <item>苏州讯鹏综合电力监测仪 RS485 MODBUS_RTU B相电流</item>
-        <item>苏州讯鹏综合电力监测仪 RS485 MODBUS_RTU C相电流</item>
-        <item>苏州讯鹏综合电力监测仪 RS485 MODBUS_RTU A相电压</item>
-        <item>苏州讯鹏综合电力监测仪 RS485 MODBUS_RTU AB线电压</item>
-        <item>内部IO口 CD YL2 YL1 IN2 IN1</item>
-        <item>陶瓷电容水位计 RS485 MODBUS－RTU</item>
-        <item> 脉冲计数-内部格雷码接口1</item>
-        <item> 脉冲计数-内部格雷码接口2</item>
-        <item> 脉冲计数-内部格雷码接口3</item>
-        <item> 脉冲计数-内部格雷码接口4</item>
-        <item> 脉冲计数-内部格雷码接口5</item>
-        <item> 脉冲计数-内部格雷码接口6</item>
-        <item>WYH-2A型压力式水位计 RS485 MODBUS_RTU 水位</item>
-        <item>WYH-2A型压力式水位计 RS486 MODBUS_RTU 温度</item>
-        <item>康宇 磁致伸缩 水位计 RS485 MODBUS_RTU 水位</item>
-        <item>武汉数字气压传感器 RS485 MODBUS_RTU 大气压</item>
-        <item>OTT 称重雨量计 RS485 雨量</item>
-        <item>Stalker SVR 测速雷达传感器 RS232 当前流速</item>
-        <item>连利冷水表RS485</item>
-        <item>德国进口水位计 RS485 MODBUS_RTU 水位</item>
-        <item>德国进口水位计 RS486 MODBUS_RTU 温度</item>
-        <item>In-Situ Level TROLL RS485 MODBUS_RTU 水位</item>
-        <item>In-Situ Level TROLL RS485 MODBUS_RTU 温度</item>
-        <item>OTT 压力 水位计 RS485（SDI12协议） 温度</item>
-        <item>安科瑞PZ系列电测表 RS485 MODBUS_RTU A相电流</item>
-        <item>安科瑞PZ系列电测表 RS485 MODBUS_RTU A相电压</item>
-        <item>安科瑞PZ系列电测表 RS485 MODBUS_RTU AB线电压</item>
-        <item>内部雨量</item>
-        <item>EasyPro编码器 自由协议 RS485 MODBUS_RTU 水位</item>
-        <item>斯菲尔DTS1946电能表 RS485 MODBUS_RTU A相电压</item>
-        <item>斯菲尔DTS1946电能表 RS485 MODBUS_RTU AB线电压</item>
-        <item>斯菲尔DTS1946电能表 RS485 MODBUS_RTU A相电流</item>
-        <item>宜昌亿立能气泡水位计 RS485 modbus 水位</item>
-        <item>南瑞格雷码水位计模块 RS485（SDI12协议）水位</item>
-        <item>南京亚楠压力式水位计 RS485 MODBUS_RTU 水位</item>
-        <item>南京亚楠压力式水位计 RS485 MODBUS_RTU 温度</item>
-        <item>KROHNE IFC300电磁流量计 RS485 MODBUS_RTU 累积量</item>
-        <item>大连海丰TDS100/RS485/FUJI扩展通讯协议/小时流量</item>
-        <item>STEVENS HYDRA-PROBE II 土壤墒情传感器 RS485 含水量</item>
-        <item>STEVENS HYDRA-PROBE II 土壤墒情传感器 RS485 电导率</item>
-        <item>STEVENS HYDRA-PROBE II 土壤墒情传感器 RS485 温度</item>
-        <item>康宇 磁致伸缩 水位计 RS485 MODBUS_RTU 流量</item>
-        <item>上海肯特电磁流量表RS485 MODBUS_RTU 瞬时流量</item>
-        <item>上海肯特电磁流量表RS485 MODBUS_RTU 正累积量</item>
-        <item>北京博伦经纬 RS232 MODBUS_RTU 温度</item>
-        <item>北京博伦经纬 RS232 MODBUS_RTU 湿度</item>
-        <item>北京博伦经纬 RS232 MODBUS_RTU 风速</item>
-        <item>北京博伦经纬 RS232 MODBUS_RTU 风向</item>
-        <item>北京博伦经纬 RS232 MODBUS_RTU 能见度</item>
-        <item>北京博伦经纬 RS232 MODBUS_RTU 辐射</item>
-        <item>北京博伦经纬 RS232 MODBUS_RTU 雨强</item>
+        <item>01-水位-内部格雷码接口1</item>
+        <item>02-水位-内部格雷码接口2</item>
+        <item>03-内部模拟量1</item>
+        <item>04-内部模拟量2</item>
+        <item>05-内部模拟量3</item>
+        <item>06-内部模拟量4</item>
+        <item>07-蓄电池电池电压</item>
+        <item>08-麦克数字压力水位计RS485</item>
+        <item>09-标准 MODBUS_RTU 传感器   RS485</item>
+        <item>10-南自所格雷码RS485转换器</item>
+        <item>11-KELLER DCX-22AA RS485数字压力水位计</item>
+        <item>12-加拿大 SOLINST BAROLOGGER RS232数字压力水位计</item>
+        <item>13-OTT 气泡式和雷达 水位计 RS485（SDI12协议）</item>
+        <item>14-哈尔滨 万达华 气泡式 RS232水位计</item>
+        <item>15-NS-CS10M03超声波水位计 RS232 负水位</item>
+        <item>16-古大GDRD98脉冲雷达水位计 RS485 负水位</item>
+        <item>21-连利大口径水表RS485</item>
+        <item>22-上海肯特电磁流量表RS485/MODBUS_RTU</item>
+        <item>23-上海肯特电磁流量表RS485/自定义协议</item>
+        <item>24-上海肯特电磁流量表RS485/MODBUS_RTU瞬时</item>
+        <item>25-江都水表RS485/MODBUS_RTU</item>
+        <item>26-大连海丰TDS100W/RS485/MODBUS_RTU通讯协议/正累积量</item>
+        <item>27-大连海丰TDS100F/RS232/MODBUS_RTU通讯协议/正累积量</item>
+        <item>28-唐山大方汇中仪表LCZ-803流量计</item>
+        <item>29-大连海丰TDS100/RS485/FUJI扩展通讯协议/正累积量</item>
+        <item>2A-大连海丰TDS100/RS485/FUJI扩展通讯协议/净累积量</item>
+        <item>2B-大连海丰TDS100W/RS485/MODBUS_RTU通讯协议/净累积量</item>
+        <item>2C-大连海丰TDS100F/RS232/MODBUS_RTU通讯协议/净累积量</item>
+        <item>2D-大连海丰TDS100/RS232/FUJI扩展通讯协议/净累积量</item>
+        <item>2E-大连海丰TDS100/RS232/FUJI扩展通讯协议/正累积量</item>
+        <item>2F-上海肯特电磁流量表RS485新MODBUS_RTU正累积量</item>
+        <item>30-内部流量计(水表)(光电输入口3)</item>
+        <item>31-KDF-2100流量计(水表) RS485</item>
+        <item>32-RS485/MODBUS电磁流量仪协议</item>
+        <item>33-MODBUS电磁流量仪协议(仪表地址固定为01;地址为寄存器地址)</item>
+        <item>34-南京信卓 XZ1008 RS485超声波流量计</item>
+        <item>35-南京亚南RS232接口流量水表</item>
+        <item>36-ABB电磁流量仪/RS485/PROFIBUS-DP协议/召测</item>
+        <item>37-ABB电磁流量仪/RS485/PROFIBUS-DP协议/侦听</item>
+        <item>38-太阳能充电电压</item>
+        <item>39-内部锂电池电压</item>
+        <item>3A-E+H超声波流量计 RS485 累计量 除以1000</item>
+        <item>3B-E+H超声波流量计 RS485 瞬时量</item>
+        <item>3C-E+H超声波流量计 RS485 累计量 没有处理</item>
+        <item>3D-RV-100系列超声波流量计 RS485 正累积量</item>
+        <item>3E-RV-100系列超声波流量计 RS485 净累积量</item>
+        <item>3F-Ｅ-mag电磁转换器MUDBUS通讯协议 RS485 正累积量</item>
+        <item>41-E380变频器</item>
+        <item>42-SVF3000变频器</item>
+        <item>43-VM05变频器</item>
+        <item>44-SVF-EV变频器</item>
+        <item>45-北京昆仑海岸 JWSK-6 温度</item>
+        <item>46-北京昆仑海岸 JWSK-6 湿度</item>
+        <item>47-北京昆仑海岸 JYB-A 大气压</item>
+        <item>48-风向 -内部格雷码接口1</item>
+        <item>49-风向 -内部格雷码接口2</item>
+        <item>50-内部风速(光电输入口3)</item>
+        <item>51-ADCP Argonaut-SL RS232 流速</item>
+        <item>52-ADCP Argonaut-SL RS232 温度</item>
+        <item>53-ADCP Argonaut-SL RS232 面积</item>
+        <item>54-ADCP Argonaut-SL RS232 流量</item>
+        <item>55-上海肯特电磁流量表RS485新MODBUS_RTU反累积量</item>
+        <item>56-上海肯特电磁流量表RS485新MODBUS_RTU瞬时流量</item>
+        <item>57-上海肯特电磁流量表RS485旧MODBUS_RTU正累积量</item>
+        <item>58-上海肯特电磁流量表RS485旧MODBUS_RTU反累积量</item>
+        <item>59-上海肯特电磁流量表RS485旧MODBUS_RTU瞬时流量</item>
+        <item>5A-南京宏沐 HM29数字压力传感器 RS485水位计</item>
+        <item>5B-KM水表累计量</item>
+        <item>5C-RISEN-RP超声波液位计 RS485</item>
+        <item>5D-RISEN-RP超声波液位计 RS485 负水位</item>
+        <item>5E-RISEN-RP超声波液位计 RS232</item>
+        <item>5F-RISEN-RP超声波液位计 RS232 负水位</item>
+        <item>60-江都数字水位机 RS232</item>
+        <item>61-沃泰雷达 RS485 modbus 空高 cm</item>
+        <item>62-宜昌亿立能气泡水位计 RS232 modbus</item>
+        <item>63-OTT 气泡式和雷达 水位计 RS232（nimbus协议）</item>
+        <item>64-OTT 气泡式和雷达 水位计 RS485（SDI12协议） 负水位</item>
+        <item>65-苏州讯鹏综合电力监测仪 RS485 MODBUS_RTU A相电流</item>
+        <item>66-苏州讯鹏综合电力监测仪 RS485 MODBUS_RTU B相电流</item>
+        <item>67-苏州讯鹏综合电力监测仪 RS485 MODBUS_RTU C相电流</item>
+        <item>68-苏州讯鹏综合电力监测仪 RS485 MODBUS_RTU A相电压</item>
+        <item>69-苏州讯鹏综合电力监测仪 RS485 MODBUS_RTU AB线电压</item>
+        <item>6A-内部IO口 CD YL2 YL1 IN2 IN1</item>
+        <item>6B-陶瓷电容水位计 RS485 MODBUS－RTU</item>
+        <item>6C-脉冲计数-内部格雷码接口1</item>
+        <item>6D-脉冲计数-内部格雷码接口2</item>
+        <item>6E-脉冲计数-内部格雷码接口3</item>
+        <item>6F-脉冲计数-内部格雷码接口4</item>
+        <item>70-脉冲计数-内部格雷码接口5</item>
+        <item>71-脉冲计数-内部格雷码接口6</item>
+        <item>72-WYH-2A型压力式水位计 RS485 MODBUS_RTU 水位</item>
+        <item>73-WYH-2A型压力式水位计 RS486 MODBUS_RTU 温度</item>
+        <item>74-康宇 磁致伸缩 水位计 RS485 MODBUS_RTU 水位</item>
+        <item>75-武汉数字气压传感器 RS485 MODBUS_RTU 大气压</item>
+        <item>76-OTT 称重雨量计 RS485 雨量</item>
+        <item>77-Stalker SVR 测速雷达传感器 RS232 当前流速</item>
+        <item>78-连利冷水表RS485</item>
+        <item>79-德国进口水位计 RS485 MODBUS_RTU 水位</item>
+        <item>7A-德国进口水位计 RS486 MODBUS_RTU 温度</item>
+        <item>7B-In-Situ Level TROLL RS485 MODBUS_RTU 水位</item>
+        <item>7C-In-Situ Level TROLL RS485 MODBUS_RTU 温度</item>
+        <item>7D-OTT 压力 水位计 RS485（SDI12协议） 温度</item>
+        <item>7E-安科瑞PZ系列电测表 RS485 MODBUS_RTU A相电流</item>
+        <item>7F-安科瑞PZ系列电测表 RS485 MODBUS_RTU A相电压</item>
+        <item>80-安科瑞PZ系列电测表 RS485 MODBUS_RTU AB线电压</item>
+        <item>81-内部雨量</item>
+        <item>82-EasyPro编码器 自由协议 RS485 MODBUS_RTU 水位</item>
+        <item>83-斯菲尔DTS1946电能表 RS485 MODBUS_RTU A相电压</item>
+        <item>84-斯菲尔DTS1946电能表 RS485 MODBUS_RTU AB线电压</item>
+        <item>85-斯菲尔DTS1946电能表 RS485 MODBUS_RTU A相电流</item>
+        <item>86-宜昌亿立能气泡水位计 RS485 modbus 水位</item>
+        <item>87-南瑞格雷码水位计模块 RS485（SDI12协议）水位</item>
+        <item>88-南京亚楠压力式水位计 RS485 MODBUS_RTU 水位</item>
+        <item>89-南京亚楠压力式水位计 RS485 MODBUS_RTU 温度</item>
+        <item>8A-KROHNE IFC300电磁流量计 RS485 MODBUS_RTU 累积量</item>
+        <item>8B-大连海丰TDS100/RS485/FUJI扩展通讯协议/小时流量</item>
+        <item>8C-STEVENS HYDRA-PROBE II 土壤墒情传感器 RS485 含水量</item>
+        <item>8D-STEVENS HYDRA-PROBE II 土壤墒情传感器 RS485 电导率</item>
+        <item>8E-STEVENS HYDRA-PROBE II 土壤墒情传感器 RS485 温度</item>
+        <item>8F-康宇 磁致伸缩 水位计 RS485 MODBUS_RTU 流量</item>
+        <item>90-上海肯特电磁流量表RS485 MODBUS_RTU 瞬时流量</item>
+        <item>91-上海肯特电磁流量表RS485 MODBUS_RTU 正累积量</item>
+        <item>92-北京博伦经纬 RS232 MODBUS_RTU 温度</item>
+        <item>93-北京博伦经纬 RS232 MODBUS_RTU 湿度</item>
+        <item>94-北京博伦经纬 RS232 MODBUS_RTU 风速</item>
+        <item>95-北京博伦经纬 RS232 MODBUS_RTU 风向</item>
+        <item>96-北京博伦经纬 RS232 MODBUS_RTU 能见度</item>
+        <item>97-北京博伦经纬 RS232 MODBUS_RTU 辐射</item>
+        <item>98-北京博伦经纬 RS232 MODBUS_RTU 雨强</item>
+        <item>99-康宇 磁致伸缩 水位计 RS485 MODBUS_RTU 温度</item>
+        <item>9A-KROHNE IFC300电磁流量计 RS485 MODBUS_RTU 累积量(仅侦听)</item>
+        <item>9B-南京优倍电气流量积算仪 RS485 MODBUS_RTU 累积量</item>
+        <item>9C-南京一方 BCT-2000流量计 RS485 MODBUS_RTU 累积量</item>
+        <item>9D-北京衡安特测控仪流量表 RS485 MODBUS_RTU 累积量</item>
+        <item>9E-维博WB1852电能表 RS485 MODBUS_RTU C相电流</item>
+        <item>9F-开封开流 LDM-51流量计  RS485 MODBUS_RTU 瞬时流量</item>
+        <item>A0-开封开流 LDM-51流量计  RS485 MODBUS_RTU 正时流量</item>
+        <item>A1-内部通道数据</item>
+        <item>A2-内部通道数据-瞬时流量</item>
+        <item>A3-内部通道数据-正累积量</item>
+        <item>A4-连利大口径水表 RS485 MODBUS－RTU</item>
+        <item>A5-海川博通HC-WQX40~1气泡式水位计 RS485 MODBUS-RTU</item>
+        <item>A6-唐山汇中SCL-9超声流量计 RS485 MODBUS_RTU 瞬时流量</item>
+        <item>A7-唐山汇中SCL-9超声流量计 RS485 MODBUS_RTU 正累积量</item>
+        <item>A8-南瑞ACS500-FTU流量终端 RS232 MODBUS_RTU 瞬时流量</item>
+        <item>A9-精浦闸位计 RS485 MODBUS_RTU 闸位</item>
+        <item>AA-E-mag-B 电磁转换器MUDBUS通讯协议 RS485 正累积量</item>
+        <item>AB-深圳智翔宇MULTI-5P五参传感器 RS485 风速</item>
+        <item>AC-深圳智翔宇MULTI-5P五参传感器 RS485 风向</item>
+        <item>AD-深圳智翔宇MULTI-5P五参传感器 RS485 湿度</item>
+        <item>AE-深圳智翔宇MULTI-5P五参传感器 RS485 温度</item>
+        <item>AF-深圳智翔宇MULTI-5P五参传感器 RS485 大气压</item>
+        <item>B0-Decatur SI-3L雷达水流表面流速仪 RS232 流速</item>
+        <item>B1-Sommer RG-30雷达水流表面流速仪 RS485 流速</item>
+        <item>B2-中船重工 ESDD-200~90 超声波测深仪 RS485 深度</item>
+        <item>B3-Nortek ADP RS232~2 流速</item>
+        <item>B4-OBS-3A RS232 浑浊度</item>
+        <item>B5-南瑞ACS500-FTU流量终端 RS232 MODBUS_RTU 流量模式</item>
+        <item>B6-Vaisala 能见度传感器 PWD  RS485 能见度</item>
+        <item>B7-水质多参 RS485 MODBUS_RTU 溶解氧</item>
+        <item>B8-水质多参 RS485 MODBUS_RTU 浊度</item>
+        <item>B9-水质多参 RS485 MODBUS_RTU 电导率</item>
+        <item>BA-水质多参 RS485 MODBUS_RTU PH值</item>
+        <item>BB-水质多参 RS485 MODBUS_RTU 水温</item>
+        <item>BC-开封 L-MAG电磁流量计 RS485 MODBUS_RTU 瞬时流量</item>
+        <item>BD-开封 L-MAG电磁流量计 RS485 MODBUS_RTU 正累积量</item>
+        <item>BE-徐州正天 JZB79 接触式绝对编码器 RS485 位置</item>
+        <item>BF-武汉能慧 NH122传感器 RS485 MODBUS_RTU 大气压</item>
+        <item>C0-压力水位计 RS485 MODBUS_RTU 水压</item>
+        <item>C1-压力水位计 RS485 MODBUS_RTU 水温</item>
+        <item>C2-压力水位计 RS485 MODBUS_RTU 水位</item>
+        <item>C3-内部通过 大气压 水压 水温 计算值 水位</item>
+        <item>C4-OSEN-6C 扬尘监测传感器 RS232 MODBUS_RTU TSP</item>
+        <item>C5-OSEN-6C 扬尘监测传感器 RS232 MODBUS_RTU PM10</item>
+        <item>C6-OSEN-6C 扬尘监测传感器 RS232 MODBUS_RTU PM2.5</item>
+        <item>C7-YDL-THXX温湿度变送器 温度</item>
+        <item>C8-YDL-THXX温湿度变送器 湿度</item>
+        <item>C9-武汉新普惠 PHWS 风速传感器 RS485 风速</item>
+        <item>CA-武汉新普惠 PHWD 风向传感器 RS485 风向</item>
+        <item>CB-武汉能慧 NHFSX48R 风速传感器 RS485 风速</item>
+        <item>CC-武汉能慧 NHFSX48R 风向传感器 RS485 风向</item>
+        <item>CD-DTFX1020超声流量计 RS485 MODBUS_RTU 正累积量</item>
+        <item>CE-DTFX1020超声流量计 RS485 MODBUS_RTU 负累积量</item>
+        <item>CF-DTFX1020超声流量计 RS485 MODBUS_RTU 净累积量</item>
+        <item>D0-DTFX1020超声流量计 RS485 MODBUS_RTU 瞬时流量</item>
+        <item>D1-H6W雷达水位计 RS485 MODBUS_RTU 水位</item>
+        <item>D2-苏州禹山Y550-B COD TOC RS485 MODBUS_RTU COD</item>
+        <item>D3-苏州禹山Y550-B COD TOC RS485 MODBUS_RTU 水温</item>
     </string-array>
     <string-array name="device_model_values">
         <item>01</item>
@@ -810,7 +916,66 @@
         <item>95</item>
         <item>96</item>
         <item>97</item>
-        <item>98</item></string-array>
+        <item>98</item>
+        <item>99</item>
+        <item>9A</item>
+        <item>9B</item>
+        <item>9C</item>
+        <item>9D</item>
+        <item>9E</item>
+        <item>9F</item>
+        <item>A0</item>
+        <item>A1</item>
+        <item>A2</item>
+        <item>A3</item>
+        <item>A4</item>
+        <item>A5</item>
+        <item>A6</item>
+        <item>A7</item>
+        <item>A8</item>
+        <item>A9</item>
+        <item>AA</item>
+        <item>AB</item>
+        <item>AC</item>
+        <item>AD</item>
+        <item>AE</item>
+        <item>AF</item>
+        <item>B0</item>
+        <item>B1</item>
+        <item>B2</item>
+        <item>B3</item>
+        <item>B4</item>
+        <item>B5</item>
+        <item>B6</item>
+        <item>B7</item>
+        <item>B8</item>
+        <item>B9</item>
+        <item>BA</item>
+        <item>BB</item>
+        <item>BC</item>
+        <item>BD</item>
+        <item>BE</item>
+        <item>BF</item>
+        <item>C0</item>
+        <item>C1</item>
+        <item>C2</item>
+        <item>C3</item>
+        <item>C4</item>
+        <item>C5</item>
+        <item>C6</item>
+        <item>C7</item>
+        <item>C8</item>
+        <item>C9</item>
+        <item>CA</item>
+        <item>CB</item>
+        <item>CC</item>
+        <item>CD</item>
+        <item>CE</item>
+        <item>CF</item>
+        <item>D0</item>
+        <item>D1</item>
+        <item>D2</item>
+        <item>D3</item></string-array>
     <string-array name="verify_way">
         <item>继电器组0 + 无校验</item>
         <item>继电器组0 + 偶校验</item>
@@ -879,13 +1044,15 @@
     </string-array>
     <string-array name="gprs">
         <item>关闭</item>
-        <item>网络</item>
-        <item>短信</item>
+        <item>TCP</item>
+        <item>GSM</item>
+        <item>UDP</item>
     </string-array>
     <string-array name="gprs_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
 </resources>

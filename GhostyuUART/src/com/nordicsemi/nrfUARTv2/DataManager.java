@@ -1,15 +1,6 @@
 package com.nordicsemi.nrfUARTv2;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import android.R.integer;
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -24,10 +15,21 @@ import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class DataManager {
-	
+
+	public static final int REQUEST_ENABLE_BT = 0x1000 + 1;
+
+
 	private Context mContext;
 	
     private UartService mService = null;
@@ -45,8 +47,9 @@ public class DataManager {
 	private boolean mResetCount = false;
 	
 	private ArrayList<DataListener> mListeners = new ArrayList<DataListener>();
-	
-	public interface DataListener{
+
+
+	public interface DataListener {
 		public boolean onDataReciver(byte[] data);
 		public void onDataReciver(String action,Intent intent);
 	}
@@ -75,12 +78,22 @@ public class DataManager {
 	}
 
 	public void service_init() {
+		if (mService != null) {
+			return;
+		}
 		Intent bindIntent = new Intent(mContext, UartService.class);
 		mContext.bindService(bindIntent, mServiceConnection,
 				Context.BIND_AUTO_CREATE);
 
 		LocalBroadcastManager.getInstance(mContext).registerReceiver(
 				UARTStatusChangeReceiver, makeGattUpdateIntentFilter());
+	}
+
+	public boolean initialize() {
+		if (mService == null) {
+			return false;
+		}
+		return mService.initialize();
 	}
 	
 	 private static IntentFilter makeGattUpdateIntentFilter() {
@@ -118,9 +131,14 @@ public class DataManager {
 
 	}
 
+    public boolean serviceReady() {
+        return mService != null;
+    }
+
 	private final BroadcastReceiver UARTStatusChangeReceiver = new BroadcastReceiver() {
 
 		public void onReceive(Context context, Intent intent) {
+            Utils.log("onReceive ---> " + intent.getAction());
 			for (DataListener listener: mListeners) {
 				listener.onDataReciver(intent.getAction(), intent);
 			}
@@ -134,14 +152,12 @@ public class DataManager {
             Log.e(TAG, ignore.toString());
         } 
         mContext.unbindService(mServiceConnection);
+        closeService();
         mService.stopSelf();
         mService= null;
 	}
 
-	public void read() {
-		
-	}
-	
+
 	public boolean write(byte[] bytes) {
 		if (mService == null) {
 			Utils.log("Warning : service is not started!");
@@ -161,6 +177,10 @@ public class DataManager {
 	public boolean isBTEnable() {
 		return mBtAdapter != null && mBtAdapter.isEnabled();
 	}
+
+	public boolean isConnected() {
+		return getDeviceName() != null;
+	}
 	
 	public String getDeviceName(){
 		if (mDevice == null) {
@@ -177,7 +197,7 @@ public class DataManager {
 		 
          mDevice = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(deviceAddress);
         
-         Log.d(TAG, "... onActivityResultdevice.address==" + mDevice + "mserviceValue" + mService);
+         Log.d(TAG, "... onActivityResultdevice.address==" + mDevice + " ,mserviceValue " + mService);
          
          mService.connect(deviceAddress);
 	}
@@ -191,8 +211,11 @@ public class DataManager {
 	}
 	
 	public void closeService() {
+		disconnect();
 		mService.close();
 	}
+
+
 	
 	public boolean refreshTime() {
 		if (!isBTEnable() || mDevice == null) {
@@ -278,12 +301,15 @@ public class DataManager {
 		Command cmd = null;
 		int count = 0;
 		Command lastCommand = null;
+
+
 		mResetCount = false;
 		while((cmd = mQueue.peek()) != null) {
 			if (mResetCount) {//this value may be set by another async thread.
 				mResetCount = false;
 				count = 0;
 			}
+			Utils.log(Thread.currentThread().getName() + " write command " + cmd.toCommand());
 			boolean succed = write(Utils.toHexBytes(cmd.toCommand()));
 			if (!succed) {
 				Utils.log("count = " + count);
@@ -303,46 +329,10 @@ public class DataManager {
 		return true;
 	}
 
-//	public boolean fetchAll() {
-//		final int total = 376 * 4;
-//		final int length = 16;
-//		int times = total / length;
-//		int failCount = 0;
-//		mRtuData.clearCache();
-//		for (int i=0;i<times;i++) {
-//			if (!isBTEnable() || mDevice == null) {
-//				return false;
-//			}
-//			int address = 4 * i;
-//			if (!fetch(address, length)){
-//				failCount ++;
-//				if (failCount > 5) {
-//					return false;
-//				}
-//			}
-//		}
-//		int delta = total - length * times;
-//		if(delta > 0 && fetch(length * times, delta * times)){
-//			failCount++;
-//		}
-//		mRtuData.showCache();
-//		if (failCount > 5) {
-//			return false;
-//		}
-//		return true;
-//	}
-	
-//	private void fetchAllInner() {
-//		final int total = 376;
-//		final int length = 16;
-//		int times = total / length;
-//		for (int i=0;i<times;i++) {
-//			int address = length * i;
-//			fetch(String.valueOf(address), length);
-//		}
-//		
-//		fetch(String.valueOf(length * times), total - length * times);
-//	}
+	public void initSendReport() {
+		write(Utils.toHexBytes("8A04008E"));
+	}
+
 	//8000 10 0000 0005 0000 0001 96
 	private class Command {
 		
@@ -374,8 +364,7 @@ public class DataManager {
 			StringBuffer suffix = buffer.append(action).append(addrValue != null?addrValue:Utils.formatAddress(Integer.toHexString(address)))
 					.append(len).append(data);
 			checksum = Utils.checksum(suffix.toString());
-			String command = suffix.append(checksum).toString();
-			Utils.log("command : " + command);
+			String command = suffix.append(checksum).toString().toUpperCase();
 			return command;
 		}
 
@@ -614,6 +603,7 @@ public class DataManager {
 	}
 
 	public void initShowData() {
+
 		mQueue.clear();
 		
 		Command cmd = new Command();
@@ -623,7 +613,11 @@ public class DataManager {
 		cmd.data = "";
 		mQueue.add(cmd);
 		
-		cmd = new Command();
+	}
+
+	public void checkShowData() {
+		mQueue.clear();
+		Command cmd = new Command();
 		cmd.action = Command.ACTION_READ;
 		cmd.length = 0;
 		cmd.addrValue = "A02";
@@ -631,16 +625,64 @@ public class DataManager {
 		mQueue.add(cmd);
 	}
 
-	public void initReadDatas() {
-		int register = 0x800;
+	public void initReadDatasUnit() {
 		mQueue.clear();
-		for (int i=register;i<=0x813;i++) {
-			Command cmd = new Command();
-			cmd.action = Command.ACTION_READ;
-			cmd.address = i;
-			cmd.data = "";
-			cmd.length = 0x4;
-			mQueue.add(cmd);
+		read(42,57);
+		read(186,201);
+	}
+
+	public void initReadDatas() {
+		mQueue.clear();
+		read(0x800,0x813);
+	}
+
+    private void read(int start,int end) {
+        for (int i = start;i <= end;i++) {
+            Command cmd = new Command();
+            cmd.action = Command.ACTION_READ;
+            cmd.address = i;
+            cmd.data = "";
+//            cmd.length = 0x10;
+            cmd.length = 0x4;
+            mQueue.add(cmd);
+        }
+    }
+
+    public void writeStationNo(int no) {
+        mQueue.clear();
+        Command command = new Command();
+        command.action = Command.ACTION_WRITE;
+        command.address = 0x002;
+        command.length = 0x04;
+        String hexNo = Integer.toHexString(no);
+        command.dataBytes = Utils.toHexBytes(hexNo);
+        mQueue.add(command);
+    }
+
+	public void enableBT(Activity from) {
+		if (!mDataManager.isBTEnable()) {
+			Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			from.startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
 		}
 	}
+
+    public void onActivityResult(Activity fromActivity,int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+
+            case REQUEST_ENABLE_BT:
+                // When the request to enable Bluetooth returns
+                if (resultCode == Activity.RESULT_OK) {
+                    Tips.showTips(R.string.bt_turned_on);
+                } else {
+                    // User did not enable Bluetooth or an error occurred
+                    Utils.log("BT not enabled");
+                    Tips.showTips(R.string.tips_bt_turning_problem);
+                    fromActivity.finish();
+                }
+                break;
+            default:
+                Utils.log("wrong request code");
+                break;
+        }
+    }
 }

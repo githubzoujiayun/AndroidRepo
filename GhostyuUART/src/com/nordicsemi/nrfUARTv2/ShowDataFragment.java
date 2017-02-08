@@ -1,9 +1,8 @@
 package com.nordicsemi.nrfUARTv2;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -11,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ShowDataFragment extends Fragment {
 	
@@ -24,6 +26,14 @@ public class ShowDataFragment extends Fragment {
 		"通道13","通道14","通道15","通道16",
 		"充电电压", "电池电压" ,"" ,""
 	};
+
+	public static void show(Context context) {
+		Intent intent = new Intent(context,FragmentContainer.class);
+		intent.putExtra(FragmentContainer.KEY_FRAGMENT,ShowDataFragment.class);
+//		intent.putExtra()
+		context.startActivity(intent);
+	}
+
 	
 	private ArrayList<HashMap<String,Object>> mDataList = new ArrayList<HashMap<String,Object>>();
 	private SparseArray<byte[]> mShowCache;
@@ -41,6 +51,7 @@ public class ShowDataFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 		View view = inflater.inflate(R.layout.show_data, container,false);
 		mListView = (ListView) view.findViewById(R.id.list);
 		setupDate();
@@ -49,6 +60,12 @@ public class ShowDataFragment extends Fragment {
 				new int[] { R.id.title, R.id.summary });
 		mListView.setAdapter(mAdapter);
 		return view;
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
 	}
 
 	private void setupDate() {

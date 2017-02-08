@@ -1,10 +1,5 @@
 package com.nordicsemi.nrfUARTv2;
 
-import java.util.HashMap;
-
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
+
+import java.util.HashMap;
 
 
 public class FetchTask extends AsyncTask<Integer, String, Boolean>{
@@ -25,7 +22,11 @@ public class FetchTask extends AsyncTask<Integer, String, Boolean>{
 	public static final int TASK_TYPE_SHOW_DATAS = 6;
 	public static final int TASK_TYPE_READ_DATAS = 7;
 	public static final int TASK_TYPE_WRITE_PARAMS = 8;
-	
+
+	public static final int TASK_TYPE_STATION_NO = 9;
+	public static final int TASK_TYPE_SEND_REPORT = 10;
+	public static final int TASK_TYPE_WRITE_STATION = 11;
+
 	private class Progress extends ProgressDialog {
 		
 		public Progress(Context context) {
@@ -88,37 +89,45 @@ public class FetchTask extends AsyncTask<Integer, String, Boolean>{
 			message = mContext.getString(R.string.message_upload_params);
 		}
 		publishProgress(message);
-		switch(type) {
-		case TASK_TYPE_FETCH:
-			dm.initQueue();
-			succed = dm.sendAllCommands();
-			break;
-		case TASK_TYPE_READ_PARAMS:
-			dm.importParams(getStringExtra("params"));
-			succed = true;
-			break;
-		case TASK_TYPE_SAVE_PARAMS:
-			dm.saveParams(getStringExtra("name"));
-			succed = true;
-			break;
-		case TASK_TYPE_REFRESH_TIME:
-			return dm.refreshTime();
-		case TASK_TYPE_LOCAL_TIME:
-			dm.initLocalTime();
-			return dm.sendAllCommands();
-		case TASK_TYPE_CLEAR_DATA:
-			dm.initClearData();
-			return dm.sendAllCommands();
-		case TASK_TYPE_SHOW_DATAS:
-			dm.initShowData();
-			
-			return dm.sendAllCommands();
-		case TASK_TYPE_READ_DATAS:
-			dm.initReadDatas();
-			return dm.sendAllCommands();
-		case TASK_TYPE_WRITE_PARAMS:
-			dm.initWriteQueue();
-			return dm.sendAllCommands();
+		switch (type) {
+			case TASK_TYPE_FETCH:
+				dm.initQueue();
+				succed = dm.sendAllCommands();
+				break;
+			case TASK_TYPE_READ_PARAMS:
+				dm.importParams(getStringExtra("params"));
+				succed = true;
+				break;
+			case TASK_TYPE_SAVE_PARAMS:
+				dm.saveParams(getStringExtra("name"));
+				succed = true;
+				break;
+			case TASK_TYPE_REFRESH_TIME:
+				return dm.refreshTime();
+			case TASK_TYPE_LOCAL_TIME:
+				dm.initLocalTime();
+				return dm.sendAllCommands();
+			case TASK_TYPE_CLEAR_DATA:
+				dm.initClearData();
+				return dm.sendAllCommands();
+			case TASK_TYPE_SHOW_DATAS:
+				dm.initShowData();
+//				dm.initReadDatasUnit();
+				return dm.sendAllCommands();
+//			case TASK_TYPE_READ_DATAS:
+//				dm.initReadDatas();
+//				return dm.sendAllCommands();
+			case TASK_TYPE_WRITE_PARAMS:
+				dm.initWriteQueue();
+				return dm.sendAllCommands();
+			case TASK_TYPE_SEND_REPORT:
+				dm.initSendReport();
+				succed = true;
+				break;
+			case TASK_TYPE_WRITE_STATION:
+				int stationNo = args[1];
+				dm.writeStationNo(stationNo);
+				return dm.sendAllCommands();
 		}
 		return succed;
 	}
@@ -131,16 +140,14 @@ public class FetchTask extends AsyncTask<Integer, String, Boolean>{
 		if (mType == TASK_TYPE_FETCH) {
 			ParamsSettingsActivity.startParamsSettings(mContext);
 		}
+
+		if (result && (mType == TASK_TYPE_SHOW_DATAS || mType == TASK_TYPE_REFRESH_TIME)) {
+			new FetchTask(mContext).execute(TASK_TYPE_LOCAL_TIME);
+		}
 		
 		if (mType == TASK_TYPE_SHOW_DATAS) {
 			SettingsActivity a = (SettingsActivity) mContext;
-			ShowDataFragment fragment = new ShowDataFragment();
-			FragmentManager mg = a.getFragmentManager();
-			FragmentTransaction t = mg.beginTransaction();
-			t.addToBackStack("show_data");
-			t.replace(android.R.id.content, fragment);
-			t.commit();
-			fragment.setData(a.getShowCache());
+			a.showData();
 		}
 		if (!result) {
 			Utils.toast(mContext, R.string.toast_connected_failed);

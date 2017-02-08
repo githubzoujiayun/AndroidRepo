@@ -41,4 +41,23 @@
     	<item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="PreferenceM">
+        <item name="android:layout">@layout/preference</item>
+    </style>
+
+    <style name="PreferenceM.SwitchPreference">
+        <item name="android:widgetLayout">@layout/preference_widget_switch_array</item>
+        <item name="android:switchTextOn">@string/switch_on</item>
+        <item name="android:switchTextOff">@string/switch_off</item>
+    </style>
+
+    <style name="PreferenceM.PreferenceScreen">
+    </style>
+
+    <style name="PreferenceM.MultiSelectListPreference">
+    </style>
+
+    <style name="PreferenceM.EditTextPreference">
+    </style>
+
 </resources>

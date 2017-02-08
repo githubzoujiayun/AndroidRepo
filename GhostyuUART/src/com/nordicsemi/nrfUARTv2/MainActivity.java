@@ -19,32 +19,15 @@ package com.nordicsemi.nrfUARTv2;
 
 
 
-import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.nordicsemi.nrfUARTv2.DataManager.DataListener;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Log;
@@ -52,7 +35,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -62,11 +44,18 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements RadioGroup.OnCheckedChangeListener, DataListener {
+import com.nordicsemi.nrfUARTv2.DataManager.DataListener;
+
+import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class MainActivity extends GeneralActivity implements RadioGroup.OnCheckedChangeListener, DataListener, View.OnClickListener {
 	
 
 	private static final int REQUEST_SELECT_DEVICE = 1;
-    private static final int REQUEST_ENABLE_BT = 2;
     private static final int UART_PROFILE_READY = 10;
     
     public static final String TAG = "nRFUART";
@@ -88,6 +77,8 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     private EditText edtMessage;
     private AutoCompleteTextView hexEditMessage;
     private Button mBtnSettings;
+
+    private TextView mSendReportView;
     
     private boolean isHexSend = true;
     
@@ -95,6 +86,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     
     public static void startConnectActivity(Activity from) {
     	Intent intent = new Intent(from,MainActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     	from.startActivity(intent);
     }
     
@@ -105,7 +97,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         if (!longhistory.contains(text + ",")) {  
             StringBuilder sb = new StringBuilder(longhistory);  
             sb.insert(0, text + ",");  
-            sp.edit().putString("history", sb.toString()).commit();  
+            sp.edit().putString("history", sb.toString()).apply();
         }  
     }
     
@@ -129,6 +121,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Utils.lifeCycle(this,"onCreate");
         setContentView(R.layout.main);
         mDataManager = DataManager.getInstance(this);
         mDataManager.registerDataListener(this);
@@ -137,6 +130,8 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
             finish();
             return;
         }
+        mDataManager.service_init();
+
         messageListView = (ListView) findViewById(R.id.listMessage);
         listAdapter = new ArrayAdapter<String>(this, R.layout.message_detail);
         messageListView.setAdapter(listAdapter);
@@ -147,6 +142,12 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         edtMessage = (EditText) findViewById(R.id.sendText);
         hexEditMessage = (AutoCompleteTextView) findViewById(R.id.hex_sendText);
         initAutoComplete(hexEditMessage);
+
+        mSendReportView = (TextView) findViewById(R.id.send_report);
+        mSendReportView.setOnClickListener(this);
+        findViewById(R.id.send_8a02008c).setOnClickListener(this);
+        findViewById(R.id.send_902a10ca).setOnClickListener(this);
+
         hexEditMessage.setEnabled(true);
         hexEditMessage.setFilters(new InputFilter[]{ new InputFilter() {
 			
@@ -164,17 +165,16 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 				if (dest.length() >= 40) {
 					result = "";
 				}
-				return result;
+				return result.toUpperCase();
 			}
 		}});
-        mDataManager.service_init();
-        
+
         mBtnSettings = (Button) findViewById(R.id.btn_settings);
         mBtnSettings.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
-				SettingsActivity.startSettings(MainActivity.this);
+				SettingsActivity.startSettings(MainActivity.this,false);
 			}
 		});
         
@@ -183,11 +183,8 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
             @Override
             public void onClick(View v) {
                 if (!mDataManager.isBTEnable()) {
-                    Log.i(TAG, "onClick - BT not enabled yet");
-                    Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-                }
-                else {
+                    mDataManager.enableBT(MainActivity.this);
+                } else {
                 	if (btnConnectDisconnect.getText().equals("Connect")){
                 		
                 		//Connect button pressed, open DeviceListActivity class, with popup windows that scan for devices
@@ -277,7 +274,11 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 		} else if (item.getItemId() == R.id.btn_clear_list) {
 			listAdapter.clear();
 			listAdapter.notifyDataSetChanged();
-		}
+		} else if (item.getItemId() == R.id.mode_simple) {
+            closeBle();
+            SettingsActivity.startSettings(this,true);
+            UIMode.setUIMode(UIMode.UI_MODE_SIMPLE);
+        }
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -290,37 +291,37 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     @Override
     public void onDestroy() {
     	super.onDestroy();
-    	mDataManager.unregisterDataListener(this);
-        Log.d(TAG, "onDestroy()");
+        Utils.lifeCycle(this, "onDestroy()");
+    }
+
+    private void closeBle() {
+        mDataManager.closeService();
+        mDataManager.unregisterDataListener(this);
     }
 
     @Override
     protected void onStop() {
-        Log.d(TAG, "onStop");
+        Utils.lifeCycle(this, "onStop");
         super.onStop();
     }
 
     @Override
     protected void onPause() {
-        Log.d(TAG, "onPause");
+        Utils.lifeCycle(this, "onPause");
         super.onPause();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.d(TAG, "onRestart");
+        Utils.lifeCycle(this, "onRestart");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume");
-        if (!mDataManager.isBTEnable()) {
-            Log.i(TAG, "onResume - BT not enabled yet");
-            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-        }
+        Utils.lifeCycle(this, "onResume");
+        mDataManager.enableBT(this);
  
     }
 
@@ -331,6 +332,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mDataManager.onActivityResult(this,requestCode,resultCode,data);
     	switch (requestCode) {
 
         case REQUEST_SELECT_DEVICE:
@@ -338,18 +340,6 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
             if (resultCode == Activity.RESULT_OK && data != null) {
             	mDataManager.connect(data.getStringExtra(BluetoothDevice.EXTRA_DEVICE));
             	((TextView) findViewById(R.id.deviceName)).setText(mDataManager.getDeviceName()+ " - connecting");
-            }
-            break;
-        case REQUEST_ENABLE_BT:
-            // When the request to enable Bluetooth returns
-            if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(this, "Bluetooth has turned on ", Toast.LENGTH_SHORT).show();
-
-            } else {
-                // User did not enable Bluetooth or an error occurred
-                Log.d(TAG, "BT not enabled");
-                Toast.makeText(this, "Problem in BT Turning ON ", Toast.LENGTH_SHORT).show();
-                finish();
             }
             break;
         default:
@@ -387,7 +377,8 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-   	                finish();
+                        closeBle();
+   	                    finish();
                 }
             })
             .setNegativeButton(R.string.popup_no, null)
@@ -515,4 +506,21 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 
 	
 	}
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.send_report:
+            case R.id.send_8a02008c:
+            case R.id.send_902a10ca:
+                TextView textView = (TextView) v;
+                if (edtMessage.getVisibility() == View.VISIBLE) {
+                    edtMessage.setText(textView.getText());
+                }
+                if (hexEditMessage.getVisibility() == View.VISIBLE) {
+                    hexEditMessage.setText(textView.getText());
+                }
+                break;
+        }
+    }
 }

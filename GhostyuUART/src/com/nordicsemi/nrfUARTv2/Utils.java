@@ -2,6 +2,7 @@ package com.nordicsemi.nrfUARTv2;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.SparseArray;
 import android.widget.Toast;
 
 
@@ -9,7 +10,8 @@ import android.widget.Toast;
 public class Utils {
 	
 	private static final String TAG = "RTU";
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
+	private static final boolean DEBUG_LIFECYCLE = true;
 	
 	public static String toHexString(byte[] datas,int from,int len) {
 		byte[] value = new byte[len];
@@ -184,6 +186,13 @@ public class Utils {
 		Log.w(TAG, string);
 	}
 
+	public static void lifeCycle(Object obj,String log) {
+		if (!DEBUG_LIFECYCLE) {
+			return;
+		}
+		lifeCycle(obj.getClass().getSimpleName() + " --> " + log);
+	}
+
 	public static String zeroFormat(int i, int length) {
 		return zeroFormat(String.valueOf(i), length);
 	}
@@ -221,6 +230,26 @@ public class Utils {
 
 	public static int h2d(String value) {
 		return toInteger(toHexBytes(value));
+	}
+
+	public static void lifeCycle(String s) {
+		if (!DEBUG_LIFECYCLE) {
+			return;
+		}
+		Log.w(TAG, s);
+	}
+
+	public static String map2String(SparseArray<byte[]> showCache) {
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0;i<showCache.size();i++) {
+			builder.append("[")
+					.append(showCache.keyAt(i))
+					.append(":")
+					.append("0x" + Utils.toHexString(showCache.valueAt(i)))
+					.append("]")
+					.append(", ");
+		}
+		return builder.toString();
 	}
 }
 

@@ -6,7 +6,6 @@ import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.SwitchPreference;
-import android.text.InputType;
 
 public class EntiretyParamsSettings extends ParamsSettings implements OnPreferenceChangeListener {
 

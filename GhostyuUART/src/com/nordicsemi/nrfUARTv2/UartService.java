@@ -32,7 +32,6 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.List;
 import java.util.UUID;
@@ -74,9 +73,7 @@ public class UartService extends Service {
     public static final UUID DIS_UUID = UUID.fromString("0000180a-0000-1000-8000-00805f9b34fb");
     public static final UUID RX_SERVICE_UUID = UUID.fromString("0000fff0-0000-1000-8000-00805f9b34fb");
     
-    //ע�⣬�����RX����CC254x��˵�Ľ��գ�Ҳ����0xfff1
     public static final UUID RX_CHAR_UUID = UUID.fromString("0000fff1-0000-1000-8000-00805f9b34fb");
-  //ע�⣬�����TX����CC254x��˵�ķ��ͣ�Ҳ����0xfff4��notify��ʽ��
     public static final UUID TX_CHAR_UUID = UUID.fromString("0000fff4-0000-1000-8000-00805f9b34fb");
     
     
@@ -86,11 +83,20 @@ public class UartService extends Service {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             String intentAction;
-            
+
+            BluetoothDevice bleDevice = gatt.getDevice();
+            String bleName = "";
+            if (bleDevice != null) {
+                bleName = bleDevice.getName();
+            }
+            Utils.log("status : " + status);
+            Utils.log("bleName : " + bleName);
+            Utils.log("bleAddress : " + bleDevice.getAddress());
+            Utils.log("===========================================");
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 intentAction = ACTION_GATT_CONNECTED;
                 mConnectionState = STATE_CONNECTED;
-                broadcastUpdate(intentAction);
+                broadcastUpdate(intentAction,bleName);
                 Log.i(TAG, "Connected to GATT server.");
                 // Attempts to discover services after successful connection.
                 Log.i(TAG, "Attempting to start service discovery:" +
@@ -100,7 +106,7 @@ public class UartService extends Service {
                 intentAction = ACTION_GATT_DISCONNECTED;
                 mConnectionState = STATE_DISCONNECTED;
                 Log.i(TAG, "Disconnected from GATT server.");
-                broadcastUpdate(intentAction);
+                broadcastUpdate(intentAction,bleName);
             }
         }
 
@@ -141,7 +147,12 @@ public class UartService extends Service {
     };
 
     private void broadcastUpdate(final String action) {
+        broadcastUpdate(action,"");
+    }
+
+    private void broadcastUpdate(final String action, String name) {
         final Intent intent = new Intent(action);
+        intent.putExtra("deviceName", name);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
@@ -170,6 +181,7 @@ public class UartService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
+        Utils.lifeCycle(this,"onBind");
         return mBinder;
     }
 
@@ -178,11 +190,13 @@ public class UartService extends Service {
         // After using a given device, you should make sure that BluetoothGatt.close() is called
         // such that resources are cleaned up properly.  In this particular example, close() is
         // invoked when the UI is disconnected from the Service.
+        Utils.lifeCycle(this,"onUnbind");
         close();
         return super.onUnbind(intent);
     }
 
     private final IBinder mBinder = new LocalBinder();
+
 
     /**
      * Initializes a reference to the local Bluetooth adapter.
@@ -193,6 +207,7 @@ public class UartService extends Service {
         // For API level 18 and above, get a reference to BluetoothAdapter through
         // BluetoothManager.
         if (mBluetoothManager == null) {
+
             mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
             if (mBluetoothManager == null) {
                 Log.e(TAG, "Unable to initialize BluetoothManager.");
@@ -205,7 +220,7 @@ public class UartService extends Service {
             Log.e(TAG, "Unable to obtain a BluetoothAdapter.");
             return false;
         }
-
+        Utils.log("server initialize succeed!");
         return true;
     }
 
@@ -332,20 +347,20 @@ public class UartService extends Service {
     { 
 
     	if (mBluetoothGatt == null) {
-    		showMessage("mBluetoothGatt null" + mBluetoothGatt);
+    		showMessage("enableTXNotification:mBluetoothGatt null" + mBluetoothGatt);
     		broadcastUpdate(DEVICE_DOES_NOT_SUPPORT_UART);
     		return;
     	}
 
     	BluetoothGattService RxService = mBluetoothGatt.getService(RX_SERVICE_UUID);
     	if (RxService == null) {
-            showMessage("Rx service not found!");
+            showMessage("enableTXNotification: Rx service not found!");
             broadcastUpdate(DEVICE_DOES_NOT_SUPPORT_UART);
             return;
         }
     	BluetoothGattCharacteristic TxChar = RxService.getCharacteristic(TX_CHAR_UUID);
         if (TxChar == null) {
-            showMessage("Tx charateristic not found!");
+            showMessage("enableTXNotification: Tx charateristic not found!");
             broadcastUpdate(DEVICE_DOES_NOT_SUPPORT_UART);
             return;
         }
@@ -360,15 +375,15 @@ public class UartService extends Service {
     public boolean writeRXCharacteristic(byte[] value)
     {
     	BluetoothGattService RxService = mBluetoothGatt.getService(RX_SERVICE_UUID);
-    	showMessage("mBluetoothGatt null"+ mBluetoothGatt);
+    	showMessage("writeRXCharacteristic:mBluetoothGatt null"+ mBluetoothGatt);
     	if (RxService == null) {
-            showMessage("Rx service not found!");
+            showMessage("writeRXCharacteristic:Rx service not found!");
             broadcastUpdate(DEVICE_DOES_NOT_SUPPORT_UART);
             return false;
         }
     	BluetoothGattCharacteristic RxChar = RxService.getCharacteristic(RX_CHAR_UUID);
         if (RxChar == null) {
-            showMessage("Rx charateristic not found!");
+            showMessage("writeRXCharacteristic:Rx charateristic not found!");
             broadcastUpdate(DEVICE_DOES_NOT_SUPPORT_UART);
             return false;
         }

@@ -7,67 +7,80 @@
 		android:switchTextOff="@string/closed"
 		android:summaryOn="@string/video_open"
 		android:summaryOff="@string/video_off"
-        />
+		android:layout="@layout/preference_switch"
+		/>
 	<EditTextPreference 
 	    android:key="shooting_interval"
 	    android:title="@string/shooting_interval"
-	    />
+		android:layout="@layout/preference"
+		/>
 	<EditTextPreference 
 	    android:key="send_interval"
 	    android:title="@string/send_interval"
-	    />
+		android:layout="@layout/preference"
+		/>
 	<ListPreference 
 	    android:key="image_format"
 	    android:title="@string/image_format"
 	    android:entries="@array/image_format"
 	    android:entryValues="@array/image_format_values"
-	    />
+		android:layout="@layout/preference"
+		/>
 	<EditTextPreference 
 	    android:key="video_preheat_time"
 	    android:title="@string/preheat_time"
-	    />
+		android:layout="@layout/preference"
+		/>
 	<EditTextPreference 
 	    android:key="rs485_address"
 	    android:title="@string/rs485_address"
-	    />
+		android:layout="@layout/preference"
+		/>
 	<ListPreference 
 	    android:key="camera_rate"
 	    android:title="@string/camera_rate"
 	    android:entries="@array/RS_frequency"
 	    android:entryValues="@array/RS_frequency_values"
-	    />
+		android:layout="@layout/preference"
+		/>
 	<ListPreference 
 	    android:key="camera_model"
 	    android:title="@string/camera_model"
 	    android:entries="@array/camera_model"
 	    android:entryValues="@array/camera_model_values"
-	    />
+		android:layout="@layout/preference"
+		/>
 	<EditTextPreference 
 	    android:key="execute_time"
 	    android:title="@string/execute_time"
-	    />
+		android:layout="@layout/preference"
+		/>
 	<ListPreference 
 	    android:key="shoot_location1"
 	    android:title="@string/shoot_location1"
 	    android:entries="@array/shoot_location"
 	    android:entryValues="@array/shoot_location_values"
-	    />
+		android:layout="@layout/preference"
+		/>
 	<ListPreference 
 	    android:key="shoot_location2"
 	    android:title="@string/shoot_location2"
 	    android:entries="@array/shoot_location"
 	    android:entryValues="@array/shoot_location_values"
-	    />
+		android:layout="@layout/preference"
+		/>
 	<ListPreference 
 	    android:key="shoot_location3"
 	    android:title="@string/shoot_location3"
 	    android:entries="@array/shoot_location"
 	    android:entryValues="@array/shoot_location_values"
-	    />
+		android:layout="@layout/preference"
+		/>
 	<ListPreference 
 	    android:key="shoot_location4"
 	    android:title="@string/shoot_location4"
 	    android:entries="@array/shoot_location"
 	    android:entryValues="@array/shoot_location_values"
-	    />
+		android:layout="@layout/preference"
+		/>
 </PreferenceScreen>

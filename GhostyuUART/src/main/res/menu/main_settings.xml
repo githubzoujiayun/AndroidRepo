@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item  android:id="@+id/connect_status"
+        android:showAsAction="always|withText"
+        android:icon="@drawable/bt_disconnect_status"
+        android:title="@string/bt_status_connecting" />
+</menu>

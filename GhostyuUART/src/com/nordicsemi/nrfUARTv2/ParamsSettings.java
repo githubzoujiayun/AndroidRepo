@@ -1,8 +1,5 @@
 package com.nordicsemi.nrfUARTv2;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,7 +21,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class ParamsSettings extends PreferenceFragment {
 	
@@ -114,7 +113,7 @@ public abstract class ParamsSettings extends PreferenceFragment {
 	void setupSwitchPreference(String key,final int from,final int len) {
 		SwitchPreference preference = (SwitchPreference) findPreference(key);
 		byte[] data = getValue(key);
-		String value = Utils.toIntegerString(data);
+		String value = Utils.toIntegerString(data,from,len);
 		if (value.equals("0")) {
 			preference.setChecked(false);
 		} else {
